@@ -17,12 +17,14 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.config
 
 import javax.inject.{Inject, Singleton}
-import play.api.Configuration
+import play.api.{Configuration, Environment}
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 @Singleton
-class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig) {
+class AppConfig @Inject()(val config: Configuration, val servicesConfig: ServicesConfig, val environment: Environment) {
+
   private val contactBaseUrl = servicesConfig.baseUrl("contact-frontend")
+
 
   private val assetsUrl         = config.get[String]("assets.url")
   private val serviceIdentifier = "MyService"
@@ -33,5 +35,8 @@ class AppConfig @Inject()(config: Configuration, servicesConfig: ServicesConfig)
 
   val reportAProblemPartialUrl: String = s"$contactBaseUrl/contact/problem_reports_ajax?service=$serviceIdentifier"
   val reportAProblemNonJSUrl: String   = s"$contactBaseUrl/contact/problem_reports_nonjs?service=$serviceIdentifier"
+
+  lazy val registerCdsUrl = config.get[String]("microservice.services.cds-imports-dds-frontend.cdsRegisterUrl")
+  lazy val subscribeCdsUrl = config.get[String]("microservice.services.cds-imports-dds-frontend.cdsSubscribeUrl")
 
 }

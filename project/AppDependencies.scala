@@ -13,6 +13,7 @@ object AppDependencies {
   )
 
   val test = Seq(
+    "org.mockito"             % "mockito-core"              % "3.1.0"                 % "test,it",
     "uk.gov.hmrc"             %% "bootstrap-play-26"        % "1.1.0" % Test classifier "tests",
     "org.scalatest"           %% "scalatest"                % "3.0.8"                 % "test",
     "org.jsoup"               %  "jsoup"                    % "1.10.2"                % "test",

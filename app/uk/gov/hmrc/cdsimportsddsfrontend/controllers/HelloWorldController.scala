@@ -17,10 +17,11 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
 import javax.inject.{Inject, Singleton}
-
 import play.api.mvc._
+//import play.api.mvc.Result
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
+import uk.gov.hmrc.cdsimportsddsfrontend.services.AuthAction
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.hello_world
 
 import scala.concurrent.Future
@@ -35,4 +36,12 @@ class HelloWorldController @Inject()(appConfig: AppConfig, mcc: MessagesControll
     Future.successful(Ok(hello_world()))
   }
 
+}
+
+@Singleton
+class TestController @Inject()(authenticate: AuthAction, mcc:MessagesControllerComponents) extends FrontendController(mcc) {
+
+  val test:Action[AnyContent] = authenticate.async { implicit  request =>
+    Future.successful(Ok("You are logged in"))
+  }
 }

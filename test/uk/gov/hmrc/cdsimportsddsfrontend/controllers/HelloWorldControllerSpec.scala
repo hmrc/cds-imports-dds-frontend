@@ -33,7 +33,7 @@ class HelloWorldControllerSpec extends WordSpec with Matchers with GuiceOneAppPe
   private val configuration = Configuration.load(env)
 
   private val serviceConfig = new ServicesConfig(configuration, new RunMode(configuration, Mode.Dev))
-  private val appConfig     = new AppConfig(configuration, serviceConfig)
+  private val appConfig     = new AppConfig(configuration, serviceConfig,env)
 
   private val controller = new HelloWorldController(appConfig, stubMessagesControllerComponents())
 
