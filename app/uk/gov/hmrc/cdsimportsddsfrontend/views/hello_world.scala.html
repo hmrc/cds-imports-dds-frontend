@@ -15,8 +15,11 @@
  *@
 
 @import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
+
+@this(mainTemplate: main_template)
+
 @()(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@main_template(title = "Hello from cds-imports-dds-frontend", bodyClasses = None) {
+@mainTemplate(title = "Hello from cds-imports-dds-frontend", bodyClasses = None) {
     <h1>Hello from cds-imports-dds-frontend !</h1>
 }

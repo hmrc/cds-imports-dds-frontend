@@ -27,21 +27,22 @@ import uk.gov.hmrc.cdsimportsddsfrontend.views.html.hello_world
 import scala.concurrent.Future
 
 @Singleton
-class HelloWorldController @Inject()(appConfig: AppConfig, mcc: MessagesControllerComponents)
-    extends FrontendController(mcc) {
+class HelloWorldController @Inject()(helloWordTemplate: hello_world,
+                                     appConfig: AppConfig,
+                                     mcc: MessagesControllerComponents) extends FrontendController(mcc) {
 
   implicit val config: AppConfig = appConfig
 
   val helloWorld: Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(hello_world()))
+    Future.successful(Ok(helloWordTemplate()))
   }
 
 }
 
 @Singleton
-class TestController @Inject()(authenticate: AuthAction, mcc:MessagesControllerComponents) extends FrontendController(mcc) {
+class TestController @Inject()(authenticate: AuthAction, mcc: MessagesControllerComponents) extends FrontendController(mcc) {
 
-  val test:Action[AnyContent] = authenticate.async { implicit  request =>
+  val test: Action[AnyContent] = authenticate.async { implicit request =>
     Future.successful(Ok("You are logged in"))
   }
 }

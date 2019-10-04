@@ -17,16 +17,18 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
 import javax.inject.{Inject, Singleton}
+import play.api.i18n.{Messages, MessagesImpl}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.not_subscribed_to_cds
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 @Singleton
-class UnauthorisedController @Inject() (implicit val appConfig: AppConfig, mcc: MessagesControllerComponents)
+class UnauthorisedController @Inject() (notSubscribedTemplate: not_subscribed_to_cds)
+                                       (implicit val appConfig: AppConfig, mcc: MessagesControllerComponents)
   extends FrontendController(mcc) {
 
   def onPageLoad: Action[AnyContent] = Action { implicit request =>
-    Ok(not_subscribed_to_cds())
+    Ok(notSubscribedTemplate())
   }
 }

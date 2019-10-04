@@ -29,7 +29,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.controllers.UnauthorisedController
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.SignedInUser
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
-
+import uk.gov.hmrc.cdsimportsddsfrontend.views.html.not_subscribed_to_cds
 import scala.concurrent.Future
 
 class AuthActionSpec extends CdsImportsSpec with AuthenticationBehaviours with JsoupShouldMatchers  {
@@ -69,8 +69,9 @@ class AuthActionSpec extends CdsImportsSpec with AuthenticationBehaviours with J
     }
 
     "check page content on not subscribed page when user is not subscribed to CDS" in signedInScenario(notEnrolledUser()) { notSubscribedUser =>
-      pending   //TODO This testcase doesn't work: "java.lang.RuntimeException: There is no started application", either return GuiceOneAppPerSuite or figure it out
-      val controller = new UnauthorisedController()(appConfig,mcc)
+      //pending   //TODO This testcase doesn't work: "java.lang.RuntimeException: There is no started application", either return GuiceOneAppPerSuite or figure it out
+      val notSubscribedTemplate = new not_subscribed_to_cds(mainTemplate)
+      val controller = new UnauthorisedController(notSubscribedTemplate)(appConfig,mcc)
       val response = controller.onPageLoad()(req)
       val html = contentAsString(response).asBodyFragment
       status(response) must be (Status.OK)
