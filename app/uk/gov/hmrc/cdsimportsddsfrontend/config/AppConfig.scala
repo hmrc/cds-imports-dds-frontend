@@ -26,17 +26,43 @@ class AppConfig @Inject()(val config: Configuration, val servicesConfig: Service
   private val contactBaseUrl = servicesConfig.baseUrl("contact-frontend")
 
 
-  private val assetsUrl         = config.get[String]("assets.url")
+  private val assetsUrl = config.get[String]("assets.url")
   private val serviceIdentifier = "MyService"
 
-  val assetsPrefix: String   = assetsUrl + config.get[String]("assets.version")
+  val assetsPrefix: String = assetsUrl + config.get[String]("assets.version")
   val analyticsToken: String = config.get[String](s"google-analytics.token")
-  val analyticsHost: String  = config.get[String](s"google-analytics.host")
+  val analyticsHost: String = config.get[String](s"google-analytics.host")
 
   val reportAProblemPartialUrl: String = s"$contactBaseUrl/contact/problem_reports_ajax?service=$serviceIdentifier"
-  val reportAProblemNonJSUrl: String   = s"$contactBaseUrl/contact/problem_reports_nonjs?service=$serviceIdentifier"
+  val reportAProblemNonJSUrl: String = s"$contactBaseUrl/contact/problem_reports_nonjs?service=$serviceIdentifier"
 
-  lazy val registerCdsUrl = config.get[String]("microservice.services.cds-imports-dds-frontend.cdsRegisterUrl")
-  lazy val subscribeCdsUrl = config.get[String]("microservice.services.cds-imports-dds-frontend.cdsSubscribeUrl")
+  lazy val registerCdsUrl:String = config.get[String]("microservice.services.cds-imports-dds-frontend.cdsRegisterUrl")
+  lazy val subscribeCdsUrl:String = config.get[String]("microservice.services.cds-imports-dds-frontend.cdsSubscribeUrl")
+
+  val declarationsApi:CustomsDeclarationsApi = CustomsDeclarationsApi("microservice.services.customs-declarations-api", config)
 
 }
+
+case class CustomsDeclarationsApi(protocol: String, host: String, port: Int,
+                                  submitUri: String, cancelUri: String,
+                                  apiVersion: String, bearerToken: String, clientId: String) {
+  val submitEnpoint = s"$protocol://$host:$port/$submitUri"
+  val cancelEnpoint = s"$protocol://$host:$port/$cancelUri"
+}
+
+object CustomsDeclarationsApi {
+  def apply(path: String, config: Configuration): CustomsDeclarationsApi = {
+    val pathConfig = config.get[Configuration](path)
+    new CustomsDeclarationsApi(
+      pathConfig.getOptional[String]("protocol").getOrElse("https"),
+      pathConfig.get[String]("host"),
+      pathConfig.getOptional[Int]("port").getOrElse(443),
+      pathConfig.get[String]("submit-uri"),
+      pathConfig.get[String]("cancel-uri"),
+      pathConfig.get[String]("api-version"),
+      pathConfig.get[String]("bearer-token"),
+      pathConfig.get[String]("client-id")
+    )
+  }
+}
+

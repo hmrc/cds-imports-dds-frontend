@@ -19,7 +19,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.test
 import org.scalatest.{MustMatchers, WordSpec}
 import play.api.http.HttpConfiguration
 import play.api.{Configuration, Environment, Mode}
-import play.api.i18n.{DefaultLangs, DefaultMessagesApi, DefaultMessagesApiProvider, Messages}
+import play.api.i18n._
 import play.api.mvc.MessagesRequest
 import play.api.test.FakeRequest
 import play.filters.csrf.CSRF.Token
@@ -39,13 +39,17 @@ import play.api.mvc.{DefaultActionBuilder, DefaultMessagesActionBuilderImpl, Def
 import play.api.test.Helpers.{stubBodyParser, stubLangs, stubMessagesApi, stubPlayBodyParsers}
 import play.api.test.NoMaterializer
 
-trait CdsImportsSpec extends WordSpec with MustMatchers {
 
-  private val env = Environment.simple()
-  private val configuration = Configuration.load(env)
+trait AppConfigReader {
+  val env:Environment = Environment.simple()
+  val configuration:Configuration = Configuration.load(env)
 
-  private val serviceConfig = new ServicesConfig(configuration, new RunMode(configuration, Mode.Dev))
-  val appConfig = new AppConfig(configuration, serviceConfig, env)
+  val serviceConfig:ServicesConfig = new ServicesConfig(configuration, new RunMode(configuration, Mode.Dev))
+  val appConfig:AppConfig = new AppConfig(configuration, serviceConfig, env)
+
+}
+
+trait CdsImportsSpec extends WordSpec with AppConfigReader with MustMatchers {
 
   val langs = new DefaultLangs()
 
@@ -56,7 +60,7 @@ trait CdsImportsSpec extends WordSpec with MustMatchers {
     httpConfiguration = new HttpConfiguration()
   )
 
-  val messagesApi = messagesApiProvider.get
+  val messagesApi:MessagesApi = messagesApiProvider.get
 
 
   val mcc: MessagesControllerComponents = {
