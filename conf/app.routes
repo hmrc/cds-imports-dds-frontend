@@ -4,4 +4,8 @@ GET        /hello-world                                             @uk.gov.hmrc
 
 GET        /not-subscribed-for-cds                                  @uk.gov.hmrc.cdsimportsddsfrontend.controllers.UnauthorisedController.onPageLoad
 
+GET	      /submit-declaration						                            @uk.gov.hmrc.cdsimportsddsfrontend.controllers.SubmitDeclarationController.renderTemplate
+
+POST	    /submit-declaration						                            @uk.gov.hmrc.cdsimportsddsfrontend.controllers.SubmitDeclarationController.submit
+
 GET       /                                                         @uk.gov.hmrc.cdsimportsddsfrontend.controllers.TestController.test
