@@ -20,9 +20,9 @@ import org.scalatest.{MustMatchers, WordSpec}
 import play.api.http.HttpConfiguration
 import play.api.{Configuration, Environment, Mode}
 import play.api.i18n._
-import play.api.mvc.MessagesRequest
+import play.api.mvc._
 import play.api.test.FakeRequest
-import play.api.test.CSRFTokenHelper._
+import play.filters.csrf.CSRF.Token
 import uk.gov.hmrc.cdsimportsddsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{govuk_wrapper, main_template}
 import uk.gov.hmrc.http.HeaderCarrier
@@ -32,24 +32,26 @@ import uk.gov.hmrc.play.config.{AssetsConfig, GTMConfig, OptimizelyConfig}
 import uk.gov.hmrc.play.views.html.helpers.ReportAProblemLink
 import uk.gov.hmrc.play.views.html.layouts._
 import views.html.layouts.GovUkTemplate
+import play.filters.csrf.CSRF.Token
+import play.filters.csrf.CSRFAddToken
 
 import scala.concurrent.ExecutionContext
 import play.api.http.{DefaultFileMimeTypes, FileMimeTypesConfiguration}
-import play.api.mvc.{DefaultActionBuilder, DefaultMessagesActionBuilderImpl, DefaultMessagesControllerComponents, MessagesControllerComponents}
 import play.api.test.Helpers.{stubBodyParser, stubLangs, stubMessagesApi, stubPlayBodyParsers}
 import play.api.test.NoMaterializer
 
 
 trait AppConfigReader {
-  val env:Environment = Environment.simple()
-  val configuration:Configuration = Configuration.load(env)
+  val env: Environment = Environment.simple()
+  val configuration: Configuration = Configuration.load(env)
 
-  val serviceConfig:ServicesConfig = new ServicesConfig(configuration, new RunMode(configuration, Mode.Dev))
-  implicit val appConfig:AppConfig = new AppConfig(configuration, serviceConfig, env)
+  val serviceConfig: ServicesConfig = new ServicesConfig(configuration, new RunMode(configuration, Mode.Dev))
+  val appConfig: AppConfig = new AppConfig(configuration, serviceConfig, env)
 
 }
 
-trait CdsImportsSpec extends WordSpec with AppConfigReader with MustMatchers {
+trait CdsImportsSpec extends AppConfigReader {
+
 
   val langs = new DefaultLangs()
 
@@ -60,10 +62,10 @@ trait CdsImportsSpec extends WordSpec with AppConfigReader with MustMatchers {
     httpConfiguration = new HttpConfiguration()
   )
 
-  val messagesApi:MessagesApi = messagesApiProvider.get
+  val messagesApi: MessagesApi = messagesApiProvider.get
 
 
-  implicit val mcc: MessagesControllerComponents = {
+  val mcc: MessagesControllerComponents = {
     val executionContext = ExecutionContext.global
     DefaultMessagesControllerComponents(
       messagesActionBuilder = new DefaultMessagesActionBuilderImpl(stubBodyParser(), messagesApi)(executionContext),
@@ -78,6 +80,7 @@ trait CdsImportsSpec extends WordSpec with AppConfigReader with MustMatchers {
 
   //implicit val errorHandler = new ErrorHandler(messagesApi,appConfig)
   //implicit val ec: ExecutionContext = play.api.libs.concurrent.Execution.Implicits.defaultContext
+  implicit val mat = NoMaterializer
   implicit val hc: HeaderCarrier = HeaderCarrier()
   implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
 
@@ -95,9 +98,15 @@ trait CdsImportsSpec extends WordSpec with AppConfigReader with MustMatchers {
   val mainTemplate = new main_template(new Sidebar(), new Article(), govukWrapper)
 
   val somePath = "/some/resource/path"
-  val req = FakeRequest("GET", somePath)
 
-  val csrfReq = req.withCSRFToken
+  val req = FakeRequest("GET", somePath)
+  val csrfReq = addCsrfToken(req)
+
+  def addCsrfToken[T](fakeRequest: FakeRequest[T]) :RequestHeader = {
+    import play.api.test.CSRFTokenHelper._
+    FakeRequest().withCSRFToken
+
+  }
 
   //  // FeatureSwitch depends on play config from a running app, so this wrapper must be used within a test body
   //  def withFeatureSwitchEnabled(featureSwitches: FeatureName*)(test: => Unit): Unit = {

@@ -1,11 +1,11 @@
 # microservice specific routes
 
-GET        /hello-world                                             @uk.gov.hmrc.cdsimportsddsfrontend.controllers.HelloWorldController.helloWorld
+GET       /                                                        @uk.gov.hmrc.cdsimportsddsfrontend.controllers.TestController.test
 
-GET        /not-subscribed-for-cds                                  @uk.gov.hmrc.cdsimportsddsfrontend.controllers.UnauthorisedController.onPageLoad
+GET       /hello-world                                             @uk.gov.hmrc.cdsimportsddsfrontend.controllers.HelloWorldController.helloWorld
 
-GET	      /submit-declaration						                            @uk.gov.hmrc.cdsimportsddsfrontend.controllers.SubmitDeclarationController.renderTemplate
+GET       /not-subscribed-for-cds                                  @uk.gov.hmrc.cdsimportsddsfrontend.controllers.UnauthorisedController.onPageLoad
 
-POST	    /submit-declaration						                            @uk.gov.hmrc.cdsimportsddsfrontend.controllers.SubmitDeclarationController.submit
+GET       /submit-declaration                                      @uk.gov.hmrc.cdsimportsddsfrontend.controllers.SubmitDeclarationController.renderTemplate
+POST      /submit-declaration                                      @uk.gov.hmrc.cdsimportsddsfrontend.controllers.SubmitDeclarationController.submit
 
-GET       /                                                         @uk.gov.hmrc.cdsimportsddsfrontend.controllers.TestController.test

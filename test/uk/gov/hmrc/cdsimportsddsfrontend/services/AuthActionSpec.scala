@@ -18,6 +18,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services
 
 import com.google.inject.Inject
 import com.gu.scalatest.JsoupShouldMatchers
+import org.scalatest.{MustMatchers, WordSpec}
 import play.api.i18n.MessagesApi
 import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
@@ -30,9 +31,10 @@ import uk.gov.hmrc.cdsimportsddsfrontend.domain.SignedInUser
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.not_subscribed_to_cds
+
 import scala.concurrent.Future
 
-class AuthActionSpec extends CdsImportsSpec with AuthenticationBehaviours with JsoupShouldMatchers  {
+class AuthActionSpec extends WordSpec with MustMatchers with CdsImportsSpec with AuthenticationBehaviours with JsoupShouldMatchers  {
 
   //val authAction = new AuthAction(authConnector = mockAuthConnector, appConfig = appConfig)
   val controller = new MyFakeController(mockAuthAction)(mcc)

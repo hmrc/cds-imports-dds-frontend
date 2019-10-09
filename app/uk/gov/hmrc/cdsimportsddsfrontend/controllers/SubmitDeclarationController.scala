@@ -28,7 +28,7 @@ import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 @Singleton
 class SubmitDeclarationController @Inject() ( submitTemplate: submit_declaration, authenticate: AuthAction  )
                                             ( implicit val appConfig: AppConfig,
-                                              val mcc: MessagesControllerComponents ) extends FrontendController(mcc) {
+                                              mcc: MessagesControllerComponents ) extends FrontendController(mcc) {
 
   val renderTemplate: Action[AnyContent] = Action { implicit request =>
     Ok(submitTemplate())

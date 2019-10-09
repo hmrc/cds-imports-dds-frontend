@@ -16,32 +16,48 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
-import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
-import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.http.Status
+import com.gu.scalatest.JsoupShouldMatchers
+import org.scalatest.WordSpec
+import play.api.mvc.AnyContentAsFormUrlEncoded
 import play.api.test.Helpers._
+import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
+import play.mvc.Http.Status
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.submit_declaration
 
-class SubmitDeclarationControllerSpec extends CdsImportsSpec with GuiceOneAppPerSuite with AuthenticationBehaviours {
+class SubmitDeclarationControllerSpec extends WordSpec with CdsImportsSpec with AuthenticationBehaviours with FutureAwaits with DefaultAwaitTimeout with JsoupShouldMatchers{
 
-  implicit val testMaterializer = ActorMaterializer()(ActorSystem())
 
-  val submitDeclarationTemplate = new submit_declaration(mainTemplate)
-  private val controller = new SubmitDeclarationController(submitDeclarationTemplate, mockAuthAction)
+  class GetScenario() {
+    val submitTemplate = new submit_declaration(mainTemplate)
+    val controller = new SubmitDeclarationController(submitTemplate,mockAuthAction)(appConfig,mcc)
+    val response = controller.renderTemplate().apply(csrfReq)
+    val body = contentAsString(response).asBodyFragment
+  }
 
-  "GET" should {
-    "return 200" in {
-      val result = controller.renderTemplate(csrfReq)
-      status(result) mustBe Status.OK
+  "A GET Request" should {
+    "render the page page correctly" in new GetScenario() {
+      status(response) mustBe Status.OK
+      body should include element withName("textarea").withAttrValue("id", "declaration-data")
     }
+  }
 
-    "return HTML" in {
-      val result = controller.renderTemplate(csrfReq)
-      contentType(result) mustBe Some("text/html")
-      charset(result) mustBe Some("utf-8")
+
+  class PostScenario(formData:Map[String,Seq[String]]) {
+    val submitTemplate = new submit_declaration(mainTemplate)
+    val controller = new SubmitDeclarationController(submitTemplate,mockAuthAction)(appConfig,mcc)
+    val formRequest = csrfReq.withBody(AnyContentAsFormUrlEncoded(formData))
+    val response = controller.submit.apply(formRequest)
+    val body = contentAsString(response).asBodyFragment
+  }
+
+  "A POST Request" should {
+    "Submit the data" in  {
+      val formData = Map("declaration-data" -> Seq("<declaration/>"))
+      new PostScenario(formData) {
+        status(response) mustBe Status.OK
+        body should include element withName("body").withValue("SUCCESS! Customs Declaration submitted")
+      }
     }
-
   }
 }
