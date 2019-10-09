@@ -65,7 +65,7 @@ class AuthActionSpec extends CdsImportsSpec with AuthenticationBehaviours with J
     "redirect to not subscribed page when user is not subscribed to CDS" in signedInScenario(notEnrolledUser()) { notCDSUser =>
       val response = controller.dummyAction()(req)
       status(response) must be (Status.SEE_OTHER)
-      header(LOCATION, response) mustBe Some("/cds-imports-dds-frontend/not-subscribed-for-cds")
+      header(LOCATION, response).get must endWith("/not-subscribed-for-cds")
     }
 
     "check page content on not subscribed page when user is not subscribed to CDS" in signedInScenario(notEnrolledUser()) { notSubscribedUser =>
