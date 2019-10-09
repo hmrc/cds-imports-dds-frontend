@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
-import play.api.i18n.{Lang, Messages, MessagesImpl}
 import javax.inject.{Inject, Singleton}
 import play.api.data.Form
 import play.api.data.Forms._
@@ -25,8 +24,6 @@ import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 import uk.gov.hmrc.cdsimportsddsfrontend.services.AuthAction
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.submit_declaration
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
-
-import scala.concurrent.Future
 
 @Singleton
 class SubmitDeclarationController @Inject() ( submitTemplate: submit_declaration, authenticate: AuthAction  )
@@ -37,20 +34,10 @@ class SubmitDeclarationController @Inject() ( submitTemplate: submit_declaration
     Ok(submitTemplate())
   }
 
-  val declarationForm: Form[SubmitDeclarationModel] = Form(
-    mapping(
-      "declaration-data" -> nonEmptyText
-    )(SubmitDeclarationModel.apply)(SubmitDeclarationModel.unapply)
-  )
-
   val submit: Action[AnyContent] = Action { implicit request =>
-    declarationForm.bindFromRequest.fold(
-      formWithErrors => {
-        BadRequest("ERROR! Submit failed" + formWithErrors)
-      },
-      data => {
-        Ok("SUCCESS! Form submitted")
-      }
+    SubmitDeclarationModel.form.bindFromRequest.fold(
+      formWithErrors =>  BadRequest("ERROR! Submit failed" + formWithErrors),
+      data => Ok("SUCCESS! Customs Declaration submitted")
     )
   }
 
@@ -58,3 +45,12 @@ class SubmitDeclarationController @Inject() ( submitTemplate: submit_declaration
 
 case class SubmitDeclarationModel(textarea: String)
 
+object SubmitDeclarationModel {
+
+  val form: Form[SubmitDeclarationModel] = Form(
+    mapping(
+      "declaration-data" -> nonEmptyText
+    )(SubmitDeclarationModel.apply)(SubmitDeclarationModel.unapply)
+  )
+
+}
