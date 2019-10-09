@@ -22,7 +22,7 @@ import play.api.{Configuration, Environment, Mode}
 import play.api.i18n._
 import play.api.mvc.MessagesRequest
 import play.api.test.FakeRequest
-import play.filters.csrf.CSRF.Token
+import play.api.test.CSRFTokenHelper._
 import uk.gov.hmrc.cdsimportsddsfrontend.config.{AppConfig, ErrorHandler}
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{govuk_wrapper, main_template}
 import uk.gov.hmrc.http.HeaderCarrier
@@ -45,7 +45,7 @@ trait AppConfigReader {
   val configuration:Configuration = Configuration.load(env)
 
   val serviceConfig:ServicesConfig = new ServicesConfig(configuration, new RunMode(configuration, Mode.Dev))
-  val appConfig:AppConfig = new AppConfig(configuration, serviceConfig, env)
+  implicit val appConfig:AppConfig = new AppConfig(configuration, serviceConfig, env)
 
 }
 
@@ -63,7 +63,7 @@ trait CdsImportsSpec extends WordSpec with AppConfigReader with MustMatchers {
   val messagesApi:MessagesApi = messagesApiProvider.get
 
 
-  val mcc: MessagesControllerComponents = {
+  implicit val mcc: MessagesControllerComponents = {
     val executionContext = ExecutionContext.global
     DefaultMessagesControllerComponents(
       messagesActionBuilder = new DefaultMessagesActionBuilderImpl(stubBodyParser(), messagesApi)(executionContext),
@@ -97,15 +97,8 @@ trait CdsImportsSpec extends WordSpec with AppConfigReader with MustMatchers {
   val somePath = "/some/resource/path"
   val req = FakeRequest("GET", somePath)
 
-  //  val csrfReq = addCsrfToken(req)
-  //
-  //  def addCsrfToken[T](fakeRequest: FakeRequest[T]): FakeRequest[T] = {
-  //    fakeRequest.copyFakeRequest(tags = fakeRequest.tags ++ Map(
-  //      Token.NameRequestTag -> "csrf-token-input-name",
-  //      Token.RequestTag -> java.util.UUID.randomUUID().toString
-  //    ))
-  //  }
-  //
+  val csrfReq = req.withCSRFToken
+
   //  // FeatureSwitch depends on play config from a running app, so this wrapper must be used within a test body
   //  def withFeatureSwitchEnabled(featureSwitches: FeatureName*)(test: => Unit): Unit = {
   //    featureSwitches.foreach(_.enable())
