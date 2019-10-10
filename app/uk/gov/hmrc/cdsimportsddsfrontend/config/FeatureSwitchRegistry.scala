@@ -22,17 +22,18 @@ import play.api.mvc._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class FeatureSwitch @Inject()(appConfig: AppConfig, controllerComponents: ControllerComponents) {
+class FeatureSwitchRegistry @Inject()(appConfig: AppConfig, controllerComponents: ControllerComponents) {
 
   private val configuration = appConfig.config
 
-  def forName(name: String): FeatureName = {
+  def getOption(name: String): Option[FeatureSwitch] = {
     name match {
-      case HelloWorld.name => HelloWorld
+      case HelloWorld.name => Some(HelloWorld)
+      case _ => None
     }
   }
 
-  sealed trait FeatureName {
+  sealed trait FeatureSwitch {
 
     val name: String
 
@@ -78,6 +79,6 @@ class FeatureSwitch @Inject()(appConfig: AppConfig, controllerComponents: Contro
     }
   }
 
-  case object HelloWorld extends {val name = "hello-world"} with FeatureName
+  case object HelloWorld extends {val name = "hello-world"} with FeatureSwitch
 
 }

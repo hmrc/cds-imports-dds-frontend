@@ -11,3 +11,6 @@
 
 # Add all the application routes to the prod.routes file
 ->         /                          prod.Routes
+
+GET        /customs/imports/test-only/feature/:featureName/enable  @uk.gov.hmrc.cdsimportsddsfrontend.testOnly.controllers.FeatureSwitchController.enable(featureName)
+GET        /customs/imports/test-only/feature/:featureName/disable @uk.gov.hmrc.cdsimportsddsfrontend.testOnly.controllers.FeatureSwitchController.disable(featureName)
