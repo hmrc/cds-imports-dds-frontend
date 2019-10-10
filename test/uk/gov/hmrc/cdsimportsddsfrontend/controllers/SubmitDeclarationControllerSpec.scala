@@ -17,20 +17,33 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
 import com.gu.scalatest.JsoupShouldMatchers
+import org.mockito.Mockito
+import org.mockito.Mockito.when
+import org.mockito.ArgumentMatchers.any
 import org.scalatest.WordSpec
 import play.api.mvc.AnyContentAsFormUrlEncoded
 import play.api.test.Helpers._
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
 import play.mvc.Http.Status
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse
+import uk.gov.hmrc.cdsimportsddsfrontend.services.CustomsDeclarationsService
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.submit_declaration
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.http.HttpClient
+
+import scala.concurrent.Future
 
 class SubmitDeclarationControllerSpec extends WordSpec with CdsImportsSpec with AuthenticationBehaviours with FutureAwaits with DefaultAwaitTimeout with JsoupShouldMatchers{
 
 
-  class GetScenario() {
+  trait AllScenarios {
     val submitTemplate = new submit_declaration(mainTemplate)
-    val controller = new SubmitDeclarationController(submitTemplate,mockAuthAction)(appConfig,mcc)
+    val mockDeclarationService = mock[CustomsDeclarationsService]
+    val controller = new SubmitDeclarationController(submitTemplate,mockAuthAction,mockDeclarationService)(appConfig,mcc)
+  }
+
+  class GetScenario extends AllScenarios {
     val response = controller.renderTemplate().apply(csrfReq)
     val body = contentAsString(response).asBodyFragment
   }
@@ -43,21 +56,31 @@ class SubmitDeclarationControllerSpec extends WordSpec with CdsImportsSpec with 
   }
 
 
-  class PostScenario(formData:Map[String,Seq[String]]) {
-    val submitTemplate = new submit_declaration(mainTemplate)
-    val controller = new SubmitDeclarationController(submitTemplate,mockAuthAction)(appConfig,mcc)
+  class PostScenario(formData:Map[String,Seq[String]], mockSetup: CustomsDeclarationsService => Unit) extends AllScenarios {
+    mockSetup(mockDeclarationService)
     val formRequest = csrfReq.withBody(AnyContentAsFormUrlEncoded(formData))
     val response = controller.submit.apply(formRequest)
     val body = contentAsString(response).asBodyFragment
   }
 
   "A POST Request" should {
-    "Submit the data" in  {
+    "Submit xml data" in  {
       val formData = Map("declaration-data" -> Seq("<declaration/>"))
-      new PostScenario(formData) {
+      val mockSetup:CustomsDeclarationsService => Unit = ds => when(ds.submit(any(),any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200,Some("Good"))))
+      new PostScenario(formData, mockSetup) {
         status(response) mustBe Status.OK
         body should include element withName("body").withValue("SUCCESS! Customs Declaration submitted")
       }
     }
+
+    "Submitting not xml data should fail" in  {
+      val formData = Map("declaration-data" -> Seq("<declaration>"))
+      val mockSetup:CustomsDeclarationsService => Unit = ds => when(ds.submit(any(),any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200,Some("Good"))))
+      new PostScenario(formData, mockSetup) {
+        status(response) mustBe Status.BAD_REQUEST
+        body should include element withName("body").withValue("XML parsing failed: XML document structures must start and end within the same entity.")
+      }
+    }
+
   }
 }

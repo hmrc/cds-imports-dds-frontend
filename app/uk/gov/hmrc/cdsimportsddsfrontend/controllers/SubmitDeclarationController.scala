@@ -16,28 +16,46 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
+import java.io.StringReader
+
 import javax.inject.{Inject, Singleton}
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
-import uk.gov.hmrc.cdsimportsddsfrontend.services.AuthAction
+import uk.gov.hmrc.cdsimportsddsfrontend.services.{AuthAction, CustomsDeclarationsService}
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.submit_declaration
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.{Failure, Success, Try}
+import scala.xml.InputSource
+
 @Singleton
-class SubmitDeclarationController @Inject() ( submitTemplate: submit_declaration, authenticate: AuthAction  )
-                                            ( implicit val appConfig: AppConfig,
-                                              mcc: MessagesControllerComponents ) extends FrontendController(mcc) {
+class SubmitDeclarationController @Inject()(submitTemplate: submit_declaration,
+                                            authenticate: AuthAction,
+                                            declarationService: CustomsDeclarationsService)
+                                           (implicit val appConfig: AppConfig,
+                                            mcc: MessagesControllerComponents) extends FrontendController(mcc) {
 
   val renderTemplate: Action[AnyContent] = Action { implicit request =>
     Ok(submitTemplate())
   }
 
-  val submit: Action[AnyContent] = Action { implicit request =>
+  val submit: Action[AnyContent] = Action.async { implicit request =>
     SubmitDeclarationModel.form.bindFromRequest.fold(
-      formWithErrors =>  BadRequest("ERROR! Submit failed" + formWithErrors),
-      data => Ok("SUCCESS! Customs Declaration submitted")
+      formWithErrors =>
+        Future.successful(BadRequest("ERROR! Submit failed" + formWithErrors)),
+      data => {
+        Try(scala.xml.XML.load(new InputSource(new StringReader(data.textarea)))) match {
+          case Success(xml) =>
+            declarationService.submit("eori", xml)
+              .map(a=> Ok("SUCCESS! Customs Declaration submitted "))
+          case Failure(exception) =>
+            Future.successful(BadRequest("XML parsing failed: " + exception.getMessage))
+        }
+      }
     )
   }
 
