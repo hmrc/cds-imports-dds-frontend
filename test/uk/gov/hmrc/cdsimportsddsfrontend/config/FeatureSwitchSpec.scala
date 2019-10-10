@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.services
+package uk.gov.hmrc.cdsimportsddsfrontend.config
 
 import org.scalatest.{AppendedClues, BeforeAndAfterEach}
 import org.scalatestplus.play.guice.GuiceOneServerPerSuite

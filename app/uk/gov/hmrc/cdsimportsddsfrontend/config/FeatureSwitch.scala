@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.services
+package uk.gov.hmrc.cdsimportsddsfrontend.config
 
 import com.google.inject.Inject
 import play.api.mvc.Results.NotFound
-import play.api.mvc.{ActionBuilder, ActionFilter, AnyContent, BodyParser, MessagesControllerComponents, Request, Result}
-import uk.gov.hmrc.cdsimportsddsfrontend.config.{AppConfig, ErrorHandler}
+import play.api.mvc._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class FeatureSwitch @Inject()(appConfig: AppConfig, mcc: MessagesControllerComponents) {
+class FeatureSwitch @Inject()(appConfig: AppConfig, controllerComponents: ControllerComponents) {
 
   private val configuration = appConfig.config
 
@@ -64,8 +63,8 @@ class FeatureSwitch @Inject()(appConfig: AppConfig, mcc: MessagesControllerCompo
     def action(implicit errorHandler: ErrorHandler): ActionBuilder[Request, AnyContent] with ActionFilter[Request] = {
       new ActionBuilder[Request, AnyContent] with ActionFilter[Request] {
 
-        implicit override val executionContext: ExecutionContext = mcc.executionContext
-        override val parser: BodyParser[AnyContent] = mcc.parsers.defaultBodyParser
+        implicit override val executionContext: ExecutionContext = controllerComponents.executionContext
+        override val parser: BodyParser[AnyContent] = controllerComponents.parsers.defaultBodyParser
 
         def filter[A](input: Request[A]): Future[Option[Result]] = Future.successful {
           if (isEnabled) {
