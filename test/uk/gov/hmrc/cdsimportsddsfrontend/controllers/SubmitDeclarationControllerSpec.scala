@@ -17,10 +17,8 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
 import com.gu.scalatest.JsoupShouldMatchers
-import org.mockito.Mockito
 import org.mockito.Mockito.when
 import org.mockito.ArgumentMatchers.any
-import org.scalatest.WordSpec
 import play.api.mvc.AnyContentAsFormUrlEncoded
 import play.api.test.Helpers._
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
@@ -29,13 +27,11 @@ import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.services.CustomsDeclarationsService
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.submit_declaration
-import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.http.HttpClient
 
 import scala.concurrent.Future
 
-class SubmitDeclarationControllerSpec extends WordSpec with CdsImportsSpec with AuthenticationBehaviours with FutureAwaits with DefaultAwaitTimeout with JsoupShouldMatchers{
-
+class SubmitDeclarationControllerSpec extends CdsImportsSpec
+  with AuthenticationBehaviours with FutureAwaits with DefaultAwaitTimeout with JsoupShouldMatchers {
 
   trait AllScenarios {
     val submitTemplate = new submit_declaration(mainTemplate)
@@ -44,7 +40,7 @@ class SubmitDeclarationControllerSpec extends WordSpec with CdsImportsSpec with 
   }
 
   class GetScenario extends AllScenarios {
-    val response = controller.renderTemplate().apply(csrfReq)
+    val response = controller.renderTemplate().apply(fakeRequestWithCSRF)
     val body = contentAsString(response).asBodyFragment
   }
 
@@ -58,7 +54,7 @@ class SubmitDeclarationControllerSpec extends WordSpec with CdsImportsSpec with 
 
   class PostScenario(formData:Map[String,Seq[String]], mockSetup: CustomsDeclarationsService => Unit) extends AllScenarios {
     mockSetup(mockDeclarationService)
-    val formRequest = csrfReq.withBody(AnyContentAsFormUrlEncoded(formData))
+    val formRequest = fakeRequestWithCSRF.withBody(AnyContentAsFormUrlEncoded(formData))
     val response = controller.submit.apply(formRequest)
     val body = contentAsString(response).asBodyFragment
   }

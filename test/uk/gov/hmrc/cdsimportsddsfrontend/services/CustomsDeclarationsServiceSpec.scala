@@ -29,7 +29,8 @@ import uk.gov.hmrc.play.bootstrap.http.HttpClient
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class CustomsDeclarationsServiceSpec extends WordSpec with AppConfigReader with MustMatchers with MockitoSugar with FutureAwaits with DefaultAwaitTimeout{
+class CustomsDeclarationsServiceSpec extends WordSpec
+  with AppConfigReader with MustMatchers with MockitoSugar with FutureAwaits with DefaultAwaitTimeout {
 
   val testEori = "GB1234567890"
 

@@ -17,28 +17,22 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.test
 
 import org.scalatest.{MustMatchers, WordSpec}
-import play.api.http.HttpConfiguration
-import play.api.{Configuration, Environment, Mode}
+import play.api.http.{DefaultFileMimeTypes, FileMimeTypesConfiguration, HttpConfiguration}
 import play.api.i18n._
 import play.api.mvc._
-import play.api.test.FakeRequest
-import play.filters.csrf.CSRF.Token
-import uk.gov.hmrc.cdsimportsddsfrontend.config.{AppConfig, ErrorHandler}
+import play.api.test.Helpers.{stubBodyParser, stubLangs, stubPlayBodyParsers}
+import play.api.test.{FakeRequest, NoMaterializer}
+import play.api.{Configuration, Environment, Mode}
+import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{govuk_wrapper, main_template}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.config.{RunMode, ServicesConfig}
-import uk.gov.hmrc.play.bootstrap.tools.Stubs
 import uk.gov.hmrc.play.config.{AssetsConfig, GTMConfig, OptimizelyConfig}
 import uk.gov.hmrc.play.views.html.helpers.ReportAProblemLink
 import uk.gov.hmrc.play.views.html.layouts._
 import views.html.layouts.GovUkTemplate
-import play.filters.csrf.CSRF.Token
-import play.filters.csrf.CSRFAddToken
 
 import scala.concurrent.ExecutionContext
-import play.api.http.{DefaultFileMimeTypes, FileMimeTypesConfiguration}
-import play.api.test.Helpers.{stubBodyParser, stubLangs, stubMessagesApi, stubPlayBodyParsers}
-import play.api.test.NoMaterializer
 
 
 trait AppConfigReader {
@@ -50,8 +44,7 @@ trait AppConfigReader {
 
 }
 
-trait CdsImportsSpec extends AppConfigReader {
-
+trait CdsImportsSpec extends WordSpec with MustMatchers with AppConfigReader {
 
   val langs = new DefaultLangs()
 
@@ -99,13 +92,12 @@ trait CdsImportsSpec extends AppConfigReader {
 
   val somePath = "/some/resource/path"
 
-  val req = FakeRequest("GET", somePath)
-  val csrfReq = addCsrfToken(req)
+  val fakeRequest = FakeRequest("GET", somePath)
+  val fakeRequestWithCSRF = addCsrfToken(fakeRequest)
 
   def addCsrfToken[T](fakeRequest: FakeRequest[T]) :RequestHeader = {
     import play.api.test.CSRFTokenHelper._
     FakeRequest().withCSRFToken
-
   }
 
   //  // FeatureSwitch depends on play config from a running app, so this wrapper must be used within a test body

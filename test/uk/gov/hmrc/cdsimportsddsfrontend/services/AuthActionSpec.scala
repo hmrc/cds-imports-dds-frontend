@@ -18,23 +18,18 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services
 
 import com.google.inject.Inject
 import com.gu.scalatest.JsoupShouldMatchers
-import org.scalatest.{MustMatchers, WordSpec}
-import play.api.i18n.MessagesApi
-import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import play.api.test.Helpers._
 import play.mvc.Http.Status
-import uk.gov.hmrc.auth.core.{AffinityGroup, Enrolments}
 import uk.gov.hmrc.auth.core.retrieve.{Credentials, Name}
+import uk.gov.hmrc.auth.core.{AffinityGroup, Enrolments}
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.UnauthorisedController
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.SignedInUser
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.not_subscribed_to_cds
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
-import scala.concurrent.Future
-
-class AuthActionSpec extends WordSpec with MustMatchers with CdsImportsSpec with AuthenticationBehaviours with JsoupShouldMatchers  {
+class AuthActionSpec extends CdsImportsSpec with AuthenticationBehaviours with JsoupShouldMatchers {
 
   //val authAction = new AuthAction(authConnector = mockAuthConnector, appConfig = appConfig)
   val controller = new MyFakeController(mockAuthAction)(mcc)
@@ -53,19 +48,19 @@ class AuthActionSpec extends WordSpec with MustMatchers with CdsImportsSpec with
   "the action" should {
 
     "redirect to the Government Gateway sign-in page when no authenticated user" in notSignedInScenario() {
-      val response = controller.dummyAction()(req)
+      val response = controller.dummyAction()(fakeRequest)
       status(response) must be (Status.SEE_OTHER)
-      header(LOCATION, response) must be (Some(expectedSignInRedirectPathFor(req)))
+      header(LOCATION, response) must be (Some(expectedSignInRedirectPathFor(fakeRequest)))
     }
 
     "proceed with wrapped request containing signed in user details when authenticated" in signedInScenario { someRegisteredUser =>
-      val resp = controller.dummyAction()(req)
+      val resp = controller.dummyAction()(fakeRequest)
       status(resp) must be (Status.OK)
       controller.theUser must be (Some(someRegisteredUser))
     }
 
     "redirect to not subscribed page when user is not subscribed to CDS" in signedInScenario(notEnrolledUser()) { notCDSUser =>
-      val response = controller.dummyAction()(req)
+      val response = controller.dummyAction()(fakeRequest)
       status(response) must be (Status.SEE_OTHER)
       header(LOCATION, response).get must endWith("/not-subscribed-for-cds")
     }
@@ -74,7 +69,7 @@ class AuthActionSpec extends WordSpec with MustMatchers with CdsImportsSpec with
       //pending   //TODO This testcase doesn't work: "java.lang.RuntimeException: There is no started application", either return GuiceOneAppPerSuite or figure it out
       val notSubscribedTemplate = new not_subscribed_to_cds(mainTemplate)
       val controller = new UnauthorisedController(notSubscribedTemplate)(appConfig,mcc)
-      val response = controller.onPageLoad()(req)
+      val response = controller.onPageLoad()(fakeRequest)
       val html = contentAsString(response).asBodyFragment
       status(response) must be (Status.OK)
       html should include element withName("title").withValue("Not registered with CDS")
