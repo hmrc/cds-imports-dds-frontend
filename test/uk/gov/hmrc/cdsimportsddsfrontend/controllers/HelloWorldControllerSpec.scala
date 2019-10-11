@@ -48,10 +48,16 @@ class HelloWorldControllerSpec extends CdsImportsSpec with GuiceOneAppPerSuite w
       charset(result) mustBe Some("utf-8")
     }
 
-    "return 404 when the DutyDeferment feature is disabled" in {
+    "return 404 when the HelloWorld feature is disabled" in {
       featureSwitchRegistry.HelloWorld.disable()
       val response = controller.helloWorld(fakeRequest)
       status(response) must be(Status.NOT_FOUND)
+    }
+
+    "return 503 when the HelloWorld feature is suspended" in {
+      featureSwitchRegistry.HelloWorld.suspend()
+      val response = controller.helloWorld(fakeRequest)
+      status(response) must be(Status.SERVICE_UNAVAILABLE)
     }
   }
 

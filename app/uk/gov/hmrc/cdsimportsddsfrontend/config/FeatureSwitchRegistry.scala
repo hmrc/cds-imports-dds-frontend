@@ -17,10 +17,16 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.config
 
 import com.google.inject.Inject
-import play.api.mvc.Results.NotFound
+import play.api.mvc.Results.{NotFound, ServiceUnavailable}
 import play.api.mvc._
 
 import scala.concurrent.{ExecutionContext, Future}
+
+sealed trait FeatureState
+case object Enabled extends { val configValue = "enabled" } with FeatureState
+case object Disabled extends { val configValue = "disabled" } with FeatureState
+case object Suspended extends { val configValue = "suspended" } with FeatureState
+
 
 class FeatureSwitchRegistry @Inject()(appConfig: AppConfig, controllerComponents: ControllerComponents) {
 
@@ -40,22 +46,30 @@ class FeatureSwitchRegistry @Inject()(appConfig: AppConfig, controllerComponents
     val configPropertyName: String = s"features.$name"
 
     def isEnabled: Boolean = {
-      val configValue = sys.props.get(configPropertyName).orElse(configuration.getOptional[String](configPropertyName))
-      configValue match {
-        case Some("enabled") => true
+      maybeConfigValue match {
+        case Some(Enabled.configValue) => true
+        case _ => false
+      }
+    }
+
+    def isSuspended: Boolean = {
+      maybeConfigValue match {
+        case Some(Suspended.configValue) => true
         case _ => false
       }
     }
 
     def enable() {
-      setProp("enabled")
+      setProp(Enabled.configValue)
     }
 
     def disable() {
-      setProp("disabled")
+      setProp(Disabled.configValue)
     }
 
-    // TODO suspend()
+    def suspend() {
+      setProp(Suspended.configValue)
+    }
 
     private def setProp(value: String) {
       sys.props += ((configPropertyName, value))
@@ -67,15 +81,18 @@ class FeatureSwitchRegistry @Inject()(appConfig: AppConfig, controllerComponents
         implicit override val executionContext: ExecutionContext = controllerComponents.executionContext
         override val parser: BodyParser[AnyContent] = controllerComponents.parsers.defaultBodyParser
 
-        def filter[A](input: Request[A]): Future[Option[Result]] = Future.successful {
-          if (isEnabled) {
-            None
-          }
-          else {
-            Some(NotFound(errorHandler.notFoundTemplate(input)))
+        def filter[A](request: Request[A]): Future[Option[Result]] = Future.successful {
+          maybeConfigValue match {
+            case Some(Enabled.configValue) => None
+            case Some(Suspended.configValue) => Some(ServiceUnavailable(errorHandler.internalServerErrorTemplate(request)))
+            case _ => Some(NotFound(errorHandler.notFoundTemplate(request)))
           }
         }
       }
+    }
+
+    private def maybeConfigValue = {
+      sys.props.get(configPropertyName).orElse(configuration.getOptional[String](configPropertyName))
     }
   }
 

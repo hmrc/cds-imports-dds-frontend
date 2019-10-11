@@ -14,3 +14,4 @@
 
 GET        /customs/imports/test-only/feature/:featureName/enable  @uk.gov.hmrc.cdsimportsddsfrontend.testOnly.controllers.FeatureSwitchController.enable(featureName)
 GET        /customs/imports/test-only/feature/:featureName/disable @uk.gov.hmrc.cdsimportsddsfrontend.testOnly.controllers.FeatureSwitchController.disable(featureName)
+GET        /customs/imports/test-only/feature/:featureName/suspend @uk.gov.hmrc.cdsimportsddsfrontend.testOnly.controllers.FeatureSwitchController.suspend(featureName)

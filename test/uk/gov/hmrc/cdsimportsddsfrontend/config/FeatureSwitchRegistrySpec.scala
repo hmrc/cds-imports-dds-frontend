@@ -54,13 +54,37 @@ class FeatureSwitchRegistrySpec extends CdsImportsSpec
         System.setProperty("features.hello-world", "disabled")
         featureSwitch.isEnabled must be(false)
       }
+
+      "return false if the system property is defined as 'suspended'" in {
+        System.setProperty("features.hello-world", "suspended")
+        featureSwitch.isEnabled must be(false)
+      }
+    }
+
+    "isSuspended" should {
+      "return true if the system property is defined as 'suspended'" in {
+        System.setProperty("features.hello-world", "suspended")
+        featureSwitch.isSuspended must be(true)
+      }
+
+      "return false if the system property is defined as 'disabled'" in {
+        System.setProperty("features.hello-world", "disabled")
+        featureSwitch.isSuspended must be(false)
+      }
+
+      "return false if the system property is defined as 'enabled'" in {
+        System.setProperty("features.hello-world", "enabled")
+        featureSwitch.isSuspended must be(false)
+      }
     }
 
     "support dynamic toggling" in {
       featureSwitch.enable()
-      featureSwitch.isEnabled must be(true) withClue ", feature hello-world is not turned on"
+      featureSwitch.isEnabled must be(true) withClue ", feature hello-world is not enabled"
+      featureSwitch.suspend()
+      featureSwitch.isSuspended must be(true) withClue ", feature hello-world is not suspended"
       featureSwitch.disable()
-      featureSwitch.isEnabled must be(false) withClue ", feature hello-world is not turned off"
+      featureSwitch.isEnabled must be(false) withClue ", feature hello-world is not disabled"
     }
 
   }

@@ -47,4 +47,14 @@ class FeatureSwitchController @Inject()(featureSwitchRegistry: FeatureSwitchRegi
     }
   }
 
+  def suspend(featureName: String): Action[AnyContent] = Action { implicit request =>
+    featureSwitchRegistry.getOption(featureName) match {
+      case Some(featureSwitch) =>
+        featureSwitch.suspend()
+        Ok(s"Suspended feature $featureName")
+      case _ =>
+        BadRequest(s"No such feature $featureName")
+    }
+  }
+
 }
