@@ -32,6 +32,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success, Try}
 import scala.xml.InputSource
 
+
 @Singleton
 class SubmitDeclarationController @Inject()(submitTemplate: submit_declaration,
                                             authenticate: AuthAction,
@@ -40,34 +41,32 @@ class SubmitDeclarationController @Inject()(submitTemplate: submit_declaration,
                                             mcc: MessagesControllerComponents) extends FrontendController(mcc) {
 
   val renderTemplate: Action[AnyContent] = Action { implicit request =>
-    Ok(submitTemplate())
+    Ok(submitTemplate(SubmitDeclarationModel.form))
   }
 
   val submit: Action[AnyContent] = Action.async { implicit request =>
     SubmitDeclarationModel.form.bindFromRequest.fold(
       formWithErrors =>
-        Future.successful(BadRequest("ERROR! Submit failed" + formWithErrors)),
+        Future.successful(BadRequest(submitTemplate(formWithErrors))),
       data => {
-        Try(scala.xml.XML.load(new InputSource(new StringReader(data.textarea)))) match {
-          case Success(xml) =>
-            declarationService.submit("eori", xml)
-              .map(a=> Ok("SUCCESS! Customs Declaration submitted "))
-          case Failure(exception) =>
-            Future.successful(BadRequest("XML parsing failed: " + exception.getMessage))
-        }
+        val xml = scala.xml.XML.load(new InputSource(new StringReader(data.textarea)))
+        declarationService.submit("eori", xml)
+          .map(declaration => Ok("SUCCESS! Customs Declaration submitted "))
       }
     )
   }
 
 }
 
-case class SubmitDeclarationModel(textarea: String)
+case class SubmitDeclarationModel(textarea: String)  //TODO Make this into xml, then we don't have to re-parse it!
 
 object SubmitDeclarationModel {
 
+  val verifyXML: String => Boolean = xml => Try(scala.xml.XML.load(new InputSource(new StringReader(xml)))).isSuccess
+
   val form: Form[SubmitDeclarationModel] = Form(
     mapping(
-      "declaration-data" -> nonEmptyText
+      "declaration-data" -> nonEmptyText.verifying("declaration.not.xml", verifyXML)
     )(SubmitDeclarationModel.apply)(SubmitDeclarationModel.unapply)
   )
 

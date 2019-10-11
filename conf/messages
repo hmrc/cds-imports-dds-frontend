@@ -10,3 +10,15 @@ not-subscribed-to-cds.detail.help-line1=If you are having problems registering o
 not-subscribed-to-cds.detail.help-line2=EORI number, phone: 0300 322 7067.
 not-subscribed-to-cds.detail.help-line3=Open 8am to 6pm, Monday to Friday (closed bank holidays).
 
+
+
+
+declaration.xml=Declaration XML
+declaration.xml.hint=Write your Valid Declaration xml into the edit box
+declaration.not.xml=This is not a valid xml document
+
+error.summary.title=Error
+error.summary.text=There was an error on the form
+
+site.save_and_continue=Submit
+

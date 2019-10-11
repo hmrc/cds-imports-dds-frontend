@@ -40,8 +40,9 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig)(implicit val ht
       HeaderNames.CONTENT_TYPE -> ContentTypes.XML(Codec.utf_8),
       CustomsHeaderNames.XEoriIdentifierHeaderName -> eori
     ))
-    httpClient.POST[String,String](appConfig.declarationsApi.submitUri, declaration.toString())
-      .map{a => log.info("Response from Declaration API: " + a);a}
+
+    httpClient.POSTString[String](appConfig.declarationsApi.submitEnpoint, declaration.toString())(implicitly,updatedHeaderCarrier,implicitly) //Calling POST will add quotes around the xml
+      .map{a => log.info("Response from Declaration API: " + Option(a));a}
       .map(a => CustomsDeclarationsResponse(200,Option(a)))
   }
 }

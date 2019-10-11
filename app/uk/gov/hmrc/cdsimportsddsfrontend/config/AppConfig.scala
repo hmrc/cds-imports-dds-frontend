@@ -39,7 +39,7 @@ class AppConfig @Inject()(val config: Configuration, val servicesConfig: Service
   lazy val registerCdsUrl:String = config.get[String]("microservice.services.cds-imports-dds-frontend.cdsRegisterUrl")
   lazy val subscribeCdsUrl:String = config.get[String]("microservice.services.cds-imports-dds-frontend.cdsSubscribeUrl")
 
-  val declarationsApi:CustomsDeclarationsApi = CustomsDeclarationsApi("microservice.services.customs-declarations-api", config)
+  lazy val declarationsApi:CustomsDeclarationsApi = CustomsDeclarationsApi("microservice.services.customs-declarations-api", config)
 
 }
 

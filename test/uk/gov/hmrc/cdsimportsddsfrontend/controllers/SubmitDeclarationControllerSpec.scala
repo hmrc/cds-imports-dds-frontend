@@ -60,7 +60,7 @@ class SubmitDeclarationControllerSpec extends CdsImportsSpec
   }
 
   "A POST Request" should {
-    "Submit xml data" in  {
+    "Succeed when submitting valid xml data" in  {
       val formData = Map("declaration-data" -> Seq("<declaration/>"))
       val mockSetup:CustomsDeclarationsService => Unit = ds => when(ds.submit(any(),any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200,Some("Good"))))
       new PostScenario(formData, mockSetup) {
@@ -69,12 +69,12 @@ class SubmitDeclarationControllerSpec extends CdsImportsSpec
       }
     }
 
-    "Submitting not xml data should fail" in  {
+    "Fail when submitting not xml data " in  {
       val formData = Map("declaration-data" -> Seq("<declaration>"))
       val mockSetup:CustomsDeclarationsService => Unit = ds => when(ds.submit(any(),any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200,Some("Good"))))
       new PostScenario(formData, mockSetup) {
         status(response) mustBe Status.BAD_REQUEST
-        body should include element withName("body").withValue("XML parsing failed: XML document structures must start and end within the same entity.")
+        body should include element withName("body").withValue("This is not a valid xml document")
       }
     }
 
