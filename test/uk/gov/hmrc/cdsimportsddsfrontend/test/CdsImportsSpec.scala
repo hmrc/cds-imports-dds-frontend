@@ -23,8 +23,8 @@ import play.api.mvc._
 import play.api.test.Helpers.{stubBodyParser, stubLangs, stubPlayBodyParsers}
 import play.api.test.{FakeRequest, NoMaterializer}
 import play.api.{Configuration, Environment, Mode}
-import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
-import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{govuk_wrapper, main_template}
+import uk.gov.hmrc.cdsimportsddsfrontend.config.{AppConfig, ErrorHandler, FeatureSwitchRegistry}
+import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{error_template, govuk_wrapper, main_template}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.config.{RunMode, ServicesConfig}
 import uk.gov.hmrc.play.config.{AssetsConfig, GTMConfig, OptimizelyConfig}
@@ -40,7 +40,7 @@ trait AppConfigReader {
   val configuration: Configuration = Configuration.load(env)
 
   val serviceConfig: ServicesConfig = new ServicesConfig(configuration, new RunMode(configuration, Mode.Dev))
-  val appConfig: AppConfig = new AppConfig(configuration, serviceConfig, env)
+  implicit val appConfig: AppConfig = new AppConfig(configuration, serviceConfig, env)
 
 }
 
@@ -71,8 +71,8 @@ trait CdsImportsSpec extends WordSpec with MustMatchers with AppConfigReader {
     )
   }
 
-  //implicit val errorHandler = new ErrorHandler(messagesApi,appConfig)
-  //implicit val ec: ExecutionContext = play.api.libs.concurrent.Execution.Implicits.defaultContext
+  implicit val featureSwitchRegistry: FeatureSwitchRegistry = new FeatureSwitchRegistry(appConfig, mcc)
+
   implicit val mat = NoMaterializer
   implicit val hc: HeaderCarrier = HeaderCarrier()
   implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
@@ -89,6 +89,8 @@ trait CdsImportsSpec extends WordSpec with MustMatchers with AppConfigReader {
   val govukWrapper = new govuk_wrapper(head, new HeaderNav(), footer, new FooterLinks(), new ServiceInfo(),
     new MainContentHeader(), new MainContent(), new ReportAProblemLink(), new GovUkTemplate())
   val mainTemplate = new main_template(new Sidebar(), new Article(), govukWrapper)
+
+  implicit val errorHandler = new ErrorHandler(new error_template(govukWrapper), messagesApi, appConfig)
 
   val somePath = "/some/resource/path"
 

@@ -16,17 +16,25 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
+import org.scalatest.BeforeAndAfterEach
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.http.Status
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.cdsimportsddsfrontend.test.CdsImportsSpec
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.hello_world
 import uk.gov.hmrc.play.bootstrap.tools.Stubs.stubMessagesControllerComponents
 
-class HelloWorldControllerSpec extends CdsImportsSpec with GuiceOneAppPerSuite {
+class HelloWorldControllerSpec extends CdsImportsSpec with GuiceOneAppPerSuite with BeforeAndAfterEach {
 
   val helloWordTemplate = new hello_world(mainTemplate)
-  private val controller = new HelloWorldController(helloWordTemplate, appConfig, stubMessagesControllerComponents())
+  implicit val foo: MessagesControllerComponents = stubMessagesControllerComponents()
+
+  private val controller = new HelloWorldController(helloWordTemplate)
+
+  override def beforeEach(): Unit = {
+    featureSwitchRegistry.HelloWorld.enable()
+  }
 
   "GET /" should {
     "return 200" in {
@@ -40,5 +48,11 @@ class HelloWorldControllerSpec extends CdsImportsSpec with GuiceOneAppPerSuite {
       charset(result) mustBe Some("utf-8")
     }
 
+    "return 404 when the DutyDeferment feature is disabled" in {
+      featureSwitchRegistry.HelloWorld.disable()
+      val response = controller.helloWorld(fakeRequest)
+      status(response) must be(Status.NOT_FOUND)
+    }
   }
+
 }

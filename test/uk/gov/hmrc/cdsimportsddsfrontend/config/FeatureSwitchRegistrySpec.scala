@@ -27,8 +27,6 @@ class FeatureSwitchRegistrySpec extends CdsImportsSpec
     System.clearProperty("features.hello-world")
   }
 
-  val featureSwitchRegistry = new FeatureSwitchRegistry(appConfig, mcc)
-
   "FeatureSwitchRegistry" should {
     "allow lookup of features by name" in {
       featureSwitchRegistry.getOption("hello-world") must be(Some(featureSwitchRegistry.HelloWorld))

@@ -17,7 +17,6 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
 import javax.inject.{Inject, Singleton}
-import play.api.i18n.{Messages, MessagesImpl}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.not_subscribed_to_cds

@@ -17,8 +17,9 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
 import javax.inject.{Inject, Singleton}
+import play.api.i18n.Messages
 import play.api.mvc._
-//import play.api.mvc.Result
+import uk.gov.hmrc.cdsimportsddsfrontend.config.{ErrorHandler, FeatureSwitchRegistry}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 import uk.gov.hmrc.cdsimportsddsfrontend.services.AuthAction
@@ -27,13 +28,15 @@ import uk.gov.hmrc.cdsimportsddsfrontend.views.html.hello_world
 import scala.concurrent.Future
 
 @Singleton
-class HelloWorldController @Inject()(helloWordTemplate: hello_world,
-                                     appConfig: AppConfig,
-                                     mcc: MessagesControllerComponents) extends FrontendController(mcc) {
+class HelloWorldController @Inject()(helloWordTemplate: hello_world)
+                                    (implicit appConfig: AppConfig,
+                                     featureSwitchRegistry: FeatureSwitchRegistry,
+                                     mcc: MessagesControllerComponents,
+                                     errorHandler: ErrorHandler)
+  extends FrontendController(mcc) {
 
-  implicit val config: AppConfig = appConfig
-
-  val helloWorld: Action[AnyContent] = Action.async { implicit request =>
+  val helloWorld: Action[AnyContent] = featureSwitchRegistry.HelloWorld.action async { implicit request =>
+    implicit val messages: Messages = mcc.messagesApi.preferred(request) // TODO work out how to get rid of this
     Future.successful(Ok(helloWordTemplate()))
   }
 
