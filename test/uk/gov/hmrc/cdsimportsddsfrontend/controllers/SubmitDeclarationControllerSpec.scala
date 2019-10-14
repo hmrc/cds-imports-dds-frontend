@@ -36,7 +36,7 @@ class SubmitDeclarationControllerSpec extends CdsImportsSpec
   trait AllScenarios {
     val submitTemplate = new submit_declaration(mainTemplate)
     val mockDeclarationService = mock[CustomsDeclarationsService]
-    val controller = new SubmitDeclarationController(submitTemplate,mockAuthAction,mockDeclarationService)(appConfig,mcc)
+    val controller = new SubmitDeclarationController(submitTemplate, mockAuthAction, mockDeclarationService)(appConfig, mcc)
   }
 
   class GetScenario extends AllScenarios {
@@ -45,14 +45,16 @@ class SubmitDeclarationControllerSpec extends CdsImportsSpec
   }
 
   "A GET Request" should {
-    "render the page page correctly" in new GetScenario() {
-      status(response) mustBe Status.OK
-      body should include element withName("textarea").withAttrValue("id", "declaration-data")
+    "render the page page correctly" in signedInScenario { user =>
+      new GetScenario() {
+        status(response) mustBe Status.OK
+        body should include element withName("textarea").withAttrValue("id", "declaration-data")
+      }
     }
   }
 
 
-  class PostScenario(formData:Map[String,Seq[String]], mockSetup: CustomsDeclarationsService => Unit) extends AllScenarios {
+  class PostScenario(formData: Map[String, Seq[String]], mockSetup: CustomsDeclarationsService => Unit) extends AllScenarios {
     mockSetup(mockDeclarationService)
     val formRequest = fakeRequestWithCSRF.withBody(AnyContentAsFormUrlEncoded(formData))
     val response = controller.submit.apply(formRequest)
@@ -60,23 +62,24 @@ class SubmitDeclarationControllerSpec extends CdsImportsSpec
   }
 
   "A POST Request" should {
-    "Succeed when submitting valid xml data" in  {
+    "Succeed when submitting valid xml data" in signedInScenario { user =>
       val formData = Map("declaration-data" -> Seq("<declaration/>"))
-      val mockSetup:CustomsDeclarationsService => Unit = ds => when(ds.submit(any(),any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200,Some("Good"))))
+      val mockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
       new PostScenario(formData, mockSetup) {
         status(response) mustBe Status.OK
         body should include element withName("body").withValue("SUCCESS! Customs Declaration submitted")
       }
     }
 
-    "Fail when submitting not xml data " in  {
+    "Fail when submitting not xml data " in signedInScenario { user =>
       val formData = Map("declaration-data" -> Seq("<declaration>"))
-      val mockSetup:CustomsDeclarationsService => Unit = ds => when(ds.submit(any(),any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200,Some("Good"))))
+      val mockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
       new PostScenario(formData, mockSetup) {
         status(response) mustBe Status.BAD_REQUEST
         body should include element withName("body").withValue("This is not a valid xml document")
       }
     }
+
 
   }
 }

@@ -18,11 +18,11 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services
 
 import javax.inject.{Inject, Singleton}
 import play.api.Logger
-import play.api.http.{ContentTypes, HeaderNames}
+import play.api.http.{ContentTypes, HeaderNames, Status}
 import play.api.mvc.Codec
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.{CustomsDeclarationsResponse, CustomsHeaderNames, Eori}
-import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http._
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -41,10 +41,17 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig)(implicit val ht
       CustomsHeaderNames.XEoriIdentifierHeaderName -> eori
     ))
 
-    httpClient.POSTString[String](appConfig.declarationsApi.submitEnpoint, declaration.toString())(implicitly,updatedHeaderCarrier,implicitly) //Calling POST will add quotes around the xml
-      .map{a => log.info("Response from Declaration API: " + Option(a));a}
-      .map(a => CustomsDeclarationsResponse(200,Option(a)))
+    httpClient.POSTString[CustomsDeclarationsResponse](appConfig.declarationsApi.submitEnpoint, declaration.toString())(responseReader,updatedHeaderCarrier,implicitly) //Calling POST will add quotes around the xml
+      .map{a => log.info("Response from Declaration API: " + a);a}
   }
+
+
+  val responseReader:HttpReads[CustomsDeclarationsResponse] = new HttpReads[CustomsDeclarationsResponse] {
+    override def read(method: String, url: String, response: HttpResponse): CustomsDeclarationsResponse = {
+      CustomsDeclarationsResponse(response.status, response.allHeaders.get(CustomsHeaderNames.XConversationIdName).flatMap(_.headOption))
+    }
+  }
+
 }
 
 

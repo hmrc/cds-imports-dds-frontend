@@ -43,9 +43,10 @@ class CustomsDeclarationsServiceSpec extends WordSpec
 
   "The service" should {
     "Post a declaration to the Declaration API" in new Scenario() {
-      when[Future[String]](mockHttp.POSTString(any(),any(),any())(any(), any(), any())).thenReturn(Future.successful("The Response"))
+      val expectedResponse = CustomsDeclarationsResponse(200,Some("The Response"))
+      when[Future[CustomsDeclarationsResponse]](mockHttp.POSTString(any(),any(),any())(any(), any(), any())).thenReturn(Future.successful(expectedResponse))
       val response = await(customsDeclarationsService.submit(testEori, <DeclaringMyStuff/>))
-      response mustBe CustomsDeclarationsResponse(200,Some("The Response"))
+      response mustBe expectedResponse
     }
   }
 }
