@@ -16,16 +16,17 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-import uk.gov.hmrc.http.HttpResponse
+import uk.gov.hmrc.http.{HttpReads, HttpResponse}
 
 case class CustomsDeclarationsResponse(status: Int, conversationId: Option[String] = None)
 
 object CustomsDeclarationsResponse {
 
-  def fromResponse(response:HttpResponse):CustomsDeclarationsResponse = {
-    CustomsDeclarationsResponse(response.status, response.header(CustomsHeaderNames.XConversationIdName))
+  implicit val responseReader:HttpReads[CustomsDeclarationsResponse] = new HttpReads[CustomsDeclarationsResponse] {
+    override def read(method: String, url: String, response: HttpResponse): CustomsDeclarationsResponse = {
+      CustomsDeclarationsResponse(response.status, response.allHeaders.get(CustomsHeaderNames.XConversationIdName).flatMap(_.headOption))
+    }
   }
-
 }
 
 

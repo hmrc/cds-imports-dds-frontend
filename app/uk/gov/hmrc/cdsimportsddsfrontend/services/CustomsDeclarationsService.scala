@@ -22,6 +22,7 @@ import play.api.http.{ContentTypes, HeaderNames, Status}
 import play.api.mvc.Codec
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.{CustomsDeclarationsResponse, CustomsHeaderNames, Eori}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse.responseReader
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
 
@@ -46,11 +47,6 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig)(implicit val ht
   }
 
 
-  val responseReader:HttpReads[CustomsDeclarationsResponse] = new HttpReads[CustomsDeclarationsResponse] {
-    override def read(method: String, url: String, response: HttpResponse): CustomsDeclarationsResponse = {
-      CustomsDeclarationsResponse(response.status, response.allHeaders.get(CustomsHeaderNames.XConversationIdName).flatMap(_.headOption))
-    }
-  }
 
 }
 
