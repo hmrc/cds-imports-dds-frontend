@@ -25,7 +25,7 @@ import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 import uk.gov.hmrc.cdsimportsddsfrontend.services.{AuthAction, CustomsDeclarationsService, DeclarationXml}
-import uk.gov.hmrc.cdsimportsddsfrontend.views.html.submit_declaration
+import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{submit_declaration,declaration_result}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.Future
@@ -36,6 +36,7 @@ import scala.xml.InputSource
 
 @Singleton
 class SubmitDeclarationController @Inject()(submitTemplate: submit_declaration,
+                                            resultTemplate: declaration_result,
                                             authenticate: AuthAction,
                                             declarationService: CustomsDeclarationsService)
                                            (implicit val appConfig: AppConfig,
@@ -55,7 +56,7 @@ class SubmitDeclarationController @Inject()(submitTemplate: submit_declaration,
       data => {
         val xml = scala.xml.XML.load(new InputSource(new StringReader(data.textarea)))
         declarationService.submit(request.user.eori, xml)
-          .map(declaration => Ok("SUCCESS! Customs Declaration submitted "))
+          .map(declaration => Ok(resultTemplate(declaration)))
       }
     )
   }

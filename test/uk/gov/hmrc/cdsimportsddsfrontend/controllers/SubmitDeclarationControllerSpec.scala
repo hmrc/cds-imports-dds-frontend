@@ -26,7 +26,7 @@ import play.mvc.Http.Status
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.services.CustomsDeclarationsService
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.views.html.submit_declaration
+import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{submit_declaration, declaration_result}
 
 import scala.concurrent.Future
 
@@ -35,8 +35,9 @@ class SubmitDeclarationControllerSpec extends CdsImportsSpec
 
   trait AllScenarios {
     val submitTemplate = new submit_declaration(mainTemplate)
+    val resultTemplate = new declaration_result(mainTemplate)
     val mockDeclarationService = mock[CustomsDeclarationsService]
-    val controller = new SubmitDeclarationController(submitTemplate, mockAuthAction, mockDeclarationService)(appConfig, mcc)
+    val controller = new SubmitDeclarationController(submitTemplate, resultTemplate, mockAuthAction, mockDeclarationService)(appConfig, mcc)
   }
 
   class GetScenario extends AllScenarios {
@@ -67,7 +68,7 @@ class SubmitDeclarationControllerSpec extends CdsImportsSpec
       val mockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
       new PostScenario(formData, mockSetup) {
         status(response) mustBe Status.OK
-        body should include element withName("body").withValue("SUCCESS! Customs Declaration submitted")
+        body should include element withName("td").withValue("Good")
       }
     }
 
