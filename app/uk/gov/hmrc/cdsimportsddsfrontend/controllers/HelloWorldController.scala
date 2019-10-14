@@ -17,7 +17,7 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
 import javax.inject.{Inject, Singleton}
-import play.api.i18n.Messages
+import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc._
 import uk.gov.hmrc.cdsimportsddsfrontend.config.{ErrorHandler, FeatureSwitchRegistry}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
@@ -33,10 +33,9 @@ class HelloWorldController @Inject()(helloWordTemplate: hello_world)
                                      featureSwitchRegistry: FeatureSwitchRegistry,
                                      mcc: MessagesControllerComponents,
                                      errorHandler: ErrorHandler)
-  extends FrontendController(mcc) {
+  extends FrontendController(mcc) with I18nSupport {
 
   val helloWorld: Action[AnyContent] = featureSwitchRegistry.HelloWorld.action async { implicit request =>
-    implicit val messages: Messages = mcc.messagesApi.preferred(request) // TODO work out how to get rid of this
     Future.successful(Ok(helloWordTemplate()))
   }
 
