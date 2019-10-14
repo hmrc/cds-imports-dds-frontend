@@ -10,8 +10,7 @@ object AppDependencies {
     "uk.gov.hmrc"             %% "govuk-template"           % "5.42.0-play-26",
     "uk.gov.hmrc"             %% "play-ui"                  % "8.2.0-play-26",
     "uk.gov.hmrc"             %% "bootstrap-play-26"        % "1.1.0",
-    "org.scala-lang.modules"  %% "scala-xml"                % "1.2.0",
-    "dev.zio"                 %% "zio"                      % "1.0.0-RC14"
+    "org.scala-lang.modules"  %% "scala-xml"                % "1.2.0"
   )
 
   val test = Seq(

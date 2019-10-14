@@ -22,7 +22,7 @@ import uk.gov.hmrc.auth.core.retrieve.{Credentials, Name}
 case class SignedInUser(credentials: Option[Credentials],
                         name: Option[Name],
                         email: Option[String],
-                        eori: String,
+                        eori: Eori,
                         affinityGroup: Option[AffinityGroup],
                         internalId: Option[String],
                         enrolments: Enrolments)

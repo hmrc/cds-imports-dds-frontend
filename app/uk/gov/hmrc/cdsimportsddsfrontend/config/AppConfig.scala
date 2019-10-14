@@ -46,8 +46,8 @@ class AppConfig @Inject()(val config: Configuration, val servicesConfig: Service
 case class CustomsDeclarationsApi(protocol: String, host: String, port: Int,
                                   submitUri: String, cancelUri: String,
                                   apiVersion: String, bearerToken: String, clientId: String) {
-  val submitEnpoint = s"$protocol://$host:$port/$submitUri"
-  val cancelEnpoint = s"$protocol://$host:$port/$cancelUri"
+  val submitEndpoint = s"$protocol://$host:$port/$submitUri"
+  val cancelEndpoint = s"$protocol://$host:$port/$cancelUri"
 }
 
 object CustomsDeclarationsApi {

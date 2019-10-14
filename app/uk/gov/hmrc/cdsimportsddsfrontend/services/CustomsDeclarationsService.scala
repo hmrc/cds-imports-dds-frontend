@@ -18,7 +18,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services
 
 import javax.inject.{Inject, Singleton}
 import play.api.Logger
-import play.api.http.{ContentTypes, HeaderNames, Status}
+import play.api.http.{ContentTypes, HeaderNames}
 import play.api.mvc.Codec
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.{CustomsDeclarationsResponse, CustomsHeaderNames, Eori}
@@ -42,7 +42,7 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig)(implicit val ht
       CustomsHeaderNames.XEoriIdentifierHeaderName -> eori
     ))
 
-    httpClient.POSTString[CustomsDeclarationsResponse](appConfig.declarationsApi.submitEnpoint, declaration.toString())(responseReader,updatedHeaderCarrier,implicitly) //Calling POST will add quotes around the xml
+    httpClient.POSTString[CustomsDeclarationsResponse](appConfig.declarationsApi.submitEndpoint, declaration.toString())(responseReader,updatedHeaderCarrier,implicitly) //Calling POST will add quotes around the xml
       .map{a => log.info("Response from Declaration API: " + a);a}
   }
 
