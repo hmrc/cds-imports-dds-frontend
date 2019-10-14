@@ -45,7 +45,7 @@ class AppConfig @Inject()(val config: Configuration, val servicesConfig: Service
 
 case class CustomsDeclarationsApi(protocol: String, host: String, port: Int,
                                   submitUri: String, cancelUri: String,
-                                  apiVersion: String, bearerToken: String, clientId: String) {
+                                  apiVersion: String, clientId: String) {
   val submitEndpoint = s"$protocol://$host:$port/$submitUri"
   val cancelEndpoint = s"$protocol://$host:$port/$cancelUri"
 }
@@ -60,7 +60,6 @@ object CustomsDeclarationsApi {
       pathConfig.get[String]("submit-uri"),
       pathConfig.get[String]("cancel-uri"),
       pathConfig.get[String]("api-version"),
-      pathConfig.get[String]("bearer-token"),
       pathConfig.get[String]("client-id")
     )
   }
