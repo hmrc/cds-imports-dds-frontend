@@ -30,12 +30,12 @@
 
         @components.error_summary(form.errors)
 
-
         @components.fields.field_textarea(
-        field = form("declaration-data"),
-        label = messages("declaration.xml"),
-        hint = Some(messages("declaration.xml.hint")),
-        labelClass = Some("bold-small")
+            field = form("declaration-data"),
+            label = messages("declaration.xml"),
+            hint = Some(messages("declaration.xml.hint")),
+            labelClass = Some("bold-small"),
+            rowsNumber = 15
         )
 
         @components.submit_button()

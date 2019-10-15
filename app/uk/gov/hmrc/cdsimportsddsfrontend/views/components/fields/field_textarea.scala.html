@@ -19,11 +19,12 @@
     label: String,
     hint: Option[String] = None,
     labelClass: Option[String] = None,
-    inputClass: Option[String] = None
+    inputClass: Option[String] = None,
+    rowsNumber: Int = 10
 )(implicit messages: Messages)
 
 <div class="form-field @if(field.hasErrors){form-field--error}">
-    <label " class="form-label" for="@{field.id}">
+    <label class="form-label" for="@{field.id}">
         <span id="@{field.id}-label" class="@labelClass">@label</span>
         @hint.map { hint =>
             <span id="@{field.id}-hint" class="form-hint">@hint</span>
@@ -35,12 +36,11 @@
 
     <div class="form-control-wrapper">
         <textarea
-                class="form-control @inputClass"
-                type="text"
-                id="@{field.id}"
-                name="@{field.id}"
-                @if(field.hasErrors){ aria-describedby="error-message-@{field.id}-input" }
-                rows="5"
+            class="form-block @inputClass"
+            id="@{field.id}"
+            name="@{field.id}"
+            @if(field.hasErrors){ aria-describedby="error-message-@{field.id}-input" }
+            rows="@{rowsNumber}"
         >@{field.value}</textarea>
     </div>
 </div>
