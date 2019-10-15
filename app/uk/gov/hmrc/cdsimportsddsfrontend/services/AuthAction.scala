@@ -24,7 +24,7 @@ import play.api.{Configuration, Environment}
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
 import uk.gov.hmrc.auth.core.retrieve.~
-import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
+import uk.gov.hmrc.cdsimportsddsfrontend.config.{AppConfig, EoriWhitelist}
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.SignedInUser
 import uk.gov.hmrc.http.HeaderCarrier
@@ -36,7 +36,10 @@ import scala.concurrent.{ExecutionContext, Future}
 case class AuthenticatedRequest[A](request: Request[A], user: SignedInUser) extends WrappedRequest[A](request)
 
 
-class AuthAction @Inject()(override val authConnector: AuthConnector, appConfig: AppConfig, mcc: MessagesControllerComponents)
+class AuthAction @Inject()(override val authConnector: AuthConnector,
+                           appConfig: AppConfig,
+                           whitelist: EoriWhitelist,
+                           mcc: MessagesControllerComponents)
   extends ActionBuilder[AuthenticatedRequest, AnyContent] with ActionRefiner[Request, AuthenticatedRequest] with AuthorisedFunctions with AuthRedirects {
 
   override lazy val config: Configuration = appConfig.config
@@ -44,7 +47,6 @@ class AuthAction @Inject()(override val authConnector: AuthConnector, appConfig:
 
   implicit override val executionContext: ExecutionContext = mcc.executionContext
   override val parser: BodyParser[AnyContent] = mcc.parsers.defaultBodyParser
-
 
   override protected def refine[A](request: Request[A]): Future[Either[Result, AuthenticatedRequest[A]]] = {
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
@@ -57,9 +59,15 @@ class AuthAction @Inject()(override val authConnector: AuthConnector, appConfig:
           case None => throw InsufficientEnrolments()
         }
 
-        val cdsLoggedInUser = SignedInUser(credentials, name, email, eoriNumber, affinityGroup, internalId, allEnrolments)
-        val authenticatedRequest = AuthenticatedRequest(request, cdsLoggedInUser)
-        Future.successful(Right(authenticatedRequest))
+        if (whitelist.allows(eoriNumber)) {
+          val cdsLoggedInUser = SignedInUser(credentials, name, email, eoriNumber, affinityGroup, internalId, allEnrolments)
+          val authenticatedRequest = AuthenticatedRequest(request, cdsLoggedInUser)
+          Future.successful(Right(authenticatedRequest))
+        }
+        else
+        {
+          throw InsufficientEnrolments()
+        }
     }
   } recover {
     case _: NoActiveSession =>

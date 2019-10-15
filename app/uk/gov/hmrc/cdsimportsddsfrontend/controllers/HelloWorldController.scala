@@ -17,13 +17,12 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
 import javax.inject.{Inject, Singleton}
-import play.api.i18n.{I18nSupport, Messages}
+import play.api.i18n.I18nSupport
 import play.api.mvc._
-import uk.gov.hmrc.cdsimportsddsfrontend.config.{ErrorHandler, FeatureSwitchRegistry}
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
-import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
+import uk.gov.hmrc.cdsimportsddsfrontend.config.{AppConfig, ErrorHandler, FeatureSwitchRegistry}
 import uk.gov.hmrc.cdsimportsddsfrontend.services.AuthAction
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.hello_world
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.Future
 

@@ -29,7 +29,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.AuthAction
 import uk.gov.hmrc.http.HeaderCarrier
 import org.mockito.Mockito._
 import org.mockito.{ArgumentMatcher, ArgumentMatchers}
-import uk.gov.hmrc.play.bootstrap.tools.Stubs
+import uk.gov.hmrc.cdsimportsddsfrontend.config.EoriWhitelist
 
 import scala.concurrent.Future
 import scala.util.Random
@@ -39,14 +39,14 @@ trait AuthenticationBehaviours extends MockitoSugar {
 
   val EORI_LENGTH = 8
 
-  def randomEori(): String = Random.alphanumeric.take(EORI_LENGTH).mkString
+  def randomEori: String = Random.alphanumeric.take(EORI_LENGTH).mkString
 
-  def newUser(eori: String): SignedInUser = SignedInUser(
+  def subscribedUser(eori: String): SignedInUser = SignedInUser(
     Some(Credentials("2345235235", "GovernmentGateway")),
     Some(Name(Some("Aldo"), Some("Rain"))),
     Some("amina@hmrc.co.uk"),
     eori,
-    Some(AffinityGroup.Individual),
+    Some(AffinityGroup.Organisation),
     Some("Int-ba17b467-90f3-42b6-9570-73be7b78eb2b"),
     Enrolments(Set(
       Enrolment("IR-SA", List(EnrolmentIdentifier("UTR", "111111111")), "Activated", None),
@@ -55,18 +55,20 @@ trait AuthenticationBehaviours extends MockitoSugar {
     ))
   )
 
-  val mockAuthConnector: AuthConnector = mock[AuthConnector]
-
-  val noBearerTokenMatcher: ArgumentMatcher[HeaderCarrier] = new ArgumentMatcher[HeaderCarrier] {
+  val hasNoAuthHeader = new ArgumentMatcher[HeaderCarrier] {
     def matches(item: HeaderCarrier): Boolean = item != null && item.authorization.isEmpty
 
-    def describeTo(description: Description): Unit = description.appendText("does not have a bearer token")
+    def describeTo(description: Description): Unit = description.appendText("has no Authorization header")
   }
 
-  val mockAuthAction: AuthAction = new AuthAction(mockAuthConnector, appConfig, mcc)
+  val mockWhiteList: EoriWhitelist = mock[EoriWhitelist]
+  when(mockWhiteList.allows(ArgumentMatchers.any())).thenReturn(true)
+
+  val mockAuthConnector: AuthConnector = mock[AuthConnector]
+  val mockAuthAction: AuthAction = new AuthAction(mockAuthConnector, appConfig, mockWhiteList, mcc)
 
   def signedInScenario(test: SignedInUser => Unit): Unit = {
-    signedInScenario(newUser(randomEori))(test)
+    signedInScenario(subscribedUser(randomEori))(test)
   }
 
   def signedInScenario(user: SignedInUser)(test: SignedInUser => Unit): Unit = {
@@ -87,7 +89,7 @@ trait AuthenticationBehaviours extends MockitoSugar {
       mockAuthConnector
         .authorise(
           ArgumentMatchers.any(),
-          ArgumentMatchers.any[Retrieval[_]])(ArgumentMatchers.argThat(noBearerTokenMatcher), ArgumentMatchers.any()
+          ArgumentMatchers.any[Retrieval[_]])(ArgumentMatchers.argThat(hasNoAuthHeader), ArgumentMatchers.any()
         )
     ).thenReturn(
       Future.failed(new NoActiveSession("A user is not logged in") {})

@@ -18,6 +18,8 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services
 
 import com.google.inject.Inject
 import com.gu.scalatest.JsoupShouldMatchers
+import org.mockito.ArgumentMatchers
+import org.mockito.Mockito.when
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import play.api.test.Helpers._
 import play.mvc.Http.Status
@@ -31,10 +33,9 @@ import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 class AuthActionSpec extends CdsImportsSpec with AuthenticationBehaviours with JsoupShouldMatchers {
 
-  //val authAction = new AuthAction(authConnector = mockAuthConnector, appConfig = appConfig)
   val controller = new MyFakeController(mockAuthAction)(mcc)
 
-  def notEnrolledUser(): SignedInUser = SignedInUser(
+  def notSubscribedUser(): SignedInUser = SignedInUser(
     Some(Credentials("2345235235","GovernmentGateway")),
     Some(Name(Some("Aldo"),Some("Rain"))),
     Some("amina@hmrc.co.uk"),
@@ -47,25 +48,32 @@ class AuthActionSpec extends CdsImportsSpec with AuthenticationBehaviours with J
 
   "the action" should {
 
-    "redirect to the Government Gateway sign-in page when no authenticated user" in notSignedInScenario() {
+    "redirect to the Government Gateway sign-in page when user has not authenticated" in notSignedInScenario() {
       val response = controller.dummyAction()(fakeRequest)
       status(response) must be (Status.SEE_OTHER)
       header(LOCATION, response) must be (Some(expectedSignInRedirectPathFor(fakeRequest)))
     }
 
-    "proceed with wrapped request containing signed in user details when authenticated" in signedInScenario { someRegisteredUser =>
+    "proceed with wrapped request containing signed in user details when authenticated and subscribed to CDS" in signedInScenario { someRegisteredUser =>
       val resp = controller.dummyAction()(fakeRequest)
       status(resp) must be (Status.OK)
       controller.theUser must be (Some(someRegisteredUser))
     }
 
-    "redirect to not subscribed page when user is not subscribed to CDS" in signedInScenario(notEnrolledUser()) { notCDSUser =>
+    "redirect to not subscribed page when user is authenticated but not subscribed to CDS" in signedInScenario(notSubscribedUser()) { notCDSUser =>
       val response = controller.dummyAction()(fakeRequest)
       status(response) must be (Status.SEE_OTHER)
       header(LOCATION, response).get must endWith("/not-subscribed-for-cds")
     }
 
-    "check page content on not subscribed page when user is not subscribed to CDS" in signedInScenario(notEnrolledUser()) { notSubscribedUser =>
+    "redirect to not subscribed page when user is authenticated and subscribed to CDS but not whitelisted" in signedInScenario { notWhitelistedUser =>
+      when(mockWhiteList.allows(ArgumentMatchers.any())).thenReturn(false)
+      val response = controller.dummyAction()(fakeRequest)
+      status(response) must be (Status.SEE_OTHER)
+      header(LOCATION, response).get must endWith("/not-subscribed-for-cds")
+    }
+
+    "check page content on not subscribed page when user is not subscribed to CDS" in signedInScenario(notSubscribedUser()) { notSubscribedUser =>
       //pending   //TODO This testcase doesn't work: "java.lang.RuntimeException: There is no started application", either return GuiceOneAppPerSuite or figure it out
       val notSubscribedTemplate = new not_subscribed_to_cds(mainTemplate)
       val controller = new UnauthorisedController(notSubscribedTemplate)(appConfig,mcc)
