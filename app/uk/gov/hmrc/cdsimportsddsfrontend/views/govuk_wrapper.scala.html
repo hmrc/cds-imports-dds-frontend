@@ -51,6 +51,12 @@
     @layoutsHead(
       linkElem = None,
       headScripts = None)
+    <!--[if !IE 8]><!-->
+        <link rel="stylesheet" href="@controllers.routes.Assets.versioned("stylesheets/govuk-frontend-3.3.0.min.css")">
+    <!--<![endif]-->
+    <!--[if IE 8]>
+        <link rel="stylesheet" href="@controllers.routes.Assets.versioned("stylesheets/govuk-frontend-ie8-3.3.0.min.css")">
+    <![endif]-->
     <meta name="format-detection" content="telephone=no" />
 }
 
