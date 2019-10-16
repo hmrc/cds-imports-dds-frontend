@@ -16,9 +16,11 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
+import play.api.libs.json.{Format, Reads, Writes}
+
 object SubmissionStatus extends Enumeration {
   type SubmissionStatus = Value
-  //  implicit val format: Format[SubmissionStatus.Value] = EnumJson.format(SubmissionStatus)
+    implicit val format: Format[SubmissionStatus.Value] = EnumJson.format(SubmissionStatus)
   val PENDING, REQUESTED_CANCELLATION, ACCEPTED, RECEIVED, REJECTED, UNDERGOING_PHYSICAL_CHECK,
   ADDITIONAL_DOCUMENTS_REQUIRED, AMENDED, RELEASED, CLEARED, CANCELLED, CUSTOMS_POSITION_GRANTED,
   CUSTOMS_POSITION_DENIED, GOODS_HAVE_EXITED_THE_COMMUNITY, DECLARATION_HANDLED_EXTERNALLY, AWAITING_EXIT_RESULTS,
@@ -52,4 +54,11 @@ object SubmissionStatus extends Enumeration {
     "18" -> AWAITING_EXIT_RESULTS,
     "UnknownStatus" -> UNKNOWN
   )
+}
+
+object EnumJson {
+
+  def format[E <: Enumeration](enum: E): Format[E#Value] =
+    Format(Reads.enumNameReads(enum), Writes.enumNameWrites)
+
 }

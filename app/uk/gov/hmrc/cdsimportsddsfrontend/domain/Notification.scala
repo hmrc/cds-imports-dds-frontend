@@ -29,6 +29,20 @@ case class ConversationId(value: String) extends AnyVal
 case class AuthToken(value: String) extends AnyVal
 case class NotificationApiRequestHeaders(authToken: AuthToken, conversationId: ConversationId)
 
+
+case class ErrorPointer(documentSectionCode: String, tagId: Option[String] = None)
+
+object ErrorPointer {
+  implicit val errorPointerFormat = Json.format[ErrorPointer]
+}
+
+case class NotificationError(validationCode: String, pointers: Seq[ErrorPointer])
+
+object NotificationError {
+  implicit val notificationErrorFormat = Json.format[NotificationError]
+}
+
+
 case class Notification(
                          actionId: String,
                          mrn: String,
@@ -39,7 +53,7 @@ case class Notification(
                        )
 
 object Notification {
-  //implicit val format: OFormat[Notification] = Json.format[Notification]
+  implicit val notificationFormat: OFormat[Notification] = Json.format[Notification]
 
   def buildNotificationsFromRequest(
                                              notificationApiRequestHeaders: NotificationApiRequestHeaders,
@@ -94,18 +108,4 @@ object Notification {
     } else Seq.empty
 
 }
-
-
-case class NotificationError(validationCode: String, pointers: Seq[ErrorPointer])
-
-//object NotificationError {
-//  implicit val format = Json.format[NotificationError]
-//}
-
-case class ErrorPointer(documentSectionCode: String, tagId: Option[String] = None)
-
-//object ErrorPointer {
-//  implicit val format = Json.format[ErrorPointer]
-//}
-
 
