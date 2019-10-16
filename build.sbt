@@ -29,4 +29,5 @@ lazy val scoverageSettings = {
     parallelExecution in Test := false
   )
 }
-    
+
+scalacOptions += "-Ypartial-unification"
