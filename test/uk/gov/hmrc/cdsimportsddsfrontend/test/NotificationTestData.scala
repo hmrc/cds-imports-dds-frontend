@@ -64,143 +64,127 @@ object NotificationTestData {
       </Response>
     </MetaData>
 
-//  def exampleRejectNotificationXML(mrn: String, dateTime: String = formatedNow()): Elem =
-//    <MetaData xmlns="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2">
-//      <WCODataModelVersionCode>3.6</WCODataModelVersionCode>
-//      <WCOTypeName>RES</WCOTypeName>
-//      <ResponsibleCountryCode/>
-//      <ResponsibleAgencyName/>
-//      <AgencyAssignedCustomizationCode/>
-//      <AgencyAssignedCustomizationVersionCode/>
-//      <Response>
-//        <FunctionCode>03</FunctionCode>
-//        <FunctionalReferenceID>6be6c6f61f0346748016b823eeda669d</FunctionalReferenceID>
-//        <IssueDateTime>
-//          <DateTimeString formatCode="304">
-//            {dateTime}
-//          </DateTimeString>
-//        </IssueDateTime>
-//        <Error>
-//          <ValidationCode>CDS12050</ValidationCode>
-//          <Pointer>
-//            <DocumentSectionCode>42A</DocumentSectionCode>
-//          </Pointer>
-//          <Pointer>
-//            <DocumentSectionCode>67A</DocumentSectionCode>
-//          </Pointer>
-//          <Pointer>
-//            <SequenceNumeric>1</SequenceNumeric>
-//            <DocumentSectionCode>68A</DocumentSectionCode>
-//          </Pointer>
-//          <Pointer>
-//            <DocumentSectionCode>70A</DocumentSectionCode>
-//            <TagID>166</TagID>
-//          </Pointer>
-//        </Error>
-//        <Declaration>
-//          <FunctionalReferenceID>NotificationTest</FunctionalReferenceID>
-//          <ID>
-//            {mrn}
-//          </ID>
-//          <RejectionDateTime>
-//            <DateTimeString formatCode="304">20190328092916Z</DateTimeString>
-//          </RejectionDateTime>
-//          <VersionID>1</VersionID>
-//        </Declaration>
-//      </Response>
-//    </MetaData>
-//
-//  def exampleNotificationWithMultipleResponsesXML(
-//                                                   mrn: String,
-//                                                   dateTime_received: String = formatedNow(),
-//                                                   dateTime_accepted: String = formatedNow(1)
-//                                                 ): Elem =
-//    <MetaData xmlns="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2">
-//      <WCODataModelVersionCode>3.6</WCODataModelVersionCode>
-//      <WCOTypeName>RES</WCOTypeName>
-//      <ResponsibleCountryCode/>
-//      <ResponsibleAgencyName/>
-//      <AgencyAssignedCustomizationCode/>
-//      <AgencyAssignedCustomizationVersionCode/>
-//      <Response>
-//        <FunctionCode>02</FunctionCode>
-//        <FunctionalReferenceID>1234555</FunctionalReferenceID>
-//        <IssueDateTime>
-//          <DateTimeString formatCode="304">
-//            {dateTime_received}
-//          </DateTimeString>
-//        </IssueDateTime>
-//        <Declaration>
-//          <ID>
-//            {mrn}
-//          </ID>
-//        </Declaration>
-//      </Response>
-//      <Response>
-//        <FunctionCode>01</FunctionCode>
-//        <FunctionalReferenceID>1234567890</FunctionalReferenceID>
-//        <IssueDateTime>
-//          <DateTimeString formatCode="304">
-//            {dateTime_accepted}
-//          </DateTimeString>
-//        </IssueDateTime>
-//        <Declaration>
-//          <ID>
-//            {mrn}
-//          </ID>
-//        </Declaration>
-//      </Response>
-//    </MetaData>
-//
-//  def exampleNotificationInIncorrectFormatXML(mrn: String, dateTime: String = formatedNow()): Elem =
-//    <MetaData xmlns="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2">
-//      <WCODataModelVersionCode>3.6</WCODataModelVersionCode>
-//      <WCOTypeName>RES</WCOTypeName>
-//      <ResponsibleCountryCode/>
-//      <ResponsibleAgencyName/>
-//      <AgencyAssignedCustomizationCode/>
-//      <AgencyAssignedCustomizationVersionCode/>
-//      <Response>
-//        <AWrongTag>
-//          <FunctionCode>03</FunctionCode>
-//        </AWrongTag>
-//        <FunctionalReferenceID>6be6c6f61f0346748016b823eeda669d</FunctionalReferenceID>
-//        <IssueDateTime>
-//          <DateTimeString formatCode="304">
-//            {dateTime}
-//          </DateTimeString>
-//        </IssueDateTime>
-//        <Error>
-//          <ValidationCode>CDS12050</ValidationCode>
-//          <Pointer>
-//            <DocumentSectionCode>42A</DocumentSectionCode>
-//          </Pointer>
-//          <Pointer>
-//            <DocumentSectionCode>67A</DocumentSectionCode>
-//          </Pointer>
-//          <Pointer>
-//            <SequenceNumeric>1</SequenceNumeric>
-//            <DocumentSectionCode>68A</DocumentSectionCode>
-//          </Pointer>
-//          <Pointer>
-//            <DocumentSectionCode>70A</DocumentSectionCode>
-//            <TagID>166</TagID>
-//          </Pointer>
-//        </Error>
-//        <Declaration>
-//          <AnotherIncorrectTag>
-//            <FunctionalReferenceID>NotificationTest</FunctionalReferenceID>
-//            <ID>
-//              {mrn}
-//            </ID>
-//          </AnotherIncorrectTag>
-//          <RejectionDateTime>
-//            <DateTimeString formatCode="304">20190328092916Z</DateTimeString>
-//          </RejectionDateTime>
-//          <VersionID>1</VersionID>
-//        </Declaration>
-//      </Response>
-//    </MetaData>
+  def exampleRejectNotificationXML(mrn: String, dateTime: String = formatedNow()): Elem =
+    <MetaData xmlns="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2">
+      <WCODataModelVersionCode>3.6</WCODataModelVersionCode>
+      <WCOTypeName>RES</WCOTypeName>
+      <ResponsibleCountryCode/>
+      <ResponsibleAgencyName/>
+      <AgencyAssignedCustomizationCode/>
+      <AgencyAssignedCustomizationVersionCode/>
+      <Response>
+        <FunctionCode>03</FunctionCode>
+        <FunctionalReferenceID>6be6c6f61f0346748016b823eeda669d</FunctionalReferenceID>
+        <IssueDateTime>
+          <DateTimeString formatCode="304">{dateTime}</DateTimeString>
+        </IssueDateTime>
+        <Error>
+          <ValidationCode>CDS12050</ValidationCode>
+          <Pointer>
+            <DocumentSectionCode>42A</DocumentSectionCode>
+          </Pointer>
+          <Pointer>
+            <DocumentSectionCode>67A</DocumentSectionCode>
+          </Pointer>
+          <Pointer>
+            <SequenceNumeric>1</SequenceNumeric>
+            <DocumentSectionCode>68A</DocumentSectionCode>
+          </Pointer>
+          <Pointer>
+            <DocumentSectionCode>70A</DocumentSectionCode>
+            <TagID>166</TagID>
+          </Pointer>
+        </Error>
+        <Declaration>
+          <FunctionalReferenceID>NotificationTest</FunctionalReferenceID>
+          <ID>{mrn}</ID>
+          <RejectionDateTime>
+            <DateTimeString formatCode="304">20190328092916Z</DateTimeString>
+          </RejectionDateTime>
+          <VersionID>1</VersionID>
+        </Declaration>
+      </Response>
+    </MetaData>
+
+  def exampleNotificationWithMultipleResponsesXML(
+                                                   mrn: String,
+                                                   dateTime_received: String = formatedNow(),
+                                                   dateTime_accepted: String = formatedNow(1)
+                                                 ): Elem =
+    <MetaData xmlns="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2">
+      <WCODataModelVersionCode>3.6</WCODataModelVersionCode>
+      <WCOTypeName>RES</WCOTypeName>
+      <ResponsibleCountryCode/>
+      <ResponsibleAgencyName/>
+      <AgencyAssignedCustomizationCode/>
+      <AgencyAssignedCustomizationVersionCode/>
+      <Response>
+        <FunctionCode>02</FunctionCode>
+        <FunctionalReferenceID>1234555</FunctionalReferenceID>
+        <IssueDateTime>
+          <DateTimeString formatCode="304">{dateTime_received}</DateTimeString>
+        </IssueDateTime>
+        <Declaration>
+          <ID>{mrn}</ID>
+        </Declaration>
+      </Response>
+      <Response>
+        <FunctionCode>01</FunctionCode>
+        <FunctionalReferenceID>1234567890</FunctionalReferenceID>
+        <IssueDateTime>
+          <DateTimeString formatCode="304">{dateTime_accepted}</DateTimeString>
+        </IssueDateTime>
+        <Declaration>
+          <ID>{mrn}</ID>
+        </Declaration>
+      </Response>
+    </MetaData>
+
+  def exampleNotificationInIncorrectFormatXML(mrn: String, dateTime: String = formatedNow()): Elem =
+    <MetaData xmlns="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2">
+      <WCODataModelVersionCode>3.6</WCODataModelVersionCode>
+      <WCOTypeName>RES</WCOTypeName>
+      <ResponsibleCountryCode/>
+      <ResponsibleAgencyName/>
+      <AgencyAssignedCustomizationCode/>
+      <AgencyAssignedCustomizationVersionCode/>
+      <Response>
+        <AWrongTag>
+          <FunctionCode>03</FunctionCode>
+        </AWrongTag>
+        <FunctionalReferenceID>6be6c6f61f0346748016b823eeda669d</FunctionalReferenceID>
+        <IssueDateTime>
+          <DateTimeString formatCode="304">{dateTime}</DateTimeString>
+        </IssueDateTime>
+        <Error>
+          <ValidationCode>CDS12050</ValidationCode>
+          <Pointer>
+            <DocumentSectionCode>42A</DocumentSectionCode>
+          </Pointer>
+          <Pointer>
+            <DocumentSectionCode>67A</DocumentSectionCode>
+          </Pointer>
+          <Pointer>
+            <SequenceNumeric>1</SequenceNumeric>
+            <DocumentSectionCode>68A</DocumentSectionCode>
+          </Pointer>
+          <Pointer>
+            <DocumentSectionCode>70A</DocumentSectionCode>
+            <TagID>166</TagID>
+          </Pointer>
+        </Error>
+        <Declaration>
+          <AnotherIncorrectTag>
+            <FunctionalReferenceID>NotificationTest</FunctionalReferenceID>
+            <ID>{mrn}</ID>
+          </AnotherIncorrectTag>
+          <RejectionDateTime>
+            <DateTimeString formatCode="304">20190328092916Z</DateTimeString>
+          </RejectionDateTime>
+          <VersionID>1</VersionID>
+        </Declaration>
+      </Response>
+    </MetaData>
 
   val validHeaders: Seq[(String, String)] = Seq(
     "X-CDS-Client-ID" -> "1234",
@@ -211,27 +195,6 @@ object NotificationTestData {
     HeaderNames.CONTENT_TYPE -> ContentTypes.XML(Codec.utf_8)
   )
 
-//  val headersWithoutEori: Seq[(String, String)] = Seq(
-//    "X-CDS-Client-ID" -> "1234",
-//    CustomsHeaderNames.XConversationIdName -> "XConv1",
-//    CustomsHeaderNames.Authorization -> dummyAuthToken,
-//    HeaderNames.ACCEPT -> s"application/vnd.hmrc.${2.0}+xml",
-//    HeaderNames.CONTENT_TYPE -> ContentTypes.XML(Codec.utf_8)
-//  )
-//
-//  val headersWithoutAuthorisation: Seq[(String, String)] = Seq(
-//    "X-CDS-Client-ID" -> "1234",
-//    CustomsHeaderNames.XConversationIdName -> "XConv1",
-//    HeaderNames.ACCEPT -> "",
-//    HeaderNames.CONTENT_TYPE -> ContentTypes.XML(Codec.utf_8)
-//  )
-//
-//  val headersWithoutContentType: Seq[(String, String)] = Seq(
-//    "X-CDS-Client-ID" -> "1234",
-//    CustomsHeaderNames.XConversationIdName -> "XConv1",
-//    HeaderNames.ACCEPT -> s"application/vnd.hmrc.${2.0}+xml",
-//    HeaderNames.CONTENT_TYPE -> ""
-//  )
 
   /** ************************************************************************/
   private lazy val functionCodes: Seq[String] =
@@ -254,43 +217,5 @@ object NotificationTestData {
     )
   )
 
-  //  private val payloadExemplaryLength = 300
-  //  val payload = TestDataHelper.randomAlphanumericString(payloadExemplaryLength)
-  //  val payload_2 = TestDataHelper.randomAlphanumericString(payloadExemplaryLength)
-  //  val payload_3 = TestDataHelper.randomAlphanumericString(payloadExemplaryLength)
-  //
-  //  def exampleNotification(conversationId: String = UUID.randomUUID().toString) = Notification(
-  //    actionId = actionId,
-  //    mrn = mrn,
-  //    dateTimeIssued = dateTimeIssued,
-  //    status = SubmissionStatus.UNKNOWN,
-  //    errors = errors,
-  //    payload = payload
-  //  )
-  //
-  //  val notification = Notification(
-  //    actionId = actionId,
-  //    mrn = mrn,
-  //    dateTimeIssued = dateTimeIssued,
-  //    status = SubmissionStatus.UNKNOWN,
-  //    errors = errors,
-  //    payload = payload
-  //  )
-  //  val notification_2 = Notification(
-  //    actionId = actionId,
-  //    mrn = mrn,
-  //    dateTimeIssued = dateTimeIssued_2,
-  //    status = SubmissionStatus.UNKNOWN,
-  //    errors = errors,
-  //    payload = payload_2
-  //  )
-  //  val notification_3 = Notification(
-  //    actionId = actionId_2,
-  //    mrn = mrn,
-  //    dateTimeIssued = dateTimeIssued_3,
-  //    status = SubmissionStatus.UNKNOWN,
-  //    errors = Seq.empty,
-  //    payload = payload_3
-  //  )
 
 }
