@@ -10,6 +10,9 @@ not-subscribed-to-cds.detail.help-line1=If you are having problems registering o
 not-subscribed-to-cds.detail.help-line2=EORI number, phone: 0300 322 7067.
 not-subscribed-to-cds.detail.help-line3=Open 8am to 6pm, Monday to Friday (closed bank holidays).
 
+# Service unavailable page
+service-unavailable.title=Sorry, the service is unavailable
+service-unavailable.heading=Sorry, the service is unavailable
 
 
 

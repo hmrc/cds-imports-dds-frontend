@@ -24,7 +24,7 @@ import play.api.{Configuration, Environment}
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
 import uk.gov.hmrc.auth.core.retrieve.~
-import uk.gov.hmrc.cdsimportsddsfrontend.config.{AppConfig, EoriWhitelist}
+import uk.gov.hmrc.cdsimportsddsfrontend.config.{AppConfig, EoriWhitelist, ErrorHandler}
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.SignedInUser
 import uk.gov.hmrc.http.HeaderCarrier
@@ -35,10 +35,13 @@ import scala.concurrent.{ExecutionContext, Future}
 
 case class AuthenticatedRequest[A](request: Request[A], user: SignedInUser) extends WrappedRequest[A](request)
 
+case class NotWhiteListed(msg: String = "User is not whitelisted") extends AuthorisationException(msg)
+
 
 class AuthAction @Inject()(override val authConnector: AuthConnector,
                            appConfig: AppConfig,
                            whitelist: EoriWhitelist,
+                           errorHandler: ErrorHandler,
                            mcc: MessagesControllerComponents)
   extends ActionBuilder[AuthenticatedRequest, AnyContent] with ActionRefiner[Request, AuthenticatedRequest] with AuthorisedFunctions with AuthRedirects {
 
@@ -66,7 +69,7 @@ class AuthAction @Inject()(override val authConnector: AuthConnector,
         }
         else
         {
-          throw InsufficientEnrolments()
+          throw NotWhiteListed()
         }
     }
   } recover {
@@ -74,5 +77,7 @@ class AuthAction @Inject()(override val authConnector: AuthConnector,
       Left(toGGLogin(continueUrl = request.path))
     case _: InsufficientEnrolments =>
       Left(Redirect(routes.UnauthorisedController.onPageLoad()))
+    case _: NotWhiteListed =>
+      Left(ServiceUnavailable(errorHandler.serviceUnavailableTemplate()(request)))
   }
 }

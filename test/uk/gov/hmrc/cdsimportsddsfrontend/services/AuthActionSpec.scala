@@ -66,15 +66,16 @@ class AuthActionSpec extends CdsImportsSpec with AuthenticationBehaviours with J
       header(LOCATION, response).get must endWith("/not-subscribed-for-cds")
     }
 
-    "redirect to not subscribed page when user is authenticated and subscribed to CDS but not whitelisted" in signedInScenario { notWhitelistedUser =>
+    "render a Service Unavailable page when user is authenticated and subscribed to CDS but not whitelisted" in signedInScenario { notWhitelistedUser =>
       when(mockWhiteList.allows(ArgumentMatchers.any())).thenReturn(false)
       val response = controller.dummyAction()(fakeRequest)
-      status(response) must be (Status.SEE_OTHER)
-      header(LOCATION, response).get must endWith("/not-subscribed-for-cds")
+      status(response) must be (Status.SERVICE_UNAVAILABLE)
+      val html = contentAsString(response).asBodyFragment
+      html should include element withName("title").withValue("Sorry, the service is unavailable")
+      html should include element withName("h1").withValue("Sorry, the service is unavailable")
     }
 
     "check page content on not subscribed page when user is not subscribed to CDS" in signedInScenario(notSubscribedUser()) { notSubscribedUser =>
-      //pending   //TODO This testcase doesn't work: "java.lang.RuntimeException: There is no started application", either return GuiceOneAppPerSuite or figure it out
       val notSubscribedTemplate = new not_subscribed_to_cds(mainTemplate)
       val controller = new UnauthorisedController(notSubscribedTemplate)(appConfig,mcc)
       val response = controller.onPageLoad()(fakeRequest)

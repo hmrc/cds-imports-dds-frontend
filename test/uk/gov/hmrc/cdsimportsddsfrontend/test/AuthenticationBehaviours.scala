@@ -65,7 +65,7 @@ trait AuthenticationBehaviours extends MockitoSugar {
   when(mockWhiteList.allows(ArgumentMatchers.any())).thenReturn(true)
 
   val mockAuthConnector: AuthConnector = mock[AuthConnector]
-  val mockAuthAction: AuthAction = new AuthAction(mockAuthConnector, appConfig, mockWhiteList, mcc)
+  val mockAuthAction: AuthAction = new AuthAction(mockAuthConnector, appConfig, mockWhiteList, errorHandler, mcc)
 
   def signedInScenario(test: SignedInUser => Unit): Unit = {
     signedInScenario(subscribedUser(randomEori))(test)

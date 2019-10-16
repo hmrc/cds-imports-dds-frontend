@@ -90,7 +90,7 @@ trait CdsImportsSpec extends WordSpec with MustMatchers with AppConfigReader {
     new MainContentHeader(), new MainContent(), new ReportAProblemLink(), new GovUkTemplate())
   val mainTemplate = new main_template(new Sidebar(), new Article(), govukWrapper)
 
-  implicit val errorHandler = new ErrorHandler(new error_template(govukWrapper), messagesApi, appConfig)
+  implicit val errorHandler = new ErrorHandler(new error_template(mainTemplate), messagesApi, appConfig)
 
   val somePath = "/some/resource/path"
 

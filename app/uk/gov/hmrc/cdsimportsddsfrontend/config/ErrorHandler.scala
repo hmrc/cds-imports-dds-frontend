@@ -17,12 +17,11 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.config
 
 import javax.inject.{Inject, Singleton}
-
 import play.api.i18n.MessagesApi
 import play.api.mvc.Request
 import play.twirl.api.Html
+import uk.gov.hmrc.cdsimportsddsfrontend.views.html.error_template
 import uk.gov.hmrc.play.bootstrap.http.FrontendErrorHandler
-import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{error_template, govuk_wrapper}
 
 @Singleton
 class ErrorHandler @Inject()(errorTemplate: error_template, val messagesApi: MessagesApi, implicit val appConfig: AppConfig)
@@ -30,5 +29,9 @@ class ErrorHandler @Inject()(errorTemplate: error_template, val messagesApi: Mes
 
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit request: Request[_]): Html = {
     errorTemplate(pageTitle, heading, message)
+  }
+
+  def serviceUnavailableTemplate(message: String = "")(implicit request: Request[_]): Html = {
+    errorTemplate("service-unavailable.title", "service-unavailable.heading", message)
   }
 }
