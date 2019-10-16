@@ -33,6 +33,4 @@ object CustomsDeclarationsResponse {
 object CustomsHeaderNames {
   val XEoriIdentifierHeaderName = "X-EORI-Identifier"
   val XConversationIdName = "X-Conversation-ID"
-  val Authorization = "Authorization"
-
 }

@@ -189,7 +189,7 @@ object NotificationTestData {
   val validHeaders: Seq[(String, String)] = Seq(
     "X-CDS-Client-ID" -> "1234",
     CustomsHeaderNames.XConversationIdName -> "XConv1",
-    CustomsHeaderNames.Authorization -> dummyAuthToken,
+    HeaderNames.AUTHORIZATION -> dummyAuthToken,
     CustomsHeaderNames.XEoriIdentifierHeaderName -> "eori1",
     HeaderNames.ACCEPT -> s"application/vnd.hmrc.${2.0}+xml",
     HeaderNames.CONTENT_TYPE -> ContentTypes.XML(Codec.utf_8)
