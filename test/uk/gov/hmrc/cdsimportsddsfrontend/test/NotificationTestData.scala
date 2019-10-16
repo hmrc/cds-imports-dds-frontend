@@ -19,18 +19,17 @@ package uk.gov.hmrc.cdsimportsddsfrontend.test
 
 import java.time.format.DateTimeFormatter.ofPattern
 import java.time.{LocalDateTime, ZoneId}
-import java.util.UUID
 
 import play.api.http.{ContentTypes, HeaderNames}
 import play.api.mvc.Codec
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{CustomsHeaderNames, ErrorPointer, Notification, NotificationError}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{CustomsHeaderNames, ErrorPointer, NotificationError}
 
 import scala.util.Random
 import scala.xml.Elem
 
 object NotificationTestData {
 
-  def formatedNow(plustHours: Int = 0): String = LocalDateTime.now().plusHours(plustHours).atZone(ZoneId.of("UCT")).format(ofPattern("yyyyMMddHHmmssX"))
+  def formattedNow(plusHours: Int = 0): String = LocalDateTime.now().plusHours(plusHours).atZone(ZoneId.of("UCT")).format(ofPattern("yyyyMMddHHmmssX"))
 
   val dummyAuthToken: String =
     "Bearer BXQ3/Treo4kQCZvVcCqKPlwxRN4RA9Mb5RF8fFxOuwG5WSg+S+Rsp9Nq998Fgg0HeNLXL7NGwEAIzwM6vuA6YYhRQnTRFa" +
@@ -44,7 +43,7 @@ object NotificationTestData {
     <messageCode>EAL</messageCode>
   </inventoryLinkingMovementRequest>
 
-  def exampleReceivedNotificationXML(mrn: String, dateTime: String = formatedNow()): Elem =
+  def exampleReceivedNotificationXML(mrn: String, dateTime: String = formattedNow()): Elem =
     <MetaData xmlns="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2">
       <WCODataModelVersionCode>3.6</WCODataModelVersionCode>
       <WCOTypeName>RES</WCOTypeName>
@@ -64,7 +63,7 @@ object NotificationTestData {
       </Response>
     </MetaData>
 
-  def exampleRejectNotificationXML(mrn: String, dateTime: String = formatedNow()): Elem =
+  def exampleRejectNotificationXML(mrn: String, dateTime: String = formattedNow()): Elem =
     <MetaData xmlns="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2">
       <WCODataModelVersionCode>3.6</WCODataModelVersionCode>
       <WCOTypeName>RES</WCOTypeName>
@@ -108,8 +107,8 @@ object NotificationTestData {
 
   def exampleNotificationWithMultipleResponsesXML(
                                                    mrn: String,
-                                                   dateTime_received: String = formatedNow(),
-                                                   dateTime_accepted: String = formatedNow(1)
+                                                   dateTime_received: String = formattedNow(),
+                                                   dateTime_accepted: String = formattedNow(1)
                                                  ): Elem =
     <MetaData xmlns="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2">
       <WCODataModelVersionCode>3.6</WCODataModelVersionCode>
@@ -140,7 +139,7 @@ object NotificationTestData {
       </Response>
     </MetaData>
 
-  def exampleNotificationInIncorrectFormatXML(mrn: String, dateTime: String = formatedNow()): Elem =
+  def exampleNotificationInIncorrectFormatXML(mrn: String, dateTime: String = formattedNow()): Elem =
     <MetaData xmlns="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2">
       <WCODataModelVersionCode>3.6</WCODataModelVersionCode>
       <WCOTypeName>RES</WCOTypeName>

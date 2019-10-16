@@ -88,7 +88,6 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
       }
     }
 
-
   }
 
 }

@@ -18,36 +18,39 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services
 
 import java.time.LocalDateTime
 
-import org.scalatest.{Assertion, MustMatchers, WordSpec}
+import org.scalatest.{Assertion, BeforeAndAfterEach, MustMatchers, WordSpec}
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
 import play.modules.reactivemongo.ReactiveMongoComponent
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Notification, SubmissionStatus}
-import uk.gov.hmrc.cdsimportsddsfrontend.test.{AppConfigReader, MongoSpecSupport}
+import uk.gov.hmrc.cdsimportsddsfrontend.test.{AppConfigReader, CdsImportsSpec, MongoSpecSupport}
 import uk.gov.hmrc.mongo.MongoConnector
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DeclarationStoreSpec extends WordSpec with AppConfigReader with MustMatchers with MongoSpecSupport with DefaultAwaitTimeout with FutureAwaits {
+class DeclarationStoreSpec extends WordSpec with MustMatchers with BeforeAndAfterEach with AppConfigReader
+  with MongoSpecSupport with DefaultAwaitTimeout with FutureAwaits {
 
-  def toFuture(condition: Assertion) = Future.successful(condition)
-
-  val reactiveMongo = new ReactiveMongoComponent {
+  val reactiveMongoForTest = new ReactiveMongoComponent {
     override def mongoConnector: MongoConnector = mongoConnectorForTest
   }
-  val declarationStore = new DeclarationStore(reactiveMongo,appConfig)
+  val declarationStore = new DeclarationStore(reactiveMongoForTest, appConfig)
 
-//  "it" should {
-//    "work" in {
-//      val notification = Notification("actionId","mrn", LocalDateTime.now(),SubmissionStatus.ACCEPTED,Seq.empty, "payload")
-//      await (for {
-//        _ <- declarationStore.insert(notification)
-//        notifications <- declarationStore.findAll()
-//        _ <- toFuture(notifications.head mustBe notification)
-//      } yield ())
-//
-//    }
-//  }
+  override def beforeEach: Unit = {
+    await(declarationStore.removeAll())
+  }
+
+  "DeclarationStore" should {
+    "successfully store and then retrieve a notification" in {
+      val notification = Notification("actionId", "mrn", LocalDateTime.now(), SubmissionStatus.ACCEPTED, Seq.empty, "payload")
+      await (for {
+        _ <- declarationStore.insert(notification)
+        notifications <- declarationStore.findAll()
+        _ <- Future.successful(notifications.head mustBe notification)
+      } yield ())
+
+    }
+  }
 
 
 }
