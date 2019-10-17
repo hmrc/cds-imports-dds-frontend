@@ -28,13 +28,13 @@ import uk.gov.hmrc.mongo.MongoConnector
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DeclarationStoreSpec extends WordSpec with MustMatchers with BeforeAndAfterEach with AppConfigReader
+class MongoDeclarationStoreSpec extends WordSpec with MustMatchers with BeforeAndAfterEach with AppConfigReader
   with MongoSpecSupport with DefaultAwaitTimeout with FutureAwaits {
 
   val reactiveMongoForTest = new ReactiveMongoComponent {
     override def mongoConnector: MongoConnector = mongoConnectorForTest
   }
-  val declarationStore = new DeclarationStore(reactiveMongoForTest, appConfig)
+  val declarationStore = new MongoDeclarationStore(reactiveMongoForTest, appConfig)
 
   override def beforeEach: Unit = {
     await(declarationStore.removeAll())

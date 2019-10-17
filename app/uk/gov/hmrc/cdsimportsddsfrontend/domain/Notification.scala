@@ -19,10 +19,9 @@ package uk.gov.hmrc.cdsimportsddsfrontend.domain
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-import play.api.libs.json.{Format, Json, OFormat}
-
-import scala.util.Try
 import cats.implicits._
+import play.api.libs.json.{Json, OFormat}
+
 import scala.xml.{Node, NodeSeq}
 
 case class ConversationId(value: String) extends AnyVal
@@ -55,6 +54,8 @@ case class Notification(
 object Notification {
   implicit val notificationFormat: OFormat[Notification] = Json.format[Notification]
 
+  val issueDateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssX")
+
   def buildNotificationsFromRequest(
                                              notificationApiRequestHeaders: NotificationApiRequestHeaders,
                                              notificationXml: NodeSeq
@@ -64,9 +65,8 @@ object Notification {
 
       responsesXml.map { singleResponseXml =>
         val mrn = (singleResponseXml \ "Declaration" \ "ID").text
-        val formatter304 = DateTimeFormatter.ofPattern("yyyyMMddHHmmssX")
         val dateTimeIssued =
-          LocalDateTime.parse((singleResponseXml \ "IssueDateTime" \ "DateTimeString").text, formatter304)
+          LocalDateTime.parse((singleResponseXml \ "IssueDateTime" \ "DateTimeString").text, issueDateTimeFormatter)
         val functionCode = (singleResponseXml \ "FunctionCode").text
 
         val nameCode =
