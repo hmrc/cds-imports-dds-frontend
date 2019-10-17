@@ -10,3 +10,4 @@ GET       /submit-declaration                                      @uk.gov.hmrc.
 POST      /submit-declaration                                      @uk.gov.hmrc.cdsimportsddsfrontend.controllers.SubmitDeclarationController.submit
 
 POST     /notification                                             @uk.gov.hmrc.cdsimportsddsfrontend.controllers.NotificationsController.handleNotification
+GET      /notification                                             @uk.gov.hmrc.cdsimportsddsfrontend.controllers.NotificationsController.show

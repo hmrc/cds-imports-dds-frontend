@@ -35,23 +35,24 @@ import uk.gov.hmrc.cdsimportsddsfrontend.test.NotificationTestData._
 import scala.collection.JavaConversions._
 
 import scala.concurrent.Future
+import uk.gov.hmrc.cdsimportsddsfrontend.views.html.view_notifications
 
 
 class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with DefaultAwaitTimeout with JsoupShouldMatchers with MockitoSugar {
 
   val movementReferenceNumber: String = "MRN87878797"
 
-  class Scenario(val request: Request[AnyContent]) {
+  class Scenario() {
     val mockDeclarationStore = mock[DeclarationStore]
     val captor: ArgumentCaptor[Notification] = ArgumentCaptor.forClass(classOf[Notification])
     when(mockDeclarationStore.putNotification(captor.capture())(any())).thenReturn(Future.successful(true))
-
-    val controller = new NotificationsController(mockDeclarationStore)(mcc)
+    val viewNotificationsTemplate = new view_notifications(mainTemplate)
+    val controller = new NotificationsController(mockDeclarationStore, viewNotificationsTemplate)(mcc,appConfig)
   }
 
-  "The controller" should {
-    "Reject a non-xml body and no headers" in new Scenario(fakeRequest) {
-      val response = controller.handleNotification(request)
+  "The handleNotification" should {
+    "Reject a non-xml body and no headers" in new Scenario() {
+      val response = controller.handleNotification(fakeRequest)
       val contents = contentAsString(response)
       status(response) mustBe 400
       contents mustBe "No Authorization Header"
@@ -61,8 +62,8 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
       val xmlReq = FakeRequest(POST,"/notification")
         .withHeaders(validHeaders:_*)
         .withXmlBody(exampleReceivedNotificationXML(movementReferenceNumber))
-      new Scenario(xmlReq) {
-        val response = controller.handleNotification(request)
+      new Scenario() {
+        val response = controller.handleNotification(xmlReq)
         val contents = contentAsString(response)
         status(response) mustBe 202
         contents mustBe ""
@@ -75,8 +76,8 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
       val xmlReq = FakeRequest(POST,"/notification")
         .withHeaders(validHeaders:_*)
         .withXmlBody(xml)
-      new Scenario(xmlReq) {
-        controller.handleNotification(request)
+      new Scenario() {
+        controller.handleNotification(xmlReq)
 
         private val storedNotification = captor.getValue
         storedNotification.actionId mustBe "XConv1"
@@ -93,9 +94,9 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
       val xmlReq = FakeRequest(POST,"/notification")
         .withHeaders(validHeaders:_*)
         .withXmlBody(xml)
-      new Scenario(xmlReq) {
+      new Scenario() {
         when(mockDeclarationStore.putNotification(any())(any())).thenReturn(Future.successful(false))
-        val response = controller.handleNotification(request)
+        val response = controller.handleNotification(xmlReq)
         status(response) mustBe 500
       }
     }
@@ -105,8 +106,8 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
       val xmlReq = FakeRequest(POST,"/notification")
         .withHeaders(validHeaders:_*)
         .withXmlBody(xml)
-      new Scenario(xmlReq) {
-        controller.handleNotification(request)
+      new Scenario() {
+        controller.handleNotification(xmlReq)
         private val storedNotifications = captor.getAllValues
         storedNotifications.map(_.status) mustBe List(SubmissionStatus.RECEIVED, SubmissionStatus.ACCEPTED)
       }
@@ -117,11 +118,11 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
       val xmlReq = FakeRequest(POST,"/notification")
         .withHeaders(validHeaders:_*)
         .withXmlBody(xml)
-      new Scenario(xmlReq) {
+      new Scenario() {
         when(mockDeclarationStore.putNotification(any())(any()))
           .thenReturn(Future.successful(true))
           .thenReturn(Future.successful(false))
-        val response = controller.handleNotification(request)
+        val response = controller.handleNotification(xmlReq)
         status(response) mustBe 500
       }
     }
@@ -131,8 +132,8 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
       val xmlReq = FakeRequest(POST,"/notification")
         .withHeaders(headers:_*)
         .withXmlBody(exampleReceivedNotificationXML(movementReferenceNumber))
-      new Scenario(xmlReq) {
-        val response = controller.handleNotification(request)
+      new Scenario() {
+        val response = controller.handleNotification(xmlReq)
         val contents = contentAsString(response)
         status(response) mustBe 400
         contents mustBe "No Authorization Header"
@@ -144,8 +145,8 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
       val xmlReq = FakeRequest(POST,"/notification")
         .withHeaders(headers:_*)
         .withXmlBody(exampleReceivedNotificationXML(movementReferenceNumber))
-      new Scenario(xmlReq) {
-        val response = controller.handleNotification(request)
+      new Scenario() {
+        val response = controller.handleNotification(xmlReq)
         val contents = contentAsString(response)
         status(response) mustBe 400
         contents mustBe "No X-Conversation-ID Header"
@@ -156,13 +157,31 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
       val xmlReq = FakeRequest(POST,"/notification")
         .withHeaders(validHeaders:_*)
         .withTextBody("")
-      new Scenario(xmlReq) {
-        val response = controller.handleNotification(request)
+      new Scenario() {
+        val response = controller.handleNotification(xmlReq)
         val contents = contentAsString(response)
         status(response) mustBe 400
         contents mustBe "Body is not xml"
       }
     }
+
+  }
+
+
+  "The show notifications" should {
+    //TODO Finish These testcases
+    "work" in new Scenario() {
+      val notification = Notification("actionId", "mrn", LocalDateTime.now(), SubmissionStatus.ACCEPTED, Seq.empty, "payload")
+      when(mockDeclarationStore.getNotifications()(any())).thenReturn(Future.successful(Seq(notification)))
+
+      val response = controller.show(fakeRequest)
+      val contents = contentAsString(response)
+      //println(contents)
+      //status(response) mustBe 400
+      //contents mustBe "No Authorization Header"
+
+    }
+
 
   }
 

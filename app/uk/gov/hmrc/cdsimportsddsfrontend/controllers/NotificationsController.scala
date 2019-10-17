@@ -19,19 +19,23 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 import cats.implicits._
 import javax.inject.{Inject, Singleton}
 import play.api.http.HeaderNames
+import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.DeclarationStore
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.cdsimportsddsfrontend.views.html.view_notifications
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-//This is called by the Customs Declarations API, notifying us about previously submitted declarations
 @Singleton
-class NotificationsController @Inject()(declarationStore: DeclarationStore)(implicit mcc: MessagesControllerComponents)
-  extends FrontendController(mcc) {
+class NotificationsController @Inject()(declarationStore: DeclarationStore, viewTemplate:view_notifications)
+(implicit mcc: MessagesControllerComponents, appConfig:AppConfig)
+  extends FrontendController(mcc) with I18nSupport {
 
+  //This is called by the Customs Declarations API, notifying us about previously submitted declarations
   def handleNotification: Action[AnyContent] = Action async { implicit request =>
     val maybeXmlBody = request.body.asXml   //TODO Why does this not work with BodyParsers? Action(parse.xml)
 
@@ -53,4 +57,10 @@ class NotificationsController @Inject()(declarationStore: DeclarationStore)(impl
       }
     }
   }
+
+
+  def show = Action.async { implicit request =>
+    declarationStore.getNotifications().map(ns => Ok(viewTemplate(ns)))
+  }
+
 }

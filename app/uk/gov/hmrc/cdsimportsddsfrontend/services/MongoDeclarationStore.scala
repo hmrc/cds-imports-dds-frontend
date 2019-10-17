@@ -32,7 +32,7 @@ trait DeclarationStore {
 
   def putNotification(notification: Notification)(implicit ec: ExecutionContext): Future[Boolean]
 
-  def getNotification()(implicit ec: ExecutionContext): Future[Option[Notification]]
+  def getNotifications()(implicit ec: ExecutionContext): Future[Seq[Notification]]
 
 }
 
@@ -50,8 +50,8 @@ class MongoDeclarationStore @Inject()(mongoComponent: ReactiveMongoComponent, ap
     insert(notification).map(_.ok)
   }
 
-  override def getNotification()(implicit ec: ExecutionContext): Future[Option[Notification]] = {
-    findAll().map(_.headOption)
+  override def getNotifications()(implicit ec: ExecutionContext): Future[Seq[Notification]] = {
+    findAll()
   }
 
 }
