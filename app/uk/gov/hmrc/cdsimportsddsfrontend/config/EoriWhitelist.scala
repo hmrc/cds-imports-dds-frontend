@@ -22,8 +22,11 @@ import play.api.Configuration
 @Singleton
 class EoriWhitelist @Inject()(val config: Configuration) {
 
-  private val values = config.getOptional[Seq[String]]("whitelist.eori").getOrElse(Seq.empty)
+  private val maybeWhitelistedEorisAsCSV: Option[String] = config.getOptional[String]("whitelist.eori")
+  private val allowedEoris = maybeWhitelistedEorisAsCSV.getOrElse("").split(",").filter(_.nonEmpty)
 
-  def allows(eori: String): Boolean = values.isEmpty || values.contains(eori)
+  def allows(eori: String): Boolean = {
+    allowedEoris.isEmpty || allowedEoris.contains(eori)
+  }
 
 }

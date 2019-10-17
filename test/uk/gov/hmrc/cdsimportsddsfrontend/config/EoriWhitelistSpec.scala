@@ -23,19 +23,19 @@ class EoriWhitelistSpec extends CdsImportsSpec {
 
   "EoriWhitelist.allows" should {
     "return true if whitelist is non-empty and contains given EORI" in {
-      val fakeConfiguration = Configuration("whitelist.eori" -> Seq("ALICE", "GB12345678", "BOB"))
+      val fakeConfiguration = Configuration("whitelist.eori" -> "ALICE,GB12345678,BOB")
       val whitelist = new EoriWhitelist(fakeConfiguration)
       whitelist.allows("GB12345678") must be(true)
     }
 
     "return false if whitelist is non-empty and does not contain given EORI" in {
-      val fakeConfiguration = Configuration("whitelist.eori" -> Seq("RITA", "SUE", "BOB"))
+      val fakeConfiguration = Configuration("whitelist.eori" -> "RITA,SUE,BOB")
       val whitelist = new EoriWhitelist(fakeConfiguration)
       whitelist.allows("GB12345678") must be(false)
     }
 
     "return true if whitelist is empty" in {
-      val fakeConfiguration = Configuration("whitelist.eori" -> Seq.empty)
+      val fakeConfiguration = Configuration("whitelist.eori" -> "")
       val whitelist = new EoriWhitelist(fakeConfiguration)
       whitelist.allows("E V E R Y O N E ! ! !") must be(true)
     }
