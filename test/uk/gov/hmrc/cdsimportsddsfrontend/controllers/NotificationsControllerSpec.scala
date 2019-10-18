@@ -23,7 +23,6 @@ import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import org.scalatest.mockito.MockitoSugar
-import play.api.mvc._
 import play.api.test.Helpers._
 import play.api.test.{DefaultAwaitTimeout, FakeRequest, FutureAwaits}
 import play.mvc.Http.HeaderNames
@@ -32,10 +31,10 @@ import uk.gov.hmrc.cdsimportsddsfrontend.domain.{CustomsHeaderNames, Notificatio
 import uk.gov.hmrc.cdsimportsddsfrontend.services.DeclarationStore
 import uk.gov.hmrc.cdsimportsddsfrontend.test.CdsImportsSpec
 import uk.gov.hmrc.cdsimportsddsfrontend.test.NotificationTestData._
-import scala.collection.JavaConversions._
-
-import scala.concurrent.Future
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.view_notifications
+
+import scala.collection.JavaConversions._
+import scala.concurrent.Future
 
 
 class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with DefaultAwaitTimeout with JsoupShouldMatchers with MockitoSugar {
@@ -47,7 +46,7 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
     val captor: ArgumentCaptor[Notification] = ArgumentCaptor.forClass(classOf[Notification])
     when(mockDeclarationStore.putNotification(captor.capture())(any())).thenReturn(Future.successful(true))
     val viewNotificationsTemplate = new view_notifications(mainTemplate)
-    val controller = new NotificationsController(mockDeclarationStore, viewNotificationsTemplate)(mcc,appConfig)
+    val controller = new NotificationsController(mockDeclarationStore, viewNotificationsTemplate)(mcc, appConfig)
   }
 
   "The handleNotification" should {
@@ -59,8 +58,8 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
     }
 
     "Accept with an xml body and the required headers" in {
-      val xmlReq = FakeRequest(POST,"/notification")
-        .withHeaders(validHeaders:_*)
+      val xmlReq = FakeRequest(POST, "/notification")
+        .withHeaders(validHeaders: _*)
         .withXmlBody(exampleReceivedNotificationXML(movementReferenceNumber))
       new Scenario() {
         val response = controller.handleNotification(xmlReq)
@@ -73,8 +72,8 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
     "Put a single notification into the declaration store" in {
       val someDateTimeAsString = "20100102012000Z"
       val xml = exampleReceivedNotificationXML(movementReferenceNumber, someDateTimeAsString)
-      val xmlReq = FakeRequest(POST,"/notification")
-        .withHeaders(validHeaders:_*)
+      val xmlReq = FakeRequest(POST, "/notification")
+        .withHeaders(validHeaders: _*)
         .withXmlBody(xml)
       new Scenario() {
         controller.handleNotification(xmlReq)
@@ -91,8 +90,8 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
 
     "Return 500 if the notification can't be persisted" in {
       val xml = exampleReceivedNotificationXML(movementReferenceNumber)
-      val xmlReq = FakeRequest(POST,"/notification")
-        .withHeaders(validHeaders:_*)
+      val xmlReq = FakeRequest(POST, "/notification")
+        .withHeaders(validHeaders: _*)
         .withXmlBody(xml)
       new Scenario() {
         when(mockDeclarationStore.putNotification(any())(any())).thenReturn(Future.successful(false))
@@ -103,8 +102,8 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
 
     "Put multiple notifications into the declaration store" in {
       val xml = exampleNotificationWithMultipleResponsesXML(movementReferenceNumber)
-      val xmlReq = FakeRequest(POST,"/notification")
-        .withHeaders(validHeaders:_*)
+      val xmlReq = FakeRequest(POST, "/notification")
+        .withHeaders(validHeaders: _*)
         .withXmlBody(xml)
       new Scenario() {
         controller.handleNotification(xmlReq)
@@ -115,8 +114,8 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
 
     "Return 500 if any notification can't be persisted" in {
       val xml = exampleNotificationWithMultipleResponsesXML(movementReferenceNumber)
-      val xmlReq = FakeRequest(POST,"/notification")
-        .withHeaders(validHeaders:_*)
+      val xmlReq = FakeRequest(POST, "/notification")
+        .withHeaders(validHeaders: _*)
         .withXmlBody(xml)
       new Scenario() {
         when(mockDeclarationStore.putNotification(any())(any()))
@@ -128,9 +127,9 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
     }
 
     "Reject without an Authorization Header" in {
-      val headers = validHeaders.filterNot{case (a,b) => a == HeaderNames.AUTHORIZATION}
-      val xmlReq = FakeRequest(POST,"/notification")
-        .withHeaders(headers:_*)
+      val headers = validHeaders.filterNot { case (a, b) => a == HeaderNames.AUTHORIZATION }
+      val xmlReq = FakeRequest(POST, "/notification")
+        .withHeaders(headers: _*)
         .withXmlBody(exampleReceivedNotificationXML(movementReferenceNumber))
       new Scenario() {
         val response = controller.handleNotification(xmlReq)
@@ -141,9 +140,9 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
     }
 
     "Reject without a X-Conversation-ID Header" in {
-      val headers = validHeaders.filterNot{case (a,b) => a == CustomsHeaderNames.XConversationIdName}
-      val xmlReq = FakeRequest(POST,"/notification")
-        .withHeaders(headers:_*)
+      val headers = validHeaders.filterNot { case (a, b) => a == CustomsHeaderNames.XConversationIdName }
+      val xmlReq = FakeRequest(POST, "/notification")
+        .withHeaders(headers: _*)
         .withXmlBody(exampleReceivedNotificationXML(movementReferenceNumber))
       new Scenario() {
         val response = controller.handleNotification(xmlReq)
@@ -154,8 +153,8 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
     }
 
     "Reject correct headers with a non-xml body" in {
-      val xmlReq = FakeRequest(POST,"/notification")
-        .withHeaders(validHeaders:_*)
+      val xmlReq = FakeRequest(POST, "/notification")
+        .withHeaders(validHeaders: _*)
         .withTextBody("")
       new Scenario() {
         val response = controller.handleNotification(xmlReq)
@@ -169,20 +168,38 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
 
 
   "The show notifications" should {
-    //TODO Finish These testcases
-    "work" in new Scenario() {
-      val notification = Notification("actionId", "mrn", LocalDateTime.now(), SubmissionStatus.ACCEPTED, Seq.empty, "payload")
+    "Show a single notification" in new Scenario() {
+      val notification = Notification("a1", "a2", LocalDateTime.now(), SubmissionStatus.ACCEPTED, Seq.empty, "a3")
       when(mockDeclarationStore.getNotifications()(any())).thenReturn(Future.successful(Seq(notification)))
 
       val response = controller.show(fakeRequest)
-      val contents = contentAsString(response)
-      //println(contents)
-      //status(response) mustBe 400
-      //contents mustBe "No Authorization Header"
+      val html = contentAsString(response).asBodyFragment
+      status(response) mustBe 200
+      html should include element withName("td").withValue("a1")
+      html should include element withName("td").withValue("a2")
+      html should include element withName("td").withValue("a3")
+      html should include element withName("td").withValue("ACCEPTED")
+    }
 
+    "Show multiple notifications" in new Scenario() {
+      val notification1 = Notification("a1", "a2", LocalDateTime.now(), SubmissionStatus.ACCEPTED, Seq.empty, "a3")
+      val notification2 = Notification("a4", "a5", LocalDateTime.now(), SubmissionStatus.ACCEPTED, Seq.empty, "a6")
+      when(mockDeclarationStore.getNotifications()(any())).thenReturn(Future.successful(Seq(notification1, notification2)))
+
+      val response = controller.show(fakeRequest)
+      status(response) mustBe 200
+      val html = contentAsString(response).asBodyFragment
+      html should include element withName("td").withValue("a1")
+      html should include element withName("td").withValue("a2")
+      html should include element withName("td").withValue("a3")
+      html should include element withName("td").withValue("ACCEPTED")
+      html should include element withName("td").withValue("a4")
+      html should include element withName("td").withValue("a5")
+      html should include element withName("td").withValue("a6")
     }
 
 
   }
+
 
 }
