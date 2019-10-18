@@ -52,5 +52,6 @@ class MongoDeclarationStoreSpec extends WordSpec with MustMatchers with BeforeAn
     }
   }
 
+  // TODO test DeclarationStore interface...
 
 }

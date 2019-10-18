@@ -24,8 +24,8 @@ import play.api.data.Forms._
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
-import uk.gov.hmrc.cdsimportsddsfrontend.services.{AuthAction, CustomsDeclarationsService, DeclarationXml}
-import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{submit_declaration,declaration_result}
+import uk.gov.hmrc.cdsimportsddsfrontend.services.{AuthAction, CustomsDeclarationsService, DeclarationStore, DeclarationXml}
+import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{declaration_result, submit_declaration}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -38,7 +38,8 @@ import scala.xml.InputSource
 class SubmitDeclarationController @Inject()(submitTemplate: submit_declaration,
                                             resultTemplate: declaration_result,
                                             authenticate: AuthAction,
-                                            declarationService: CustomsDeclarationsService)
+                                            declarationService: CustomsDeclarationsService,
+                                            declarationStore: DeclarationStore)
                                            (implicit val appConfig: AppConfig,
                                             mcc: MessagesControllerComponents) extends FrontendController(mcc) with I18nSupport {
 
@@ -55,6 +56,7 @@ class SubmitDeclarationController @Inject()(submitTemplate: submit_declaration,
       },
       validatedForm => {
         val xml = scala.xml.XML.load(new InputSource(new StringReader(validatedForm.textarea)))
+        declarationStore.deleteAllNotifications()
         declarationService.submit(request.user.eori, xml)
           .map(declaration => Ok(resultTemplate(declaration)))
       }

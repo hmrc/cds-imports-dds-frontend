@@ -34,6 +34,8 @@ trait DeclarationStore {
 
   def getNotifications()(implicit ec: ExecutionContext): Future[Seq[Notification]]
 
+  def deleteAllNotifications()(implicit ec: ExecutionContext): Future[Boolean]
+
 }
 
 @Singleton
@@ -52,6 +54,10 @@ class MongoDeclarationStore @Inject()(mongoComponent: ReactiveMongoComponent, ap
 
   override def getNotifications()(implicit ec: ExecutionContext): Future[Seq[Notification]] = {
     findAll()
+  }
+
+  override def deleteAllNotifications()(implicit ec: ExecutionContext): Future[Boolean] = {
+    removeAll().map(_.ok)
   }
 
 }
