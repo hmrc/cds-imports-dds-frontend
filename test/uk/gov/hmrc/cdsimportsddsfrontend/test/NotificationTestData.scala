@@ -212,7 +212,7 @@ object NotificationTestData {
   val errors = Seq(
     NotificationError(
       validationCode = "CDS12056",
-      pointers = Seq(ErrorPointer(documentSectionCode = "42A", tagId = None))
+      pointers = Seq(ErrorPointer(documentSectionCode = "42A", sequenceNumeric = Option("1"), tagId = None))
     )
   )
 

@@ -29,7 +29,7 @@ case class AuthToken(value: String) extends AnyVal
 case class NotificationApiRequestHeaders(authToken: AuthToken, conversationId: ConversationId)
 
 
-case class ErrorPointer(documentSectionCode: String, tagId: Option[String] = None)
+case class ErrorPointer(documentSectionCode: String, sequenceNumeric: Option[String] = None, tagId: Option[String] = None)
 
 object ErrorPointer {
   implicit val errorPointerFormat = Json.format[ErrorPointer]
@@ -102,8 +102,9 @@ object Notification {
       val pointersXml = singleErrorXml \ "Pointer"
       pointersXml.map { singlePointerXml =>
         val documentSectionCode = (singlePointerXml \ "DocumentSectionCode").text
+        val sequenceNumeric = if ((singlePointerXml \ "SequenceNumeric").nonEmpty) Some((singlePointerXml \ "SequenceNumeric").text) else None
         val tagId = if ((singlePointerXml \ "TagID").nonEmpty) Some((singlePointerXml \ "TagID").text) else None
-        ErrorPointer(documentSectionCode = documentSectionCode, tagId = tagId)
+        ErrorPointer(documentSectionCode, sequenceNumeric, tagId)
       }
     } else Seq.empty
 
