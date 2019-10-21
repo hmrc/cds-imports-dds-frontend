@@ -46,6 +46,7 @@ class SubmitDeclarationController @Inject()(submitTemplate: submit_declaration,
   val renderTemplate: Action[AnyContent] = authenticate.async { implicit request =>
     val exampleXml = DeclarationXml.build(request.user.eori).toString()
     val form = SubmitDeclarationModel.form.fill(SubmitDeclarationModel(exampleXml))
+    //uk.gov.hmrc.play.views.
     Future.successful(Ok(submitTemplate(form)))
   }
 
