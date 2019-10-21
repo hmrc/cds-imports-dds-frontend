@@ -38,6 +38,13 @@
             rowsNumber = 15
         )
 
+        @components.inputs.input_text(
+            field = form("example-field"),
+            label = "1/1 Example label",
+            disabled = true,
+            value = Some("Some hardcoded value")
+        )
+
         @components.submit_button()
     }
 
