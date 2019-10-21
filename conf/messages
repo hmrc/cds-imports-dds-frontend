@@ -14,7 +14,13 @@ not-subscribed-to-cds.detail.help-line3=Open 8am to 6pm, Monday to Friday (close
 service-unavailable.title=Sorry, the service is unavailable
 service-unavailable.heading=Sorry, the service is unavailable
 
-
+declare.declarationType=Declaration Type
+declare.additionalDeclarationType=additional Declaration Type
+declare.goodsItemNumber=Goods Item Number
+declare.totalNumberOfItems=Total Number Of Items
+declare.requestedProcedureCode=Requested Procedure Code
+declare.previousProcedureCode=Previous Procedure Code
+declare.additionalProcedureCode=Additional Procedure Code
 
 declaration.xml=Declaration XML
 declaration.xml.hint=Write your Valid Declaration xml into the edit box

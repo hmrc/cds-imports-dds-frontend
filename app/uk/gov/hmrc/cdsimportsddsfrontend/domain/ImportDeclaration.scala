@@ -16,6 +16,11 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
+import play.api.data.Form
+import play.api.data.Forms.{mapping, nonEmptyText}
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.SubmitDeclarationModel
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.SubmitDeclarationModel.{FieldName, verifyXML}
+
 case class ImportDeclaration(
                             declarationType: String, // Declaration/TypeCode = "IM"
                             additionalDeclarationType: String, // Declaration/TypeCode = "Z"
@@ -25,3 +30,24 @@ case class ImportDeclaration(
                             previousProcedureCode: String, // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/GovernmentProcedure/PreviousCode = "00"
                             additionalProcedureCode: String // "000 or C07"
                             )
+
+object ImportDeclaration {
+  def apply():ImportDeclaration = {
+    new ImportDeclaration("IM", "Z", "1", "1" ,"40", "00", "000")
+  }
+
+  val nonEmptyString = nonEmptyText.verifying("field.cannot.be.empty", _.nonEmpty)
+
+  val form: Form[ImportDeclaration] = Form(
+    mapping(
+      "declarationType" -> nonEmptyString,
+      "additionalDeclarationType"-> nonEmptyString,
+      "goodsItemNumber"-> nonEmptyString,
+      "totalNumberOfItems"-> nonEmptyString,
+      "requestedProcedureCode"-> nonEmptyString,
+      "previousProcedureCode"-> nonEmptyString,
+      "additionalProcedureCode"-> nonEmptyString
+    )(ImportDeclaration.apply)(ImportDeclaration.unapply)
+  )
+
+}

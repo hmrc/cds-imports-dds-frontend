@@ -42,7 +42,7 @@ class SubmitDeclarationControllerSpec extends CdsImportsSpec
   }
 
   class GetScenario extends AllScenarios {
-    val response = controller.renderTemplate().apply(fakeRequestWithCSRF)
+    val response = controller.show().apply(fakeRequestWithCSRF)
     val body = contentAsString(response).asBodyFragment
   }
 

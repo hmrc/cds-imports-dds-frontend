@@ -16,11 +16,15 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services
 
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.Eori
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Eori, ImportDeclaration}
 
 import scala.xml.Elem
 
 object DeclarationXml {
+
+  def fromImportDeclaration(eori:Eori, importDeclaration: ImportDeclaration):Elem = {
+    build(eori)
+  }
 
    // This should later build an xml that can be submitted to the declaration API.
   def build(importersEori:Eori):Elem = {

@@ -43,7 +43,7 @@ class SubmitDeclarationController @Inject()(submitTemplate: submit_declaration,
                                            (implicit val appConfig: AppConfig,
                                             mcc: MessagesControllerComponents) extends FrontendController(mcc) with I18nSupport {
 
-  val renderTemplate: Action[AnyContent] = authenticate.async { implicit request =>
+  val show: Action[AnyContent] = authenticate.async { implicit request =>
     val exampleXml = DeclarationXml.build(request.user.eori).toString()
     val form = SubmitDeclarationModel.form.fill(SubmitDeclarationModel(exampleXml))
     Future.successful(Ok(submitTemplate(form)))

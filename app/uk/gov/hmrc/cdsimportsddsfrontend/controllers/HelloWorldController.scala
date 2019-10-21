@@ -41,9 +41,12 @@ class HelloWorldController @Inject()(helloWordTemplate: hello_world)
 }
 
 @Singleton
-class TestController @Inject()(authenticate: AuthAction, mcc: MessagesControllerComponents) extends FrontendController(mcc) {
+class TestController @Inject()(helloWordTemplate: hello_world,
+                               authenticate: AuthAction)
+                              (implicit appConfig: AppConfig, mcc: MessagesControllerComponents)
+  extends FrontendController(mcc) with I18nSupport {
 
   val test: Action[AnyContent] = authenticate.async { implicit request =>
-    Future.successful(Ok("You are logged in"))
+    Future.successful(Ok(helloWordTemplate()))
   }
 }

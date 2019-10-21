@@ -6,8 +6,12 @@ GET       /hello-world                                             @uk.gov.hmrc.
 
 GET       /not-subscribed-for-cds                                  @uk.gov.hmrc.cdsimportsddsfrontend.controllers.UnauthorisedController.onPageLoad
 
-GET       /submit-declaration                                      @uk.gov.hmrc.cdsimportsddsfrontend.controllers.SubmitDeclarationController.renderTemplate
+GET       /submit-declaration                                      @uk.gov.hmrc.cdsimportsddsfrontend.controllers.SubmitDeclarationController.show
 POST      /submit-declaration                                      @uk.gov.hmrc.cdsimportsddsfrontend.controllers.SubmitDeclarationController.submit
+
+GET       /simple-declaration                                      @uk.gov.hmrc.cdsimportsddsfrontend.controllers.SimplifiedDeclaration.show
+POST      /simple-declaration                                      @uk.gov.hmrc.cdsimportsddsfrontend.controllers.SimplifiedDeclaration.submit
+
 
 + nocsrf
 POST     /notification                                             @uk.gov.hmrc.cdsimportsddsfrontend.controllers.NotificationsController.handleNotification

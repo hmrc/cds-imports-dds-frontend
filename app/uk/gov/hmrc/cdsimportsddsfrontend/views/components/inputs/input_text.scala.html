@@ -20,15 +20,14 @@
   inputClass: Option[String] = None,
   disabled: Boolean = false,
   value: Option[String] = None
-)()
-
+)(implicit messages: Messages)
 <div class="govuk-form-group">
-   <label class="govuk-label" for="@{field.id}">@label</label>
+   <label class="govuk-label" for="@{field.id}">@messages(label)</label>
    <input
        class="govuk-input @inputClass"
        id="@{field.id}"
        name="@{field.name}"
-       value="@if(!field.value) {@value} else {field.value}"
+       value="@field.value.getOrElse("")"
        type="text"
        @if(field.hasErrors){aria-describedby="error-message-@{field.id}-input"}
        @if(disabled) {disabled}
