@@ -50,6 +50,6 @@
     case _ => {}
 }
 <script type="text/javascript">var ssoUrl = "@ssoUrl.getOrElse("")";</script>
-<script src="javascript/govuk-frontend-3.3.0.min.js"></script>
+<script src="@controllers.routes.Assets.versioned("govuk-frontend-3.3.0.min.js")"></script>
 <script>window.GOVUKFrontend.initAll()</script>
 @scriptElem

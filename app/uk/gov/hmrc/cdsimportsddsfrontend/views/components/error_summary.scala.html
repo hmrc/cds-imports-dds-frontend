@@ -16,19 +16,19 @@
 
 @(errors: Seq[FormError])(implicit messages: Messages)
 @if(errors.nonEmpty) {
-    <div class="error-summary error-summary--show" role="group" aria-labelledby="error-summary-heading" tabindex="-1">
-
-        <h2 class="h2-heading" id="error-summary-heading">
-        @messages("error.summary.title")
+    <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+        <h2 class="govuk-error-summary__title" id="error-summary-title">
+            @messages("error.summary.title")
         </h2>
-
-        <p>@messages("error.summary.text")</p>
-
-        <ul role="list" class="error-summary-list">
-            @for(error <- errors) {
-                <li><a id="@{error.key}-error" href="#@{error.key.replace(".", "_").replace('[', '_').replace("]", "")}">@messages(error.message, error.args:_*)</a></li>
-            }
-        </ul>
-
+        <div class="govuk-error-summary__body">
+            <p>@messages("error.summary.text")</p>
+            <ul class="govuk-list govuk-error-summary__list">
+                @for(error <- errors) {
+                    <li>
+                        <a id="@{error.key}-error" href="#@{error.key.replace(".", "_").replace('[', '_').replace("]", "")}">@messages(error.message, error.args:_*)</a>
+                    </li>
+                }
+            </ul>
+        </div>
     </div>
 }

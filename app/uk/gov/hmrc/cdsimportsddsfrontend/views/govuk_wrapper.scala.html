@@ -16,15 +16,14 @@
 
 @import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 @import play.twirl.api.HtmlFormat
-@import uk.gov.hmrc.play.views.html.layouts.GovUkTemplate
-@import uk.gov.hmrc.play.views.html.layouts.{Head, HeaderNav, Footer, FooterLinks, ServiceInfo, MainContentHeader, MainContent}
+@import layouts.GovUkTemplate
+@import uk.gov.hmrc.play.views.html.layouts.{Head, Footer, FooterLinks, ServiceInfo, MainContentHeader, MainContent}
 @import uk.gov.hmrc.play.views.html.helpers.ReportAProblemLink
 @import play.api.Configuration
 @import play.twirl.api.HtmlFormat
 
 @this(
   layoutsHead: Head,
-  layoutsHeaderNav: HeaderNav,
   layoutsFooter: Footer,
   layoutsFooterLinks: FooterLinks,
   layoutsServiceInfo: ServiceInfo,
@@ -54,14 +53,8 @@
     <meta name="format-detection" content="telephone=no" />
 }
 
-@headerNavLinks = {}
-
 @insideHeader = {
-    @layoutsHeaderNav(
-      navTitle = Some("cds-imports-dds-frontend"),
-      navTitleLink = None,
-      showBetaLink = false,
-      navLinks = Some(headerNavLinks))
+   @components.header(navTitle = Some("cds-imports-dds-frontend"))
 }
 
 @afterHeader = {}
@@ -91,7 +84,7 @@
     }
 }
 
-@getHelpForm = @{helpersReportAProblemLink(appConfig.reportAProblemPartialUrl, appConfig.reportAProblemNonJSUrl)}
+@getHelpForm = {}
 
 @content = {
     @layoutsMainContent(

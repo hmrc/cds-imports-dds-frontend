@@ -27,21 +27,20 @@
   sidebar: Html = HtmlFormat.empty,
   getHelpForm: Html = HtmlFormat.empty)
 
-<main id="wrapper" role="main" @if(mainClass.isDefined) { class="@{mainClass.get}" } @mainDataAttributes>
-    <div class="centered-content">
-        @serviceInfo
-    </div>
-    <div id="content">
+<div class="govuk-width-container">
+    <main id="main-content" role="main" class="govuk-main-wrapper @if(mainClass.isDefined) {@mainClass.get}" @mainDataAttributes>
+        <div class="govuk-grid-row">
 
-        @actingAttorneyBanner
+            @actingAttorneyBanner
 
-        @mainContentHeader
+            @mainContentHeader
 
-        @article
+            @article
 
-        @sidebar
+            @sidebar
 
-        @getHelpForm
+            @getHelpForm
 
-    </div>
-</main>
+        </div>
+    </main>
+</div>

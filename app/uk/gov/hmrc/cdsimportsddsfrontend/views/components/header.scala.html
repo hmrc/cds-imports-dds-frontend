@@ -14,12 +14,11 @@
  * limitations under the License.
  *@
 
-@this()
+@(navTitle: Option[String])
 
-@(content: Html,
-  includeGridWrapper: Boolean = false,
-  articleClasses: Option[String] = None)
+<div class="govuk-header__content">
+    <a href="/" class="govuk-header__link govuk-header__link--service-name">
+        @if(navTitle) {@navTitle}
+    </a>
+</div>
 
-<article class="@if( includeGridWrapper ){ grid-wrapper}@if(articleClasses.isDefined){ @articleClasses.get }">
-    @content
-</article>

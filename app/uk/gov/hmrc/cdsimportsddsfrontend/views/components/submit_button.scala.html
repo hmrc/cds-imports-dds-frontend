@@ -16,6 +16,6 @@
 
 @(messageKey: String = "site.save_and_continue")(implicit messages: Messages)
 
-<div class="section">
-    <button id="submit" class="button">@messages(messageKey)</button>
-</div>
+<button class="govuk-button" data-module="govuk-button">
+    @messages(messageKey)
+</button>
