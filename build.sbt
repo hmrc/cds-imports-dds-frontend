@@ -36,8 +36,6 @@ scalacOptions += "-Ypartial-unification"
 
 val compileDeps = Seq(
 
-  "uk.gov.hmrc"             %% "govuk-template"           % "5.42.0-play-26",
-  //"uk.gov.hmrc"             %% "play-ui"                  % "8.2.0-play-26",
   "uk.gov.hmrc"             %% "bootstrap-play-26"        % "1.1.0",
   "org.scala-lang.modules"  %% "scala-xml"                % "1.2.0",
   "org.typelevel"           %% "cats-core"                % "2.0.0",

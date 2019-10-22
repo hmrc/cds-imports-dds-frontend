@@ -25,3 +25,22 @@ error.summary.text=There was an error on the form
 
 site.save_and_continue=Submit
 
+# Cookie message
+header.cookie_message=GOV.UK uses cookies to make the site simpler.
+header.cookie_link=Find out more about cookies
+
+footer.links.support_links.text=Support links
+footer.links.help_page.text=Help using GOV.UK
+footer.links.help_page.url=https://www.gov.uk/help
+footer.links.cookies.text=Cookies
+footer.links.cookies.url=/help/cookies
+footer.links.accessibility.text=Accessibility
+footer.links.privacy_policy.text=Privacy policy
+footer.links.privacy_policy.url=/help/privacy
+footer.links.terms_and_conditions.text=Terms and conditions
+footer.links.terms_and_conditions.url=/help/terms-and-conditions
+footer.ogl_message.start=All content is available under the
+footer.ogl_message.end=, except where otherwise stated
+footer.ogl=Open Government Licence v3.0
+footer.ogl_logo.alt=Open Government Licence
+footer.crown_copyright=Crown Copyright
