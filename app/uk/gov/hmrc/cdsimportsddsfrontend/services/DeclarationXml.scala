@@ -16,13 +16,13 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services
 
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Eori, ImportDeclaration}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Eori, ImportDeclarationForm}
 
 import scala.xml.Elem
 
 object DeclarationXml {
 
-  def fromImportDeclaration(eori:Eori, importDeclaration: ImportDeclaration):Elem = {
+  def fromImportDeclaration(eori:Eori, importDeclaration: ImportDeclarationForm):Elem = {
     build(eori)
   }
 
