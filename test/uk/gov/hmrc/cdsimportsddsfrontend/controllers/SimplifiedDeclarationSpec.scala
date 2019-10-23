@@ -49,10 +49,42 @@ class SimplifiedDeclarationSpec extends CdsImportsSpec
   }
 
   "A GET Request" should {
-    "render the page page correctly" in signedInScenario { user =>
+    "show the expected form fields" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
         body should include element withName("input").withAttrValue("name", "declarationType")
+        body should include element withName("input").withAttrValue("name", "additionalDeclarationType")
+        body should include element withName("input").withAttrValue("name", "goodsItemNumber")
+        body should include element withName("input").withAttrValue("name", "totalNumberOfItems")
+        body should include element withName("input").withAttrValue("name", "requestedProcedureCode")
+        body should include element withName("input").withAttrValue("name", "previousProcedureCode")
+        body should include element withName("input").withAttrValue("name", "additionalProcedureCode")
+      }
+    }
+
+    "show the expected field labels" in signedInScenario { user =>
+      new GetScenario() {
+        status(response) mustBe Status.OK
+        body should include element withClass("govuk-label").withAttrValue("for", "declarationType").withValue("Declaration Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "additionalDeclarationType").withValue("Additional Declaration Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "goodsItemNumber").withValue("Goods Item Number")
+        body should include element withClass("govuk-label").withAttrValue("for", "totalNumberOfItems").withValue("Total Number Of Items")
+        body should include element withClass("govuk-label").withAttrValue("for", "requestedProcedureCode").withValue("Requested Procedure Code")
+        body should include element withClass("govuk-label").withAttrValue("for", "previousProcedureCode").withValue("Previous Procedure Code")
+        body should include element withClass("govuk-label").withAttrValue("for", "additionalProcedureCode").withValue("Additional Procedure Code (000 or C07)")
+      }
+    }
+
+    "show the expected pre-populated field values" in signedInScenario { user =>
+      new GetScenario() {
+        status(response) mustBe Status.OK
+        body should include element withName("input").withAttrValue("name", "declarationType").withAttrValue("value", "IM")
+        body should include element withName("input").withAttrValue("name", "additionalDeclarationType").withAttrValue("value", "Z")
+        body should include element withName("input").withAttrValue("name", "goodsItemNumber").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "totalNumberOfItems").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "requestedProcedureCode").withAttrValue("value", "40")
+        body should include element withName("input").withAttrValue("name", "previousProcedureCode").withAttrValue("value", "00")
+        body should include element withName("input").withAttrValue("name", "additionalProcedureCode").withAttrValueMatching("value", "^$")
       }
     }
   }

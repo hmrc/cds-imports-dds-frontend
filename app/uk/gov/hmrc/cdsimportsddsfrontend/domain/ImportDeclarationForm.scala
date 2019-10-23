@@ -33,7 +33,7 @@ case class ImportDeclarationForm(
 
 object ImportDeclarationForm {
   def apply():ImportDeclarationForm = {
-    new ImportDeclarationForm("IM", "Z", "1", "1" ,"40", "00", "000")
+    new ImportDeclarationForm("IM", "Z", "1", "1" ,"40", "00", "")
   }
 
   val nonEmptyString = nonEmptyText.verifying("field.cannot.be.empty", _.nonEmpty)
