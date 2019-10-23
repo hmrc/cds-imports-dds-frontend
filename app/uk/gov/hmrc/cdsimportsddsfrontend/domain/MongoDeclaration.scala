@@ -16,7 +16,22 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
+import play.api.libs.json.Json
 
-//case class Declaration()
 
-//case class MongoDeclaration(eori:Eori, declarations:Seq[])
+case class ImportDeclaration(conversationId: String, notifications: List[Notification])
+
+object ImportDeclaration {
+  implicit val importDeclarationFormat = Json.format[ImportDeclaration]
+}
+
+case class MongoImportDeclarations(eori: Eori, declarations: List[ImportDeclaration]) {
+
+  def getDeclarations(conversationId: String): List[Notification] = {
+    declarations.find(_.conversationId == conversationId).map(_.notifications).getOrElse(Nil)
+  }
+}
+
+object MongoImportDeclarations {
+  implicit val mongoImportDeclarationsFormat = Json.format[MongoImportDeclarations]
+}

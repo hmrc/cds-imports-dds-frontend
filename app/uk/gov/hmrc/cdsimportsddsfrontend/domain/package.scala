@@ -18,4 +18,5 @@ package uk.gov.hmrc.cdsimportsddsfrontend
 
 package object domain {
   type Eori = String
+  type ConversationID = String
 }
