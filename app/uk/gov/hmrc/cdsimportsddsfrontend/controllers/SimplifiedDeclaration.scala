@@ -48,7 +48,7 @@ class SimplifiedDeclaration @Inject()(simplifiedDeclaration: simplified_declarat
         val xml = DeclarationXml.fromImportDeclaration(request.user.eori, validDeclaration)
         declarationStore.deleteAllNotifications()
         declarationService.submit(request.user.eori, xml)
-          .map(declaration => Ok(resultTemplate(declaration)))
+          .map(declaration => Ok(resultTemplate(declaration, xml)))
       }
     )
   }

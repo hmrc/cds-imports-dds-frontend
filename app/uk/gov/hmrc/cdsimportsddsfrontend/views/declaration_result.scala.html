@@ -19,9 +19,12 @@
 @import uk.gov.hmrc.play.views.html._
 @import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse
 @import uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes
+@import scala.xml.Elem
+@import uk.gov.hmrc.cdsimportsddsfrontend.services.DeclarationXml
+
 @this(mainTemplate: main_template)
 
-@(declaration:CustomsDeclarationsResponse)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(declaration:CustomsDeclarationsResponse, declarationXml:Elem)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @mainTemplate(title = "Declaration Result", bodyClasses = None) {
 <h1>Customs Declaration submitted</h1>
@@ -40,4 +43,9 @@
 </table>
 
 <h4><a href=@routes.NotificationsController.show().url>View the status of your declaration</a></h4>
+
+<h4>The XML you just submitted to the declaration API:</h4>
+<br/>
+<p><small>@Html(DeclarationXml.prettyPrintToHtml(declarationXml))</small></p>
+
 }

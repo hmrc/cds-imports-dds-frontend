@@ -17,13 +17,14 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
 import com.gu.scalatest.JsoupShouldMatchers
+import org.mockito.ArgumentCaptor
 import org.mockito.Mockito.when
 import org.scalatest.WordSpec
 import play.api.mvc.AnyContentAsFormUrlEncoded
 import play.api.test.Helpers.{contentAsString, status}
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
 import play.mvc.Http.Status
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{CustomsDeclarationsResponse, Notification}
 import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsService, DeclarationStore}
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{declaration_result, simplified_declaration}
@@ -31,6 +32,7 @@ import play.api.test.Helpers._
 import org.mockito.ArgumentMatchers.any
 
 import scala.concurrent.Future
+import scala.xml.Elem
 
 class SimplifiedDeclarationSpec extends CdsImportsSpec
   with AuthenticationBehaviours with FutureAwaits with DefaultAwaitTimeout with JsoupShouldMatchers {
@@ -132,6 +134,31 @@ class SimplifiedDeclarationSpec extends CdsImportsSpec
         body should include element withName("a").withAttrValue("id", "requestedProcedureCode-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "previousProcedureCode-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "additionalProcedureCode-error").withValue("This field is required")
+      }
+    }
+  }
+
+  "The POST-ed xml" should {
+    "work" in signedInScenario { user =>
+      val formData = Map("declarationType" -> Seq("101"),
+        "additionalDeclarationType" -> Seq("102"),
+        "goodsItemNumber" -> Seq("103"),
+        "totalNumberOfItems" -> Seq("104"),
+        "requestedProcedureCode" -> Seq("105"),
+        "previousProcedureCode" -> Seq("106"),
+        "additionalProcedureCode" -> Seq("107")
+      )
+      val captor: ArgumentCaptor[Elem] = ArgumentCaptor.forClass(classOf[Elem])
+      val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), captor.capture())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
+      val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
+        status(response) mustBe Status.OK
+        val xml = captor.getValue
+        (xml \ "Declaration" \ "TypeCode").head.text mustBe "101102"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "SequenceNumeric").head.text mustBe "103"
+        (xml \ "Declaration" \ "GoodsItemQuantity").head.text mustBe "104"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "GovernmentProcedure" \ "CurrentCode").map(_.text) mustBe List("105","107")
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "GovernmentProcedure" \ "PreviousCode").head.text mustBe "106"
       }
     }
   }
