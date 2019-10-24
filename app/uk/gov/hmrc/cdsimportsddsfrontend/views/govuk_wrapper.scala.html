@@ -16,7 +16,7 @@
 
 @import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 @import play.twirl.api.HtmlFormat
-@import layouts.GovUkTemplate
+@import uk.gov.hmrc.govukfrontend.views.html.layouts.govukTemplate
 @import uk.gov.hmrc.play.views.html.layouts.{Head, HeaderNav, Footer, FooterLinks, ServiceInfo, MainContentHeader, MainContent}
 @import uk.gov.hmrc.play.views.html.helpers.ReportAProblemLink
 @import play.api.Configuration
@@ -31,7 +31,7 @@
   layoutsMainContentHeader: MainContentHeader,
   layoutsMainContent: MainContent,
   helpersReportAProblemLink: ReportAProblemLink,
-  govUkTemplate: GovUkTemplate
+  govUkTemplate: govukTemplate
   //assetsFinder: AssetsFinder
 )
 
@@ -47,12 +47,6 @@
   serviceInfoContent: Html = HtmlFormat.empty,
   scriptElem: Option[Html] = None)(implicit request: Request[_], messages: Messages)
 
-@head = {
-    @layoutsHead(
-      linkElem = None,
-      headScripts = None)
-    <meta name="format-detection" content="telephone=no" />
-}
 
 @headerNavLinks = {}
 
@@ -104,4 +98,11 @@
       sidebar = sidebar)
 }
 
+@head = {
+    <link href='@controllers.routes.Assets.versioned("stylesheets/govuk-frontend-3.3.0.min.css")' media="screen" rel="stylesheet" type="text/css" />
+}
+
+@*
 @govUkTemplate(Some(title), bodyClasses)(head, bodyEnd, insideHeader, afterHeader, footerTop, Some(layoutsFooterLinks()), true)(content)
+*@
+@govUkTemplate(None, None, None, None, None, None, None, None, Some(head))(content)
