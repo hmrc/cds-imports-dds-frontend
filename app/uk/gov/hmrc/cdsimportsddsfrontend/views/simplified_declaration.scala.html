@@ -31,7 +31,7 @@
 
     @helper.form(action=uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes.SimplifiedDeclarationController.submit) {
         @CSRF.formField
-        <fieldset>
+        <fieldset class="govuk-fieldset">
             @components.form_legend("declare.legendHeading")
             @components.error_summary(form.errors)
 
@@ -54,7 +54,8 @@
             @input_text(form("additionalDocLPCO"        ), "declare.additionalDocLPCO"        )
             @input_text(form("additionalDocName"        ), "declare.additionalDocName"        )
         </fieldset>
-        @components.submit_button()
+
+        @govukButton(Button(content = Text(messages("site.submit"))))
     }
 
 }
