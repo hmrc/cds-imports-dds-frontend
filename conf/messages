@@ -14,14 +14,14 @@ not-subscribed-to-cds.detail.help-line3=Open 8am to 6pm, Monday to Friday (close
 service-unavailable.title=Sorry, the service is unavailable
 service-unavailable.heading=Sorry, the service is unavailable
 
-declare.declarationType=Declaration Type
-declare.additionalDeclarationType=Additional Declaration Type
-declare.goodsItemNumber=Goods Item Number
-declare.totalNumberOfItems=Total Number Of Items
-declare.requestedProcedureCode=Requested Procedure Code
-declare.previousProcedureCode=Previous Procedure Code
-declare.additionalProcedureCode=Additional Procedure Code (000 or C07)
 declare.legendHeading=Imports Declaration
+declare.declarationType=1.1. Declaration Type
+declare.additionalDeclarationType=1.2. Additional Declaration Type
+declare.goodsItemNumber=1.6. Goods Item Number
+declare.totalNumberOfItems=1.9. Total Number Of Items
+declare.requestedProcedureCode=1.10. Requested Procedure Code
+declare.previousProcedureCode=1.10. Previous Procedure Code
+declare.additionalProcedureCode=1.11. Additional Procedure Code (000 or C07)
 
 declaration.xml=Declaration XML
 declaration.xml.hint=Write your Valid Declaration xml into the edit box
