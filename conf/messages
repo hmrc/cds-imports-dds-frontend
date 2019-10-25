@@ -21,6 +21,7 @@ declare.totalNumberOfItems=Total Number Of Items
 declare.requestedProcedureCode=Requested Procedure Code
 declare.previousProcedureCode=Previous Procedure Code
 declare.additionalProcedureCode=Additional Procedure Code (000 or C07)
+declare.legendHeading=Imports Declaration
 
 declaration.xml=Declaration XML
 declaration.xml.hint=Write your Valid Declaration xml into the edit box

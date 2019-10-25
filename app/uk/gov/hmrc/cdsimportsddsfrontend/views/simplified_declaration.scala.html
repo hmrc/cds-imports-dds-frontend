@@ -28,18 +28,20 @@
 
     @helper.form(action=uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes.SimplifiedDeclaration.submit) {
         @CSRF.formField
+        <fieldset>
+            @components.form_legend("declare.legendHeading")
+            @components.error_summary(form.errors)
 
-        @components.error_summary(form.errors)
-
-        @input_text(form("declarationType"          ), "declare.declarationType"          )
-        @input_text(form("additionalDeclarationType"), "declare.additionalDeclarationType")
-        @input_text(form("goodsItemNumber"          ), "declare.goodsItemNumber"          )
-        @input_text(form("totalNumberOfItems"       ), "declare.totalNumberOfItems"       )
-        @input_text(form("requestedProcedureCode"   ), "declare.requestedProcedureCode"   )
-        @input_text(form("previousProcedureCode"    ), "declare.previousProcedureCode"    )
-        @input_text(form("additionalProcedureCode"  ), "declare.additionalProcedureCode"  )
-
+            @input_text(form("declarationType"          ), "declare.declarationType"          )
+            @input_text(form("additionalDeclarationType"), "declare.additionalDeclarationType")
+            @input_text(form("goodsItemNumber"          ), "declare.goodsItemNumber"          )
+            @input_text(form("totalNumberOfItems"       ), "declare.totalNumberOfItems"       )
+            @input_text(form("requestedProcedureCode"   ), "declare.requestedProcedureCode"   )
+            @input_text(form("previousProcedureCode"    ), "declare.previousProcedureCode"    )
+            @input_text(form("additionalProcedureCode"  ), "declare.additionalProcedureCode"  )
+        </fieldset>
         @components.submit_button()
+
     }
 
 }
