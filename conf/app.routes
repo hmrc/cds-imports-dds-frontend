@@ -1,5 +1,7 @@
 # microservice specific routes
 
+->        /govuk-frontend                                          govuk.Routes
+
 GET       /                                                        @uk.gov.hmrc.cdsimportsddsfrontend.controllers.TestController.test
 
 GET       /hello-world                                             @uk.gov.hmrc.cdsimportsddsfrontend.controllers.HelloWorldController.helloWorld
@@ -17,4 +19,4 @@ POST      /single-page-declaration                                 @uk.gov.hmrc.
 POST     /notification                                             @uk.gov.hmrc.cdsimportsddsfrontend.controllers.NotificationsController.handleNotification
 GET      /notification                                             @uk.gov.hmrc.cdsimportsddsfrontend.controllers.NotificationsController.show
 
-GET       /assets/*file                                            @controllers.Assets.versioned(path="/public", file: Asset)
+GET      /assets/*file                                             @controllers.Assets.versioned(path="/public", file: Asset)
