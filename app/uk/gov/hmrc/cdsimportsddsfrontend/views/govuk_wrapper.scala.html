@@ -99,7 +99,12 @@
 }
 
 @head = {
+    <!--[if !IE 8]><!-->
     <link href='@controllers.routes.Assets.versioned("stylesheets/govuk-frontend-3.3.0.min.css")' media="screen" rel="stylesheet" type="text/css" />
+    <!--<![endif]-->
+    <!--[if IE 8]>
+    <link href='@controllers.routes.Assets.versioned("stylesheets/govuk-frontend-ie8-3.3.0.min.css")' media="screen" rel="stylesheet" type="text/css" />
+    <![endif]-->
 }
 
 @*
