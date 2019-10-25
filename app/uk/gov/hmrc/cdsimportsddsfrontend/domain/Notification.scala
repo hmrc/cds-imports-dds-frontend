@@ -21,6 +21,7 @@ import java.time.format.DateTimeFormatter
 
 import cats.implicits._
 import play.api.libs.json.{Json, OFormat}
+import uk.gov.hmrc.cdsimportsddsfrontend.services.{DmsErrorCodes, DmsErrorPointers}
 
 import scala.xml.{Node, NodeSeq}
 
@@ -29,13 +30,23 @@ case class AuthToken(value: String) extends AnyVal
 case class NotificationApiRequestHeaders(authToken: AuthToken, conversationId: ConversationId)
 
 
-case class ErrorPointer(documentSectionCode: String, sequenceNumeric: Option[String] = None, tagId: Option[String] = None)
+case class ErrorPointer(documentSectionCode: String, sequenceNumeric: Option[String] = None, tagId: Option[String] = None) {
+  def toHumanReadable():String = {
+    val text = DmsErrorPointers.pointers.get(documentSectionCode).getOrElse("Unknown Section Code")
+    val codes = s""" ($documentSectionCode - ${sequenceNumeric.getOrElse("x")} - ${tagId.getOrElse("x")})"""
+    text + codes
+  }
+}
 
 object ErrorPointer {
   implicit val errorPointerFormat = Json.format[ErrorPointer]
 }
 
-case class NotificationError(validationCode: String, pointers: Seq[ErrorPointer])
+case class NotificationError(validationCode: String, pointers: Seq[ErrorPointer]) {
+  def toHumanReadable():String = {
+    DmsErrorCodes.codes.get(validationCode).getOrElse("Unknown Code") + s" ($validationCode)"
+  }
+}
 
 object NotificationError {
   implicit val notificationErrorFormat = Json.format[NotificationError]

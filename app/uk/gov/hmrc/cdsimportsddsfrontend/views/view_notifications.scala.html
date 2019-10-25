@@ -49,15 +49,24 @@
             </tr>
             <tr>
                 <td>errors</td>
-                <td>
+                <td class="wco-errors">
+                    <ul>
                     @for(error <- notification.errors) {
-                       @error
+                        <li>
+                            @error.toHumanReadable
+                            <ul>
+                            @for(pointer <- error.pointers) {
+                                <li><small>@{pointer.toHumanReadable}</small></li>
+                            }
+                            </ul>
+                        </li>
                     }
+                    </ul>
                 </td>
             </tr>
             <tr>
                 <td>payload</td>
-                <td>@notification.payload</td>
+                <td><small>@notification.payload</small></td>
             </tr>
         </table>
     </li>
