@@ -18,7 +18,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services
 
 object DmsErrorPointers {
 
-  val pointers = Map(
+  val pointers = Map(  //TODO What should we do with the commented out lines?
 
     "42A"  ->"Declaration",
     "023"  ->"AcceptanceDateTime",
