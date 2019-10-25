@@ -43,7 +43,10 @@ class HelloWorldController @Inject()(helloWordTemplate: hello_world)
 @Singleton
 class TestController @Inject()(helloWordTemplate: hello_world,
                                authenticate: AuthAction)
-                              (implicit appConfig: AppConfig, mcc: MessagesControllerComponents)
+                              (implicit appConfig: AppConfig,
+                               featureSwitchRegistry: FeatureSwitchRegistry,
+                               mcc: MessagesControllerComponents,
+                               errorHandler: ErrorHandler)
   extends FrontendController(mcc) with I18nSupport {
 
   val test: Action[AnyContent] = authenticate.async { implicit request =>

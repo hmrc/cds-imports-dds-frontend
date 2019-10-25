@@ -58,7 +58,7 @@ trait CdsImportsSpec extends WordSpec with MustMatchers with AppConfigReader {
   val messagesApi: MessagesApi = messagesApiProvider.get
 
 
-  val mcc: MessagesControllerComponents = {
+  implicit val mcc: MessagesControllerComponents = {
     val executionContext = ExecutionContext.global
     DefaultMessagesControllerComponents(
       messagesActionBuilder = new DefaultMessagesActionBuilderImpl(stubBodyParser(), messagesApi)(executionContext),

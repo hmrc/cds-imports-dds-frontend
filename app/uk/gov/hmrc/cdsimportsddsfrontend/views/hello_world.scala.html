@@ -15,16 +15,19 @@
  *@
 
 @import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
+@import uk.gov.hmrc.cdsimportsddsfrontend.config.FeatureSwitchRegistry
 
 @this(mainTemplate: main_template)
 
-@()(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@()(implicit request: Request[_], messages: Messages, appConfig: AppConfig, featureSwitchRegistry: FeatureSwitchRegistry)
 
 @mainTemplate(title = "Hello from cds-imports-dds-frontend", bodyClasses = None) {
     <h1>Hello from cds-imports-dds-frontend !</h1>
 
-    <h3><a href="@uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes.SimplifiedDeclaration.show()">Submit declaration FORM</a></h3>
-    <br/>
+    @if(featureSwitchRegistry.SinglePageDeclaration.isEnabled) {
+        <h3><a href="@uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes.SimplifiedDeclarationController.show()">Submit declaration FORM</a></h3>
+        <br/>
+    }
     <h5><a href="@uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes.SubmitDeclarationController.show()">Submit declaration in raw XML</a></h5>
 
 }

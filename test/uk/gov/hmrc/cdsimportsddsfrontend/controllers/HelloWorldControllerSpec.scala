@@ -16,16 +16,17 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
+import com.gu.scalatest.JsoupShouldMatchers
 import org.scalatest.BeforeAndAfterEach
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.http.Status
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import play.mvc.Http.Status
 import uk.gov.hmrc.cdsimportsddsfrontend.test.CdsImportsSpec
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.hello_world
 import uk.gov.hmrc.play.bootstrap.tools.Stubs.stubMessagesControllerComponents
 
-class HelloWorldControllerSpec extends CdsImportsSpec with GuiceOneAppPerSuite with BeforeAndAfterEach {
+class HelloWorldControllerSpec extends CdsImportsSpec with GuiceOneAppPerSuite with BeforeAndAfterEach with JsoupShouldMatchers {
 
   val helloWordTemplate = new hello_world(mainTemplate)
   implicit val foo: MessagesControllerComponents = stubMessagesControllerComponents()
@@ -34,6 +35,7 @@ class HelloWorldControllerSpec extends CdsImportsSpec with GuiceOneAppPerSuite w
 
   override def beforeEach(): Unit = {
     featureSwitchRegistry.HelloWorld.enable()
+    featureSwitchRegistry.SinglePageDeclaration.enable()
   }
 
   "GET /" should {
@@ -58,6 +60,26 @@ class HelloWorldControllerSpec extends CdsImportsSpec with GuiceOneAppPerSuite w
       featureSwitchRegistry.HelloWorld.suspend()
       val response = controller.helloWorld(fakeRequest)
       status(response) must be(Status.SERVICE_UNAVAILABLE)
+    }
+
+    "show the link to the Single Page Declaration page when that feature is enabled" in {
+      val response = controller.helloWorld(fakeRequest)
+      val html = contentAsString(response).asBodyFragment
+      html should include element withName("a").withAttrValue("href", "/customs/imports/simple-declaration").withValue("Submit declaration FORM")
+    }
+
+    "omit the link to the Single Page Declaration page when that feature is disabled" in {
+      featureSwitchRegistry.SinglePageDeclaration.disable()
+      val response = controller.helloWorld(fakeRequest)
+      val html = contentAsString(response).asBodyFragment
+      html should not include element(withName("a").withAttrValue("href", "/customs/imports/simple-declaration").withValue("Submit declaration FORM"))
+    }
+
+    "omit the link to the Single Page Declaration page when that feature is suspended" in {
+      featureSwitchRegistry.SinglePageDeclaration.suspend()
+      val response = controller.helloWorld(fakeRequest)
+      val html = contentAsString(response).asBodyFragment
+      html should not include element(withName("a").withAttrValue("href", "/customs/imports/simple-declaration").withValue("Submit declaration FORM"))
     }
   }
 

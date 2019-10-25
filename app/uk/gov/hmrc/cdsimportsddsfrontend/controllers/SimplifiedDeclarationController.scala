@@ -19,7 +19,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 import javax.inject.{Inject, Singleton}
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
+import uk.gov.hmrc.cdsimportsddsfrontend.config.{AppConfig, ErrorHandler, FeatureSwitchRegistry}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.ImportDeclarationForm
 import uk.gov.hmrc.cdsimportsddsfrontend.services.{AuthAction, CustomsDeclarationsService, DeclarationStore, DeclarationXml}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
@@ -29,18 +29,22 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class SimplifiedDeclaration @Inject()(simplifiedDeclaration: simplified_declaration
-                                      , resultTemplate: declaration_result
-                                      , declarationService: CustomsDeclarationsService
-                                      , declarationStore: DeclarationStore
-                                      , authenticate: AuthAction)
-                                     (implicit val appConfig: AppConfig, mcc: MessagesControllerComponents) extends FrontendController(mcc) with I18nSupport {
+class SimplifiedDeclarationController @Inject()(simplifiedDeclaration: simplified_declaration
+                                                , resultTemplate: declaration_result
+                                                , declarationService: CustomsDeclarationsService
+                                                , declarationStore: DeclarationStore
+                                                , authenticate: AuthAction)
+                                               (implicit val appConfig: AppConfig,
+                                                featureSwitchRegistry: FeatureSwitchRegistry,
+                                                errorHandler: ErrorHandler,
+                                                mcc: MessagesControllerComponents)
+  extends FrontendController(mcc) with I18nSupport {
 
-  def show(): Action[AnyContent] = authenticate.async { implicit req =>
+  def show(): Action[AnyContent] = (featureSwitchRegistry.SinglePageDeclaration.action andThen authenticate) async { implicit req =>
     Future.successful(Ok(simplifiedDeclaration(ImportDeclarationForm.form.fill(ImportDeclarationForm()))))
   }
 
-  def submit(): Action[AnyContent] = authenticate.async { implicit request =>
+  def submit(): Action[AnyContent] = (featureSwitchRegistry.SinglePageDeclaration.action andThen authenticate) async { implicit request =>
     ImportDeclarationForm.form.bindFromRequest().fold(
       formWithErrors =>
         Future.successful(BadRequest(simplifiedDeclaration(formWithErrors))),

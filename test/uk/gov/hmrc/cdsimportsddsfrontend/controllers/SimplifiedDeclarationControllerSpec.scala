@@ -18,31 +18,34 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
 import com.gu.scalatest.JsoupShouldMatchers
 import org.mockito.ArgumentCaptor
+import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
-import org.scalatest.WordSpec
+import org.scalatest.BeforeAndAfterEach
 import play.api.mvc.AnyContentAsFormUrlEncoded
 import play.api.test.Helpers.{contentAsString, status}
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
 import play.mvc.Http.Status
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{CustomsDeclarationsResponse, Notification}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsService, DeclarationStore}
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{declaration_result, simplified_declaration}
-import play.api.test.Helpers._
-import org.mockito.ArgumentMatchers.any
 
 import scala.concurrent.Future
 import scala.xml.Elem
 
-class SimplifiedDeclarationSpec extends CdsImportsSpec
-  with AuthenticationBehaviours with FutureAwaits with DefaultAwaitTimeout with JsoupShouldMatchers {
+class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
+  with AuthenticationBehaviours with FutureAwaits with DefaultAwaitTimeout with JsoupShouldMatchers with BeforeAndAfterEach {
+
+  override def beforeEach(): Unit = {
+    featureSwitchRegistry.SinglePageDeclaration.enable()
+  }
 
   trait BaseScenario {
     val formTemplate = new simplified_declaration(mainTemplate)
     val resultTemplate = new declaration_result(mainTemplate)
     val mockDeclarationService = mock[CustomsDeclarationsService]
     val mockDeclarationStore = mock[DeclarationStore]
-    val controller = new SimplifiedDeclaration(formTemplate, resultTemplate, mockDeclarationService, mockDeclarationStore, mockAuthAction)(appConfig, mcc)
+    val controller = new SimplifiedDeclarationController(formTemplate, resultTemplate, mockDeclarationService, mockDeclarationStore, mockAuthAction)
   }
 
   class GetScenario extends BaseScenario {
@@ -51,6 +54,21 @@ class SimplifiedDeclarationSpec extends CdsImportsSpec
   }
 
   "A GET Request" should {
+
+    "return 404 when the SinglePageDeclaration feature is disabled" in {
+      featureSwitchRegistry.SinglePageDeclaration.disable()
+      new GetScenario() {
+        status(response) must be(Status.NOT_FOUND)
+      }
+    }
+
+    "return 503 when the SinglePageDeclaration feature is suspended" in {
+      featureSwitchRegistry.SinglePageDeclaration.suspend()
+      new GetScenario() {
+        status(response) must be(Status.SERVICE_UNAVAILABLE)
+      }
+    }
+
     "show the expected form fields" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
@@ -104,6 +122,40 @@ class SimplifiedDeclarationSpec extends CdsImportsSpec
 
 
   "A POST Request" should {
+    "return 404 when the SinglePageDeclaration feature is disabled" in {
+      featureSwitchRegistry.SinglePageDeclaration.disable()
+      val formData = Map("declarationType" -> Seq("declarationType"),
+        "additionalDeclarationType" -> Seq("additionalDeclarationType"),
+        "goodsItemNumber" -> Seq("goodsItemNumber"),
+        "totalNumberOfItems" -> Seq("totalNumberOfItems"),
+        "requestedProcedureCode" -> Seq("requestedProcedureCode"),
+        "previousProcedureCode" -> Seq("previousProcedureCode"),
+        "additionalProcedureCode" -> Seq("additionalProcedureCode")
+      )
+      val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
+      val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
+        status(response) must be(Status.NOT_FOUND)
+      }
+    }
+
+    "return 503 when the SinglePageDeclaration feature is suspended" in {
+      featureSwitchRegistry.SinglePageDeclaration.suspend()
+      val formData = Map("declarationType" -> Seq("declarationType"),
+        "additionalDeclarationType" -> Seq("additionalDeclarationType"),
+        "goodsItemNumber" -> Seq("goodsItemNumber"),
+        "totalNumberOfItems" -> Seq("totalNumberOfItems"),
+        "requestedProcedureCode" -> Seq("requestedProcedureCode"),
+        "previousProcedureCode" -> Seq("previousProcedureCode"),
+        "additionalProcedureCode" -> Seq("additionalProcedureCode")
+      )
+      val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
+      val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
+        status(response) must be(Status.SERVICE_UNAVAILABLE)
+      }
+    }
+
     "succeed when all the fields are present" in signedInScenario { user =>
       val formData = Map("declarationType" -> Seq("declarationType"),
         "additionalDeclarationType" -> Seq("additionalDeclarationType"),
@@ -120,7 +172,6 @@ class SimplifiedDeclarationSpec extends CdsImportsSpec
         body should include element withName("td").withValue("Good")
       }
     }
-
 
     "fail when some fields are missing" in signedInScenario { user =>
       val formData = Map("declarationType" -> Seq("declarationType"))
@@ -154,6 +205,7 @@ class SimplifiedDeclarationSpec extends CdsImportsSpec
       new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
         status(response) mustBe Status.OK
         val xml = captor.getValue
+        // TODO these tests should be around DeclarationXML.fromImportDeclaration
         (xml \ "Declaration" \ "TypeCode").head.text mustBe "101102"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "SequenceNumeric").head.text mustBe "103"
         (xml \ "Declaration" \ "GoodsItemQuantity").head.text mustBe "104"

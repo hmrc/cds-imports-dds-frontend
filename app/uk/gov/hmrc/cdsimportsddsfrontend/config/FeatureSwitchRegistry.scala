@@ -35,6 +35,7 @@ class FeatureSwitchRegistry @Inject()(appConfig: AppConfig, controllerComponents
   def getOption(name: String): Option[FeatureSwitch] = {
     name match {
       case HelloWorld.name => Some(HelloWorld)
+      case SinglePageDeclaration.name => Some(SinglePageDeclaration)
       case _ => None
     }
   }
@@ -97,5 +98,6 @@ class FeatureSwitchRegistry @Inject()(appConfig: AppConfig, controllerComponents
   }
 
   case object HelloWorld extends {val name = "hello-world"} with FeatureSwitch
+  case object SinglePageDeclaration extends {val name = "single-page-declaration"} with FeatureSwitch
 
 }
