@@ -14,8 +14,8 @@
  * limitations under the License.
  *@
 
-@(messageKey: String = "site.submit")(implicit messages: Messages)
+@this()
 
-<div class="section">
-    <button id="submit" class="button">@messages(messageKey)</button>
-</div>
+@()
+<script src='@controllers.routes.Assets.versioned("javascripts/govuk-frontend-3.3.0.min.js")'></script>
+<script>window.GOVUKFrontend.initAll();</script>

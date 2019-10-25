@@ -26,7 +26,7 @@
 
 @(declaration:CustomsDeclarationsResponse, declarationXml:Elem)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@mainTemplate(title = "Declaration Result", bodyClasses = None) {
+@mainTemplate(pageTitle = Some("Declaration Result")) {
 <h1>Customs Declaration submitted</h1>
 
 <p>If the status is not 2xx or if you don't see a ConversationId then the submission failed</p>

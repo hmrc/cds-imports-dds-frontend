@@ -31,7 +31,8 @@
   layoutsMainContentHeader: MainContentHeader,
   layoutsMainContent: MainContent,
   helpersReportAProblemLink: ReportAProblemLink,
-  govUkTemplate: govukTemplate
+  govUkTemplate: govukTemplate,
+  head: head
   //assetsFinder: AssetsFinder
 )
 
@@ -98,16 +99,8 @@
       sidebar = sidebar)
 }
 
-@head = {
-    <!--[if !IE 8]><!-->
-    <link href='@controllers.routes.Assets.versioned("stylesheets/govuk-frontend-3.3.0.min.css")' media="screen" rel="stylesheet" type="text/css" />
-    <!--<![endif]-->
-    <!--[if IE 8]>
-    <link href='@controllers.routes.Assets.versioned("stylesheets/govuk-frontend-ie8-3.3.0.min.css")' media="screen" rel="stylesheet" type="text/css" />
-    <![endif]-->
-}
 
 @*
 @govUkTemplate(Some(title), bodyClasses)(head, bodyEnd, insideHeader, afterHeader, footerTop, Some(layoutsFooterLinks()), true)(content)
 *@
-@govUkTemplate(None, None, None, None, None, None, None, None, Some(head))(content)
+@govUkTemplate(None, None, None, None, None, None, None, None, Some(head()))(content)
