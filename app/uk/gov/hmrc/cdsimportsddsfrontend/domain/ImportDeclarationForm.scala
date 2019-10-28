@@ -28,12 +28,41 @@ case class ImportDeclarationForm(
                             totalNumberOfItems: String, // Declaration/GoodsItemQuantity = "1" // only 1 item for now
                             requestedProcedureCode: String, // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/GovernmentProcedure/CurrentCode = "40"
                             previousProcedureCode: String, // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/GovernmentProcedure/PreviousCode = "00"
-                            additionalProcedureCode: String // "000 or C07"
+                            additionalProcedureCode: String, // "000 or C07"
+                            previousDocCategory:String,
+                            previousDocType:String,
+                            previousDocReference:String,
+                            previousDocGoodsItemId:String,
+                            additionalInfoCode:String,
+                            additionalInfoDescription:String,
+                            additionalDocCategoryCode:String,
+                            additionalDocTypeCode:String,
+                            additionalDocId:String,
+                            additionalDocLPCO:String,
+                            additionalDocName:String
                             )
 
 object ImportDeclarationForm {
   def apply():ImportDeclarationForm = {
-    new ImportDeclarationForm("IM", "Z", "1", "1" ,"40", "00", "")
+    new ImportDeclarationForm("IM",
+      "Z",
+      "1",
+      "1" ,
+      "40",
+      "00",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    )
   }
 
   val nonEmptyString = nonEmptyText.verifying("field.cannot.be.empty", _.nonEmpty)
@@ -46,7 +75,19 @@ object ImportDeclarationForm {
       "totalNumberOfItems"-> nonEmptyString,
       "requestedProcedureCode"-> nonEmptyString,
       "previousProcedureCode"-> nonEmptyString,
-      "additionalProcedureCode"-> nonEmptyString
+      "additionalProcedureCode"-> nonEmptyString,
+
+      "previousDocCategory" ->nonEmptyString,
+      "previousDocType" ->nonEmptyString,
+      "previousDocReference" ->nonEmptyString,
+      "previousDocGoodsItemId" ->nonEmptyString,
+      "additionalInfoCode" ->nonEmptyString,
+      "additionalInfoDescription" ->nonEmptyString,
+      "additionalDocCategoryCode" ->nonEmptyString,
+      "additionalDocTypeCode" ->nonEmptyString,
+      "additionalDocId" ->nonEmptyString,
+      "additionalDocLPCO" ->nonEmptyString,
+      "additionalDocName" ->nonEmptyString
     )(ImportDeclarationForm.apply)(ImportDeclarationForm.unapply)
   )
 

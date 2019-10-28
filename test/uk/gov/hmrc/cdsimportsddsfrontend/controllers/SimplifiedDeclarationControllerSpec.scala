@@ -163,7 +163,18 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
         "totalNumberOfItems" -> Seq("totalNumberOfItems"),
         "requestedProcedureCode" -> Seq("requestedProcedureCode"),
         "previousProcedureCode" -> Seq("previousProcedureCode"),
-        "additionalProcedureCode" -> Seq("additionalProcedureCode")
+        "additionalProcedureCode" -> Seq("additionalProcedureCode"),
+        "previousDocCategory" -> Seq("previousDocCategory"),
+        "previousDocType" -> Seq("previousDocType"),
+        "previousDocReference" -> Seq("previousDocReference"),
+        "previousDocGoodsItemId" -> Seq("previousDocGoodsItemId"),
+        "additionalInfoCode" -> Seq("additionalInfoCode"),
+        "additionalInfoDescription" -> Seq("additionalInfoDescription"),
+        "additionalDocCategoryCode" -> Seq("additionalDocCategoryCode"),
+        "additionalDocTypeCode" -> Seq("additionalDocTypeCode"),
+        "additionalDocId" -> Seq("additionalDocId"),
+        "additionalDocLPCO" -> Seq("additionalDocLPCO"),
+        "additionalDocName" -> Seq("additionalDocName")
       )
       val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
       val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
@@ -197,7 +208,19 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
         "totalNumberOfItems" -> Seq("104"),
         "requestedProcedureCode" -> Seq("105"),
         "previousProcedureCode" -> Seq("106"),
-        "additionalProcedureCode" -> Seq("107")
+        "additionalProcedureCode" -> Seq("107"),
+        //TODO Add the xml parsing tests below
+        "previousDocCategory" -> Seq("previousDocCategory"),
+        "previousDocType" -> Seq("previousDocType"),
+        "previousDocReference" -> Seq("previousDocReference"),
+        "previousDocGoodsItemId" -> Seq("previousDocGoodsItemId"),
+        "additionalInfoCode" -> Seq("additionalInfoCode"),
+        "additionalInfoDescription" -> Seq("additionalInfoDescription"),
+        "additionalDocCategoryCode" -> Seq("additionalDocCategoryCode"),
+        "additionalDocTypeCode" -> Seq("additionalDocTypeCode"),
+        "additionalDocId" -> Seq("additionalDocId"),
+        "additionalDocLPCO" -> Seq("additionalDocLPCO"),
+        "additionalDocName" -> Seq("additionalDocName")
       )
       val captor: ArgumentCaptor[Elem] = ArgumentCaptor.forClass(classOf[Elem])
       val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), captor.capture())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
@@ -211,6 +234,7 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
         (xml \ "Declaration" \ "GoodsItemQuantity").head.text mustBe "104"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "GovernmentProcedure" \ "CurrentCode").map(_.text) mustBe List("105","107")
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "GovernmentProcedure" \ "PreviousCode").head.text mustBe "106"
+        //TODO Add tests for the new fields
       }
     }
   }
