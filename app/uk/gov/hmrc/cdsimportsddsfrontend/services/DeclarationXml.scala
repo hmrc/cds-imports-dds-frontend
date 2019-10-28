@@ -122,10 +122,10 @@ object DeclarationXml {
               <TypeCode>506</TypeCode>
             </AdditionalDocument>
             <AdditionalDocument>
-              <CategoryCode>N</CategoryCode>
-              <ID>12345/30.09.2019</ID>
-              <TypeCode>935</TypeCode>
-              <LPCOExemptionCode>AC</LPCOExemptionCode>
+              <CategoryCode>{dec.additionalDocCategoryCode}</CategoryCode>
+              <ID>{dec.additionalDocId}</ID>
+              <TypeCode>{dec.additionalDocTypeCode}</TypeCode>
+              <LPCOExemptionCode>{dec.additionalDocLPCO}</LPCOExemptionCode>
             </AdditionalDocument>
             <AdditionalDocument>
               <CategoryCode>I</CategoryCode>
@@ -137,8 +137,8 @@ object DeclarationXml {
               </WriteOff>
             </AdditionalDocument>
             <AdditionalInformation>
-              <StatementCode>00500</StatementCode>
-              <StatementDescription>IMPORTER</StatementDescription>
+              <StatementCode>{dec.additionalInfoCode}</StatementCode>
+              <StatementDescription>{dec.additionalInfoDescription}</StatementDescription>
             </AdditionalInformation>
             <Commodity>
               <Description>Aluminium Foil not exceeding 0,2 mm</Description>
@@ -192,10 +192,10 @@ object DeclarationXml {
               <LineNumeric>1</LineNumeric>
             </PreviousDocument>
             <PreviousDocument>
-              <CategoryCode>Y</CategoryCode>
-              <ID>9GB201909014000</ID>
-              <TypeCode>DCR</TypeCode>
-              <LineNumeric>1</LineNumeric>
+              <CategoryCode>{dec.previousDocCategory}</CategoryCode>
+              <ID>{dec.previousDocReference}</ID>
+              <TypeCode>{dec.previousDocType}</TypeCode>
+              <LineNumeric>{dec.previousDocGoodsItemId}</LineNumeric>
             </PreviousDocument>
             <ValuationAdjustment>
               <AdditionCode>0000</AdditionCode>
@@ -204,7 +204,7 @@ object DeclarationXml {
           <Importer>
             <ID>GB201909014000</ID>
           </Importer>
-          <PreviousDocument>
+<!--          <PreviousDocument>
             <CategoryCode>Y</CategoryCode>
             <ID>20191101</ID>
             <TypeCode>CLE</TypeCode>
@@ -216,12 +216,13 @@ object DeclarationXml {
             <TypeCode>DCR</TypeCode>
             <LineNumeric>1</LineNumeric>
           </PreviousDocument>
+          -->
           <TradeTerms>
             <ConditionCode>CFR</ConditionCode>
             <LocationID>GBDVR</LocationID>
           </TradeTerms>
           <UCR>
-            <TraderAssignedReferenceID>9GB201909014000-12345</TraderAssignedReferenceID>
+            <TraderAssignedReferenceID>{dec.previousDocReference}-12345</TraderAssignedReferenceID>
           </UCR>
         </GoodsShipment>
       </Declaration>
