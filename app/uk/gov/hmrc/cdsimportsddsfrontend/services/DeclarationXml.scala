@@ -126,6 +126,7 @@ object DeclarationXml {
               <ID>{dec.additionalDocId}</ID>
               <TypeCode>{dec.additionalDocTypeCode}</TypeCode>
               <LPCOExemptionCode>{dec.additionalDocLPCO}</LPCOExemptionCode>
+              <Name>{dec.additionalDocName}</Name>
             </AdditionalDocument>
             <AdditionalDocument>
               <CategoryCode>I</CategoryCode>
