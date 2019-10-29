@@ -24,13 +24,15 @@ import play.api.test.Helpers.{stubBodyParser, stubLangs, stubPlayBodyParsers}
 import play.api.test.{FakeRequest, NoMaterializer}
 import play.api.{Configuration, Environment, Mode}
 import uk.gov.hmrc.cdsimportsddsfrontend.config.{AppConfig, ErrorHandler, FeatureSwitchRegistry}
-import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{error_template, govuk_wrapper, main_template}
+import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{error_template, main_template}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.config.{RunMode, ServicesConfig}
 import uk.gov.hmrc.play.config.{AssetsConfig, GTMConfig, OptimizelyConfig}
 import uk.gov.hmrc.play.views.html.helpers.ReportAProblemLink
 import uk.gov.hmrc.play.views.html.layouts._
-import views.html.layouts.GovUkTemplate
+import uk.gov.hmrc.cdsimportsddsfrontend.views.html._
+import uk.gov.hmrc.govukfrontend.views.html.components._
+import uk.gov.hmrc.govukfrontend.views.html.layouts._
 
 import scala.concurrent.ExecutionContext
 
@@ -85,10 +87,8 @@ trait CdsImportsSpec extends WordSpec with MustMatchers with AppConfigReader {
   val gtmConfig = new GTMConfig(configuration)
   val gtmSnippet = new GTMSnippet(gtmConfig)
   val head = new Head(optimizelySnippet, assetsConfig, gtmSnippet)
-  val footer = new Footer(assetsConfig)
-  val govukWrapper = new govuk_wrapper(head, new HeaderNav(), footer, new FooterLinks(), new ServiceInfo(),
-    new MainContentHeader(), new MainContent(), new ReportAProblemLink(), new GovUkTemplate())
-  val mainTemplate = new main_template(new Sidebar(), new Article(), govukWrapper)
+  val govukTemplate = new govukTemplate(new GovukHeader, new GovukFooter, new GovukSkipLink)
+  val mainTemplate = new main_template(new govukLayout(govukTemplate, new GovukHeader, new GovukFooter, new GovukBackLink), new head, new scripts)
 
   implicit val errorHandler = new ErrorHandler(new error_template(mainTemplate), messagesApi, appConfig)
 

@@ -29,6 +29,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsService, DeclarationStore}
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{declaration_result, simplified_declaration}
+import uk.gov.hmrc.govukfrontend.views.html.components._
 
 import scala.concurrent.Future
 import scala.xml.Elem
@@ -41,7 +42,8 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
   }
 
   trait BaseScenario {
-    val formTemplate = new simplified_declaration(mainTemplate)
+    val govukButton = new GovukButton()
+    val formTemplate = new simplified_declaration(mainTemplate, govukButton)
     val resultTemplate = new declaration_result(mainTemplate)
     val mockDeclarationService = mock[CustomsDeclarationsService]
     val mockDeclarationStore = mock[DeclarationStore]
