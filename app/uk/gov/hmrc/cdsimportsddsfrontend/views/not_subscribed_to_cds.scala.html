@@ -20,7 +20,7 @@
 
 @()(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@mainTemplate(title = messages("not-subscribed-to-cds.detail.title"), bodyClasses = None) {
+@mainTemplate(pageTitle = Some(messages("not-subscribed-to-cds.detail.title"))) {
     <div id="content" class="column-two-thirds text-align">
         <header class="page-header">
             <h1>

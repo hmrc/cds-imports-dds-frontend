@@ -24,6 +24,6 @@
 <h1 class="heading-xlarge">@messages(heading)</h1>
 }
 
-@mainTemplate(title = messages(pageTitle), contentHeader = Some(contentHeader)) {
+@mainTemplate(pageTitle = Some(messages(pageTitle)), Some(contentHeader)) {
   <p>@messages(message)</p>
 }

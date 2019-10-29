@@ -23,7 +23,7 @@
 
 @(notifications:Seq[Notification])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@mainTemplate(title = "Notifications", bodyClasses = None) {
+@mainTemplate(pageTitle = Some("Notifications")) {
 <h1>Customs Declaration submitted</h1>
 
 <h3>Notifications</h3>

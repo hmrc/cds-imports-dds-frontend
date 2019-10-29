@@ -14,21 +14,8 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.govukfrontend.views.html.layouts.govukLayout
-@import uk.gov.hmrc.govukfrontend.views.html.components._
+@this()
 
-@this(
-    govukLayout: govukLayout,
-    head: head,
-    scripts: scripts
-)
-
-@(pageTitle: Option[String] = None,
-    beforeContentBlock: Option[Html] = None)(contentBlock: Html)(implicit request: Request[_], messages: Messages)
-
-@govukLayout(
-    pageTitle = pageTitle,
-    headBlock = Some(head()),
-    beforeContentBlock = beforeContentBlock,
-    footerItems = Seq(FooterItem()),
-    bodyEndBlock = Some(scripts()))(contentBlock)
+@()
+<script src='@controllers.routes.Assets.versioned("lib/govuk-frontend/govuk/all.js")'></script>
+<script>window.GOVUKFrontend.initAll();</script>

@@ -16,6 +16,7 @@ lazy val microservice = Project(appName, file("."))
   .configs(IntegrationTest)
   .settings(integrationTestSettings(): _*)
   .settings(resolvers += Resolver.jcenterRepo)
+  .settings(resolvers += "hmrc-releases" at "https://artefacts.tax.service.gov.uk/artifactory/hmrc-releases/")
 
 
 lazy val scoverageSettings = {
@@ -36,7 +37,7 @@ scalacOptions += "-Ypartial-unification"
 
 val compileDeps = Seq(
 
-  "uk.gov.hmrc"             %% "govuk-template"           % "5.42.0-play-26",
+  "uk.gov.hmrc"             %% "play-frontend-govuk"      % "0.19.0-play-26",
   "uk.gov.hmrc"             %% "play-ui"                  % "8.2.0-play-26",
   "uk.gov.hmrc"             %% "bootstrap-play-26"        % "1.1.0",
   "org.scala-lang.modules"  %% "scala-xml"                % "1.2.0",

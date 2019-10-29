@@ -41,5 +41,8 @@ declaration.not.xml=This is not a valid xml document
 error.summary.title=Error
 error.summary.text=There was an error on the form
 
-site.save_and_continue=Submit
+site.submit=Submit
+
+service.name = cds-imports-dds-frontend
+service.homePageUrl = /
 

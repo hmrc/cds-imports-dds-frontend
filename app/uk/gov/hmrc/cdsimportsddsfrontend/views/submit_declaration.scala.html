@@ -23,7 +23,7 @@
 
 @(form:Form[SubmitDeclarationModel])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@mainTemplate(title = "Submit your declaration", bodyClasses = None) {
+@mainTemplate(pageTitle = Some("Submit your declaration")) {
 
     @helper.form(action=uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes.SubmitDeclarationController.submit) {
         @CSRF.formField

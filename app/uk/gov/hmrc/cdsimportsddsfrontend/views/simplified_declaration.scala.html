@@ -19,16 +19,19 @@
 @import uk.gov.hmrc.play.views.html._
 @import uk.gov.hmrc.cdsimportsddsfrontend.domain.ImportDeclarationForm
 @import uk.gov.hmrc.cdsimportsddsfrontend.views.html.components.inputs.input_text
+@import uk.gov.hmrc.govukfrontend.views.html.components._
 
-@this(mainTemplate: main_template)
+@this(
+    mainTemplate: main_template,
+    govukButton: GovukButton)
 
 @(form:Form[ImportDeclarationForm])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@mainTemplate(title = "Submit your declaration", bodyClasses = None) {
+@mainTemplate(pageTitle = Some("Submit your declaration")) {
 
     @helper.form(action=uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes.SimplifiedDeclarationController.submit) {
         @CSRF.formField
-        <fieldset>
+        <fieldset class="govuk-fieldset">
             @components.form_legend("declare.legendHeading")
             @components.error_summary(form.errors)
 
@@ -51,8 +54,8 @@
             @input_text(form("additionalDocLPCO"        ), "declare.additionalDocLPCO"        )
             @input_text(form("additionalDocName"        ), "declare.additionalDocName"        )
         </fieldset>
-        @components.submit_button()
 
+        @govukButton(Button(content = Text(messages("site.submit"))))
     }
 
 }
