@@ -24,53 +24,72 @@
 @(notifications:Seq[Notification])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @mainTemplate(pageTitle = Some("Notifications")) {
-<h1>Customs Declaration submitted</h1>
+    <h1 class="govuk-heading-l">Customs Declaration submitted</h1>
 
-<h3>Notifications</h3>
-<ul>
-    @for(notification <- notifications) {
-    <li>
-        <table>
-            <tr>
-                <td>actionId</td>
-                <td>@notification.actionId</td>
-            </tr>
-            <tr>
-                <td>mrn</td>
-                <td>@notification.mrn</td>
-            </tr>
-            <tr>
-                <td>dateTimeIssued</td>
-                <td>@notification.dateTimeIssued</td>
-            </tr>
-            <tr>
-                <td>status</td>
-                <td class="declaration-status">@notification.status</td>
-            </tr>
-            <tr>
-                <td>errors</td>
-                <td class="wco-errors">
+    <h3 class="govuk-heading-m">Notifications</h3>
+
+    <dl class="govuk-summary-list">
+        @for(notification <- notifications) {
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    actionId
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @notification.actionId
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    mrn
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @notification.mrn
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    dateTimeIssued
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @notification.dateTimeIssued
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    status
+                </dt>
+                <dd class="govuk-summary-list__value declaration-status">
+                    @notification.status
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    errors
+                </dt>
+                <dd class="govuk-summary-list__value wco-errors">
                     <ul>
-                    @for(error <- notification.errors) {
+                        @for(error <- notification.errors) {
                         <li>
                             @error.toHumanReadable
                             <ul>
-                            @for(pointer <- error.pointers) {
+                                @for(pointer <- error.pointers) {
                                 <li><small>@{pointer.toHumanReadable}</small></li>
-                            }
+                                }
                             </ul>
                         </li>
-                    }
+                        }
                     </ul>
-                </td>
-            </tr>
-            <tr>
-                <td>payload</td>
-                <td><small>@notification.payload</small></td>
-            </tr>
-        </table>
-    </li>
-    }
-</ul>
+                </dd>
+            </div>
+        <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+                payload
+            </dt>
+            <dd class="govuk-summary-list__value">
+                <small>@notification.payload</small>
+            </dd>
+        </div>
+        }
+    </dl>
 
 }
