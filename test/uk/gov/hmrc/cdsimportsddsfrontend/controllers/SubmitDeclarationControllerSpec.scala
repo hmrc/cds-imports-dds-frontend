@@ -27,6 +27,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsService, DeclarationStore}
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{declaration_result, submit_declaration}
+import uk.gov.hmrc.govukfrontend.views.html.components.GovukButton
 
 import scala.concurrent.Future
 
@@ -34,7 +35,8 @@ class SubmitDeclarationControllerSpec extends CdsImportsSpec
   with AuthenticationBehaviours with FutureAwaits with DefaultAwaitTimeout with JsoupShouldMatchers {
 
   trait AllScenarios {
-    val submitTemplate = new submit_declaration(mainTemplate)
+    val govukButton = new GovukButton()
+    val submitTemplate = new submit_declaration(mainTemplate, govukButton)
     val resultTemplate = new declaration_result(mainTemplate)
     val mockDeclarationService = mock[CustomsDeclarationsService]
     val mockDeclarationStore = mock[DeclarationStore]
