@@ -22,12 +22,19 @@
 @()(implicit request: Request[_], messages: Messages, appConfig: AppConfig, featureSwitchRegistry: FeatureSwitchRegistry)
 
 @mainTemplate(pageTitle = Some("Hello from cds-imports-dds-frontend")) {
-    <h1>Hello from cds-imports-dds-frontend !</h1>
+    <h1 class="govuk-heading-ll">Hello from cds-imports-dds-frontend !</h1>
 
     @if(featureSwitchRegistry.SinglePageDeclaration.isEnabled) {
-        <h3><a href="@uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes.SimplifiedDeclarationController.show()">Submit declaration FORM</a></h3>
-        <br/>
+        <p class="govuk-body">
+            <a class="govuk-link" href="@uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes.SimplifiedDeclarationController.show()">
+                Submit declaration FORM
+            </a>
+        </p>
     }
-    <h5><a href="@uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes.SubmitDeclarationController.show()">Submit declaration in raw XML</a></h5>
 
+    <p class="govuk-body">
+        <a class="govuk-link" href="@uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes.SubmitDeclarationController.show()">
+            Submit declaration in raw XML
+        </a>
+    </p>
 }
