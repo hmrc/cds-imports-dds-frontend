@@ -175,10 +175,10 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
       val response = controller.show(fakeRequest)
       val html = contentAsString(response).asBodyFragment
       status(response) mustBe 200
-      html should include element withName("td").withValue("a1")
-      html should include element withName("td").withValue("a2")
-      html should include element withName("td").withValue("a3")
-      html should include element withName("td").withValue("ACCEPTED")
+      html should include element withName("dd").withValue("a1")
+      html should include element withName("dd").withValue("a2")
+      html should include element withName("dd").withValue("a3")
+      html should include element withName("dd").withValue("ACCEPTED")
     }
 
     "Show multiple notifications" in new Scenario() {
@@ -189,13 +189,13 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
       val response = controller.show(fakeRequest)
       status(response) mustBe 200
       val html = contentAsString(response).asBodyFragment
-      html should include element withName("td").withValue("a1")
-      html should include element withName("td").withValue("a2")
-      html should include element withName("td").withValue("a3")
-      html should include element withName("td").withValue("ACCEPTED")
-      html should include element withName("td").withValue("a4")
-      html should include element withName("td").withValue("a5")
-      html should include element withName("td").withValue("a6")
+      html should include element withName("dd").withValue("a1")
+      html should include element withName("dd").withValue("a2")
+      html should include element withName("dd").withValue("a3")
+      html should include element withName("dd").withValue("ACCEPTED")
+      html should include element withName("dd").withValue("a4")
+      html should include element withName("dd").withValue("a5")
+      html should include element withName("dd").withValue("a6")
     }
 
 
