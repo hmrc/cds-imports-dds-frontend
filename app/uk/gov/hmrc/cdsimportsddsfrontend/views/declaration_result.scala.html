@@ -27,25 +27,39 @@
 @(declaration:CustomsDeclarationsResponse, declarationXml:Elem)(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @mainTemplate(pageTitle = Some("Declaration Result")) {
-<h1>Customs Declaration submitted</h1>
 
-<p>If the status is not 2xx or if you don't see a ConversationId then the submission failed</p>
-<h4>Response:</h4>
-<table>
- <tr>
-  <td>Status</td>
-  <td>@{declaration.status}</td>
- </tr>
- <tr>
-  <td>ConversationId</td>
-  <td>@{declaration.conversationId}</td>
- </tr>
-</table>
+    <h1 class="govuk-heading-xl">Customs Declaration submitted</h1>
+    <p class="govuk-body">If the status is not 2xx or if you don't see a ConversationId then the submission failed</p>
 
-<h4><a href=@routes.NotificationsController.show().url>View the status of your declaration</a></h4>
+    <h2 class="govuk-heading-m">Response:</h2>
 
-<h4>The XML you just submitted to the declaration API:</h4>
-<br/>
-<p><small>@Html(DeclarationXml.prettyPrintToHtml(declarationXml))</small></p>
+    <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+                Status
+            </dt>
+            <dd class="govuk-summary-list__value">
+                @{declaration.status}
+            </dd>
+        </div>
+        <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">
+                ConversationId
+            </dt>
+            <dd class="govuk-summary-list__value">
+                @{declaration.conversationId}
+            </dd>
+        </div>
+    </dl>
+
+    <p class="govuk-body">
+        <a class="govuk-link" href=@routes.NotificationsController.show().url>View the status of your declaration</a>
+    </p>
+
+    <h3 class="govuk-heading-m">The XML you just submitted to the declaration API:</h3>
+
+    <p class="govuk-body">
+        <small>@Html(DeclarationXml.prettyPrintToHtml(declarationXml))</small>
+    </p>
 
 }

@@ -182,7 +182,7 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
       val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
       new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
         status(response) mustBe Status.OK
-        body should include element withName("td").withValue("Good")
+        body should include element withName("dd").withValue("Good")
       }
     }
 
