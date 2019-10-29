@@ -126,7 +126,7 @@ object DeclarationXml {
               <ID>{dec.additionalDocId}</ID>
               <TypeCode>{dec.additionalDocTypeCode}</TypeCode>
               <LPCOExemptionCode>{dec.additionalDocLPCO}</LPCOExemptionCode>
-              <!--<Name>{dec.additionalDocName}</Name>-->
+              <!--<Name>{dec.additionalDocName}</Name>  //TODO Schema validation failed on this field in the stub-->
             </AdditionalDocument>
             <AdditionalDocument>
               <CategoryCode>I</CategoryCode>
@@ -205,7 +205,7 @@ object DeclarationXml {
           <Importer>
             <ID>GB201909014000</ID>
           </Importer>
-<!--          <PreviousDocument>
+          <PreviousDocument>
             <CategoryCode>Y</CategoryCode>
             <ID>20191101</ID>
             <TypeCode>CLE</TypeCode>
@@ -217,7 +217,6 @@ object DeclarationXml {
             <TypeCode>DCR</TypeCode>
             <LineNumeric>1</LineNumeric>
           </PreviousDocument>
-          -->
           <TradeTerms>
             <ConditionCode>CFR</ConditionCode>
             <LocationID>GBDVR</LocationID>
