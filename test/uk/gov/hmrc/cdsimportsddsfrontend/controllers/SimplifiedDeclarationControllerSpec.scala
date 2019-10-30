@@ -212,17 +212,17 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
         "previousProcedureCode" -> Seq("106"),
         "additionalProcedureCode" -> Seq("107"),
         //TODO Add the xml parsing tests below
-        "previousDocCategory" -> Seq("previousDocCategory"),
-        "previousDocType" -> Seq("previousDocType"),
-        "previousDocReference" -> Seq("previousDocReference"),
-        "previousDocGoodsItemId" -> Seq("previousDocGoodsItemId"),
-        "additionalInfoCode" -> Seq("additionalInfoCode"),
-        "additionalInfoDescription" -> Seq("additionalInfoDescription"),
-        "additionalDocCategoryCode" -> Seq("additionalDocCategoryCode"),
-        "additionalDocTypeCode" -> Seq("additionalDocTypeCode"),
-        "additionalDocId" -> Seq("additionalDocId"),
-        "additionalDocLPCO" -> Seq("additionalDocLPCO"),
-        "additionalDocName" -> Seq("additionalDocName")
+        "previousDocCategory" -> Seq("Y"),
+        "previousDocType" -> Seq("DCR"),
+        "previousDocReference" -> Seq("9GB201909014000"),
+        "previousDocGoodsItemId" -> Seq("1"),
+        "additionalInfoCode" -> Seq("00500"),
+        "additionalInfoDescription" -> Seq("IMPORTER"),
+        "additionalDocCategoryCode" -> Seq("N"),
+        "additionalDocTypeCode" -> Seq("935"),
+        "additionalDocId" -> Seq("12345/30.09.2019"),
+        "additionalDocLPCO" -> Seq("AC"),
+        "additionalDocName" -> Seq("DocumentName")
       )
       val captor: ArgumentCaptor[Elem] = ArgumentCaptor.forClass(classOf[Elem])
       val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), captor.capture())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
@@ -236,7 +236,17 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
         (xml \ "Declaration" \ "GoodsItemQuantity").head.text mustBe "104"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "GovernmentProcedure" \ "CurrentCode").map(_.text) mustBe List("105","107")
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "GovernmentProcedure" \ "PreviousCode").head.text mustBe "106"
-        //TODO Add tests for the new fields
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) contains  "Y"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "PreviousDocument" \ "TypeCode").toList.map(_.text) contains "DCR"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "PreviousDocument" \ "ID").toList.map(_.text) contains "9GB201909014000"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) contains "1"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalInformation" \ "StatementCode").text mustBe "00500"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalInformation" \ "StatementDescription").text mustBe "IMPORTER"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalDocument" \ "CategoryCode").toList.map(_.text) contains "N"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalDocument" \ "TypeCode").toList.map(_.text) contains "935"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalDocument" \ "ID").toList.map(_.text) contains "12345/30.09.2019"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalDocument" \ "LPCOExemptionCode").toList.map(_.text) contains "AC"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalDocument" \ "Name").toList.map(_.text) contains "DocumentName"
       }
     }
   }

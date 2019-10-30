@@ -124,9 +124,9 @@ object DeclarationXml {
             <AdditionalDocument>
               <CategoryCode>{dec.additionalDocCategoryCode}</CategoryCode>
               <ID>{dec.additionalDocId}</ID>
+              <Name>{dec.additionalDocName}</Name>
               <TypeCode>{dec.additionalDocTypeCode}</TypeCode>
               <LPCOExemptionCode>{dec.additionalDocLPCO}</LPCOExemptionCode>
-              <!--<Name>{dec.additionalDocName}</Name>  //TODO Schema validation failed on this field in the stub-->
             </AdditionalDocument>
             <AdditionalDocument>
               <CategoryCode>I</CategoryCode>
