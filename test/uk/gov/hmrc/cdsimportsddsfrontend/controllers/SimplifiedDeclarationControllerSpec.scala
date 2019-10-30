@@ -81,6 +81,7 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "requestedProcedureCode")
         body should include element withName("input").withAttrValue("name", "previousProcedureCode")
         body should include element withName("input").withAttrValue("name", "additionalProcedureCode")
+        // TODO add new fields
       }
     }
 
@@ -94,6 +95,7 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
         body should include element withClass("govuk-label").withAttrValue("for", "requestedProcedureCode").withValue("1.10. Requested Procedure Code")
         body should include element withClass("govuk-label").withAttrValue("for", "previousProcedureCode").withValue("1.10. Previous Procedure Code")
         body should include element withClass("govuk-label").withAttrValue("for", "additionalProcedureCode").withValue("1.11. Additional Procedure Code (000 or C07)")
+        // TODO add new fields
       }
     }
 
@@ -107,6 +109,8 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "requestedProcedureCode").withAttrValue("value", "40")
         body should include element withName("input").withAttrValue("name", "previousProcedureCode").withAttrValue("value", "00")
         body should include element withName("input").withAttrValue("name", "additionalProcedureCode").withAttrValueMatching("value", "000")
+        // TODO add new fields
+        // TODO determine which fields should really be pre-populated, and modify tests accordingly
       }
     }
   }
@@ -126,14 +130,7 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
   "A POST Request" should {
     "return 404 when the SinglePageDeclaration feature is disabled" in {
       featureSwitchRegistry.SinglePageDeclaration.disable()
-      val formData = Map("declarationType" -> Seq("declarationType"),
-        "additionalDeclarationType" -> Seq("additionalDeclarationType"),
-        "goodsItemNumber" -> Seq("goodsItemNumber"),
-        "totalNumberOfItems" -> Seq("totalNumberOfItems"),
-        "requestedProcedureCode" -> Seq("requestedProcedureCode"),
-        "previousProcedureCode" -> Seq("previousProcedureCode"),
-        "additionalProcedureCode" -> Seq("additionalProcedureCode")
-      )
+      val formData = Map[String, Seq[String]]()
       val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
       val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
       new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
@@ -143,14 +140,7 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
 
     "return 503 when the SinglePageDeclaration feature is suspended" in {
       featureSwitchRegistry.SinglePageDeclaration.suspend()
-      val formData = Map("declarationType" -> Seq("declarationType"),
-        "additionalDeclarationType" -> Seq("additionalDeclarationType"),
-        "goodsItemNumber" -> Seq("goodsItemNumber"),
-        "totalNumberOfItems" -> Seq("totalNumberOfItems"),
-        "requestedProcedureCode" -> Seq("requestedProcedureCode"),
-        "previousProcedureCode" -> Seq("previousProcedureCode"),
-        "additionalProcedureCode" -> Seq("additionalProcedureCode")
-      )
+      val formData = Map[String, Seq[String]]()
       val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
       val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
       new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
@@ -158,8 +148,9 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
       }
     }
 
-    "succeed when all the fields are present" in signedInScenario { user =>
-      val formData = Map("declarationType" -> Seq("declarationType"),
+    "succeed when all required fields are present" in signedInScenario { user =>
+    // TODO determine which fields are mandatory, and modify tests accordingly
+    val formData = Map("declarationType" -> Seq("declarationType"),
         "additionalDeclarationType" -> Seq("additionalDeclarationType"),
         "goodsItemNumber" -> Seq("goodsItemNumber"),
         "totalNumberOfItems" -> Seq("totalNumberOfItems"),
@@ -186,7 +177,7 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
       }
     }
 
-    "fail when some fields are missing" in signedInScenario { user =>
+    "fail when some mandatory fields are missing" in signedInScenario { user =>
       val formData = Map("declarationType" -> Seq("declarationType"))
       val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
       val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
@@ -198,6 +189,7 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("a").withAttrValue("id", "requestedProcedureCode-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "previousProcedureCode-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "additionalProcedureCode-error").withValue("This field is required")
+        // TODO determine which fields are mandatory, and modify tests accordingly
       }
     }
   }
@@ -211,7 +203,6 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
         "requestedProcedureCode" -> Seq("105"),
         "previousProcedureCode" -> Seq("106"),
         "additionalProcedureCode" -> Seq("107"),
-        //TODO Add the xml parsing tests below
         "previousDocCategory" -> Seq("Y"),
         "previousDocType" -> Seq("DCR"),
         "previousDocReference" -> Seq("9GB201909014000"),
@@ -247,6 +238,7 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalDocument" \ "ID").toList.map(_.text) contains "12345/30.09.2019"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalDocument" \ "LPCOExemptionCode").toList.map(_.text) contains "AC"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalDocument" \ "Name").toList.map(_.text) contains "DocumentName"
+        // TODO determine which fields are mandatory, and modify tests accordingly - should we omit non-populated tags or just leave empty?
       }
     }
   }

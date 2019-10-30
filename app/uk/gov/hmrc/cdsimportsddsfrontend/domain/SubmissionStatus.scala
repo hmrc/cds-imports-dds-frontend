@@ -27,13 +27,7 @@ object SubmissionStatus extends Enumeration {
   UNKNOWN = Value
 
   def retrieve(functionCode: String, nameCode: Option[String] = None): SubmissionStatus =
-    getStatusOrUnknown(functionCode + nameCode.getOrElse(""))
-
-  private def getStatusOrUnknown(searchKey: String): SubmissionStatus =
-    codesMap.get(searchKey) match {
-      case Some(status) => status
-      case None         => UNKNOWN
-    }
+    codesMap.getOrElse(functionCode + nameCode.getOrElse(""), UNKNOWN)
 
   private val codesMap: Map[String, SubmissionStatus] = Map(
     "Pending" -> PENDING,
