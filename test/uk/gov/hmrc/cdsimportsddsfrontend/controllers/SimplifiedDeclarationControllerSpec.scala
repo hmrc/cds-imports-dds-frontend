@@ -88,13 +88,13 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
     "show the expected field labels" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
-        body should include element withClass("govuk-label").withAttrValue("for", "declarationType").withValue("1.1. Declaration Type")
-        body should include element withClass("govuk-label").withAttrValue("for", "additionalDeclarationType").withValue("1.2. Additional Declaration Type")
-        body should include element withClass("govuk-label").withAttrValue("for", "goodsItemNumber").withValue("1.6. Goods Item Number")
-        body should include element withClass("govuk-label").withAttrValue("for", "totalNumberOfItems").withValue("1.9. Total Number Of Items")
-        body should include element withClass("govuk-label").withAttrValue("for", "requestedProcedureCode").withValue("1.10. Requested Procedure Code")
-        body should include element withClass("govuk-label").withAttrValue("for", "previousProcedureCode").withValue("1.10. Previous Procedure Code")
-        body should include element withClass("govuk-label").withAttrValue("for", "additionalProcedureCode").withValue("1.11. Additional Procedure Code (000 or C07)")
+        body should include element withClass("govuk-label").withAttrValue("for", "declarationType").withValue("1.1 Declaration Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "additionalDeclarationType").withValue("1.2 Additional Declaration Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "goodsItemNumber").withValue("1.6 Goods Item Number")
+        body should include element withClass("govuk-label").withAttrValue("for", "totalNumberOfItems").withValue("1.9 Total Number Of Items")
+        body should include element withClass("govuk-label").withAttrValue("for", "requestedProcedureCode").withValue("1.10 Requested Procedure Code")
+        body should include element withClass("govuk-label").withAttrValue("for", "previousProcedureCode").withValue("1.10 Previous Procedure Code")
+        body should include element withClass("govuk-label").withAttrValue("for", "additionalProcedureCode").withValue("1.11 Additional Procedure Code (000 or C07)")
         // TODO add new fields
       }
     }
