@@ -18,7 +18,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
 import play.api.data.Form
 import play.api.data.Forms.{mapping, nonEmptyText}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, Header}
 
 object DeclarationForm {
 
@@ -26,29 +26,32 @@ object DeclarationForm {
 
   lazy val form: Form[Declaration] = Form(
     mapping(
-      "declarationType" -> nonEmptyString,
-      "additionalDeclarationType"-> nonEmptyString,
-      "goodsItemNumber"-> nonEmptyString,
-      "totalNumberOfItems"-> nonEmptyString,
-      "requestedProcedureCode"-> nonEmptyString,
-      "previousProcedureCode"-> nonEmptyString,
-      "additionalProcedureCode"-> nonEmptyString,
+      "header" -> mapping(
+        "declarationType" -> nonEmptyString,
+        "additionalDeclarationType" -> nonEmptyString
+      )(Header.apply)(Header.unapply),
 
-      "previousDocCategory" ->nonEmptyString,
-      "previousDocType" ->nonEmptyString,
-      "previousDocReference" ->nonEmptyString,
-      "previousDocGoodsItemId" ->nonEmptyString,
-      "additionalInfoCode" ->nonEmptyString,
-      "additionalInfoDescription" ->nonEmptyString,
-      "additionalDocCategoryCode" ->nonEmptyString,
-      "additionalDocTypeCode" ->nonEmptyString,
-      "additionalDocId" ->nonEmptyString,
-      "additionalDocLPCO" ->nonEmptyString,
-      "additionalDocName" ->nonEmptyString,
-      "localReferenceNumber" ->nonEmptyString,
-      "additionalDocPaymentID" ->nonEmptyString,
-      "additionalDocPaymentCategory" ->nonEmptyString,
-      "additionalDocPaymentType" ->nonEmptyString
+      "goodsItemNumber" -> nonEmptyString,
+      "totalNumberOfItems" -> nonEmptyString,
+      "requestedProcedureCode" -> nonEmptyString,
+      "previousProcedureCode" -> nonEmptyString,
+      "additionalProcedureCode" -> nonEmptyString,
+
+      "previousDocCategory" -> nonEmptyString,
+      "previousDocType" -> nonEmptyString,
+      "previousDocReference" -> nonEmptyString,
+      "previousDocGoodsItemId" -> nonEmptyString,
+      "additionalInfoCode" -> nonEmptyString,
+      "additionalInfoDescription" -> nonEmptyString,
+      "additionalDocCategoryCode" -> nonEmptyString,
+      "additionalDocTypeCode" -> nonEmptyString,
+      "additionalDocId" -> nonEmptyString,
+      "additionalDocLPCO" -> nonEmptyString,
+      "additionalDocName" -> nonEmptyString,
+      "localReferenceNumber" -> nonEmptyString,
+      "additionalDocPaymentID" -> nonEmptyString,
+      "additionalDocPaymentCategory" -> nonEmptyString,
+      "additionalDocPaymentType" -> nonEmptyString
     )(Declaration.apply)(Declaration.unapply)
   )
 
