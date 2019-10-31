@@ -19,15 +19,14 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services
 import java.util.UUID
 
 import play.twirl.api.{Html, HtmlFormat}
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.ImportDeclarationForm
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.Eori
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Eori, Declaration}
 
 import scala.xml.{Elem, PrettyPrinter}
 
 object DeclarationXml {
 
   // This should later build an xml that can be submitted to the declaration API.
-  def fromImportDeclaration(eori:Eori, dec: ImportDeclarationForm):Elem = {
+  def fromImportDeclaration(eori:Eori, dec: Declaration):Elem = {
     val referenceId = UUID.randomUUID().toString.replaceAll("-","").take(10)
 
 
