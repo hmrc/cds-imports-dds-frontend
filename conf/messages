@@ -33,6 +33,10 @@ declare.additionalDocTypeCode=2.3 Document Type Code
 declare.additionalDocId=2.3 Document Identifier
 declare.additionalDocLPCO=2.3 Document Status
 declare.additionalDocName=2.3 Document Status Reason
+declare.localReferenceNumber=2.5 LRN
+declare.additionalDocPaymentID=2.6 Deferred Payment ID
+declare.additionalDocPaymentCategory=2.6 Deferred Payment Category
+declare.additionalDocPaymentType=2.6 Deferred Payment Type
 
 declaration.xml=Declaration XML
 declaration.xml.hint=Write your Valid Declaration xml into the edit box

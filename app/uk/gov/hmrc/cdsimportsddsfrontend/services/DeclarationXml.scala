@@ -41,14 +41,14 @@ object DeclarationXml {
           <p1:DateTimeString formatCode="304">20191101010000+01</p1:DateTimeString>
         </AcceptanceDateTime>
         <FunctionCode>9</FunctionCode>
-        <FunctionalReferenceID>{referenceId}</FunctionalReferenceID>
+        <FunctionalReferenceID>{dec.localReferenceNumber}</FunctionalReferenceID>
         <TypeCode>{dec.declarationType+dec.additionalDeclarationType}</TypeCode>
         <GoodsItemQuantity>{dec.totalNumberOfItems}</GoodsItemQuantity>
         <TotalPackageQuantity>55</TotalPackageQuantity>
         <AdditionalDocument>
-          <CategoryCode>1</CategoryCode>
-          <ID>1909241</ID>
-          <TypeCode>DAN</TypeCode>
+          <CategoryCode>{dec.additionalDocPaymentCategory}</CategoryCode>
+          <ID>{dec.additionalDocPaymentID}</ID>
+          <TypeCode>{dec.additionalDocPaymentType}</TypeCode>
         </AdditionalDocument>
         <AdditionalInformation>
           <StatementCode>TSP01</StatementCode>

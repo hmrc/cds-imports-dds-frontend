@@ -167,7 +167,11 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
         "additionalDocTypeCode" -> Seq("additionalDocTypeCode"),
         "additionalDocId" -> Seq("additionalDocId"),
         "additionalDocLPCO" -> Seq("additionalDocLPCO"),
-        "additionalDocName" -> Seq("additionalDocName")
+        "additionalDocName" -> Seq("additionalDocName"),
+        "localReferenceNumber" -> Seq("localRef"),
+        "additionalDocPaymentID" -> Seq("123456"),
+        "additionalDocPaymentCategory" -> Seq("1"),
+        "additionalDocPaymentType" -> Seq("DAN")
       )
       val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
       val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
@@ -213,7 +217,11 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
         "additionalDocTypeCode" -> Seq("935"),
         "additionalDocId" -> Seq("12345/30.09.2019"),
         "additionalDocLPCO" -> Seq("AC"),
-        "additionalDocName" -> Seq("DocumentName")
+        "additionalDocName" -> Seq("DocumentName"),
+        "localReferenceNumber" -> Seq("localRef"),
+        "additionalDocPaymentID" -> Seq("123456"),
+        "additionalDocPaymentCategory" -> Seq("1"),
+        "additionalDocPaymentType" -> Seq("DAN")
       )
       val captor: ArgumentCaptor[Elem] = ArgumentCaptor.forClass(classOf[Elem])
       val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), captor.capture())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
@@ -238,6 +246,10 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalDocument" \ "ID").toList.map(_.text) contains "12345/30.09.2019"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalDocument" \ "LPCOExemptionCode").toList.map(_.text) contains "AC"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalDocument" \ "Name").toList.map(_.text) contains "DocumentName"
+        (xml \ "Declaration" \ "FunctionalReferenceID").head.text mustBe "localRef"
+        (xml \ "Declaration" \ "AdditionalDocument" \ "ID").head.text mustBe "123456"
+        (xml \ "Declaration" \ "AdditionalDocument" \ "CategoryCode").head.text mustBe "1"
+        (xml \ "Declaration" \ "AdditionalDocument" \ "TypeCode").head.text mustBe "DAN"
         // TODO determine which fields are mandatory, and modify tests accordingly - should we omit non-populated tags or just leave empty?
       }
     }

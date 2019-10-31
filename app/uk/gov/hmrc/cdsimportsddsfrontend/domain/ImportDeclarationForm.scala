@@ -39,7 +39,11 @@ case class ImportDeclarationForm(
                             additionalDocTypeCode:String,
                             additionalDocId:String,
                             additionalDocLPCO:String,
-                            additionalDocName:String
+                            additionalDocName:String,
+                            localReferenceNumber:String,
+                            additionalDocPaymentID:String,
+                            additionalDocPaymentCategory:String,
+                            additionalDocPaymentType:String
                             )
 
 object ImportDeclarationForm {
@@ -50,22 +54,26 @@ object ImportDeclarationForm {
       "1" ,
       "40",
       "00",
-      "000",
-      "Y",
-      "DCR",
-      "9GB201909014000",
-      "1",
-      "00500",
-      "IMPORTER",
-      "N",
-      "935",
-      "12345/30.09.2019",
-      "AC",
-      "DocName"
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
     )
   }
 
-  val nonEmptyString = nonEmptyText.verifying("field.cannot.be.empty", _.nonEmpty)
+  val nonEmptyString = nonEmptyText.verifying("field.cannot.be.empty", _.nonEmpty) //TODO fix error message
 
   val form: Form[ImportDeclarationForm] = Form(
     mapping(
@@ -87,7 +95,11 @@ object ImportDeclarationForm {
       "additionalDocTypeCode" ->nonEmptyString,
       "additionalDocId" ->nonEmptyString,
       "additionalDocLPCO" ->nonEmptyString,
-      "additionalDocName" ->nonEmptyString
+      "additionalDocName" ->nonEmptyString,
+      "localReferenceNumber" ->nonEmptyString,
+      "additionalDocPaymentID" ->nonEmptyString,
+      "additionalDocPaymentCategory" ->nonEmptyString,
+      "additionalDocPaymentType" ->nonEmptyString
     )(ImportDeclarationForm.apply)(ImportDeclarationForm.unapply)
   )
 
