@@ -108,7 +108,6 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "totalNumberOfItems").withAttrValue("value", "1")
         body should include element withName("input").withAttrValue("name", "requestedProcedureCode").withAttrValue("value", "40")
         body should include element withName("input").withAttrValue("name", "previousProcedureCode").withAttrValue("value", "00")
-        body should include element withName("input").withAttrValue("name", "additionalProcedureCode").withAttrValueMatching("value", "000")
         // TODO add new fields
         // TODO determine which fields should really be pre-populated, and modify tests accordingly
       }
