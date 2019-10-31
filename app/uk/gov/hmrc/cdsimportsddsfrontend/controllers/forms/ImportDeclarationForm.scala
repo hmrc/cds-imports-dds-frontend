@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.domain
+package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
 import play.api.data.Form
 import play.api.data.Forms.{mapping, nonEmptyText}
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.SubmitDeclarationModel
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.SubmitDeclarationModel.{FieldName, verifyXML}
 
 case class ImportDeclarationForm(
                             declarationType: String, // Declaration/TypeCode = "IM"

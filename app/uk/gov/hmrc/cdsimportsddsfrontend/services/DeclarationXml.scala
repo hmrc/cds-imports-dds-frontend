@@ -19,7 +19,8 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services
 import java.util.UUID
 
 import play.twirl.api.{Html, HtmlFormat}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Eori, ImportDeclarationForm}
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.ImportDeclarationForm
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.Eori
 
 import scala.xml.{Elem, PrettyPrinter}
 
