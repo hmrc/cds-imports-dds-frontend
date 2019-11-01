@@ -25,7 +25,7 @@ import play.api.test.Helpers._
 import play.mvc.Http.Status
 import uk.gov.hmrc.auth.core.retrieve.{Credentials, Name}
 import uk.gov.hmrc.auth.core.{AffinityGroup, Enrolments}
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.UnauthorisedController
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.{AuthAction, UnauthorisedController}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.SignedInUser
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.not_subscribed_to_cds

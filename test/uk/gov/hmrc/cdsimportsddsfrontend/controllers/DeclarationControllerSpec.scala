@@ -34,7 +34,7 @@ import uk.gov.hmrc.govukfrontend.views.html.components._
 import scala.concurrent.Future
 import scala.xml.Elem
 
-class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
+class DeclarationControllerSpec extends CdsImportsSpec
   with AuthenticationBehaviours with FutureAwaits with DefaultAwaitTimeout with JsoupShouldMatchers with BeforeAndAfterEach {
 
   override def beforeEach(): Unit = {
@@ -47,7 +47,7 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
     val resultTemplate = new declaration_result(mainTemplate)
     val mockDeclarationService = mock[CustomsDeclarationsService]
     val mockDeclarationStore = mock[DeclarationStore]
-    val controller = new SimplifiedDeclarationController(formTemplate, resultTemplate, mockDeclarationService, mockDeclarationStore, mockAuthAction)
+    val controller = new DeclarationController(formTemplate, resultTemplate, mockDeclarationService, mockDeclarationStore, mockAuthAction)
   }
 
   class GetScenario extends BaseScenario {

@@ -29,7 +29,7 @@
 
 @mainTemplate(pageTitle = Some("Submit your declaration")) {
 
-    @helper.form(action=uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes.SimplifiedDeclarationController.submit) {
+    @helper.form(action=uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes.DeclarationController.submit) {
         @CSRF.formField
         <fieldset class="govuk-fieldset">
             @components.form_legend("declare.legendHeading")

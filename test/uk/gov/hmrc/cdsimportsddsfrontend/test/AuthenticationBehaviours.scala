@@ -25,11 +25,11 @@ import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals._
 import uk.gov.hmrc.auth.core.retrieve.{Credentials, Name, Retrieval, ~}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.SignedInUser
-import uk.gov.hmrc.cdsimportsddsfrontend.services.AuthAction
 import uk.gov.hmrc.http.HeaderCarrier
 import org.mockito.Mockito._
 import org.mockito.{ArgumentMatcher, ArgumentMatchers}
 import uk.gov.hmrc.cdsimportsddsfrontend.config.EoriWhitelist
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.AuthAction
 
 import scala.concurrent.Future
 import scala.util.Random

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.services
+package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
 import com.google.inject.Inject
 import play.api.libs.json.Json
@@ -25,7 +25,6 @@ import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
 import uk.gov.hmrc.auth.core.retrieve.~
 import uk.gov.hmrc.cdsimportsddsfrontend.config.{AppConfig, EoriWhitelist, ErrorHandler}
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.SignedInUser
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.HeaderCarrierConverter
