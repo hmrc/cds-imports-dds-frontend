@@ -11,8 +11,8 @@ GET       /not-subscribed-for-cds                                  @uk.gov.hmrc.
 GET       /submit-declaration                                      @uk.gov.hmrc.cdsimportsddsfrontend.controllers.SubmitDeclarationController.show
 POST      /submit-declaration                                      @uk.gov.hmrc.cdsimportsddsfrontend.controllers.SubmitDeclarationController.submit
 
-GET       /single-page-declaration                                 @uk.gov.hmrc.cdsimportsddsfrontend.controllers.SimplifiedDeclarationController.show
-POST      /single-page-declaration                                 @uk.gov.hmrc.cdsimportsddsfrontend.controllers.SimplifiedDeclarationController.submit
+GET       /single-page-declaration                                 @uk.gov.hmrc.cdsimportsddsfrontend.controllers.DeclarationController.show
+POST      /single-page-declaration                                 @uk.gov.hmrc.cdsimportsddsfrontend.controllers.DeclarationController.submit
 
 
 + nocsrf

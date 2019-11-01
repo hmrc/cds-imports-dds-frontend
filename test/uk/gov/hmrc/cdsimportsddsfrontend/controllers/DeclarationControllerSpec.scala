@@ -28,13 +28,13 @@ import play.mvc.Http.Status
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsService, DeclarationStore}
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{declaration_result, simplified_declaration}
+import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{declaration_result, declaration}
 import uk.gov.hmrc.govukfrontend.views.html.components._
 
 import scala.concurrent.Future
 import scala.xml.Elem
 
-class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
+class DeclarationControllerSpec extends CdsImportsSpec
   with AuthenticationBehaviours with FutureAwaits with DefaultAwaitTimeout with JsoupShouldMatchers with BeforeAndAfterEach {
 
   override def beforeEach(): Unit = {
@@ -43,11 +43,11 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
 
   trait BaseScenario {
     val govukButton = new GovukButton()
-    val formTemplate = new simplified_declaration(mainTemplate, govukButton)
+    val formTemplate = new declaration(mainTemplate, govukButton)
     val resultTemplate = new declaration_result(mainTemplate)
     val mockDeclarationService = mock[CustomsDeclarationsService]
     val mockDeclarationStore = mock[DeclarationStore]
-    val controller = new SimplifiedDeclarationController(formTemplate, resultTemplate, mockDeclarationService, mockDeclarationStore, mockAuthAction)
+    val controller = new DeclarationController(formTemplate, resultTemplate, mockDeclarationService, mockDeclarationStore, mockAuthAction)
   }
 
   class GetScenario extends BaseScenario {
@@ -74,8 +74,8 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
     "show the expected form fields" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
-        body should include element withName("input").withAttrValue("name", "declarationType")
-        body should include element withName("input").withAttrValue("name", "additionalDeclarationType")
+        body should include element withName("input").withAttrValue("name", "declarationType.declarationType")
+        body should include element withName("input").withAttrValue("name", "declarationType.additionalDeclarationType")
         body should include element withName("input").withAttrValue("name", "goodsItemNumber")
         body should include element withName("input").withAttrValue("name", "totalNumberOfItems")
         body should include element withName("input").withAttrValue("name", "requestedProcedureCode")
@@ -88,8 +88,8 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
     "show the expected field labels" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
-        body should include element withClass("govuk-label").withAttrValue("for", "declarationType").withValue("1.1 Declaration Type")
-        body should include element withClass("govuk-label").withAttrValue("for", "additionalDeclarationType").withValue("1.2 Additional Declaration Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "declarationType_declarationType").withValue("1.1 Declaration Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "declarationType_additionalDeclarationType").withValue("1.2 Additional Declaration Type")
         body should include element withClass("govuk-label").withAttrValue("for", "goodsItemNumber").withValue("1.6 Goods Item Number")
         body should include element withClass("govuk-label").withAttrValue("for", "totalNumberOfItems").withValue("1.9 Total Number Of Items")
         body should include element withClass("govuk-label").withAttrValue("for", "requestedProcedureCode").withValue("1.10 Requested Procedure Code")
@@ -102,8 +102,8 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
     "show the expected pre-populated field values" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
-        body should include element withName("input").withAttrValue("name", "declarationType").withAttrValue("value", "IM")
-        body should include element withName("input").withAttrValue("name", "additionalDeclarationType").withAttrValue("value", "Z")
+        body should include element withName("input").withAttrValue("name", "declarationType.declarationType").withAttrValue("value", "IM")
+        body should include element withName("input").withAttrValue("name", "declarationType.additionalDeclarationType").withAttrValue("value", "Z")
         body should include element withName("input").withAttrValue("name", "goodsItemNumber").withAttrValue("value", "1")
         body should include element withName("input").withAttrValue("name", "totalNumberOfItems").withAttrValue("value", "1")
         body should include element withName("input").withAttrValue("name", "requestedProcedureCode").withAttrValue("value", "40")
@@ -149,8 +149,8 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
 
     "succeed when all required fields are present" in signedInScenario { user =>
     // TODO determine which fields are mandatory, and modify tests accordingly
-    val formData = Map("declarationType" -> Seq("declarationType"),
-        "additionalDeclarationType" -> Seq("additionalDeclarationType"),
+    val formData = Map("declarationType.declarationType" -> Seq("declarationType"),
+        "declarationType.additionalDeclarationType" -> Seq("additionalDeclarationType"),
         "goodsItemNumber" -> Seq("goodsItemNumber"),
         "totalNumberOfItems" -> Seq("totalNumberOfItems"),
         "requestedProcedureCode" -> Seq("requestedProcedureCode"),
@@ -181,12 +181,12 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
     }
 
     "fail when some mandatory fields are missing" in signedInScenario { user =>
-      val formData = Map("declarationType" -> Seq("declarationType"))
+      val formData = Map("declarationType.declarationType" -> Seq("declarationType"))
       val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
       val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
       new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
         status(response) mustBe Status.BAD_REQUEST
-        body should include element withName("a").withAttrValue("id", "additionalDeclarationType-error").withValue("This field is required")
+        body should include element withName("a").withAttrValue("id", "declarationType.additionalDeclarationType-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "goodsItemNumber-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "totalNumberOfItems-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "requestedProcedureCode-error").withValue("This field is required")
@@ -199,8 +199,8 @@ class SimplifiedDeclarationControllerSpec extends CdsImportsSpec
 
   "The POST-ed xml" should {
     "work" in signedInScenario { user =>
-      val formData = Map("declarationType" -> Seq("101"),
-        "additionalDeclarationType" -> Seq("102"),
+      val formData = Map("declarationType.declarationType" -> Seq("101"),
+        "declarationType.additionalDeclarationType" -> Seq("102"),
         "goodsItemNumber" -> Seq("103"),
         "totalNumberOfItems" -> Seq("104"),
         "requestedProcedureCode" -> Seq("105"),

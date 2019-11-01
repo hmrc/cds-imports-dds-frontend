@@ -24,7 +24,7 @@ import play.api.data.Forms._
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
-import uk.gov.hmrc.cdsimportsddsfrontend.services.{AuthAction, CustomsDeclarationsService, DeclarationStore, DeclarationXml}
+import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsService, DeclarationStore, DeclarationXml}
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{declaration_result, submit_declaration}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
