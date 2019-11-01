@@ -19,7 +19,6 @@ package uk.gov.hmrc.cdsimportsddsfrontend.domain
 case class Declaration(
                         declarationType: DeclarationType,
 
-                        totalNumberOfItems: String, // Declaration/GoodsItemQuantity = "1" // only 1 item for now
                         requestedProcedureCode: String, // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/GovernmentProcedure/CurrentCode = "40"
                         previousProcedureCode: String, // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/GovernmentProcedure/PreviousCode = "00"
                         additionalProcedureCode: String, // "000 or C07"
@@ -44,7 +43,6 @@ object Declaration {
   def apply(): Declaration = {
     new Declaration(
       DeclarationType(),
-      "1",
       "40",
       "00",
       "000",

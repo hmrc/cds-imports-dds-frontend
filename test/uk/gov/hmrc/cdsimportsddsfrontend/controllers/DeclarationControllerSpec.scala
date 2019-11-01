@@ -77,7 +77,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "declarationType.declarationType")
         body should include element withName("input").withAttrValue("name", "declarationType.additionalDeclarationType")
         body should include element withName("input").withAttrValue("name", "declarationType.goodsItemNumber")
-        body should include element withName("input").withAttrValue("name", "totalNumberOfItems")
+        body should include element withName("input").withAttrValue("name", "declarationType.totalNumberOfItems")
         body should include element withName("input").withAttrValue("name", "requestedProcedureCode")
         body should include element withName("input").withAttrValue("name", "previousProcedureCode")
         body should include element withName("input").withAttrValue("name", "additionalProcedureCode")
@@ -91,7 +91,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withClass("govuk-label").withAttrValue("for", "declarationType_declarationType").withValue("1.1 Declaration Type")
         body should include element withClass("govuk-label").withAttrValue("for", "declarationType_additionalDeclarationType").withValue("1.2 Additional Declaration Type")
         body should include element withClass("govuk-label").withAttrValue("for", "declarationType_goodsItemNumber").withValue("1.6 Goods Item Number")
-        body should include element withClass("govuk-label").withAttrValue("for", "totalNumberOfItems").withValue("1.9 Total Number Of Items")
+        body should include element withClass("govuk-label").withAttrValue("for", "declarationType_totalNumberOfItems").withValue("1.9 Total Number Of Items")
         body should include element withClass("govuk-label").withAttrValue("for", "requestedProcedureCode").withValue("1.10 Requested Procedure Code")
         body should include element withClass("govuk-label").withAttrValue("for", "previousProcedureCode").withValue("1.10 Previous Procedure Code")
         body should include element withClass("govuk-label").withAttrValue("for", "additionalProcedureCode").withValue("1.11 Additional Procedure Code (000 or C07)")
@@ -105,7 +105,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "declarationType.declarationType").withAttrValue("value", "IM")
         body should include element withName("input").withAttrValue("name", "declarationType.additionalDeclarationType").withAttrValue("value", "Z")
         body should include element withName("input").withAttrValue("name", "declarationType.goodsItemNumber").withAttrValue("value", "1")
-        body should include element withName("input").withAttrValue("name", "totalNumberOfItems").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "declarationType.totalNumberOfItems").withAttrValue("value", "1")
         body should include element withName("input").withAttrValue("name", "requestedProcedureCode").withAttrValue("value", "40")
         body should include element withName("input").withAttrValue("name", "previousProcedureCode").withAttrValue("value", "00")
         // TODO add new fields
@@ -149,10 +149,11 @@ class DeclarationControllerSpec extends CdsImportsSpec
 
     "succeed when all required fields are present" in signedInScenario { user =>
     // TODO determine which fields are mandatory, and modify tests accordingly
-    val formData = Map("declarationType.declarationType" -> Seq("declarationType"),
+    val formData = Map(
+        "declarationType.declarationType" -> Seq("declarationType"),
         "declarationType.additionalDeclarationType" -> Seq("additionalDeclarationType"),
         "declarationType.goodsItemNumber" -> Seq("goodsItemNumber"),
-        "totalNumberOfItems" -> Seq("totalNumberOfItems"),
+        "declarationType.totalNumberOfItems" -> Seq("totalNumberOfItems"),
         "requestedProcedureCode" -> Seq("requestedProcedureCode"),
         "previousProcedureCode" -> Seq("previousProcedureCode"),
         "additionalProcedureCode" -> Seq("additionalProcedureCode"),
@@ -188,7 +189,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
         status(response) mustBe Status.BAD_REQUEST
         body should include element withName("a").withAttrValue("id", "declarationType.additionalDeclarationType-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "declarationType.goodsItemNumber-error").withValue("This field is required")
-        body should include element withName("a").withAttrValue("id", "totalNumberOfItems-error").withValue("This field is required")
+        body should include element withName("a").withAttrValue("id", "declarationType.totalNumberOfItems-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "requestedProcedureCode-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "previousProcedureCode-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "additionalProcedureCode-error").withValue("This field is required")
@@ -199,10 +200,11 @@ class DeclarationControllerSpec extends CdsImportsSpec
 
   "The POST-ed xml" should {
     "work" in signedInScenario { user =>
-      val formData = Map("declarationType.declarationType" -> Seq("101"),
+      val formData = Map(
+        "declarationType.declarationType" -> Seq("101"),
         "declarationType.additionalDeclarationType" -> Seq("102"),
         "declarationType.goodsItemNumber" -> Seq("103"),
-        "totalNumberOfItems" -> Seq("104"),
+        "declarationType.totalNumberOfItems" -> Seq("104"),
         "requestedProcedureCode" -> Seq("105"),
         "previousProcedureCode" -> Seq("106"),
         "additionalProcedureCode" -> Seq("107"),

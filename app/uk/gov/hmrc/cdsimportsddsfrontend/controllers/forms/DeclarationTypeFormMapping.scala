@@ -25,7 +25,8 @@ object DeclarationTypeFormMapping extends FormValidators {
   val declarationType: (String, Mapping[DeclarationType]) = "declarationType" -> mapping(
     "declarationType" -> optional(text),  // Example of an optional field. Also see the case class and the XML renderer
     "additionalDeclarationType" -> nonEmptyString,
-    "goodsItemNumber" -> nonEmptyString
+    "goodsItemNumber" -> nonEmptyString,
+    "totalNumberOfItems" -> nonEmptyString
   )(DeclarationType.apply)(DeclarationType.unapply)
 }
 

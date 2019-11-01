@@ -43,7 +43,7 @@ object DeclarationXml {
         <FunctionCode>9</FunctionCode>
         <FunctionalReferenceID>{dec.localReferenceNumber}</FunctionalReferenceID>
         <TypeCode>{dec.declarationType.declarationType.getOrElse("")+dec.declarationType.additionalDeclarationType}</TypeCode>
-        <GoodsItemQuantity>{dec.totalNumberOfItems}</GoodsItemQuantity>
+        <GoodsItemQuantity>{dec.declarationType.totalNumberOfItems}</GoodsItemQuantity>
         <TotalPackageQuantity>55</TotalPackageQuantity>
         <AdditionalDocument>
           <CategoryCode>{dec.additionalDocPaymentCategory}</CategoryCode>
