@@ -17,19 +17,15 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
 import play.api.data.Form
-import play.api.data.Forms.{mapping, nonEmptyText}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, Header}
+import play.api.data.Forms._
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.HeaderFormMapping.header
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
 
-object DeclarationForm {
+object DeclarationForm extends FormValidators {
 
-  val nonEmptyString = nonEmptyText.verifying("field.cannot.be.empty", _.nonEmpty) //TODO fix error message
-
-  lazy val form: Form[Declaration] = Form(
+  val form: Form[Declaration] = Form(
     mapping(
-      "header" -> mapping(
-        "declarationType" -> nonEmptyString,
-        "additionalDeclarationType" -> nonEmptyString
-      )(Header.apply)(Header.unapply),
+      header,
 
       "goodsItemNumber" -> nonEmptyString,
       "totalNumberOfItems" -> nonEmptyString,

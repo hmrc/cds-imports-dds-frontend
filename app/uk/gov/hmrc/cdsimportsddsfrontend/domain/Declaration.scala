@@ -43,7 +43,7 @@ case class Declaration(
 object Declaration {
   def apply(): Declaration = {
     new Declaration(
-      Header("IM nick", "Z"),
+      Header(),
       "1",
       "1",
       "40",
