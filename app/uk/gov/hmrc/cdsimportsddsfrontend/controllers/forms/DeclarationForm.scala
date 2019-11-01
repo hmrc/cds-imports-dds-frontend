@@ -18,14 +18,14 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
 import play.api.data.Form
 import play.api.data.Forms._
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.HeaderFormMapping.header
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DeclarationTypeFormMapping.declarationType
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
 
 object DeclarationForm extends FormValidators {
 
   val form: Form[Declaration] = Form(
     mapping(
-      header,
+      declarationType,
 
       "goodsItemNumber" -> nonEmptyString,
       "totalNumberOfItems" -> nonEmptyString,

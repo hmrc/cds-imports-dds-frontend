@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
+package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-import play.api.data.Forms.{mapping, optional, text}
-import play.api.data.Mapping
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.Header
-
-object HeaderFormMapping extends FormValidators {
-
-  val header: (String, Mapping[Header]) = "header" -> mapping(
-    "declarationType" -> optional(text),  // Example of an optional field. Also see the case class and the XML renderer
-    "additionalDeclarationType" -> nonEmptyString
-  )(Header.apply)(Header.unapply)
+case class DeclarationType(
+                   declarationType: Option[String],
+                   additionalDeclarationType: String
+                 )
+object DeclarationType {
+  def apply(): DeclarationType = {
+    new DeclarationType(
+      Some("IM"), "Z"
+    )
+  }
 }
+
+
