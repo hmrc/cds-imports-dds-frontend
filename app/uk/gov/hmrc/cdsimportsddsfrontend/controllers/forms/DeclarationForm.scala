@@ -27,12 +27,6 @@ object DeclarationForm extends FormValidators {
     mapping(
       declarationType,
 
-      "goodsItemNumber" -> nonEmptyString,
-      "totalNumberOfItems" -> nonEmptyString,
-      "requestedProcedureCode" -> nonEmptyString,
-      "previousProcedureCode" -> nonEmptyString,
-      "additionalProcedureCode" -> nonEmptyString,
-
       "previousDocCategory" -> nonEmptyString,
       "previousDocType" -> nonEmptyString,
       "previousDocReference" -> nonEmptyString,

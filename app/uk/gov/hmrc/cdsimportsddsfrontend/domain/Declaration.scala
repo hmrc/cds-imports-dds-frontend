@@ -18,11 +18,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class Declaration(
                         declarationType: DeclarationType,
-                        goodsItemNumber: String, // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/SequenceNumeric = "1" // only 1 item for now
-                        totalNumberOfItems: String, // Declaration/GoodsItemQuantity = "1" // only 1 item for now
-                        requestedProcedureCode: String, // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/GovernmentProcedure/CurrentCode = "40"
-                        previousProcedureCode: String, // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/GovernmentProcedure/PreviousCode = "00"
-                        additionalProcedureCode: String, // "000 or C07"
+
                         previousDocCategory: String,
                         previousDocType: String,
                         previousDocReference: String,
@@ -44,11 +40,6 @@ object Declaration {
   def apply(): Declaration = {
     new Declaration(
       DeclarationType(),
-      "1",
-      "1",
-      "40",
-      "00",
-      "000",
       "Y",
       "DCR",
       "9GB201909014000",
