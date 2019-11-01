@@ -110,7 +110,7 @@ object DeclarationXml {
             <ID>FR</ID>
           </ExportCountry>
           <GovernmentAgencyGoodsItem>
-            <SequenceNumeric>{dec.goodsItemNumber}</SequenceNumeric>
+            <SequenceNumeric>{dec.declarationType.goodsItemNumber}</SequenceNumeric>
             <AdditionalDocument>
               <CategoryCode>C</CategoryCode>
               <ID>GBEIR201909014000</ID>

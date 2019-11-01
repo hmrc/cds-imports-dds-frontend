@@ -18,12 +18,15 @@ package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class DeclarationType(
                    declarationType: Option[String],
-                   additionalDeclarationType: String
+                   additionalDeclarationType: String,
+                   goodsItemNumber: String // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/SequenceNumeric = "1" // only 1 item for now
                  )
 object DeclarationType {
   def apply(): DeclarationType = {
     new DeclarationType(
-      Some("IM"), "Z"
+      Some("IM"),
+      "Z",
+      "1"
     )
   }
 }
