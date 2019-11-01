@@ -42,7 +42,7 @@ object DeclarationXml {
         </AcceptanceDateTime>
         <FunctionCode>9</FunctionCode>
         <FunctionalReferenceID>{dec.localReferenceNumber}</FunctionalReferenceID>
-        <TypeCode>{dec.declarationType.declarationType.getOrElse("")+dec.declarationType.additionalDeclarationType}</TypeCode>
+        <TypeCode>{dec.declarationType.declarationType+dec.declarationType.additionalDeclarationType}</TypeCode>
         <GoodsItemQuantity>{dec.declarationType.totalNumberOfItems}</GoodsItemQuantity>
         <TotalPackageQuantity>55</TotalPackageQuantity>
         <AdditionalDocument>
@@ -170,11 +170,11 @@ object DeclarationXml {
               <MethodCode>1</MethodCode>
             </CustomsValuation>
             <GovernmentProcedure>
-              <CurrentCode>{dec.requestedProcedureCode}</CurrentCode>
-              <PreviousCode>{dec.previousProcedureCode}</PreviousCode>
+              <CurrentCode>{dec.declarationType.requestedProcedureCode}</CurrentCode>
+              <PreviousCode>{dec.declarationType.previousProcedureCode}</PreviousCode>
             </GovernmentProcedure>
             <GovernmentProcedure>
-              <CurrentCode>{dec.additionalProcedureCode}</CurrentCode>
+              <CurrentCode>{dec.declarationType.additionalProcedureCode}</CurrentCode>
             </GovernmentProcedure>
             <Origin>
               <CountryCode>FR</CountryCode>
