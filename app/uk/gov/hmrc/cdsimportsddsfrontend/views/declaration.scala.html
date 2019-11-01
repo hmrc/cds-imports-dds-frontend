@@ -35,8 +35,7 @@
             @components.form_legend("declare.legendHeading")
             @components.error_summary(form.errors)
 
-            @input_text(form("header.declarationType" ), "declare.declarationType" )
-            @input_text(form("header.additionalDeclarationType" ), "declare.additionalDeclarationType")
+            @components.declaration_header(form)
             @input_text(form("goodsItemNumber" ), "declare.goodsItemNumber" )
             @input_text(form("totalNumberOfItems" ), "declare.totalNumberOfItems" )
             @input_text(form("requestedProcedureCode" ), "declare.requestedProcedureCode" )

@@ -23,14 +23,14 @@ import uk.gov.hmrc.cdsimportsddsfrontend.config.{AppConfig, ErrorHandler, Featur
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DeclarationForm
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
 import uk.gov.hmrc.cdsimportsddsfrontend.services.{AuthAction, CustomsDeclarationsService, DeclarationStore, DeclarationXml}
-import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{declaration_result, simplified_declaration}
+import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{declaration_result, declaration}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 @Singleton
-class SimplifiedDeclarationController @Inject()(simplifiedDeclaration: simplified_declaration
+class SimplifiedDeclarationController @Inject()(simplifiedDeclaration: declaration
                                                 , resultTemplate: declaration_result
                                                 , declarationService: CustomsDeclarationsService
                                                 , declarationStore: DeclarationStore
