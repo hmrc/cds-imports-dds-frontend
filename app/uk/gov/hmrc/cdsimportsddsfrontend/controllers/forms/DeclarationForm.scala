@@ -19,6 +19,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DeclarationTypeFormMapping.declarationType
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DocumentationTypeFormMapping.documentationType
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
 
 object DeclarationForm extends FormValidators {
@@ -26,22 +27,7 @@ object DeclarationForm extends FormValidators {
   val form: Form[Declaration] = Form(
     mapping(
       declarationType,
-
-      "previousDocCategory" -> nonEmptyString,
-      "previousDocType" -> nonEmptyString,
-      "previousDocReference" -> nonEmptyString,
-      "previousDocGoodsItemId" -> nonEmptyString,
-      "additionalInfoCode" -> nonEmptyString,
-      "additionalInfoDescription" -> nonEmptyString,
-      "additionalDocCategoryCode" -> nonEmptyString,
-      "additionalDocTypeCode" -> nonEmptyString,
-      "additionalDocId" -> nonEmptyString,
-      "additionalDocLPCO" -> nonEmptyString,
-      "additionalDocName" -> nonEmptyString,
-      "localReferenceNumber" -> nonEmptyString,
-      "additionalDocPaymentID" -> nonEmptyString,
-      "additionalDocPaymentCategory" -> nonEmptyString,
-      "additionalDocPaymentType" -> nonEmptyString
+      documentationType
     )(Declaration.apply)(Declaration.unapply)
   )
 

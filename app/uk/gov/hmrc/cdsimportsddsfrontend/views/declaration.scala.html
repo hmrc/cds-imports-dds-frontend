@@ -36,22 +36,7 @@
             @components.error_summary(form.errors)
 
             @components.declaration_type(form)
-
-            @input_text(form("previousDocCategory" ), "declare.previousDocCategory" )
-            @input_text(form("previousDocType" ), "declare.previousDocType" )
-            @input_text(form("previousDocReference" ), "declare.previousDocReference" )
-            @input_text(form("previousDocGoodsItemId" ), "declare.previousDocGoodsItemId" )
-            @input_text(form("additionalInfoCode" ), "declare.additionalInfoCode" )
-            @input_text(form("additionalInfoDescription" ), "declare.additionalInfoDescription")
-            @input_text(form("additionalDocCategoryCode" ), "declare.additionalDocCategoryCode")
-            @input_text(form("additionalDocTypeCode" ), "declare.additionalDocTypeCode" )
-            @input_text(form("additionalDocId" ), "declare.additionalDocId" )
-            @input_text(form("additionalDocLPCO" ), "declare.additionalDocLPCO" )
-            @input_text(form("additionalDocName" ), "declare.additionalDocName" )
-            @input_text(form("localReferenceNumber" ), "declare.localReferenceNumber" )
-            @input_text(form("additionalDocPaymentID" ), "declare.additionalDocPaymentID" )
-            @input_text(form("additionalDocPaymentCategory" ), "declare.additionalDocPaymentCategory" )
-            @input_text(form("additionalDocPaymentType" ), "declare.additionalDocPaymentType" )
+            @components.documentation_type(form)
         </fieldset>
 
         @govukButton(Button(content = Text(messages("site.submit"))))

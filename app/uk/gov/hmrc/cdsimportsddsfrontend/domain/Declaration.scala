@@ -18,43 +18,14 @@ package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class Declaration(
                         declarationType: DeclarationType,
-
-                        previousDocCategory: String,
-                        previousDocType: String,
-                        previousDocReference: String,
-                        previousDocGoodsItemId: String,
-                        additionalInfoCode: String,
-                        additionalInfoDescription: String,
-                        additionalDocCategoryCode: String,
-                        additionalDocTypeCode: String,
-                        additionalDocId: String,
-                        additionalDocLPCO: String,
-                        additionalDocName: String,
-                        localReferenceNumber: String,
-                        additionalDocPaymentID: String,
-                        additionalDocPaymentCategory: String,
-                        additionalDocPaymentType: String
+                        documentationType: DocumentationType
                       )
 
 object Declaration {
   def apply(): Declaration = {
     new Declaration(
       DeclarationType(),
-      "Y",
-      "DCR",
-      "9GB201909014000",
-      "1",
-      "00500",
-      "IMPORTER",
-      "N",
-      "935",
-      "12345/30.09.2019",
-      "AC",
-      "DocumentName",
-      "Test1234",
-      "1909241",
-      "1",
-      "DAN"
+      DocumentationType()
     )
   }
 }
