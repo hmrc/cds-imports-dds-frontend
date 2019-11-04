@@ -1,0 +1,38 @@
+@*
+ * Copyright 2019 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
+@import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
+@import uk.gov.hmrc.cdsimportsddsfrontend.views.html.components.inputs.input_text
+
+
+@(form: Form[Declaration])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+
+@input_text(form("documentationType.previousDocCategory" ), "declare.previousDocCategory" )
+@input_text(form("documentationType.previousDocType" ), "declare.previousDocType" )
+@input_text(form("documentationType.previousDocReference" ), "declare.previousDocReference" )
+@input_text(form("documentationType.previousDocGoodsItemId" ), "declare.previousDocGoodsItemId" )
+@input_text(form("documentationType.additionalInfoCode" ), "declare.additionalInfoCode" )
+@input_text(form("documentationType.additionalInfoDescription" ), "declare.additionalInfoDescription")
+@input_text(form("documentationType.additionalDocCategoryCode" ), "declare.additionalDocCategoryCode")
+@input_text(form("documentationType.additionalDocTypeCode" ), "declare.additionalDocTypeCode" )
+@input_text(form("documentationType.additionalDocId" ), "declare.additionalDocId" )
+@input_text(form("documentationType.additionalDocLPCO" ), "declare.additionalDocLPCO" )
+@input_text(form("documentationType.additionalDocName" ), "declare.additionalDocName" )
+@input_text(form("documentationType.localReferenceNumber" ), "declare.localReferenceNumber" )
+@input_text(form("documentationType.additionalDocPaymentID" ), "declare.additionalDocPaymentID" )
+@input_text(form("documentationType.additionalDocPaymentCategory" ), "declare.additionalDocPaymentCategory" )
+@input_text(form("documentationType.additionalDocPaymentType" ), "declare.additionalDocPaymentType" )

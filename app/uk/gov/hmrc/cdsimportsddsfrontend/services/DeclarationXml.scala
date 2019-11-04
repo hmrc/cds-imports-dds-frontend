@@ -41,14 +41,14 @@ object DeclarationXml {
           <p1:DateTimeString formatCode="304">20191101010000+01</p1:DateTimeString>
         </AcceptanceDateTime>
         <FunctionCode>9</FunctionCode>
-        <FunctionalReferenceID>{dec.localReferenceNumber}</FunctionalReferenceID>
+        <FunctionalReferenceID>{dec.documentationType.localReferenceNumber.getOrElse("")}</FunctionalReferenceID>
         <TypeCode>{dec.declarationType.declarationType+dec.declarationType.additionalDeclarationType}</TypeCode>
         <GoodsItemQuantity>{dec.declarationType.totalNumberOfItems}</GoodsItemQuantity>
         <TotalPackageQuantity>55</TotalPackageQuantity>
         <AdditionalDocument>
-          <CategoryCode>{dec.additionalDocPaymentCategory}</CategoryCode>
-          <ID>{dec.additionalDocPaymentID}</ID>
-          <TypeCode>{dec.additionalDocPaymentType}</TypeCode>
+          <CategoryCode>{dec.documentationType.additionalDocPaymentCategory.getOrElse("")}</CategoryCode>
+          <ID>{dec.documentationType.additionalDocPaymentID.getOrElse("")}</ID>
+          <TypeCode>{dec.documentationType.additionalDocPaymentType.getOrElse("")}</TypeCode>
         </AdditionalDocument>
         <AdditionalInformation>
           <StatementCode>TSP01</StatementCode>
@@ -122,11 +122,11 @@ object DeclarationXml {
               <TypeCode>506</TypeCode>
             </AdditionalDocument>
             <AdditionalDocument>
-              <CategoryCode>{dec.additionalDocCategoryCode}</CategoryCode>
-              <ID>{dec.additionalDocId}</ID>
-              <Name>{dec.additionalDocName}</Name>
-              <TypeCode>{dec.additionalDocTypeCode}</TypeCode>
-              <LPCOExemptionCode>{dec.additionalDocLPCO}</LPCOExemptionCode>
+              <CategoryCode>{dec.documentationType.additionalDocCategoryCode.getOrElse("")}</CategoryCode>
+              <ID>{dec.documentationType.additionalDocId.getOrElse("")}</ID>
+              <Name>{dec.documentationType.additionalDocName.getOrElse("")}</Name>
+              <TypeCode>{dec.documentationType.additionalDocTypeCode.getOrElse("")}</TypeCode>
+              <LPCOExemptionCode>{dec.documentationType.additionalDocLPCO.getOrElse("")}</LPCOExemptionCode>
             </AdditionalDocument>
             <AdditionalDocument>
               <CategoryCode>I</CategoryCode>
@@ -138,8 +138,8 @@ object DeclarationXml {
               </WriteOff>
             </AdditionalDocument>
             <AdditionalInformation>
-              <StatementCode>{dec.additionalInfoCode}</StatementCode>
-              <StatementDescription>{dec.additionalInfoDescription}</StatementDescription>
+              <StatementCode>{dec.documentationType.additionalInfoCode.getOrElse("")}</StatementCode>
+              <StatementDescription>{dec.documentationType.additionalInfoDescription.getOrElse("")}</StatementDescription>
             </AdditionalInformation>
             <Commodity>
               <Description>Aluminium Foil not exceeding 0,2 mm</Description>
@@ -193,10 +193,10 @@ object DeclarationXml {
               <LineNumeric>1</LineNumeric>
             </PreviousDocument>
             <PreviousDocument>
-              <CategoryCode>{dec.previousDocCategory}</CategoryCode>
-              <ID>{dec.previousDocReference}</ID>
-              <TypeCode>{dec.previousDocType}</TypeCode>
-              <LineNumeric>{dec.previousDocGoodsItemId}</LineNumeric>
+              <CategoryCode>{dec.documentationType.previousDocCategory.getOrElse("")}</CategoryCode>
+              <ID>{dec.documentationType.previousDocReference.getOrElse("")}</ID>
+              <TypeCode>{dec.documentationType.previousDocType.getOrElse()}</TypeCode>
+              <LineNumeric>{dec.documentationType.previousDocGoodsItemId.getOrElse("")}</LineNumeric>
             </PreviousDocument>
             <ValuationAdjustment>
               <AdditionCode>0000</AdditionCode>
@@ -222,7 +222,7 @@ object DeclarationXml {
             <LocationID>GBDVR</LocationID>
           </TradeTerms>
           <UCR>
-            <TraderAssignedReferenceID>{dec.previousDocReference}-12345</TraderAssignedReferenceID>
+            <TraderAssignedReferenceID>{dec.documentationType.previousDocReference.getOrElse("")}-12345</TraderAssignedReferenceID>
           </UCR>
         </GoodsShipment>
       </Declaration>
