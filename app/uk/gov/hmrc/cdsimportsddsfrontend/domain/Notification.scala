@@ -31,25 +31,26 @@ case class NotificationApiRequestHeaders(authToken: AuthToken, conversationId: C
 
 
 case class ErrorPointer(documentSectionCode: String, sequenceNumeric: Option[String] = None, tagId: Option[String] = None) {
-  def toHumanReadable():String = {
-    val text = DmsErrorPointers.pointers.get(documentSectionCode).getOrElse("Unknown Section Code")
-    val codes = s""" ($documentSectionCode - ${sequenceNumeric.getOrElse("x")} - ${tagId.getOrElse("x")})"""
-    text + codes
+  def toHumanReadable: String = {
+    val fieldName = tagId.flatMap(DmsErrorPointers.pointers.get).map(name => s"/$name").getOrElse("")
+    val documentSectionName = DmsErrorPointers.pointers.getOrElse(documentSectionCode, "Unknown Section Code") + fieldName
+    val prettyCodes = s"""($documentSectionCode, ${sequenceNumeric.getOrElse("-")}, ${tagId.getOrElse("-")})"""
+    s"$documentSectionName $prettyCodes"
   }
 }
 
 object ErrorPointer {
-  implicit val errorPointerFormat = Json.format[ErrorPointer]
+  implicit val errorPointerFormat: OFormat[ErrorPointer] = Json.format[ErrorPointer]
 }
 
 case class NotificationError(validationCode: String, pointers: Seq[ErrorPointer]) {
-  def toHumanReadable():String = {
-    DmsErrorCodes.codes.get(validationCode).getOrElse("Unknown Code") + s" ($validationCode)"
+  def toHumanReadable: String = {
+    DmsErrorCodes.codes.getOrElse(validationCode, "Unknown Code") + s" ($validationCode)"
   }
 }
 
 object NotificationError {
-  implicit val notificationErrorFormat = Json.format[NotificationError]
+  implicit val notificationErrorFormat: OFormat[NotificationError] = Json.format[NotificationError]
 }
 
 
