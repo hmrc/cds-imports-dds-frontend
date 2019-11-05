@@ -1,0 +1,33 @@
+@*
+ * Copyright 2019 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
+@import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
+@import uk.gov.hmrc.cdsimportsddsfrontend.views.html.components.inputs.input_text
+
+
+@(form: Form[Declaration])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+
+@input_text(form("valuationInformationAndTaxes.conditionCode"), "declare.valuationInformationAndTaxes.conditionCode")
+@input_text(form("valuationInformationAndTaxes.locationID"), "declare.valuationInformationAndTaxes.locationID")
+@input_text(form("valuationInformationAndTaxes.locationName"), "declare.valuationInformationAndTaxes.locationName")
+@input_text(form("valuationInformationAndTaxes.paymentMethodCode"), "declare.valuationInformationAndTaxes.paymentMethodCode")
+@input_text(form("valuationInformationAndTaxes.additionCode"), "declare.valuationInformationAndTaxes.additionCode")
+@input_text(form("valuationInformationAndTaxes.itemChargeAmount"), "declare.valuationInformationAndTaxes.itemChargeAmount")
+@input_text(form("valuationInformationAndTaxes.currencyID"), "declare.valuationInformationAndTaxes.currencyID")
+@input_text(form("valuationInformationAndTaxes.rateNumeric"), "declare.valuationInformationAndTaxes.rateNumeric")
+@input_text(form("valuationInformationAndTaxes.customsValuationMethodCode"), "declare.valuationInformationAndTaxes.customsValuationMethodCode")
+@input_text(form("valuationInformationAndTaxes.dutyRegimeCode"), "declare.valuationInformationAndTaxes.dutyRegimeCode")

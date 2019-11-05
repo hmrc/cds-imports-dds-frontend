@@ -28,8 +28,6 @@ import play.mvc.Http.Status
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsService, DeclarationStore}
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{declaration_result, declaration}
-import uk.gov.hmrc.govukfrontend.views.html.components._
 
 import scala.concurrent.Future
 import scala.xml.Elem
@@ -39,15 +37,6 @@ class DeclarationControllerSpec extends CdsImportsSpec
 
   override def beforeEach(): Unit = {
     featureSwitchRegistry.SinglePageDeclaration.enable()
-  }
-
-  trait BaseScenario {
-    val govukButton = new GovukButton()
-    val formTemplate = new declaration(mainTemplate, govukButton)
-    val resultTemplate = new declaration_result(mainTemplate)
-    val mockDeclarationService = mock[CustomsDeclarationsService]
-    val mockDeclarationStore = mock[DeclarationStore]
-    val controller = new DeclarationController(formTemplate, resultTemplate, mockDeclarationService, mockDeclarationStore, mockAuthAction)
   }
 
   class GetScenario extends BaseScenario {
@@ -187,15 +176,6 @@ class DeclarationControllerSpec extends CdsImportsSpec
     }
 
     "succeed when all required fields are present" in signedInScenario { user =>
-    val declarationFormData = Map(
-        "declarationType.declarationType" -> Seq("declarationType"),
-        "declarationType.additionalDeclarationType" -> Seq("additionalDeclarationType"),
-        "declarationType.goodsItemNumber" -> Seq("goodsItemNumber"),
-        "declarationType.totalNumberOfItems" -> Seq("totalNumberOfItems"),
-        "declarationType.requestedProcedureCode" -> Seq("requestedProcedureCode"),
-        "declarationType.previousProcedureCode" -> Seq("previousProcedureCode"),
-        "declarationType.additionalProcedureCode" -> Seq("additionalProcedureCode")
-    )
 
       val documentationFormData = Map(
         "documentationType.previousDocCategory" -> Seq("previousDocCategory"),
@@ -247,7 +227,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
         "documentationType.additionalPayment[3].additionalDocPaymentType" -> Seq("DAN")
       )
 
-      val formData = declarationFormData ++ documentationFormData
+      val formData = declarationTypeFormData ++ documentationFormData
       val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
       val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
       new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
@@ -356,3 +336,15 @@ class DeclarationControllerSpec extends CdsImportsSpec
   }
 }
 
+object DeclarationControllerSpec {
+  val declarationTypeFormData: Map[String, Seq[String]] = Map(
+    "declarationType.declarationType" -> Seq("declarationType"),
+    "declarationType.additionalDeclarationType" -> Seq("additionalDeclarationType"),
+    "declarationType.goodsItemNumber" -> Seq("goodsItemNumber"),
+    "declarationType.totalNumberOfItems" -> Seq("totalNumberOfItems"),
+    "declarationType.requestedProcedureCode" -> Seq("requestedProcedureCode"),
+    "declarationType.previousProcedureCode" -> Seq("previousProcedureCode"),
+    "declarationType.additionalProcedureCode" -> Seq("additionalProcedureCode")
+  )
+
+}

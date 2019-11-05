@@ -29,7 +29,10 @@ import uk.gov.hmrc.http.HeaderCarrier
 import org.mockito.Mockito._
 import org.mockito.{ArgumentMatcher, ArgumentMatchers}
 import uk.gov.hmrc.cdsimportsddsfrontend.config.EoriWhitelist
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.AuthAction
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.{AuthAction, DeclarationController}
+import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsService, DeclarationStore}
+import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{declaration, declaration_result}
+import uk.gov.hmrc.govukfrontend.views.html.components.GovukButton
 
 import scala.concurrent.Future
 import scala.util.Random
@@ -101,6 +104,15 @@ trait AuthenticationBehaviours extends MockitoSugar {
     val encodedContinueUrl = URLEncoder.encode(request.uri, "UTF-8")
     val expectedRedirectPath = s"/gg/sign-in?continue=$encodedContinueUrl&origin=cds-imports-dds-frontend"
     expectedRedirectPath
+  }
+
+  trait BaseScenario {
+    val govukButton = new GovukButton()
+    val formTemplate = new declaration(mainTemplate, govukButton)
+    val resultTemplate = new declaration_result(mainTemplate)
+    val mockDeclarationService = mock[CustomsDeclarationsService]
+    val mockDeclarationStore = mock[DeclarationStore]
+    val controller = new DeclarationController(formTemplate, resultTemplate, mockDeclarationService, mockDeclarationStore, mockAuthAction)
   }
 
 }
