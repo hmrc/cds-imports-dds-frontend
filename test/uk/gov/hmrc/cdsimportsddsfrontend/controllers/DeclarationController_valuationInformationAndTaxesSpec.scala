@@ -24,7 +24,6 @@ import play.api.test.Helpers.status
 import play.mvc.Http.Status
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.DeclarationControllerSpec.declarationTypeFormData
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse
-import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsService, DeclarationStore}
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
 import scala.concurrent.Future
@@ -68,12 +67,11 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         "valuationInformationAndTaxes.customsValuationMethodCode" -> Seq("customsValuationMethodCode"),
         "valuationInformationAndTaxes.dutyRegimeCode" -> Seq("dutyRegimeCode")
       ) ++ declarationTypeFormData
-      val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds =>
-        when(ds.submit(any(), any())(any()))
-          .thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
-      val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any()))
-        .thenReturn(Future.successful(true))
-      new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
+
+      when(mockDeclarationService.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+
+      new PostScenario(formData) {
         status(response) mustBe Status.OK
         body should include element withName("dd").withValue("Good")
       }
@@ -92,12 +90,11 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         "valuationInformationAndTaxes.customsValuationMethodCode" -> Seq(""),
         "valuationInformationAndTaxes.dutyRegimeCode" -> Seq("")
       ) ++ declarationTypeFormData
-      val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds =>
-        when(ds.submit(any(), any())(any()))
-          .thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
-      val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any()))
-        .thenReturn(Future.successful(true))
-      new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
+
+        when(mockDeclarationService.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
+        when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+
+      new PostScenario(formData) {
         status(response) mustBe Status.OK
         body should include element withName("dd").withValue("Good")
       }

@@ -31,12 +31,13 @@ import scala.concurrent.Future
 trait Scenarios extends AuthenticationBehaviours {
   self: CdsImportsSpec =>
 
+  val mockDeclarationService: CustomsDeclarationsService = mock[CustomsDeclarationsService]
+  val mockDeclarationStore: DeclarationStore = mock[DeclarationStore]
+
   trait BaseScenario {
     val govukButton = new GovukButton()
     val formTemplate = new declaration(mainTemplate, govukButton)
     val resultTemplate = new declaration_result(mainTemplate)
-    val mockDeclarationService: CustomsDeclarationsService = mock[CustomsDeclarationsService]
-    val mockDeclarationStore: DeclarationStore = mock[DeclarationStore]
     val controller = new DeclarationController(formTemplate, resultTemplate, mockDeclarationService, mockDeclarationStore, mockAuthAction)
   }
 
@@ -45,12 +46,7 @@ trait Scenarios extends AuthenticationBehaviours {
     val body: Element = contentAsString(response).asBodyFragment
   }
 
-  class PostScenario(formData: Map[String, Seq[String]],
-                     declarationsServiceMockSetup: CustomsDeclarationsService => Unit,
-                     declarationStoreMockSetup: DeclarationStore => Unit
-                    ) extends BaseScenario {
-    declarationsServiceMockSetup(mockDeclarationService)
-    declarationStoreMockSetup(mockDeclarationStore)
+  class PostScenario(formData: Map[String, Seq[String]]) extends BaseScenario {
     val formRequest: Request[AnyContentAsFormUrlEncoded] = fakeRequestWithCSRF.withBody(AnyContentAsFormUrlEncoded(formData))
     val response: Future[Result] = controller.submit().apply(formRequest)
     val body: Element = contentAsString(response).asBodyFragment

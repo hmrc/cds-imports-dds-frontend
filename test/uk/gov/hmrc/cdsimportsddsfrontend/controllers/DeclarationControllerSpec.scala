@@ -143,9 +143,9 @@ class DeclarationControllerSpec extends CdsImportsSpec
     "return 404 when the SinglePageDeclaration feature is disabled" in {
       featureSwitchRegistry.SinglePageDeclaration.disable()
       val formData = Map[String, Seq[String]]()
-      val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
-      val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
-      new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
+      when(mockDeclarationService.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
         status(response) must be(Status.NOT_FOUND)
       }
     }
@@ -153,9 +153,9 @@ class DeclarationControllerSpec extends CdsImportsSpec
     "return 503 when the SinglePageDeclaration feature is suspended" in {
       featureSwitchRegistry.SinglePageDeclaration.suspend()
       val formData = Map[String, Seq[String]]()
-      val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
-      val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
-      new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
+      when(mockDeclarationService.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
         status(response) must be(Status.SERVICE_UNAVAILABLE)
       }
     }
@@ -213,9 +213,9 @@ class DeclarationControllerSpec extends CdsImportsSpec
       )
 
       val formData = declarationTypeFormData ++ documentationFormData
-      val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
-      val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
-      new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
+      when(mockDeclarationService.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
         status(response) mustBe Status.OK
         body should include element withName("dd").withValue("Good")
       }
@@ -223,9 +223,9 @@ class DeclarationControllerSpec extends CdsImportsSpec
 
     "fail when some mandatory fields are missing" in signedInScenario { user =>
       val formData = Map("declarationType.declarationType" -> Seq("declarationType"))
-      val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
-      val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
-      new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
+      when(mockDeclarationService.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
         status(response) mustBe Status.BAD_REQUEST
         body should include element withName("a").withAttrValue("id", "declarationType.additionalDeclarationType-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "declarationType.goodsItemNumber-error").withValue("This field is required")
@@ -289,11 +289,11 @@ class DeclarationControllerSpec extends CdsImportsSpec
         "documentationType.additionalPayment[3].additionalDocPaymentType" -> Seq("DAN")
       )
       val captor: ArgumentCaptor[Elem] = ArgumentCaptor.forClass(classOf[Elem])
-      val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), captor.capture())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
-      val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
-      new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
+      when(mockDeclarationService.submit(any(), captor.capture())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
         status(response) mustBe Status.OK
-        val xml = captor.getValue
+        val xml: Elem = captor.getValue
         // TODO these tests should be around DeclarationXML.fromImportDeclaration
         (xml \ "Declaration" \ "TypeCode").head.text mustBe "101102"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "SequenceNumeric").head.text mustBe "103"
