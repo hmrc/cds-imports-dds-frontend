@@ -29,6 +29,11 @@ case class AdditionalDocumentType(
   writeOff: Option[String]
 )
 
+case class AdditionalPaymentType(
+  additionalDocPaymentID: Option[String],
+  additionalDocPaymentCategory: Option[String],
+  additionalDocPaymentType: Option[String]
+)
 
 case class DocumentationType(
   previousDocCategory:  Option[String],
@@ -39,9 +44,7 @@ case class DocumentationType(
   additionalInfoDescription: Option[String],
   additionalDocument: Seq[AdditionalDocumentType],
   localReferenceNumber: Option[String],
-  additionalDocPaymentID: Option[String],
-  additionalDocPaymentCategory: Option[String],
-  additionalDocPaymentType: Option[String]
+  additionalPayment: Seq[AdditionalPaymentType]
 )
 
 object DocumentationType {
@@ -59,8 +62,11 @@ object DocumentationType {
       AdditionalDocumentType(Some("I"), Some("004"), Some("GBCPI000001-0001"), Some("AE"), None, None, None, Some("10"))
     ),
     Some("Test1234"),
-    Some("1909241"),
-    Some("1"),
-    Some("DAN")
+    Seq(
+      AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN")),
+      AdditionalPaymentType(Some("1909242"), Some("2"), Some("DAN")),
+      AdditionalPaymentType(Some("1909243"), Some("3"), Some("DAN")),
+      AdditionalPaymentType(Some("1909244"), Some("4"), Some("DAN"))
+    )
   )
 }

@@ -18,27 +18,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
 import play.api.data.Forms.{mapping, optional, text, seq}
 import play.api.data.Mapping
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{AdditionalDocumentType, DocumentationType, WriteOffType}
-
-
-//object WriteOffFormMapping {
-//  val writeOffType: (String, Mapping[WriteOffType]) = "writeOff" -> mapping(
-//    "quantity" -> optional(text)
-//  )(WriteOffType.apply)(WriteOffType.unapply)
-//}
-//
-//object AdditionalDocumentFormMapping {
-//  val additionalDocumentType: (String, Mapping[AdditionalDocumentType]) = "additionalDocumentType" -> mapping(
-//    "categoryCode" -> optional(text),
-//    "typeCode" -> optional(text),
-//    "id" -> optional(text),
-//    "lpco" -> optional(text),
-//    "name" -> optional(text),
-//    "effectiveDateTime" -> optional(text),
-//    "submmiter" -> optional(text),
-//    "writeOff" -> optional(text)
-//  )(AdditionalDocumentType.apply)(AdditionalDocumentType.unapply)
-//}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
 object DocumentationTypeFormMapping {
   val documentationType: (String, Mapping[DocumentationType]) = "documentationType" -> mapping(
@@ -59,8 +39,10 @@ object DocumentationTypeFormMapping {
        "writeOff" -> optional(text)
     )(AdditionalDocumentType.apply)(AdditionalDocumentType.unapply)),
     "localReferenceNumber" -> optional(text),
-    "additionalDocPaymentID" -> optional(text),
-    "additionalDocPaymentCategory" -> optional(text),
-    "additionalDocPaymentType" -> optional(text)
+    "additionalPayment" -> seq(mapping(
+      "additionalDocPaymentID" -> optional(text),
+      "additionalDocPaymentCategory" -> optional(text),
+      "additionalDocPaymentType" -> optional(text)
+    )(AdditionalPaymentType.apply)(AdditionalPaymentType.unapply))
   )(DocumentationType.apply)(DocumentationType.unapply)
 }

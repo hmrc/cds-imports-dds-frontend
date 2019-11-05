@@ -56,9 +56,9 @@ declare.additionalDocName4=2.3 Additional Document Status Reason 4
 
 
 declare.localReferenceNumber=2.5 LRN
-declare.additionalDocPaymentID1=2.6 Deferred Payment ID 1
-declare.additionalDocPaymentCategory1=2.6 Deferred Payment Category 1
-declare.additionalDocPaymentType1=2.6 Deferred Payment Type 1
+declare.additionalDocPaymentID=2.6 Deferred Payment ID {0}
+declare.additionalDocPaymentCategory=2.6 Deferred Payment Category {0}
+declare.additionalDocPaymentType=2.6 Deferred Payment Type {0}
 
 declare.additionalDocPaymentID2=2.6 Deferred Payment ID 2
 declare.additionalDocPaymentCategory2=2.6 Deferred Payment Category 2

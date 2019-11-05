@@ -37,6 +37,9 @@
 }
 
 @input_text(form("documentationType.localReferenceNumber" ), "declare.localReferenceNumber" )
-@input_text(form("documentationType.additionalDocPaymentID" ), "declare.additionalDocPaymentID" )
-@input_text(form("documentationType.additionalDocPaymentCategory" ), "declare.additionalDocPaymentCategory" )
-@input_text(form("documentationType.additionalDocPaymentType" ), "declare.additionalDocPaymentType" )
+
+@for((doc, count) <- form.value.getOrElse(Declaration()).documentationType.additionalPayment.zipWithIndex) {
+ @input_text(form(s"documentationType.additionalPayment[$count].additionalDocPaymentID" ), s"declare.additionalDocPaymentID${count+1}" )
+ @input_text(form(s"documentationType.additionalPayment[$count].additionalDocPaymentCategory" ), s"declare.additionalDocPaymentCategory${count+1}" )
+ @input_text(form(s"documentationType.additionalPayment[$count].additionalDocPaymentType" ), s"declare.additionalDocPaymentType${count+1}" )
+}

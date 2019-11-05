@@ -47,14 +47,25 @@ object DeclarationXml {
         <GoodsItemQuantity>{dec.declarationType.totalNumberOfItems}</GoodsItemQuantity>
         <TotalPackageQuantity>55</TotalPackageQuantity>
         <AdditionalDocument>
-          <CategoryCode>{dec.documentationType.additionalDocPaymentCategory.getOrElse("")}</CategoryCode>
-          <ID>{dec.documentationType.additionalDocPaymentID.getOrElse("")}</ID>
-          <TypeCode>{dec.documentationType.additionalDocPaymentType.getOrElse("")}</TypeCode>
+          <CategoryCode>{dec.documentationType.additionalPayment(0).additionalDocPaymentCategory.getOrElse("")}</CategoryCode>
+          <ID>{dec.documentationType.additionalPayment(0).additionalDocPaymentID.getOrElse("")}</ID>
+          <TypeCode>{dec.documentationType.additionalPayment(0).additionalDocPaymentType.getOrElse("")}</TypeCode>
         </AdditionalDocument>
-        <AdditionalInformation>
-          <StatementCode>TSP01</StatementCode>
-          <StatementDescription>TSP</StatementDescription>
-        </AdditionalInformation>
+        <AdditionalDocument>
+          <CategoryCode>{dec.documentationType.additionalPayment(1).additionalDocPaymentCategory.getOrElse("")}</CategoryCode>
+          <ID>{dec.documentationType.additionalPayment(1).additionalDocPaymentID.getOrElse("")}</ID>
+          <TypeCode>{dec.documentationType.additionalPayment(1).additionalDocPaymentType.getOrElse("")}</TypeCode>
+        </AdditionalDocument>
+        <AdditionalDocument>
+          <CategoryCode>{dec.documentationType.additionalPayment(2).additionalDocPaymentCategory.getOrElse("")}</CategoryCode>
+          <ID>{dec.documentationType.additionalPayment(2).additionalDocPaymentID.getOrElse("")}</ID>
+          <TypeCode>{dec.documentationType.additionalPayment(2).additionalDocPaymentType.getOrElse("")}</TypeCode>
+        </AdditionalDocument>
+        <AdditionalDocument>
+          <CategoryCode>{dec.documentationType.additionalPayment(2).additionalDocPaymentCategory.getOrElse("")}</CategoryCode>
+          <ID>{dec.documentationType.additionalPayment(2).additionalDocPaymentID.getOrElse("")}</ID>
+          <TypeCode>{dec.documentationType.additionalPayment(2).additionalDocPaymentType.getOrElse("")}</TypeCode>
+        </AdditionalDocument>
         <AuthorisationHolder>
           <ID>GB201909014000</ID>
           <CategoryCode>EIR</CategoryCode>
