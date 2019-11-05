@@ -55,7 +55,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
   }
 
   "A POST Request" should {
-    "succeed when all required fields are present" in signedInScenario { user =>
+    "succeed when all fields contain data" in signedInScenario { user =>
       val formData: Map[String, Seq[String]] = Map(
         "valuationInformationAndTaxes.conditionCode" -> Seq("conditionCode"),
         "valuationInformationAndTaxes.locationID" -> Seq("locationID"),
@@ -67,6 +67,30 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         "valuationInformationAndTaxes.rateNumeric" -> Seq("rateNumeric"),
         "valuationInformationAndTaxes.customsValuationMethodCode" -> Seq("customsValuationMethodCode"),
         "valuationInformationAndTaxes.dutyRegimeCode" -> Seq("dutyRegimeCode")
+      ) ++ declarationTypeFormData
+      val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds =>
+        when(ds.submit(any(), any())(any()))
+          .thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
+      val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any()))
+        .thenReturn(Future.successful(true))
+      new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
+        status(response) mustBe Status.OK
+        body should include element withName("dd").withValue("Good")
+      }
+    }
+
+    "succeed when all optional fields are empty" in signedInScenario { user =>
+      val formData: Map[String, Seq[String]] = Map(
+        "valuationInformationAndTaxes.conditionCode" -> Seq(""),
+        "valuationInformationAndTaxes.locationID" -> Seq(""),
+        "valuationInformationAndTaxes.locationName" -> Seq(""),
+        "valuationInformationAndTaxes.paymentMethodCode" -> Seq(""),
+        "valuationInformationAndTaxes.additionCode" -> Seq(""),
+        "valuationInformationAndTaxes.itemChargeAmount" -> Seq(""),
+        "valuationInformationAndTaxes.currencyID" -> Seq(""),
+        "valuationInformationAndTaxes.rateNumeric" -> Seq(""),
+        "valuationInformationAndTaxes.customsValuationMethodCode" -> Seq(""),
+        "valuationInformationAndTaxes.dutyRegimeCode" -> Seq("")
       ) ++ declarationTypeFormData
       val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds =>
         when(ds.submit(any(), any())(any()))
