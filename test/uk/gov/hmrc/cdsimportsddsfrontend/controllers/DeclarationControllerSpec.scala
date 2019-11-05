@@ -16,32 +16,28 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
-import com.gu.scalatest.JsoupShouldMatchers
 import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatest.BeforeAndAfterEach
-import play.api.mvc.AnyContentAsFormUrlEncoded
-import play.api.test.Helpers.{contentAsString, status}
-import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
+import play.api.test.FutureAwaits
+import play.api.test.Helpers.status
 import play.mvc.Http.Status
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.DeclarationControllerSpec.declarationTypeFormData
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsService, DeclarationStore}
-import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
+import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
 import scala.concurrent.Future
 import scala.xml.Elem
 
 class DeclarationControllerSpec extends CdsImportsSpec
-  with AuthenticationBehaviours with FutureAwaits with DefaultAwaitTimeout with JsoupShouldMatchers with BeforeAndAfterEach {
+  with Scenarios
+  with FutureAwaits
+  with BeforeAndAfterEach {
 
   override def beforeEach(): Unit = {
     featureSwitchRegistry.SinglePageDeclaration.enable()
-  }
-
-  class GetScenario extends BaseScenario {
-    val response = controller.show().apply(fakeRequestWithCSRF)
-    val body = contentAsString(response).asBodyFragment
   }
 
   "A GET Request" should {
@@ -140,17 +136,6 @@ class DeclarationControllerSpec extends CdsImportsSpec
         // TODO determine which fields should really be pre-populated, and modify tests accordingly
       }
     }
-  }
-
-  class PostScenario(formData: Map[String, Seq[String]],
-                     declarationsServiceMockSetup: CustomsDeclarationsService => Unit,
-                     declarationStoreMockSetup: DeclarationStore => Unit
-                    ) extends BaseScenario {
-    declarationsServiceMockSetup(mockDeclarationService)
-    declarationStoreMockSetup(mockDeclarationStore)
-    val formRequest = fakeRequestWithCSRF.withBody(AnyContentAsFormUrlEncoded(formData))
-    val response = controller.submit.apply(formRequest)
-    val body = contentAsString(response).asBodyFragment
   }
 
 
