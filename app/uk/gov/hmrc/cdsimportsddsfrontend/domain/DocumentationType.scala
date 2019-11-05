@@ -16,6 +16,20 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
+case class WriteOffType(quantity: Option[String])
+
+case class AdditionalDocumentType(
+  categoryCode: Option[String],
+  typeCode: Option[String],
+  id: Option[String],
+  lpco: Option[String],
+  name: Option[String],
+  effectiveDateTime: Option[String],
+  submitter: Option[String],
+  writeOff: Option[String]
+)
+
+
 case class DocumentationType(
   previousDocCategory:  Option[String],
   previousDocType: Option[String],
@@ -23,11 +37,7 @@ case class DocumentationType(
   previousDocGoodsItemId: Option[String],
   additionalInfoCode: Option[String],
   additionalInfoDescription: Option[String],
-  additionalDocCategoryCode: Option[String],
-  additionalDocTypeCode: Option[String],
-  additionalDocId: Option[String],
-  additionalDocLPCO: Option[String],
-  additionalDocName: Option[String],
+  additionalDocument: Seq[AdditionalDocumentType],
   localReferenceNumber: Option[String],
   additionalDocPaymentID: Option[String],
   additionalDocPaymentCategory: Option[String],
@@ -35,22 +45,22 @@ case class DocumentationType(
 )
 
 object DocumentationType {
-  def apply(): DocumentationType =
-    DocumentationType(
-      Some("Y"),
-      Some("DCR"),
-      Some("9GB201909014000"),
-      Some("1"),
-      Some("00500"),
-      Some("IMPORTER"),
-      Some("N"),
-      Some("935"),
-      Some("12345/30.09.2019"),
-      Some("AC"),
-      Some("DocumentName"),
-      Some("Test1234"),
-      Some("1909241"),
-      Some("1"),
-      Some("DAN")
-    )
+  def apply(): DocumentationType = DocumentationType(
+    Some("Y"),
+    Some("DCR"),
+    Some("9GB201909014000"),
+    Some("1"),
+    Some("00500"),
+    Some("IMPORTER"),
+    Seq(
+      AdditionalDocumentType(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), None, None, None, None),
+      AdditionalDocumentType(Some("C"), Some("514"), Some("GBEIR201909014000"), None, None, None, None, None),
+      AdditionalDocumentType(Some("C"), Some("506"), Some("GBDPO1909241"), None, None, None, None, None),
+      AdditionalDocumentType(Some("I"), Some("004"), Some("GBCPI000001-0001"), Some("AE"), None, None, None, Some("10"))
+    ),
+    Some("Test1234"),
+    Some("1909241"),
+    Some("1"),
+    Some("DAN")
+  )
 }

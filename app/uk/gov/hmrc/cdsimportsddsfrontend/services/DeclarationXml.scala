@@ -29,6 +29,7 @@ object DeclarationXml {
   def fromImportDeclaration(eori:Eori, dec: Declaration):Elem = {
     val referenceId = UUID.randomUUID().toString.replaceAll("-","").take(10)
 
+    println(s"DECXML: $dec")
 
     <md:MetaData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:md="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2" xmlns:clm63055="urn:un:unece:uncefact:codelist:standard:UNECE:AgencyIdentificationCode:D12B" xmlns:ds="urn:wco:datamodel:WCO:MetaData_DS-DMS:2" xsi:schemaLocation="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2 ../DocumentMetaData_2_DMS.xsd " xmlns="urn:wco:datamodel:WCO:DEC-DMS:2">
       <md:WCODataModelVersionCode>3.6</md:WCODataModelVersionCode>
@@ -112,27 +113,26 @@ object DeclarationXml {
           <GovernmentAgencyGoodsItem>
             <SequenceNumeric>{dec.declarationType.goodsItemNumber}</SequenceNumeric>
             <AdditionalDocument>
-              <CategoryCode>C</CategoryCode>
-              <ID>GBEIR201909014000</ID>
-              <TypeCode>514</TypeCode>
+              <CategoryCode>{dec.documentationType.additionalDocument(0).categoryCode.getOrElse("")}</CategoryCode>
+              <ID>{dec.documentationType.additionalDocument(0).id.getOrElse("")}</ID>
+              <TypeCode>{dec.documentationType.additionalDocument(0).typeCode.getOrElse("")}</TypeCode>
+              <LPCOExemptionCode>{dec.documentationType.additionalDocument(0).lpco.getOrElse("")}</LPCOExemptionCode>
             </AdditionalDocument>
             <AdditionalDocument>
-              <CategoryCode>C</CategoryCode>
-              <ID>GBDPO1909241</ID>
-              <TypeCode>506</TypeCode>
+              <CategoryCode>{dec.documentationType.additionalDocument(1).categoryCode.getOrElse("")}</CategoryCode>
+              <ID>{dec.documentationType.additionalDocument(1).id.getOrElse("")}</ID>
+              <TypeCode>{dec.documentationType.additionalDocument(1).typeCode.getOrElse("")}</TypeCode>
             </AdditionalDocument>
             <AdditionalDocument>
-              <CategoryCode>{dec.documentationType.additionalDocCategoryCode.getOrElse("")}</CategoryCode>
-              <ID>{dec.documentationType.additionalDocId.getOrElse("")}</ID>
-              <Name>{dec.documentationType.additionalDocName.getOrElse("")}</Name>
-              <TypeCode>{dec.documentationType.additionalDocTypeCode.getOrElse("")}</TypeCode>
-              <LPCOExemptionCode>{dec.documentationType.additionalDocLPCO.getOrElse("")}</LPCOExemptionCode>
+              <CategoryCode>{dec.documentationType.additionalDocument(2).categoryCode.getOrElse("")}</CategoryCode>
+              <ID>{dec.documentationType.additionalDocument(2).id.getOrElse("")}</ID>
+              <TypeCode>{dec.documentationType.additionalDocument(2).typeCode.getOrElse("")}</TypeCode>
             </AdditionalDocument>
             <AdditionalDocument>
-              <CategoryCode>I</CategoryCode>
-              <ID>GBCPI000001-0001</ID>
-              <TypeCode>004</TypeCode>
-              <LPCOExemptionCode>AE</LPCOExemptionCode>
+              <CategoryCode>{dec.documentationType.additionalDocument(3).categoryCode.getOrElse("")}</CategoryCode>
+              <ID>{dec.documentationType.additionalDocument(3).id.getOrElse("")}</ID>
+              <TypeCode>{dec.documentationType.additionalDocument(3).typeCode.getOrElse("")}</TypeCode>
+              <LPCOExemptionCode>{dec.documentationType.additionalDocument(3).lpco.getOrElse("")}</LPCOExemptionCode>
               <WriteOff>
                 <QuantityQuantity unitCode="KGM#G">10</QuantityQuantity>
               </WriteOff>
@@ -195,7 +195,7 @@ object DeclarationXml {
             <PreviousDocument>
               <CategoryCode>{dec.documentationType.previousDocCategory.getOrElse("")}</CategoryCode>
               <ID>{dec.documentationType.previousDocReference.getOrElse("")}</ID>
-              <TypeCode>{dec.documentationType.previousDocType.getOrElse()}</TypeCode>
+              <TypeCode>{dec.documentationType.previousDocType.getOrElse("")}</TypeCode>
               <LineNumeric>{dec.documentationType.previousDocGoodsItemId.getOrElse("")}</LineNumeric>
             </PreviousDocument>
             <ValuationAdjustment>
