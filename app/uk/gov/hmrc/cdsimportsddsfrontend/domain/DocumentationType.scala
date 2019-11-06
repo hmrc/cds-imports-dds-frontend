@@ -56,10 +56,10 @@ object DocumentationType {
     Some("00500"),
     Some("IMPORTER"),
     Seq(
-      AdditionalDocumentType(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), Some("DocumentName"), Some("Test1234"), None, None),
-      AdditionalDocumentType(Some("C"), Some("514"), Some("GBEIR201909014000"), None, None, None, None, None),
-      AdditionalDocumentType(Some("C"), Some("506"), Some("GBDPO1909241"), None, None, None, None, None),
-      AdditionalDocumentType(Some("I"), Some("004"), Some("GBCPI000001-0001"), Some("AE"), None, None, None, Some("10"))
+      AdditionalDocumentType(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), Some("DocumentName1"), Some("Test1234"), None, None),
+      AdditionalDocumentType(Some("C"), Some("514"), Some("GBEIR201909014000"), Some("AE"), Some("DocumentName2"), Some("Test2345"), None, None),
+      AdditionalDocumentType(Some("C"), Some("506"), Some("GBDPO1909241"), Some("AC"), Some("DocumentName3"), Some("Test3456"), None, None),
+      AdditionalDocumentType(Some("I"), Some("004"), Some("GBCPI000001-0001"), Some("AE"), Some("DocumentName4"), Some("Test4567"), None, Some("10"))
     ),
     Some("Test1234"),
     Seq(
