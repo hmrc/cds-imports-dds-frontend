@@ -81,11 +81,11 @@ valuationInformationAndTaxes.dutyRegimeCode=4.17 Preference
 
 # Section 3
 declare.parties.exporter.name=3.1 Exporter - Name
+declare.parties.exporter.identifier=3.1 Exporter - EORI
 declare.parties.exporter.address.streetAndNumber=3.1 Exporter - Street and Number
-#          //      | 3.1 Exporter - City                    | Metalville              |
-#          //      | 3.1 Exporter - Country                 | FR                      |
-#          //      | 3.1 Exporter - Postcode                | 07030                   |
-#          //      | 3.2 Exporter - EORI                    | FR12345678              |
+declare.parties.exporter.address.city=3.1 Exporter - City
+declare.parties.exporter.address.country=3.1 Exporter - Country
+declare.parties.exporter.address.postcode=3.1 Exporter - Postcode
 #          //      | 3.15 Importer - Name                   | Foil Solutions          |
 #          //      | 3.15 Importer - Street and Number      | Aluminium Way           |
 #          //      | 3.15 Importer - City                   | Metalton                |

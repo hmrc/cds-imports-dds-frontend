@@ -137,12 +137,11 @@ class DeclarationControllerSpec extends CdsImportsSpec
       new GetScenario() {
         status(response) mustBe Status.OK
         body should include element withName("input").withAttrValue("name", "parties.exporter.name")
+        body should include element withName("input").withAttrValue("name", "parties.exporter.identifier")
         body should include element withName("input").withAttrValue("name", "parties.exporter.address.streetAndNumber")
-        //      | 3.1 Exporter - Street and Number       | 1 Rue Aluminum          |
-        //      | 3.1 Exporter - City                    | Metalville              |
-        //      | 3.1 Exporter - Country                 | FR                      |
-        //      | 3.1 Exporter - Postcode                | 07030                   |
-        //      | 3.2 Exporter - EORI                    | FR12345678              |
+        body should include element withName("input").withAttrValue("name", "parties.exporter.address.city")
+        body should include element withName("input").withAttrValue("name", "parties.exporter.address.country")
+        body should include element withName("input").withAttrValue("name", "parties.exporter.address.postcode")
         //      | 3.15 Importer - Name                   | Foil Solutions          |
         //      | 3.15 Importer - Street and Number      | Aluminium Way           |
         //      | 3.15 Importer - City                   | Metalton                |
@@ -175,7 +174,11 @@ class DeclarationControllerSpec extends CdsImportsSpec
       new GetScenario() {
         status(response) mustBe Status.OK
         body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_name").withValue("3.1 Exporter - Name")
+        body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_identifier").withValue("3.1 Exporter - EORI")
         body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_address_streetAndNumber").withValue("3.1 Exporter - Street and Number")
+        body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_address_city").withValue("3.1 Exporter - City")
+        body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_address_country").withValue("3.1 Exporter - Country")
+        body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_address_postcode").withValue("3.1 Exporter - Postcode")
       }
     }
   }
@@ -328,7 +331,12 @@ class DeclarationControllerSpec extends CdsImportsSpec
         "documentationType.additionalPayment[3].additionalDocPaymentID" -> Seq("123456"),
         "documentationType.additionalPayment[3].additionalDocPaymentCategory" -> Seq("1"),
         "documentationType.additionalPayment[3].additionalDocPaymentType" -> Seq("DAN"),
-        "parties.exporter.name" -> Seq("exporter dude")
+        "parties.exporter.name" -> Seq("exporter dude"),
+        "parties.exporter.identifier" -> Seq("GB1020304050"),
+        "parties.exporter.address.streetAndNumber" -> Seq("123 Shipping Lane"),
+        "parties.exporter.address.city" -> Seq("Metalville"),
+        "parties.exporter.address.country" -> Seq("Tattooine"),
+        "parties.exporter.address.postcode" -> Seq("S7 4RS")
       )
       val captor: ArgumentCaptor[Elem] = ArgumentCaptor.forClass(classOf[Elem])
       when(mockDeclarationService.submit(any(), captor.capture())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
@@ -353,7 +361,11 @@ class DeclarationControllerSpec extends CdsImportsSpec
         (xml \ "Declaration" \ "AdditionalDocument" \ "CategoryCode").head.text mustBe "1"
         (xml \ "Declaration" \ "AdditionalDocument" \ "TypeCode").head.text mustBe "DAN"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Name").text mustBe "exporter dude"
-        // TODO determine which fields are mandatory, and modify tests accordingly - should we omit non-populated tags or just leave empty?
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "ID").text mustBe "GB1020304050"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Address" \ "Line").text mustBe "123 Shipping Lane"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Address" \ "CityName").text mustBe "Metalville"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Address" \ "CountryCode").text mustBe "Tattooine"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Address" \ "PostcodeID").text mustBe "S7 4RS"
       }
     }
   }

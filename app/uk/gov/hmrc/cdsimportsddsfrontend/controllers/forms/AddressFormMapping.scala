@@ -14,24 +14,18 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.domain
+package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
-case class Party(
-                  name: String,
-                  identifier: String,
-                  address: Option[Address]
-                )
+import play.api.data.Forms.mapping
+import play.api.data.Mapping
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.Address
 
-object Party {
-  def apply(): Party = {
-    new Party(
-      "Jabba the Hutt",
-      "TA0000000001",
-      Some(Address())
-    )
-  }
+object AddressFormMapping extends FormValidators {
+  val addressMapping: Mapping[Address] = mapping(
+    "streetAndNumber" -> nonEmptyString,
+    "city" -> nonEmptyString,
+    "country" -> nonEmptyString,
+    "postcode" -> nonEmptyString
+  )(Address.apply)(Address.unapply)
+  val address: (String, Mapping[Address]) = "address" -> addressMapping
 }
-
-
-
-

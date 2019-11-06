@@ -16,21 +16,19 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class Party(
-                  name: String,
-                  identifier: String,
-                  address: Option[Address]
+case class Address(
+                  streetAndNumber: String,
+                  city: String,
+                  country: String,
+                  postcode: String
                 )
 
-object Party {
-  def apply(): Party = {
-    new Party(
-      "Jabba the Hutt",
-      "TA0000000001",
-      Some(Address())
-    )
+object Address {
+  def apply(): Address = {
+    new Address("22 Droid Alley", "Mos Eisley", country = "Tattooine", postcode = "TA1 1TA")
   }
 }
+
 
 
 

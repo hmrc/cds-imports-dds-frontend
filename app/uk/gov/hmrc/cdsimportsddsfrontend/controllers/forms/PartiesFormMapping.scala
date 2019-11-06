@@ -16,11 +16,10 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
-import play.api.data.Forms.{mapping, optional, text}
+import play.api.data.Forms.{mapping, optional}
 import play.api.data.Mapping
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.DeclarationParties
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.PartyFormMapping.partyMapping
-
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.DeclarationParties
 
 object PartiesFormMapping {
   val parties: (String, Mapping[DeclarationParties]) = "parties" -> mapping(

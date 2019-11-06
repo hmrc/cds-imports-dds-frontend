@@ -22,4 +22,8 @@
 @(form: Form[Declaration])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @input_text(form("parties.exporter.name"), "declare.parties.exporter.name")
+@input_text(form("parties.exporter.identifier"), "declare.parties.exporter.identifier")
 @input_text(form("parties.exporter.address.streetAndNumber"), "declare.parties.exporter.address.streetAndNumber")
+@input_text(form("parties.exporter.address.city"), "declare.parties.exporter.address.city")
+@input_text(form("parties.exporter.address.country"), "declare.parties.exporter.address.country")
+@input_text(form("parties.exporter.address.postcode"), "declare.parties.exporter.address.postcode")

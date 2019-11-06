@@ -18,8 +18,8 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services
 
 import java.util.UUID
 
-import play.twirl.api.{Html, HtmlFormat}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, DeclarationParties, Eori}
+import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, DeclarationParties, Eori, Party}
 
 import scala.xml.{Elem, NodeSeq, PrettyPrinter, Text}
 
@@ -28,7 +28,6 @@ object DeclarationXml {
   // This should later build an xml that can be submitted to the declaration API.
   def fromImportDeclaration(eori:Eori, dec: Declaration):Elem = {
     val referenceId = UUID.randomUUID().toString.replaceAll("-","").take(10)
-
 
     <md:MetaData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:md="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2" xmlns:clm63055="urn:un:unece:uncefact:codelist:standard:UNECE:AgencyIdentificationCode:D12B" xmlns:ds="urn:wco:datamodel:WCO:MetaData_DS-DMS:2" xsi:schemaLocation="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2 ../DocumentMetaData_2_DMS.xsd " xmlns="urn:wco:datamodel:WCO:DEC-DMS:2">
       <md:WCODataModelVersionCode>3.6</md:WCODataModelVersionCode>
@@ -225,7 +224,6 @@ object DeclarationXml {
         </GoodsShipment>
       </Declaration>
     </md:MetaData>
-
   }
 
   private def maybeDutyTaxFee(declaration: Declaration) = {
@@ -311,7 +309,22 @@ object DeclarationXml {
       case Some(exporter) =>
         <Consignor>
           <Name>{exporter.name}</Name>
+          <ID>{exporter.identifier}</ID>
+          { maybeAddress(exporter) }
         </Consignor>
+      case None => NodeSeq.Empty
+    }
+  }
+
+  def maybeAddress(party: Party): NodeSeq = {
+    party.address match {
+      case Some(address) =>
+        <Address>
+          <Line>{address.streetAndNumber}</Line>
+          <CityName>{address.city}</CityName>
+          <CountryCode>{address.country}</CountryCode>
+          <PostcodeID>{address.postcode}</PostcodeID>
+        </Address>
       case None => NodeSeq.Empty
     }
   }
@@ -324,8 +337,6 @@ object DeclarationXml {
       .replaceAll("[\r\n]", "<br/>")
       .replaceAll(" {2}", "&nbsp;&nbsp;")
   }
-
-
 
   def goodDeclaration():Elem = {
     val referenceId = UUID.randomUUID().toString.replaceAll("-","").take(10)
