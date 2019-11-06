@@ -19,7 +19,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services
 import java.util.UUID
 
 import play.twirl.api.{Html, HtmlFormat}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, Eori}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, DeclarationParties, Eori}
 
 import scala.xml.{Elem, NodeSeq, PrettyPrinter, Text}
 
@@ -28,6 +28,7 @@ object DeclarationXml {
   // This should later build an xml that can be submitted to the declaration API.
   def fromImportDeclaration(eori:Eori, dec: Declaration):Elem = {
     val referenceId = UUID.randomUUID().toString.replaceAll("-","").take(10)
+
 
     <md:MetaData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:md="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2" xmlns:clm63055="urn:un:unece:uncefact:codelist:standard:UNECE:AgencyIdentificationCode:D12B" xmlns:ds="urn:wco:datamodel:WCO:MetaData_DS-DMS:2" xsi:schemaLocation="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2 ../DocumentMetaData_2_DMS.xsd " xmlns="urn:wco:datamodel:WCO:DEC-DMS:2">
       <md:WCODataModelVersionCode>3.6</md:WCODataModelVersionCode>
@@ -169,6 +170,7 @@ object DeclarationXml {
               </GoodsMeasure>
               {maybeInvoiceLine(dec)}
             </Commodity>
+            { maybeExporter(dec.parties) }
             {maybeCustomsValuation(dec)}
             <GovernmentProcedure>
               <CurrentCode>{dec.declarationType.requestedProcedureCode}</CurrentCode>
@@ -302,6 +304,15 @@ object DeclarationXml {
       </CustomsValuation>
     } else {
       NodeSeq.Empty
+    }
+  }
+  def maybeExporter(parties: DeclarationParties): NodeSeq = {
+    parties.exporter match {
+      case Some(exporter) =>
+        <Consignor>
+          <Name>{exporter.name}</Name>
+        </Consignor>
+      case None => NodeSeq.Empty
     }
   }
 

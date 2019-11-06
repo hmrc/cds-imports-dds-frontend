@@ -1,4 +1,4 @@
-/*
+@*
  * Copyright 2019 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,24 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *@
 
-package uk.gov.hmrc.cdsimportsddsfrontend.domain
+@import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
+@import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
+@import uk.gov.hmrc.cdsimportsddsfrontend.views.html.components.inputs.input_text
 
-case class Declaration(
-                        declarationType: DeclarationType,
-                        documentationType: DocumentationType,
-                        parties: DeclarationParties,
-                        valuationInformationAndTaxes: ValuationInformationAndTaxes
-                      )
 
-object Declaration {
-  def apply(): Declaration = {
-    new Declaration(
-      DeclarationType(),
-      DocumentationType(),
-      DeclarationParties(),
-      ValuationInformationAndTaxes()
-    )
-  }
-}
+@(form: Form[Declaration])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+
+@input_text(form("parties.exporter.name"), "declare.parties.exporter.name")
+@input_text(form("parties.exporter.address.streetAndNumber"), "declare.parties.exporter.address.streetAndNumber")

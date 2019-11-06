@@ -33,6 +33,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
   with Scenarios
   with FutureAwaits
   with BeforeAndAfterEach {
+
   import DeclarationControllerSpec.declarationTypeFormData
 
   override def beforeEach(): Unit = {
@@ -131,6 +132,53 @@ class DeclarationControllerSpec extends CdsImportsSpec
     }
   }
 
+  "in section 3" should {
+    "show the expected form fields" in signedInScenario { user =>
+      new GetScenario() {
+        status(response) mustBe Status.OK
+        body should include element withName("input").withAttrValue("name", "parties.exporter.name")
+        body should include element withName("input").withAttrValue("name", "parties.exporter.address.streetAndNumber")
+        //      | 3.1 Exporter - Street and Number       | 1 Rue Aluminum          |
+        //      | 3.1 Exporter - City                    | Metalville              |
+        //      | 3.1 Exporter - Country                 | FR                      |
+        //      | 3.1 Exporter - Postcode                | 07030                   |
+        //      | 3.2 Exporter - EORI                    | FR12345678              |
+        //      | 3.15 Importer - Name                   | Foil Solutions          |
+        //      | 3.15 Importer - Street and Number      | Aluminium Way           |
+        //      | 3.15 Importer - City                   | Metalton                |
+        //      | 3.15 Importer - Country                | UK                      |
+        //      | 3.15 Importer - Postcode               | ME7 4LL                 |
+        //      | 3.16 Importer - EORI                   | GB87654321              |
+        //      | 3.18 Declarant - EORI                  | GB15263748              |
+        //      | 3.24 Seller - Name                     | Tinfoil Sans Frontieres |
+        //      | 3.24 Seller - Street and Number        | 123 les Champs Insulees |
+        //      | 3.24 Seller - City                     | Troyes                  |
+        //      | 3.24 Seller - Country                  | FR                      |
+        //      | 3.24 Seller - Postcode                 | 01414                   |
+        //      | 3.24 Seller - Phone number             | 003344556677            |
+        //      | 3.25 Seller - EORI                     | FR84736251              |
+        //      | 3.26 Buyer - Name                      | Tinfoil R Us            |
+        //      | 3.26 Buyer - Street and Number         | 12 Alcan Boulevard      |
+        //      | 3.26 Buyer - City                      | Sheffield               |
+        //      | 3.26 Buyer - Country                   | UK                      |
+        //      | 3.26 Buyer - Postcode                  | S1 1VA                  |
+        //      | 3.26 Buyer - Phone number              | 00441234567890          |
+        //      | 3.27 Buyer - EORI                      | GB45362718              |
+        //      | 3.39 Authorisation holder - identifier | GB62518473              |
+        //      | 3.39 Authorisation holder - type code  | OK4U                    |
+        //      | 3.40 VAT Number (or TSPVAT)            | 99887766                |
+        //      | 3.40 Role Code                         | VAT                     |
+      }
+    }
+
+    "show the expected field labels" in signedInScenario { user =>
+      new GetScenario() {
+        status(response) mustBe Status.OK
+        body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_name").withValue("3.1 Exporter - Name")
+        body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_address_streetAndNumber").withValue("3.1 Exporter - Street and Number")
+      }
+    }
+  }
 
   "A POST Request" should {
     "return 404 when the SinglePageDeclaration feature is disabled" in {
@@ -279,7 +327,8 @@ class DeclarationControllerSpec extends CdsImportsSpec
         "documentationType.additionalPayment[2].additionalDocPaymentType" -> Seq("DAN"),
         "documentationType.additionalPayment[3].additionalDocPaymentID" -> Seq("123456"),
         "documentationType.additionalPayment[3].additionalDocPaymentCategory" -> Seq("1"),
-        "documentationType.additionalPayment[3].additionalDocPaymentType" -> Seq("DAN")
+        "documentationType.additionalPayment[3].additionalDocPaymentType" -> Seq("DAN"),
+        "parties.exporter.name" -> Seq("exporter dude")
       )
       val captor: ArgumentCaptor[Elem] = ArgumentCaptor.forClass(classOf[Elem])
       when(mockDeclarationService.submit(any(), captor.capture())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
@@ -298,11 +347,12 @@ class DeclarationControllerSpec extends CdsImportsSpec
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalDocument" \ "TypeCode").toList.map(_.text) contains "935"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalDocument" \ "ID").toList.map(_.text) contains "12345/30.09.2019"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalDocument" \ "LPCOExemptionCode").toList.map(_.text) contains "AC"
-        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalDocument" \ "Name").toList.map(_.text) contains "DocumentName"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "AdditionalDocument" \ "Name").toList.map(_.text) must contain("DocumentName")
         (xml \ "Declaration" \ "FunctionalReferenceID").head.text mustBe "localRef"
         (xml \ "Declaration" \ "AdditionalDocument" \ "ID").head.text mustBe "123456"
         (xml \ "Declaration" \ "AdditionalDocument" \ "CategoryCode").head.text mustBe "1"
         (xml \ "Declaration" \ "AdditionalDocument" \ "TypeCode").head.text mustBe "DAN"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Name").text mustBe "exporter dude"
         // TODO determine which fields are mandatory, and modify tests accordingly - should we omit non-populated tags or just leave empty?
       }
     }

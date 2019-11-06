@@ -16,20 +16,15 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
-import play.api.data.Forms.mapping
+import play.api.data.Forms.{mapping, optional, text}
 import play.api.data.Mapping
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.DeclarationType
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.Party
 
-object DeclarationTypeFormMapping extends FormValidators {
+object PartyFormMapping extends FormValidators {
+  val partyMapping: Mapping[Party] = mapping(
+    "name" -> nonEmptyString,
+    "address" -> optional(text)
+  )(Party.apply)(Party.unapply)
 
-  val declarationType: (String, Mapping[DeclarationType]) = "declarationType" -> mapping(
-    "declarationType" -> nonEmptyString,
-    "additionalDeclarationType" -> nonEmptyString,
-    "goodsItemNumber" -> nonEmptyString,
-    "totalNumberOfItems" -> nonEmptyString,
-    "requestedProcedureCode" -> nonEmptyString,
-    "previousProcedureCode" -> nonEmptyString,
-    "additionalProcedureCode" -> nonEmptyString
-  )(DeclarationType.apply)(DeclarationType.unapply)
+//  val party: (String, Mapping[Party]) = "party" -> partyMapping
 }
-
