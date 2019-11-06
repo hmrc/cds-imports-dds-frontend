@@ -124,6 +124,7 @@ object DeclarationXml {
             <AdditionalDocument>
               <CategoryCode>{dec.documentationType.additionalDocument(0).categoryCode.getOrElse("")}</CategoryCode>
               <ID>{dec.documentationType.additionalDocument(0).id.getOrElse("")}</ID>
+              <Name>{dec.documentationType.additionalDocument(0).name.getOrElse("")}</Name>
               <TypeCode>{dec.documentationType.additionalDocument(0).typeCode.getOrElse("")}</TypeCode>
               <LPCOExemptionCode>{dec.documentationType.additionalDocument(0).lpco.getOrElse("")}</LPCOExemptionCode>
             </AdditionalDocument>

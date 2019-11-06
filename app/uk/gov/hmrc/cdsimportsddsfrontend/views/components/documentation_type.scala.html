@@ -17,8 +17,8 @@
 @import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 @import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
 @import uk.gov.hmrc.cdsimportsddsfrontend.views.html.components.inputs.input_text
-
 @import uk.gov.hmrc.cdsimportsddsfrontend.domain.DocumentationType
+
 @(form: Form[Declaration])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @input_text(form("documentationType.previousDocCategory" ), "declare.previousDocCategory" )

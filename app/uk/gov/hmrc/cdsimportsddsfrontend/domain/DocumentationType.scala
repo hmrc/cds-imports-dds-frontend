@@ -56,7 +56,7 @@ object DocumentationType {
     Some("00500"),
     Some("IMPORTER"),
     Seq(
-      AdditionalDocumentType(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), None, None, None, None),
+      AdditionalDocumentType(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), Some("DocumentName"), Some("Test1234"), None, None),
       AdditionalDocumentType(Some("C"), Some("514"), Some("GBEIR201909014000"), None, None, None, None, None),
       AdditionalDocumentType(Some("C"), Some("506"), Some("GBDPO1909241"), None, None, None, None, None),
       AdditionalDocumentType(Some("I"), Some("004"), Some("GBCPI000001-0001"), Some("AE"), None, None, None, Some("10"))
