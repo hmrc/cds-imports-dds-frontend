@@ -171,9 +171,9 @@ object DeclarationXml {
                 <IdentificationTypeCode>TRC</IdentificationTypeCode>
               </Classification>
               <DutyTaxFee>
-                <DutyRegimeCode>100</DutyRegimeCode>
+                <DutyRegimeCode>{dec.valuationInformationAndTaxes.dutyRegimeCode.getOrElse("")}</DutyRegimeCode>
                 <Payment>
-                  <MethodCode>E</MethodCode>
+                  <MethodCode>{dec.valuationInformationAndTaxes.paymentMethodCode.getOrElse("")}</MethodCode>
                 </Payment>
               </DutyTaxFee>
               <GoodsMeasure>
@@ -182,11 +182,11 @@ object DeclarationXml {
                 <TariffQuantity>90000000</TariffQuantity>
               </GoodsMeasure>
               <InvoiceLine>
-                <ItemChargeAmount currencyID="GBP">90500000</ItemChargeAmount>
+                <ItemChargeAmount currencyID={dec.valuationInformationAndTaxes.currencyID.getOrElse("GBP")}>{dec.valuationInformationAndTaxes.itemChargeAmount.getOrElse("")}</ItemChargeAmount>
               </InvoiceLine>
             </Commodity>
             <CustomsValuation>
-              <MethodCode>1</MethodCode>
+              <MethodCode>{dec.valuationInformationAndTaxes.customsValuationMethodCode.getOrElse("")}</MethodCode>
             </CustomsValuation>
             <GovernmentProcedure>
               <CurrentCode>{dec.declarationType.requestedProcedureCode}</CurrentCode>
@@ -218,7 +218,7 @@ object DeclarationXml {
               <LineNumeric>{dec.documentationType.previousDocGoodsItemId.getOrElse("")}</LineNumeric>
             </PreviousDocument>
             <ValuationAdjustment>
-              <AdditionCode>0000</AdditionCode>
+              <AdditionCode>{dec.valuationInformationAndTaxes.additionCode.getOrElse("")}</AdditionCode>
             </ValuationAdjustment>
           </GovernmentAgencyGoodsItem>
           <Importer>
@@ -237,13 +237,17 @@ object DeclarationXml {
             <LineNumeric>1</LineNumeric>
           </PreviousDocument>
           <TradeTerms>
-            <ConditionCode>CFR</ConditionCode>
-            <LocationID>GBDVR</LocationID>
+            <ConditionCode>{dec.valuationInformationAndTaxes.conditionCode.getOrElse("")}</ConditionCode>
+            <LocationID>{dec.valuationInformationAndTaxes.locationID.getOrElse("")}</LocationID>
+            <LocationName>{dec.valuationInformationAndTaxes.locationName.getOrElse("")}</LocationName>
           </TradeTerms>
           <UCR>
             <TraderAssignedReferenceID>{dec.documentationType.previousDocReference.getOrElse("")}-12345</TraderAssignedReferenceID>
           </UCR>
         </GoodsShipment>
+        <CurrencyExchange>
+          <RateNumeric>{dec.valuationInformationAndTaxes.rateNumeric.getOrElse("")}</RateNumeric>
+        </CurrencyExchange>
       </Declaration>
     </md:MetaData>
 
