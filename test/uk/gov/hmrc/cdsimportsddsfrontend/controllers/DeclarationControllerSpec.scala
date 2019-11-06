@@ -25,7 +25,6 @@ import play.api.test.Helpers.status
 import play.mvc.Http.Status
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.DeclarationControllerSpec.declarationTypeFormData
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse
-import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsService, DeclarationStore}
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
 import scala.concurrent.Future

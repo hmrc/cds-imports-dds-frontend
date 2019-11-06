@@ -36,7 +36,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.Future
 import scala.util.Random
 
-trait AuthenticationBehaviours extends MockitoSugar with DefaultAwaitTimeout with JsoupShouldMatchers {
+trait AuthenticationBehaviours extends MockitoSugar {
   self: CdsImportsSpec =>
 
   val EORI_LENGTH = 8

@@ -34,7 +34,7 @@ trait Scenarios extends AuthenticationBehaviours {
   val mockDeclarationService: CustomsDeclarationsService = mock[CustomsDeclarationsService]
   val mockDeclarationStore: DeclarationStore = mock[DeclarationStore]
 
-  trait BaseScenario {
+  class BaseScenario {
     val govukButton = new GovukButton()
     val formTemplate = new declaration(mainTemplate, govukButton)
     val resultTemplate = new declaration_result(mainTemplate)
