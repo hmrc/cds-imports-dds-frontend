@@ -60,9 +60,9 @@ object DeclarationXml {
           <TypeCode>{dec.documentationType.additionalPayment(2).additionalDocPaymentType.getOrElse("")}</TypeCode>
         </AdditionalDocument>
         <AdditionalDocument>
-          <CategoryCode>{dec.documentationType.additionalPayment(2).additionalDocPaymentCategory.getOrElse("")}</CategoryCode>
-          <ID>{dec.documentationType.additionalPayment(2).additionalDocPaymentID.getOrElse("")}</ID>
-          <TypeCode>{dec.documentationType.additionalPayment(2).additionalDocPaymentType.getOrElse("")}</TypeCode>
+          <CategoryCode>{dec.documentationType.additionalPayment(3).additionalDocPaymentCategory.getOrElse("")}</CategoryCode>
+          <ID>{dec.documentationType.additionalPayment(3).additionalDocPaymentID.getOrElse("")}</ID>
+          <TypeCode>{dec.documentationType.additionalPayment(3).additionalDocPaymentType.getOrElse("")}</TypeCode>
         </AdditionalDocument>
         <AuthorisationHolder>
           <ID>GB201909014000</ID>
