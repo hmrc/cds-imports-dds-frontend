@@ -131,16 +131,21 @@ object DeclarationXml {
             <AdditionalDocument>
               <CategoryCode>{dec.documentationType.additionalDocument(1).categoryCode.getOrElse("")}</CategoryCode>
               <ID>{dec.documentationType.additionalDocument(1).id.getOrElse("")}</ID>
+              <Name>{dec.documentationType.additionalDocument(1).name.getOrElse("")}</Name>
               <TypeCode>{dec.documentationType.additionalDocument(1).typeCode.getOrElse("")}</TypeCode>
+              <LPCOExemptionCode>{dec.documentationType.additionalDocument(1).lpco.getOrElse("")}</LPCOExemptionCode>
             </AdditionalDocument>
             <AdditionalDocument>
               <CategoryCode>{dec.documentationType.additionalDocument(2).categoryCode.getOrElse("")}</CategoryCode>
               <ID>{dec.documentationType.additionalDocument(2).id.getOrElse("")}</ID>
+              <Name>{dec.documentationType.additionalDocument(2).name.getOrElse("")}</Name>
               <TypeCode>{dec.documentationType.additionalDocument(2).typeCode.getOrElse("")}</TypeCode>
+              <LPCOExemptionCode>{dec.documentationType.additionalDocument(2).lpco.getOrElse("")}</LPCOExemptionCode>
             </AdditionalDocument>
             <AdditionalDocument>
               <CategoryCode>{dec.documentationType.additionalDocument(3).categoryCode.getOrElse("")}</CategoryCode>
               <ID>{dec.documentationType.additionalDocument(3).id.getOrElse("")}</ID>
+              <Name>{dec.documentationType.additionalDocument(3).name.getOrElse("")}</Name>
               <TypeCode>{dec.documentationType.additionalDocument(3).typeCode.getOrElse("")}</TypeCode>
               <LPCOExemptionCode>{dec.documentationType.additionalDocument(3).lpco.getOrElse("")}</LPCOExemptionCode>
               <WriteOff>
