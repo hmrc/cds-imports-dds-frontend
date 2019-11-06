@@ -19,9 +19,9 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services
 import java.util.UUID
 
 import play.twirl.api.{Html, HtmlFormat}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Eori, Declaration}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, Eori}
 
-import scala.xml.{Elem, PrettyPrinter}
+import scala.xml.{Elem, PrettyPrinter, Text}
 
 object DeclarationXml {
 
@@ -45,24 +45,24 @@ object DeclarationXml {
         <GoodsItemQuantity>{dec.declarationType.totalNumberOfItems}</GoodsItemQuantity>
         <TotalPackageQuantity>55</TotalPackageQuantity>
         <AdditionalDocument>
-          <CategoryCode>{dec.documentationType.additionalPayment(0).additionalDocPaymentCategory.getOrElse("")}</CategoryCode>
-          <ID>{dec.documentationType.additionalPayment(0).additionalDocPaymentID.getOrElse("")}</ID>
-          <TypeCode>{dec.documentationType.additionalPayment(0).additionalDocPaymentType.getOrElse("")}</TypeCode>
+          {maybeElement("CategoryCode", dec.documentationType.additionalPayment(0).additionalDocPaymentCategory)}
+          {maybeElement("ID", dec.documentationType.additionalPayment(0).additionalDocPaymentID)}
+          {maybeElement("TypeCode", dec.documentationType.additionalPayment(0).additionalDocPaymentType)}
         </AdditionalDocument>
         <AdditionalDocument>
-          <CategoryCode>{dec.documentationType.additionalPayment(1).additionalDocPaymentCategory.getOrElse("")}</CategoryCode>
-          <ID>{dec.documentationType.additionalPayment(1).additionalDocPaymentID.getOrElse("")}</ID>
-          <TypeCode>{dec.documentationType.additionalPayment(1).additionalDocPaymentType.getOrElse("")}</TypeCode>
+          {maybeElement("CategoryCode", dec.documentationType.additionalPayment(1).additionalDocPaymentCategory)}
+          {maybeElement("ID", dec.documentationType.additionalPayment(1).additionalDocPaymentID)}
+          {maybeElement("TypeCode", dec.documentationType.additionalPayment(1).additionalDocPaymentType)}
         </AdditionalDocument>
         <AdditionalDocument>
-          <CategoryCode>{dec.documentationType.additionalPayment(2).additionalDocPaymentCategory.getOrElse("")}</CategoryCode>
-          <ID>{dec.documentationType.additionalPayment(2).additionalDocPaymentID.getOrElse("")}</ID>
-          <TypeCode>{dec.documentationType.additionalPayment(2).additionalDocPaymentType.getOrElse("")}</TypeCode>
+          {maybeElement("CategoryCode", dec.documentationType.additionalPayment(2).additionalDocPaymentCategory)}
+          {maybeElement("ID", dec.documentationType.additionalPayment(2).additionalDocPaymentID)}
+          {maybeElement("TypeCode", dec.documentationType.additionalPayment(2).additionalDocPaymentType)}
         </AdditionalDocument>
         <AdditionalDocument>
-          <CategoryCode>{dec.documentationType.additionalPayment(3).additionalDocPaymentCategory.getOrElse("")}</CategoryCode>
-          <ID>{dec.documentationType.additionalPayment(3).additionalDocPaymentID.getOrElse("")}</ID>
-          <TypeCode>{dec.documentationType.additionalPayment(3).additionalDocPaymentType.getOrElse("")}</TypeCode>
+          {maybeElement("CategoryCode", dec.documentationType.additionalPayment(3).additionalDocPaymentCategory)}
+          {maybeElement("ID", dec.documentationType.additionalPayment(3).additionalDocPaymentID)}
+          {maybeElement("TypeCode", dec.documentationType.additionalPayment(3).additionalDocPaymentType)}
         </AdditionalDocument>
         <AuthorisationHolder>
           <ID>GB201909014000</ID>
@@ -122,32 +122,32 @@ object DeclarationXml {
           <GovernmentAgencyGoodsItem>
             <SequenceNumeric>{dec.declarationType.goodsItemNumber}</SequenceNumeric>
             <AdditionalDocument>
-              <CategoryCode>{dec.documentationType.additionalDocument(0).categoryCode.getOrElse("")}</CategoryCode>
-              <ID>{dec.documentationType.additionalDocument(0).id.getOrElse("")}</ID>
-              <Name>{dec.documentationType.additionalDocument(0).name.getOrElse("")}</Name>
-              <TypeCode>{dec.documentationType.additionalDocument(0).typeCode.getOrElse("")}</TypeCode>
-              <LPCOExemptionCode>{dec.documentationType.additionalDocument(0).lpco.getOrElse("")}</LPCOExemptionCode>
+              {maybeElement("CategoryCode", dec.documentationType.additionalDocument(0).categoryCode)}
+              {maybeElement("ID", dec.documentationType.additionalDocument(0).id)}
+              {maybeElement("Name",dec.documentationType.additionalDocument(0).name)}
+              {maybeElement("TypeCode", dec.documentationType.additionalDocument(0).typeCode)}
+              {maybeElement("LPCOExemptionCode",dec.documentationType.additionalDocument(0).lpco)}
             </AdditionalDocument>
             <AdditionalDocument>
-              <CategoryCode>{dec.documentationType.additionalDocument(1).categoryCode.getOrElse("")}</CategoryCode>
-              <ID>{dec.documentationType.additionalDocument(1).id.getOrElse("")}</ID>
-              <Name>{dec.documentationType.additionalDocument(1).name.getOrElse("")}</Name>
-              <TypeCode>{dec.documentationType.additionalDocument(1).typeCode.getOrElse("")}</TypeCode>
-              <LPCOExemptionCode>{dec.documentationType.additionalDocument(1).lpco.getOrElse("")}</LPCOExemptionCode>
+              {maybeElement("CategoryCode", dec.documentationType.additionalDocument(1).categoryCode)}
+              {maybeElement("ID", dec.documentationType.additionalDocument(1).id)}
+              {maybeElement("Name",dec.documentationType.additionalDocument(1).name)}
+              {maybeElement("TypeCode", dec.documentationType.additionalDocument(1).typeCode)}
+              {maybeElement("LPCOExemptionCode",dec.documentationType.additionalDocument(1).lpco)}
             </AdditionalDocument>
             <AdditionalDocument>
-              <CategoryCode>{dec.documentationType.additionalDocument(2).categoryCode.getOrElse("")}</CategoryCode>
-              <ID>{dec.documentationType.additionalDocument(2).id.getOrElse("")}</ID>
-              <Name>{dec.documentationType.additionalDocument(2).name.getOrElse("")}</Name>
-              <TypeCode>{dec.documentationType.additionalDocument(2).typeCode.getOrElse("")}</TypeCode>
-              <LPCOExemptionCode>{dec.documentationType.additionalDocument(2).lpco.getOrElse("")}</LPCOExemptionCode>
+              {maybeElement("CategoryCode", dec.documentationType.additionalDocument(2).categoryCode)}
+              {maybeElement("ID", dec.documentationType.additionalDocument(2).id)}
+              {maybeElement("Name",dec.documentationType.additionalDocument(2).name)}
+              {maybeElement("TypeCode", dec.documentationType.additionalDocument(2).typeCode)}
+              {maybeElement("LPCOExemptionCode",dec.documentationType.additionalDocument(2).lpco)}
             </AdditionalDocument>
             <AdditionalDocument>
-              <CategoryCode>{dec.documentationType.additionalDocument(3).categoryCode.getOrElse("")}</CategoryCode>
-              <ID>{dec.documentationType.additionalDocument(3).id.getOrElse("")}</ID>
-              <Name>{dec.documentationType.additionalDocument(3).name.getOrElse("")}</Name>
-              <TypeCode>{dec.documentationType.additionalDocument(3).typeCode.getOrElse("")}</TypeCode>
-              <LPCOExemptionCode>{dec.documentationType.additionalDocument(3).lpco.getOrElse("")}</LPCOExemptionCode>
+              {maybeElement("CategoryCode", dec.documentationType.additionalDocument(3).categoryCode)}
+              {maybeElement("ID", dec.documentationType.additionalDocument(3).id)}
+              {maybeElement("Name",dec.documentationType.additionalDocument(3).name)}
+              {maybeElement("TypeCode", dec.documentationType.additionalDocument(3).typeCode)}
+              {maybeElement("LPCOExemptionCode",dec.documentationType.additionalDocument(3).lpco)}
               <WriteOff>
                 <QuantityQuantity unitCode="KGM#G">10</QuantityQuantity>
               </WriteOff>
@@ -245,6 +245,11 @@ object DeclarationXml {
 
   }
 
+  private def maybeElement(name: String, maybeValue: Option[String]) = {
+    if (maybeValue.exists(_.trim.nonEmpty)) {
+      Elem.apply(null, name, scala.xml.Null, scala.xml.TopScope, true, Text(maybeValue.getOrElse("").trim))
+    }
+  }
 
   //Turn a scala xml document into a fully escaped html string
   def prettyPrintToHtml(xml:Elem):String = {
