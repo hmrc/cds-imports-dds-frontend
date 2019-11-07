@@ -80,6 +80,9 @@ object DeclarationXml {
           <RegistrationNationalityCode>FR</RegistrationNationalityCode>
           <ModeCode>1</ModeCode>
         </BorderTransportMeans>
+        <CurrencyExchange>
+          <RateNumeric>{dec.valuationInformationAndTaxes.rateNumeric.getOrElse("")}</RateNumeric>
+        </CurrencyExchange>
         <Declarant>
           <ID>GB201909014000</ID>
         </Declarant>
@@ -245,9 +248,6 @@ object DeclarationXml {
             <TraderAssignedReferenceID>{dec.documentationType.previousDocReference.getOrElse("")}-12345</TraderAssignedReferenceID>
           </UCR>
         </GoodsShipment>
-        <CurrencyExchange>
-          <RateNumeric>{dec.valuationInformationAndTaxes.rateNumeric.getOrElse("")}</RateNumeric>
-        </CurrencyExchange>
       </Declaration>
     </md:MetaData>
 
