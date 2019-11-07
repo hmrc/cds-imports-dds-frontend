@@ -64,6 +64,10 @@ object DeclarationXml {
           {maybeElement("ID", dec.documentationType.additionalPayment(3).additionalDocPaymentID)}
           {maybeElement("TypeCode", dec.documentationType.additionalPayment(3).additionalDocPaymentType)}
         </AdditionalDocument>
+        <AdditionalInformation>
+          <StatementCode>TSP01</StatementCode>
+          <StatementDescription>TSP</StatementDescription>
+        </AdditionalInformation>
         <AuthorisationHolder>
           <ID>GB201909014000</ID>
           <CategoryCode>EIR</CategoryCode>
