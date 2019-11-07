@@ -182,7 +182,7 @@ object DeclarationXml {
                 <TariffQuantity>90000000</TariffQuantity>
               </GoodsMeasure>
               <InvoiceLine>
-                <ItemChargeAmount currencyID={dec.valuationInformationAndTaxes.currencyID.getOrElse("GBP")}>{dec.valuationInformationAndTaxes.itemChargeAmount.getOrElse("")}</ItemChargeAmount>
+                <ItemChargeAmount currencyID={dec.valuationInformationAndTaxes.currencyID.getOrElse("GBP").toUpperCase()}>{dec.valuationInformationAndTaxes.itemChargeAmount.getOrElse("")}</ItemChargeAmount>
               </InvoiceLine>
             </Commodity>
             <CustomsValuation>

@@ -23,7 +23,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImpo
 
 import scala.xml.{Elem, Node, NodeSeq, UnprefixedAttribute}
 
-class DeclarationXml_valuationInformationAndTaxesSpec extends CdsImportsSpec with MustMatchers with AuthenticationBehaviours with JsoupShouldMatchers {
+class DeclarationXml_ValuationInformationAndTaxesSpec extends CdsImportsSpec with MustMatchers with AuthenticationBehaviours with JsoupShouldMatchers {
 
   "ValuationInformationAndTaxes data" should {
     "be populated in the XML" in {
