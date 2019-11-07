@@ -23,6 +23,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.domain.DeclarationParties
 
 object PartiesFormMapping {
   val parties: (String, Mapping[DeclarationParties]) = "parties" -> mapping(
+    "declarant" -> optional(partyMapping),
     "exporter" -> optional(partyMapping)
   )(DeclarationParties.apply)(DeclarationParties.unapply)
 }

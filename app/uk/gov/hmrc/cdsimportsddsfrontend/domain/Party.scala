@@ -17,16 +17,16 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class Party(
-                  name: String,
-                  identifier: String,
+                  name: Option[String],
+                  identifier: Option[String],
                   address: Option[Address]
                 )
 
 object Party {
   def apply(): Party = {
     new Party(
-      "Jabba the Hutt",
-      "TA0000000001",
+      Some("Jabba the Hutt"),
+      Some("TA0000000001"),
       Some(Address())
     )
   }

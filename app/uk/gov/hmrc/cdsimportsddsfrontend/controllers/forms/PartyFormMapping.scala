@@ -16,15 +16,15 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
-import play.api.data.Forms.{mapping, optional}
+import play.api.data.Forms.{mapping, optional, text}
 import play.api.data.Mapping
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.AddressFormMapping.addressMapping
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Party
 
 object PartyFormMapping extends FormValidators {
   val partyMapping: Mapping[Party] = mapping(
-    "name" -> nonEmptyString,
-    "identifier" -> nonEmptyString,
+    "name" -> optional(text),
+    "identifier" -> optional(text),
     "address" -> optional(addressMapping)
   )(Party.apply)(Party.unapply)
 }

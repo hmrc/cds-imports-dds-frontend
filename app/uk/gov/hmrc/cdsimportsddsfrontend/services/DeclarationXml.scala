@@ -71,9 +71,7 @@ object DeclarationXml {
           <ModeCode>1</ModeCode>
         </BorderTransportMeans>
         {maybeCurrencyExchange(dec)}
-        <Declarant>
-          <ID>GB201909014000</ID>
-        </Declarant>
+        { maybeParty("Declarant", dec.parties.declarant) }
         <Exporter>
           <Name>French Foil Ltd.</Name>
           <Address>
@@ -304,6 +302,7 @@ object DeclarationXml {
       NodeSeq.Empty
     }
   }
+
   def maybeExporter(parties: DeclarationParties): NodeSeq = {
     parties.exporter match {
       case Some(exporter) =>
@@ -312,6 +311,16 @@ object DeclarationXml {
           <ID>{exporter.identifier}</ID>
           { maybeAddress(exporter) }
         </Consignor>
+  def maybeExporter(parties: DeclarationParties): NodeSeq = maybeParty("Consignor", parties.exporter)
+
+  def maybeParty(tagName: String, party: Option[Party]): NodeSeq = {
+    party match {
+      case Some(party) =>
+        val childNodes =
+          maybeElement("Name", party.name) ++
+          maybeElement("ID", party.identifier) ++
+          maybeAddress(party)
+        Elem.apply(null, tagName, scala.xml.Null, scala.xml.TopScope, true, childNodes :_*)
       case None => NodeSeq.Empty
     }
   }

@@ -142,13 +142,13 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "parties.exporter.address.city")
         body should include element withName("input").withAttrValue("name", "parties.exporter.address.countryCode")
         body should include element withName("input").withAttrValue("name", "parties.exporter.address.postcode")
+        body should include element withName("input").withAttrValue("name", "parties.declarant.identifier")
         //      | 3.15 Importer - Name                   | Foil Solutions          |
         //      | 3.15 Importer - Street and Number      | Aluminium Way           |
         //      | 3.15 Importer - City                   | Metalton                |
         //      | 3.15 Importer - CountryCode            | UK                      |
         //      | 3.15 Importer - Postcode               | ME7 4LL                 |
         //      | 3.16 Importer - EORI                   | GB87654321              |
-        //      | 3.18 Declarant - EORI                  | GB15263748              |
         //      | 3.24 Seller - Name                     | Tinfoil Sans Frontieres |
         //      | 3.24 Seller - Street and Number        | 123 les Champs Insulees |
         //      | 3.24 Seller - City                     | Troyes                  |
@@ -169,19 +169,8 @@ class DeclarationControllerSpec extends CdsImportsSpec
         //      | 3.40 Role Code                         | VAT                     |
       }
     }
-
-    "show the expected field labels" in signedInScenario { user =>
-      new GetScenario() {
-        status(response) mustBe Status.OK
-        body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_name").withValue("3.1 Exporter - Name")
-        body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_identifier").withValue("3.1 Exporter - EORI")
-        body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_address_streetAndNumber").withValue("3.1 Exporter - Street and Number")
-        body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_address_city").withValue("3.1 Exporter - City")
-        body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_address_countryCode").withValue("3.1 Exporter - Country Code")
-        body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_address_postcode").withValue("3.1 Exporter - Postcode")
-      }
-    }
   }
+
 
   "A POST Request" should {
     "return 404 when the SinglePageDeclaration feature is disabled" in {
@@ -335,8 +324,9 @@ class DeclarationControllerSpec extends CdsImportsSpec
         "parties.exporter.identifier" -> Seq("GB1020304050"),
         "parties.exporter.address.streetAndNumber" -> Seq("123 Shipping Lane"),
         "parties.exporter.address.city" -> Seq("Metalville"),
-        "parties.exporter.address.countryCode" -> Seq("Tattooine"),
-        "parties.exporter.address.postcode" -> Seq("S7 4RS")
+        "parties.exporter.address.countryCode" -> Seq("TA"),
+        "parties.exporter.address.postcode" -> Seq("S7 4RS"),
+        "parties.declarant.identifier" -> Seq("TA00000001")
       )
       val captor: ArgumentCaptor[Elem] = ArgumentCaptor.forClass(classOf[Elem])
       when(mockDeclarationService.submit(any(), captor.capture())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
@@ -345,6 +335,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
         status(response) mustBe Status.OK
         val xml: Elem = captor.getValue
         // TODO these tests should be around DeclarationXML.fromImportDeclaration
+        (xml \ "Declaration" \ "Declarant" \ "ID").head.text mustBe "TA00000001"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) contains  "Y"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "PreviousDocument" \ "TypeCode").toList.map(_.text) contains "DCR"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "PreviousDocument" \ "ID").toList.map(_.text) contains "9GB201909014000"
@@ -364,7 +355,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "ID").text mustBe "GB1020304050"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Address" \ "Line").text mustBe "123 Shipping Lane"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Address" \ "CityName").text mustBe "Metalville"
-        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Address" \ "CountryCode").text mustBe "Tattooine"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Address" \ "CountryCode").text mustBe "TA"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Address" \ "PostcodeID").text mustBe "S7 4RS"
       }
     }

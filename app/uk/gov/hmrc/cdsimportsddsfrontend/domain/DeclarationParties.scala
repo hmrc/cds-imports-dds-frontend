@@ -17,12 +17,13 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class DeclarationParties(
+                               declarant: Option[Party],
                                exporter: Option[Party]
                              )
 
 object DeclarationParties {
   def apply(): DeclarationParties = {
-    new DeclarationParties(exporter = Some(Party()))
+    new DeclarationParties(declarant = Some(Party()), exporter = Some(Party()))
   }
 }
 
