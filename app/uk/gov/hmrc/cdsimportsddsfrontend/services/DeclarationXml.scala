@@ -246,9 +246,8 @@ object DeclarationXml {
   }
 
   private def maybeElement(name: String, maybeValue: Option[String]) = {
-    if (maybeValue.exists(_.trim.nonEmpty)) {
+    if (maybeValue.exists(_.trim.nonEmpty))
       Elem.apply(null, name, scala.xml.Null, scala.xml.TopScope, true, Text(maybeValue.getOrElse("").trim))
-    }
   }
 
   //Turn a scala xml document into a fully escaped html string
