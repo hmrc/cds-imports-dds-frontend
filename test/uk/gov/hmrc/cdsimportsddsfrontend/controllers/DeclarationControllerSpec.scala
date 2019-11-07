@@ -23,7 +23,6 @@ import org.scalatest.BeforeAndAfterEach
 import play.api.test.FutureAwaits
 import play.api.test.Helpers.status
 import play.mvc.Http.Status
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.DeclarationControllerSpec.declarationTypeFormData
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
@@ -34,6 +33,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
   with Scenarios
   with FutureAwaits
   with BeforeAndAfterEach {
+  import DeclarationControllerSpec.declarationTypeFormData
 
   override def beforeEach(): Unit = {
     featureSwitchRegistry.SinglePageDeclaration.enable()
