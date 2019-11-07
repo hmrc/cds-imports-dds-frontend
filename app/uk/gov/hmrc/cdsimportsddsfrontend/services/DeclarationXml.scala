@@ -320,9 +320,9 @@ object DeclarationXml {
     party.address match {
       case Some(address) =>
         <Address>
-          <Line>{address.streetAndNumber}</Line>
           <CityName>{address.city}</CityName>
-          <CountryCode>{address.country}</CountryCode>
+          <CountryCode>{address.countryCode}</CountryCode>
+          <Line>{address.streetAndNumber}</Line>
           <PostcodeID>{address.postcode}</PostcodeID>
         </Address>
       case None => NodeSeq.Empty

@@ -140,26 +140,26 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "parties.exporter.identifier")
         body should include element withName("input").withAttrValue("name", "parties.exporter.address.streetAndNumber")
         body should include element withName("input").withAttrValue("name", "parties.exporter.address.city")
-        body should include element withName("input").withAttrValue("name", "parties.exporter.address.country")
+        body should include element withName("input").withAttrValue("name", "parties.exporter.address.countryCode")
         body should include element withName("input").withAttrValue("name", "parties.exporter.address.postcode")
         //      | 3.15 Importer - Name                   | Foil Solutions          |
         //      | 3.15 Importer - Street and Number      | Aluminium Way           |
         //      | 3.15 Importer - City                   | Metalton                |
-        //      | 3.15 Importer - Country                | UK                      |
+        //      | 3.15 Importer - CountryCode            | UK                      |
         //      | 3.15 Importer - Postcode               | ME7 4LL                 |
         //      | 3.16 Importer - EORI                   | GB87654321              |
         //      | 3.18 Declarant - EORI                  | GB15263748              |
         //      | 3.24 Seller - Name                     | Tinfoil Sans Frontieres |
         //      | 3.24 Seller - Street and Number        | 123 les Champs Insulees |
         //      | 3.24 Seller - City                     | Troyes                  |
-        //      | 3.24 Seller - Country                  | FR                      |
+        //      | 3.24 Seller - CountryCode              | FR                      |
         //      | 3.24 Seller - Postcode                 | 01414                   |
         //      | 3.24 Seller - Phone number             | 003344556677            |
         //      | 3.25 Seller - EORI                     | FR84736251              |
         //      | 3.26 Buyer - Name                      | Tinfoil R Us            |
         //      | 3.26 Buyer - Street and Number         | 12 Alcan Boulevard      |
         //      | 3.26 Buyer - City                      | Sheffield               |
-        //      | 3.26 Buyer - Country                   | UK                      |
+        //      | 3.26 Buyer - CountryCode               | UK                      |
         //      | 3.26 Buyer - Postcode                  | S1 1VA                  |
         //      | 3.26 Buyer - Phone number              | 00441234567890          |
         //      | 3.27 Buyer - EORI                      | GB45362718              |
@@ -177,7 +177,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_identifier").withValue("3.1 Exporter - EORI")
         body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_address_streetAndNumber").withValue("3.1 Exporter - Street and Number")
         body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_address_city").withValue("3.1 Exporter - City")
-        body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_address_country").withValue("3.1 Exporter - Country")
+        body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_address_countryCode").withValue("3.1 Exporter - Country Code")
         body should include element withClass("govuk-label").withAttrValue("for", "parties_exporter_address_postcode").withValue("3.1 Exporter - Postcode")
       }
     }
@@ -335,7 +335,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
         "parties.exporter.identifier" -> Seq("GB1020304050"),
         "parties.exporter.address.streetAndNumber" -> Seq("123 Shipping Lane"),
         "parties.exporter.address.city" -> Seq("Metalville"),
-        "parties.exporter.address.country" -> Seq("Tattooine"),
+        "parties.exporter.address.countryCode" -> Seq("Tattooine"),
         "parties.exporter.address.postcode" -> Seq("S7 4RS")
       )
       val captor: ArgumentCaptor[Elem] = ArgumentCaptor.forClass(classOf[Elem])

@@ -24,7 +24,7 @@ object AddressFormMapping extends FormValidators {
   val addressMapping: Mapping[Address] = mapping(
     "streetAndNumber" -> nonEmptyString,
     "city" -> nonEmptyString,
-    "country" -> nonEmptyString,
+    "countryCode" -> nonEmptyString,
     "postcode" -> nonEmptyString
   )(Address.apply)(Address.unapply)
   val address: (String, Mapping[Address]) = "address" -> addressMapping
