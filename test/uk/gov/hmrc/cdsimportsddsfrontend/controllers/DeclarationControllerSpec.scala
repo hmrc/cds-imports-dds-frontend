@@ -294,11 +294,6 @@ class DeclarationControllerSpec extends CdsImportsSpec
         status(response) mustBe Status.OK
         val xml: Elem = captor.getValue
         // TODO these tests should be around DeclarationXML.fromImportDeclaration
-        (xml \ "Declaration" \ "TypeCode").head.text mustBe "101102"
-        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "SequenceNumeric").head.text mustBe "103"
-        (xml \ "Declaration" \ "GoodsItemQuantity").head.text mustBe "104"
-        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "GovernmentProcedure" \ "CurrentCode").map(_.text) mustBe List("105","107")
-        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "GovernmentProcedure" \ "PreviousCode").head.text mustBe "106"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) contains  "Y"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "PreviousDocument" \ "TypeCode").toList.map(_.text) contains "DCR"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "PreviousDocument" \ "ID").toList.map(_.text) contains "9GB201909014000"
