@@ -187,15 +187,17 @@ class DeclarationControllerSpec extends CdsImportsSpec
     }
 
     "succeed when all required fields are present" in signedInScenario { user =>
-    // TODO determine which fields are mandatory, and modify tests accordingly
-    val formData = Map(
+    val declarationFormData = Map(
         "declarationType.declarationType" -> Seq("declarationType"),
         "declarationType.additionalDeclarationType" -> Seq("additionalDeclarationType"),
         "declarationType.goodsItemNumber" -> Seq("goodsItemNumber"),
         "declarationType.totalNumberOfItems" -> Seq("totalNumberOfItems"),
         "declarationType.requestedProcedureCode" -> Seq("requestedProcedureCode"),
         "declarationType.previousProcedureCode" -> Seq("previousProcedureCode"),
-        "declarationType.additionalProcedureCode" -> Seq("additionalProcedureCode"),
+        "declarationType.additionalProcedureCode" -> Seq("additionalProcedureCode")
+    )
+
+      val documentationFormData = Map(
         "documentationType.previousDocCategory" -> Seq("previousDocCategory"),
         "documentationType.previousDocType" -> Seq("previousDocType"),
         "documentationType.previousDocReference" -> Seq("previousDocReference"),
@@ -208,36 +210,24 @@ class DeclarationControllerSpec extends CdsImportsSpec
         "documentationType.additionalDocument[0].id" -> Seq("id"),
         "documentationType.additionalDocument[0].lpco" -> Seq("lpco"),
         "documentationType.additionalDocument[0].name" -> Seq("name"),
-        "documentationType.additionalDocument[0].effectiveDateTime" -> Seq("effectiveDateTime"),
-        "documentationType.additionalDocument[0].submitter" -> Seq("submitter"),
-        "documentationType.additionalDocument[0].writeOff" -> Seq("writeOff"),
 
         "documentationType.additionalDocument[1].categoryCode" -> Seq("categoryCode"),
         "documentationType.additionalDocument[1].typeCode" -> Seq("typeCode"),
         "documentationType.additionalDocument[1].id" -> Seq("id"),
         "documentationType.additionalDocument[1].lpco" -> Seq("lpco"),
         "documentationType.additionalDocument[1].name" -> Seq("name"),
-        "documentationType.additionalDocument[1].effectiveDateTime" -> Seq("effectiveDateTime"),
-        "documentationType.additionalDocument[1].submitter" -> Seq("submitter"),
-        "documentationType.additionalDocument[1].writeOff" -> Seq("writeOff"),
 
         "documentationType.additionalDocument[2].categoryCode" -> Seq("categoryCode"),
         "documentationType.additionalDocument[2].typeCode" -> Seq("typeCode"),
         "documentationType.additionalDocument[2].id" -> Seq("id"),
         "documentationType.additionalDocument[2].lpco" -> Seq("lpco"),
         "documentationType.additionalDocument[2].name" -> Seq("name"),
-        "documentationType.additionalDocument[2].effectiveDateTime" -> Seq("effectiveDateTime"),
-        "documentationType.additionalDocument[2].submitter" -> Seq("submitter"),
-        "documentationType.additionalDocument[2].writeOff" -> Seq("writeOff"),
 
         "documentationType.additionalDocument[3].categoryCode" -> Seq("categoryCode"),
         "documentationType.additionalDocument[3].typeCode" -> Seq("typeCode"),
         "documentationType.additionalDocument[3].id" -> Seq("id"),
         "documentationType.additionalDocument[3].lpco" -> Seq("lpco"),
         "documentationType.additionalDocument[3].name" -> Seq("name"),
-        "documentationType.additionalDocument[3].effectiveDateTime" -> Seq("effectiveDateTime"),
-        "documentationType.additionalDocument[3].submitter" -> Seq("submitter"),
-        "documentationType.additionalDocument[3].writeOff" -> Seq("writeOff"),
         "documentationType.localReferenceNumber" -> Seq("localRef"),
 
         "documentationType.additionalPayment[0].additionalDocPaymentID" -> Seq("123456"),
@@ -257,6 +247,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
         "documentationType.additionalPayment[3].additionalDocPaymentType" -> Seq("DAN")
       )
 
+      val formData = declarationFormData ++ documentationFormData
       val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
       val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
       new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
@@ -277,7 +268,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("a").withAttrValue("id", "declarationType.requestedProcedureCode-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "declarationType.previousProcedureCode-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "declarationType.additionalProcedureCode-error").withValue("This field is required")
-        // TODO determine which fields are mandatory, and modify tests accordingly
+
       }
     }
   }

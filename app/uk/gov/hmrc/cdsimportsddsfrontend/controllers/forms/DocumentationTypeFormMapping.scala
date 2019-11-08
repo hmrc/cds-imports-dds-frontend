@@ -26,10 +26,7 @@ object AdditionalDocumentFormMapping {
     "typeCode" -> optional(text),
     "id" -> optional(text),
     "lpco" -> optional(text),
-    "name" -> optional(text),
-    "effectiveDateTime" -> optional(text),
-    "submitter" -> optional(text),
-    "writeOff" -> optional(text)
+    "name" -> optional(text)
   )(AdditionalDocumentType.apply)(AdditionalDocumentType.unapply))
 }
 
