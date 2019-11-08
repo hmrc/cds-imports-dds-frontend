@@ -16,20 +16,18 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services
 
-import com.gu.scalatest.JsoupShouldMatchers
-import org.scalatest.MustMatchers
+import org.scalatest.{MustMatchers, WordSpec}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
-import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
 
-import scala.xml.{Elem, Node, NodeSeq, UnprefixedAttribute}
+import scala.xml.Elem
 
-class DeclarationXml_ValuationInformationAndTaxesSpec extends CdsImportsSpec with MustMatchers with AuthenticationBehaviours with JsoupShouldMatchers {
+class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with MustMatchers {
 
   "ValuationInformationAndTaxes data" should {
     "be populated in the XML" in {
       val declaration = Declaration()
 
-      val xmlElement: Elem = DeclarationXml.fromImportDeclaration("EORI", declaration)
+      val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "TradeTerms" \ "ConditionCode").head.text mustBe "CFR"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "TradeTerms" \ "LocationID").head.text mustBe "GBDVR"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "TradeTerms" \ "LocationName").head.text mustBe "Great Britain Dover"

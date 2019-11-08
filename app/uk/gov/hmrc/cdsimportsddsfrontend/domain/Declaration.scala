@@ -17,19 +17,8 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class Declaration(
-                        declarationType: DeclarationType,
-                        documentationType: DocumentationType,
-                        parties: DeclarationParties,
-                        valuationInformationAndTaxes: ValuationInformationAndTaxes
+                        declarationType: DeclarationType = DeclarationType(),
+                        documentationType: DocumentationType = DocumentationType(),
+                        parties: DeclarationParties = DeclarationParties(),
+                        valuationInformationAndTaxes: ValuationInformationAndTaxes = ValuationInformationAndTaxes()
                       )
-
-object Declaration {
-  def apply(): Declaration = {
-    new Declaration(
-      DeclarationType(),
-      DocumentationType(),
-      DeclarationParties(),
-      ValuationInformationAndTaxes()
-    )
-  }
-}

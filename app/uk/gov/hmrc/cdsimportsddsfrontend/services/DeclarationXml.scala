@@ -26,7 +26,7 @@ import scala.xml.{Elem, NodeSeq, PrettyPrinter, Text}
 object DeclarationXml {
 
   // This should later build an xml that can be submitted to the declaration API.
-  def fromImportDeclaration(eori:Eori, dec: Declaration):Elem = {
+  def fromImportDeclaration(dec: Declaration):Elem = {
     val referenceId = UUID.randomUUID().toString.replaceAll("-","").take(10)
 
     <md:MetaData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:md="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2" xmlns:clm63055="urn:un:unece:uncefact:codelist:standard:UNECE:AgencyIdentificationCode:D12B" xmlns:ds="urn:wco:datamodel:WCO:MetaData_DS-DMS:2" xsi:schemaLocation="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2 ../DocumentMetaData_2_DMS.xsd " xmlns="urn:wco:datamodel:WCO:DEC-DMS:2">

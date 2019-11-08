@@ -16,25 +16,23 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services
 
-import com.gu.scalatest.JsoupShouldMatchers
-import org.scalatest.MustMatchers
+import org.scalatest.{MustMatchers, WordSpec}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
-import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
 
 import scala.xml.Elem
 
-class DeclarationXml_MessageInformationSpec extends CdsImportsSpec with MustMatchers with AuthenticationBehaviours with JsoupShouldMatchers {
+class DeclarationXml_MessageInformationSpec extends WordSpec with MustMatchers {
 
   "MessageInformation data" should {
     "be populated in the XML" in {
       val declaration = Declaration()
 
-      val xmlElement: Elem = DeclarationXml.fromImportDeclaration("EORI", declaration)
-      (xmlElement \ "Declaration" \ "GoodsShipment" \ "TradeTerms" \ "ConditionCode").head.text mustBe "CFR"
+      val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
       (xmlElement \ "Declaration" \ "TypeCode").head.text mustBe "IMZ"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "SequenceNumeric").head.text mustBe "1"
       (xmlElement \ "Declaration" \ "GoodsItemQuantity").head.text mustBe "1"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "GovernmentProcedure" \ "CurrentCode").map(_.text) mustBe List("40","000")
+      (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "GovernmentProcedure" \ "PreviousCode").map(_.text) mustBe List("00")
     }
   }
 }
