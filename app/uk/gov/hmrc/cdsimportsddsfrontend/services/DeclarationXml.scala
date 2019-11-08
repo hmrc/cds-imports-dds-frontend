@@ -21,7 +21,7 @@ import java.util.UUID
 import play.twirl.api.{Html, HtmlFormat}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, Eori}
 
-import scala.xml.{Elem, PrettyPrinter, Text}
+import scala.xml.{Elem, NodeSeq, PrettyPrinter, Text}
 
 object DeclarationXml {
 
@@ -251,7 +251,7 @@ object DeclarationXml {
     }
   }
 
-  private def maybeTradeTerms(declaration: Declaration) = {
+  private def maybeTradeTerms(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.conditionCode.exists(_.trim.nonEmpty) ||
         declaration.valuationInformationAndTaxes.locationID.exists(_.trim.nonEmpty) ||
         declaration.valuationInformationAndTaxes.locationName.exists(_.trim.nonEmpty)) {
@@ -260,44 +260,58 @@ object DeclarationXml {
           {maybeElement("LocationID", declaration.valuationInformationAndTaxes.locationID)}
           {maybeElement("LocationName", declaration.valuationInformationAndTaxes.locationName)}
         </TradeTerms>
+    } else {
+      NodeSeq.Empty
     }
+
   }
 
-  private def maybeValuationAdjustment(declaration: Declaration) = {
+  private def maybeValuationAdjustment(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.additionCode.exists(_.trim.nonEmpty)) {
       <ValuationAdjustment>
         {maybeElement("AdditionCode", declaration.valuationInformationAndTaxes.additionCode)}
       </ValuationAdjustment>
+    } else {
+      NodeSeq.Empty
     }
   }
 
-  private def maybeElement(name: String, maybeValue: Option[String]) = {
-    if (maybeValue.exists(_.trim.nonEmpty))
+  private def maybeElement(name: String, maybeValue: Option[String]): NodeSeq = {
+    if (maybeValue.exists(_.trim.nonEmpty)) {
       Elem.apply(null, name, scala.xml.Null, scala.xml.TopScope, true, Text(maybeValue.getOrElse("").trim))
+    } else {
+      NodeSeq.Empty
+    }
   }
 
-  private def maybeInvoiceLine(declaration: Declaration) = {
+  private def maybeInvoiceLine(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.currencyID.exists(_.trim.nonEmpty) ||
        declaration.valuationInformationAndTaxes.itemChargeAmount.exists(_.trim.nonEmpty)) {
       <InvoiceLine>
         <ItemChargeAmount currencyID={declaration.valuationInformationAndTaxes.currencyID.getOrElse("GBP").toUpperCase()}>{declaration.valuationInformationAndTaxes.itemChargeAmount.getOrElse("")}</ItemChargeAmount>
       </InvoiceLine>
+    } else {
+      NodeSeq.Empty
     }
   }
 
-  private def maybeCurrencyExchange(declaration: Declaration) = {
+  private def maybeCurrencyExchange(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.rateNumeric.exists(_.trim.nonEmpty)) {
       <CurrencyExchange>
         {maybeElement("RateNumeric", declaration.valuationInformationAndTaxes.rateNumeric)}
       </CurrencyExchange>
+    } else {
+      NodeSeq.Empty
     }
   }
 
-  private def maybeCustomsValuation(declaration: Declaration) = {
+  private def maybeCustomsValuation(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.customsValuationMethodCode.exists(_.trim.nonEmpty)) {
       <CustomsValuation>
         {maybeElement("MethodCode", declaration.valuationInformationAndTaxes.customsValuationMethodCode)}
       </CustomsValuation>
+    } else {
+      NodeSeq.Empty
     }
   }
 
