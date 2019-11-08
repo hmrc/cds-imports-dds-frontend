@@ -54,6 +54,41 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
   }
 
   "A POST Request" should {
+    val documentationFormData = Map(
+      "documentationType.additionalPayment[0].additionalDocPaymentID" -> Seq(""),
+      "documentationType.additionalPayment[0].additionalDocPaymentCategory" -> Seq(""),
+      "documentationType.additionalPayment[0].additionalDocPaymentType" -> Seq(""),
+      "documentationType.additionalPayment[1].additionalDocPaymentID" -> Seq(""),
+      "documentationType.additionalPayment[1].additionalDocPaymentCategory" -> Seq(""),
+      "documentationType.additionalPayment[1].additionalDocPaymentType" -> Seq(""),
+      "documentationType.additionalPayment[2].additionalDocPaymentID" -> Seq(""),
+      "documentationType.additionalPayment[2].additionalDocPaymentCategory" -> Seq(""),
+      "documentationType.additionalPayment[2].additionalDocPaymentType" -> Seq(""),
+      "documentationType.additionalPayment[3].additionalDocPaymentID" -> Seq(""),
+      "documentationType.additionalPayment[3].additionalDocPaymentCategory" -> Seq(""),
+      "documentationType.additionalPayment[3].additionalDocPaymentType" -> Seq(""),
+      "documentationType.additionalDocument[0].categoryCode" -> Seq(""),
+      "documentationType.additionalDocument[0].typeCode" -> Seq(""),
+      "documentationType.additionalDocument[0].id" -> Seq(""),
+      "documentationType.additionalDocument[0].lpco" -> Seq(""),
+      "documentationType.additionalDocument[0].name" -> Seq(""),
+      "documentationType.additionalDocument[1].categoryCode" -> Seq(""),
+      "documentationType.additionalDocument[1].typeCode" -> Seq(""),
+      "documentationType.additionalDocument[1].id" -> Seq(""),
+      "documentationType.additionalDocument[1].lpco" -> Seq(""),
+      "documentationType.additionalDocument[1].name" -> Seq(""),
+      "documentationType.additionalDocument[2].categoryCode" -> Seq(""),
+      "documentationType.additionalDocument[2].typeCode" -> Seq(""),
+      "documentationType.additionalDocument[2].id" -> Seq(""),
+      "documentationType.additionalDocument[2].lpco" -> Seq(""),
+      "documentationType.additionalDocument[2].name" -> Seq(""),
+      "documentationType.additionalDocument[3].categoryCode" -> Seq(""),
+      "documentationType.additionalDocument[3].typeCode" -> Seq(""),
+      "documentationType.additionalDocument[3].id" -> Seq(""),
+      "documentationType.additionalDocument[3].lpco" -> Seq(""),
+      "documentationType.additionalDocument[3].name" -> Seq("")
+    )
+
     "succeed when all fields contain data" in signedInScenario { user =>
       val formData: Map[String, Seq[String]] = Map(
         "valuationInformationAndTaxes.conditionCode" -> Seq("conditionCode"),
@@ -66,7 +101,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         "valuationInformationAndTaxes.rateNumeric" -> Seq("rateNumeric"),
         "valuationInformationAndTaxes.customsValuationMethodCode" -> Seq("customsValuationMethodCode"),
         "valuationInformationAndTaxes.dutyRegimeCode" -> Seq("dutyRegimeCode")
-      ) ++ declarationTypeFormData
+      ) ++ declarationTypeFormData ++ documentationFormData
 
       when(mockDeclarationService.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
       when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
@@ -89,7 +124,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         "valuationInformationAndTaxes.rateNumeric" -> Seq(""),
         "valuationInformationAndTaxes.customsValuationMethodCode" -> Seq(""),
         "valuationInformationAndTaxes.dutyRegimeCode" -> Seq("")
-      ) ++ declarationTypeFormData
+      ) ++ declarationTypeFormData ++ documentationFormData
 
         when(mockDeclarationService.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
         when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
