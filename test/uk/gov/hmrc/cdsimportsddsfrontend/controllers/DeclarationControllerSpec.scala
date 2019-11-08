@@ -16,43 +16,27 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
-import com.gu.scalatest.JsoupShouldMatchers
 import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatest.BeforeAndAfterEach
-import play.api.mvc.AnyContentAsFormUrlEncoded
-import play.api.test.Helpers.{contentAsString, status}
-import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
+import play.api.test.FutureAwaits
+import play.api.test.Helpers.status
 import play.mvc.Http.Status
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse
-import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsService, DeclarationStore}
-import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{declaration_result, declaration}
-import uk.gov.hmrc.govukfrontend.views.html.components._
+import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
 import scala.concurrent.Future
 import scala.xml.Elem
 
 class DeclarationControllerSpec extends CdsImportsSpec
-  with AuthenticationBehaviours with FutureAwaits with DefaultAwaitTimeout with JsoupShouldMatchers with BeforeAndAfterEach {
+  with Scenarios
+  with FutureAwaits
+  with BeforeAndAfterEach {
+  import DeclarationControllerSpec.declarationTypeFormData
 
   override def beforeEach(): Unit = {
     featureSwitchRegistry.SinglePageDeclaration.enable()
-  }
-
-  trait BaseScenario {
-    val govukButton = new GovukButton()
-    val formTemplate = new declaration(mainTemplate, govukButton)
-    val resultTemplate = new declaration_result(mainTemplate)
-    val mockDeclarationService = mock[CustomsDeclarationsService]
-    val mockDeclarationStore = mock[DeclarationStore]
-    val controller = new DeclarationController(formTemplate, resultTemplate, mockDeclarationService, mockDeclarationStore, mockAuthAction)
-  }
-
-  class GetScenario extends BaseScenario {
-    val response = controller.show().apply(fakeRequestWithCSRF)
-    val body = contentAsString(response).asBodyFragment
   }
 
   "A GET Request" should {
@@ -153,25 +137,14 @@ class DeclarationControllerSpec extends CdsImportsSpec
     }
   }
 
-  class PostScenario(formData: Map[String, Seq[String]],
-                     declarationsServiceMockSetup: CustomsDeclarationsService => Unit,
-                     declarationStoreMockSetup: DeclarationStore => Unit
-                    ) extends BaseScenario {
-    declarationsServiceMockSetup(mockDeclarationService)
-    declarationStoreMockSetup(mockDeclarationStore)
-    val formRequest = fakeRequestWithCSRF.withBody(AnyContentAsFormUrlEncoded(formData))
-    val response = controller.submit.apply(formRequest)
-    val body = contentAsString(response).asBodyFragment
-  }
-
 
   "A POST Request" should {
     "return 404 when the SinglePageDeclaration feature is disabled" in {
       featureSwitchRegistry.SinglePageDeclaration.disable()
       val formData = Map[String, Seq[String]]()
-      val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
-      val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
-      new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
+      when(mockDeclarationService.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
         status(response) must be(Status.NOT_FOUND)
       }
     }
@@ -179,23 +152,14 @@ class DeclarationControllerSpec extends CdsImportsSpec
     "return 503 when the SinglePageDeclaration feature is suspended" in {
       featureSwitchRegistry.SinglePageDeclaration.suspend()
       val formData = Map[String, Seq[String]]()
-      val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
-      val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
-      new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
+      when(mockDeclarationService.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
         status(response) must be(Status.SERVICE_UNAVAILABLE)
       }
     }
 
     "succeed when all required fields are present" in signedInScenario { user =>
-    val declarationFormData = Map(
-        "declarationType.declarationType" -> Seq("declarationType"),
-        "declarationType.additionalDeclarationType" -> Seq("additionalDeclarationType"),
-        "declarationType.goodsItemNumber" -> Seq("goodsItemNumber"),
-        "declarationType.totalNumberOfItems" -> Seq("totalNumberOfItems"),
-        "declarationType.requestedProcedureCode" -> Seq("requestedProcedureCode"),
-        "declarationType.previousProcedureCode" -> Seq("previousProcedureCode"),
-        "declarationType.additionalProcedureCode" -> Seq("additionalProcedureCode")
-    )
 
       val documentationFormData = Map(
         "documentationType.previousDocCategory" -> Seq("previousDocCategory"),
@@ -247,10 +211,10 @@ class DeclarationControllerSpec extends CdsImportsSpec
         "documentationType.additionalPayment[3].additionalDocPaymentType" -> Seq("DAN")
       )
 
-      val formData = declarationFormData ++ documentationFormData
-      val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
-      val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
-      new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
+      val formData = declarationTypeFormData ++ documentationFormData
+      when(mockDeclarationService.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
         status(response) mustBe Status.OK
         body should include element withName("dd").withValue("Good")
       }
@@ -258,9 +222,9 @@ class DeclarationControllerSpec extends CdsImportsSpec
 
     "fail when some mandatory fields are missing" in signedInScenario { user =>
       val formData = Map("declarationType.declarationType" -> Seq("declarationType"))
-      val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
-      val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
-      new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
+      when(mockDeclarationService.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
         status(response) mustBe Status.BAD_REQUEST
         body should include element withName("a").withAttrValue("id", "declarationType.additionalDeclarationType-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "declarationType.goodsItemNumber-error").withValue("This field is required")
@@ -324,17 +288,12 @@ class DeclarationControllerSpec extends CdsImportsSpec
         "documentationType.additionalPayment[3].additionalDocPaymentType" -> Seq("DAN")
       )
       val captor: ArgumentCaptor[Elem] = ArgumentCaptor.forClass(classOf[Elem])
-      val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), captor.capture())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
-      val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
-      new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
+      when(mockDeclarationService.submit(any(), captor.capture())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
         status(response) mustBe Status.OK
-        val xml = captor.getValue
+        val xml: Elem = captor.getValue
         // TODO these tests should be around DeclarationXML.fromImportDeclaration
-        (xml \ "Declaration" \ "TypeCode").head.text mustBe "101102"
-        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "SequenceNumeric").head.text mustBe "103"
-        (xml \ "Declaration" \ "GoodsItemQuantity").head.text mustBe "104"
-        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "GovernmentProcedure" \ "CurrentCode").map(_.text) mustBe List("105","107")
-        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "GovernmentProcedure" \ "PreviousCode").head.text mustBe "106"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) contains  "Y"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "PreviousDocument" \ "TypeCode").toList.map(_.text) contains "DCR"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "PreviousDocument" \ "ID").toList.map(_.text) contains "9GB201909014000"
@@ -356,3 +315,15 @@ class DeclarationControllerSpec extends CdsImportsSpec
   }
 }
 
+object DeclarationControllerSpec {
+  val declarationTypeFormData: Map[String, Seq[String]] = Map(
+    "declarationType.declarationType" -> Seq("declarationType"),
+    "declarationType.additionalDeclarationType" -> Seq("additionalDeclarationType"),
+    "declarationType.goodsItemNumber" -> Seq("goodsItemNumber"),
+    "declarationType.totalNumberOfItems" -> Seq("totalNumberOfItems"),
+    "declarationType.requestedProcedureCode" -> Seq("requestedProcedureCode"),
+    "declarationType.previousProcedureCode" -> Seq("previousProcedureCode"),
+    "declarationType.additionalProcedureCode" -> Seq("additionalProcedureCode")
+  )
+
+}

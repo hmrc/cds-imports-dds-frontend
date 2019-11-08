@@ -16,23 +16,22 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.test
 
+import com.gu.scalatest.JsoupShouldMatchers
 import org.scalatest.{MustMatchers, WordSpec}
 import play.api.http.{DefaultFileMimeTypes, FileMimeTypesConfiguration, HttpConfiguration}
 import play.api.i18n._
 import play.api.mvc._
 import play.api.test.Helpers.{stubBodyParser, stubLangs, stubPlayBodyParsers}
-import play.api.test.{FakeRequest, NoMaterializer}
+import play.api.test.{DefaultAwaitTimeout, FakeRequest, NoMaterializer}
 import play.api.{Configuration, Environment, Mode}
 import uk.gov.hmrc.cdsimportsddsfrontend.config.{AppConfig, ErrorHandler, FeatureSwitchRegistry}
-import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{error_template, main_template}
+import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{error_template, main_template, _}
+import uk.gov.hmrc.govukfrontend.views.html.components._
+import uk.gov.hmrc.govukfrontend.views.html.layouts._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.config.{RunMode, ServicesConfig}
 import uk.gov.hmrc.play.config.{AssetsConfig, GTMConfig, OptimizelyConfig}
-import uk.gov.hmrc.play.views.html.helpers.ReportAProblemLink
 import uk.gov.hmrc.play.views.html.layouts._
-import uk.gov.hmrc.cdsimportsddsfrontend.views.html._
-import uk.gov.hmrc.govukfrontend.views.html.components._
-import uk.gov.hmrc.govukfrontend.views.html.layouts._
 
 import scala.concurrent.ExecutionContext
 
@@ -46,7 +45,7 @@ trait AppConfigReader {
 
 }
 
-trait CdsImportsSpec extends WordSpec with MustMatchers with AppConfigReader {
+trait CdsImportsSpec extends WordSpec with MustMatchers with AppConfigReader with DefaultAwaitTimeout with JsoupShouldMatchers {
 
   val langs = new DefaultLangs()
 

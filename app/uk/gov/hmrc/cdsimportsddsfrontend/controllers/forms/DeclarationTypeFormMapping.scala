@@ -23,7 +23,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.domain.DeclarationType
 object DeclarationTypeFormMapping extends FormValidators {
 
   val declarationType: (String, Mapping[DeclarationType]) = "declarationType" -> mapping(
-    "declarationType" -> nonEmptyString,  // Example of an optional field. Also see the case class and the XML renderer
+    "declarationType" -> nonEmptyString,
     "additionalDeclarationType" -> nonEmptyString,
     "goodsItemNumber" -> nonEmptyString,
     "totalNumberOfItems" -> nonEmptyString,

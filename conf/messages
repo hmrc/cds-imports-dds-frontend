@@ -67,6 +67,18 @@ declare.additionalDocPaymentID4=2.6 Deferred Payment ID 4
 declare.additionalDocPaymentCategory4=2.6 Deferred Payment Category 4
 declare.additionalDocPaymentType4=2.6 Deferred Payment Type 4
 
+# Section 4 - Valuation Information And Taxes
+valuationInformationAndTaxes.conditionCode=4.1 INCOTERM code
+valuationInformationAndTaxes.locationID=4.1 UN/LOCODE code
+valuationInformationAndTaxes.locationName=4.1 Country code + Location Name
+valuationInformationAndTaxes.paymentMethodCode=4.8 Method of Payment
+valuationInformationAndTaxes.additionCode=4.13 Valuation Indicators
+valuationInformationAndTaxes.itemChargeAmount=4.14 Item Price/Amount
+valuationInformationAndTaxes.currencyID=4.14 Item Price/Currency Unit
+valuationInformationAndTaxes.rateNumeric=4.15 Exchange Rate
+valuationInformationAndTaxes.customsValuationMethodCode=4.16 Valuation Method
+valuationInformationAndTaxes.dutyRegimeCode=4.17 Preference
+
 declaration.xml=Declaration XML
 declaration.xml.hint=Write your Valid Declaration xml into the edit box
 declaration.not.xml=This is not a valid xml document

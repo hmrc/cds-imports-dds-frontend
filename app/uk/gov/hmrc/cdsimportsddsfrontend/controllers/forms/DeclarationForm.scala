@@ -20,6 +20,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DeclarationTypeFormMapping.declarationType
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DocumentationTypeFormMapping.documentationType
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.ValuationInformationAndTaxesFormMapping.valuationInformationAndTaxes
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
 
 object DeclarationForm extends FormValidators {
@@ -27,7 +28,8 @@ object DeclarationForm extends FormValidators {
   val form: Form[Declaration] = Form(
     mapping(
       declarationType,
-      documentationType
+      documentationType,
+      valuationInformationAndTaxes
     )(Declaration.apply)(Declaration.unapply)
   )
 
