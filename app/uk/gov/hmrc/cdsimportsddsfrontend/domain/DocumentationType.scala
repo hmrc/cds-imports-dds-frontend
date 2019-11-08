@@ -16,6 +16,20 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
+case class AdditionalDocumentType(
+  categoryCode: Option[String],
+  typeCode: Option[String],
+  id: Option[String],
+  lpco: Option[String],
+  name: Option[String]
+)
+
+case class AdditionalPaymentType(
+  additionalDocPaymentID: Option[String],
+  additionalDocPaymentCategory: Option[String],
+  additionalDocPaymentType: Option[String]
+)
+
 case class DocumentationType(
   previousDocCategory:  Option[String],
   previousDocType: Option[String],
@@ -23,34 +37,31 @@ case class DocumentationType(
   previousDocGoodsItemId: Option[String],
   additionalInfoCode: Option[String],
   additionalInfoDescription: Option[String],
-  additionalDocCategoryCode: Option[String],
-  additionalDocTypeCode: Option[String],
-  additionalDocId: Option[String],
-  additionalDocLPCO: Option[String],
-  additionalDocName: Option[String],
+  additionalDocument: Seq[AdditionalDocumentType],
   localReferenceNumber: Option[String],
-  additionalDocPaymentID: Option[String],
-  additionalDocPaymentCategory: Option[String],
-  additionalDocPaymentType: Option[String]
+  additionalPayment: Seq[AdditionalPaymentType]
 )
 
 object DocumentationType {
-  def apply(): DocumentationType =
-    DocumentationType(
-      Some("Y"),
-      Some("DCR"),
-      Some("9GB201909014000"),
-      Some("1"),
-      Some("00500"),
-      Some("IMPORTER"),
-      Some("N"),
-      Some("935"),
-      Some("12345/30.09.2019"),
-      Some("AC"),
-      Some("DocumentName"),
-      Some("Test1234"),
-      Some("1909241"),
-      Some("1"),
-      Some("DAN")
+  def apply(): DocumentationType = DocumentationType(
+    Some("Y"),
+    Some("DCR"),
+    Some("9GB201909014000"),
+    Some("1"),
+    Some("00500"),
+    Some("IMPORTER"),
+    Seq(
+      AdditionalDocumentType(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), Some("DocumentName1")),
+      AdditionalDocumentType(Some("C"), Some("514"), Some("GBEIR201909014000"), Some("AE"), Some("DocumentName2")),
+      AdditionalDocumentType(Some("C"), Some("506"), Some("GBDPO1909241"), Some("AC"), Some("DocumentName3")),
+      AdditionalDocumentType(Some("I"), Some("004"), Some("GBCPI000001-0001"), Some("AE"), Some("DocumentName4"))
+    ),
+    Some("Test1234"),
+    Seq(
+      AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN")),
+      AdditionalPaymentType(Some("1909242"), Some("2"), Some("DAN")),
+      AdditionalPaymentType(Some("1909243"), Some("3"), Some("DAN")),
+      AdditionalPaymentType(Some("1909244"), Some("4"), Some("DAN"))
     )
+  )
 }

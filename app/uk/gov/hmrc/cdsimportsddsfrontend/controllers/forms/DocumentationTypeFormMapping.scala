@@ -16,11 +16,31 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
-import play.api.data.Forms.{mapping, optional, text}
+import play.api.data.Forms.{mapping, optional, text, seq}
 import play.api.data.Mapping
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.DocumentationType
+import uk.gov.hmrc.cdsimportsddsfrontend.domain._
+
+object AdditionalDocumentFormMapping {
+  val additionalDocumentType: (String, Mapping[Seq[AdditionalDocumentType]]) = "additionalDocument" -> seq(mapping(
+    "categoryCode" -> optional(text),
+    "typeCode" -> optional(text),
+    "id" -> optional(text),
+    "lpco" -> optional(text),
+    "name" -> optional(text)
+  )(AdditionalDocumentType.apply)(AdditionalDocumentType.unapply))
+}
+
+object AdditionalPaymentTypeFormMapping {
+  val paymentType: (String, Mapping[Seq[AdditionalPaymentType]]) = "additionalPayment" -> seq(mapping(
+    "additionalDocPaymentID" -> optional(text),
+    "additionalDocPaymentCategory" -> optional(text),
+    "additionalDocPaymentType" -> optional(text)
+  )(AdditionalPaymentType.apply)(AdditionalPaymentType.unapply))
+}
 
 object DocumentationTypeFormMapping {
+  import AdditionalPaymentTypeFormMapping.paymentType
+  import AdditionalDocumentFormMapping.additionalDocumentType
   val documentationType: (String, Mapping[DocumentationType]) = "documentationType" -> mapping(
     "previousDocCategory" -> optional(text),
     "previousDocType" -> optional(text),
@@ -28,14 +48,8 @@ object DocumentationTypeFormMapping {
     "previousDocGoodsItemId" -> optional(text),
     "additionalInfoCode" -> optional(text),
     "additionalInfoDescription" -> optional(text),
-    "additionalDocCategoryCode" -> optional(text),
-    "additionalDocTypeCode" -> optional(text),
-    "additionalDocId" -> optional(text),
-    "additionalDocLPCO" -> optional(text),
-    "additionalDocName" -> optional(text),
+    additionalDocumentType,
     "localReferenceNumber" -> optional(text),
-    "additionalDocPaymentID" -> optional(text),
-    "additionalDocPaymentCategory" -> optional(text),
-    "additionalDocPaymentType" -> optional(text)
+    paymentType
   )(DocumentationType.apply)(DocumentationType.unapply)
 }

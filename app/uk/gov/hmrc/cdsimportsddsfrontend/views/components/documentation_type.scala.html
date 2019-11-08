@@ -17,7 +17,7 @@
 @import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 @import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
 @import uk.gov.hmrc.cdsimportsddsfrontend.views.html.components.inputs.input_text
-
+@import uk.gov.hmrc.cdsimportsddsfrontend.domain.DocumentationType
 
 @(form: Form[Declaration])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
@@ -27,12 +27,19 @@
 @input_text(form("documentationType.previousDocGoodsItemId" ), "declare.previousDocGoodsItemId" )
 @input_text(form("documentationType.additionalInfoCode" ), "declare.additionalInfoCode" )
 @input_text(form("documentationType.additionalInfoDescription" ), "declare.additionalInfoDescription")
-@input_text(form("documentationType.additionalDocCategoryCode" ), "declare.additionalDocCategoryCode")
-@input_text(form("documentationType.additionalDocTypeCode" ), "declare.additionalDocTypeCode" )
-@input_text(form("documentationType.additionalDocId" ), "declare.additionalDocId" )
-@input_text(form("documentationType.additionalDocLPCO" ), "declare.additionalDocLPCO" )
-@input_text(form("documentationType.additionalDocName" ), "declare.additionalDocName" )
+
+@for((doc, count) <- form.value.getOrElse(Declaration()).documentationType.additionalDocument.zipWithIndex) {
+ @input_text(form(s"documentationType.additionalDocument[$count].categoryCode"), s"declare.additionalDocCategoryCode${count+1}")
+ @input_text(form(s"documentationType.additionalDocument[$count].typeCode"), s"declare.additionalDocTypeCode${count+1}")
+ @input_text(form(s"documentationType.additionalDocument[$count].id"), s"declare.additionalDocId${count+1}")
+ @input_text(form(s"documentationType.additionalDocument[$count].lpco"), s"declare.additionalDocLPCO${count+1}")
+ @input_text(form(s"documentationType.additionalDocument[$count].name"), s"declare.additionalDocName${count+1}")
+}
+
 @input_text(form("documentationType.localReferenceNumber" ), "declare.localReferenceNumber" )
-@input_text(form("documentationType.additionalDocPaymentID" ), "declare.additionalDocPaymentID" )
-@input_text(form("documentationType.additionalDocPaymentCategory" ), "declare.additionalDocPaymentCategory" )
-@input_text(form("documentationType.additionalDocPaymentType" ), "declare.additionalDocPaymentType" )
+
+@for((doc, count) <- form.value.getOrElse(Declaration()).documentationType.additionalPayment.zipWithIndex) {
+ @input_text(form(s"documentationType.additionalPayment[$count].additionalDocPaymentID" ), s"declare.additionalDocPaymentID${count+1}" )
+ @input_text(form(s"documentationType.additionalPayment[$count].additionalDocPaymentCategory" ), s"declare.additionalDocPaymentCategory${count+1}" )
+ @input_text(form(s"documentationType.additionalPayment[$count].additionalDocPaymentType" ), s"declare.additionalDocPaymentType${count+1}" )
+}

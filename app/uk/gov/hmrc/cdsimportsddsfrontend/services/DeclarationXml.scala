@@ -19,16 +19,15 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services
 import java.util.UUID
 
 import play.twirl.api.{Html, HtmlFormat}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Eori, Declaration}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, Eori}
 
-import scala.xml.{Elem, PrettyPrinter}
+import scala.xml.{Elem, PrettyPrinter, Text}
 
 object DeclarationXml {
 
   // This should later build an xml that can be submitted to the declaration API.
   def fromImportDeclaration(eori:Eori, dec: Declaration):Elem = {
     val referenceId = UUID.randomUUID().toString.replaceAll("-","").take(10)
-
 
     <md:MetaData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:md="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2" xmlns:clm63055="urn:un:unece:uncefact:codelist:standard:UNECE:AgencyIdentificationCode:D12B" xmlns:ds="urn:wco:datamodel:WCO:MetaData_DS-DMS:2" xsi:schemaLocation="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2 ../DocumentMetaData_2_DMS.xsd " xmlns="urn:wco:datamodel:WCO:DEC-DMS:2">
       <md:WCODataModelVersionCode>3.6</md:WCODataModelVersionCode>
@@ -46,9 +45,24 @@ object DeclarationXml {
         <GoodsItemQuantity>{dec.declarationType.totalNumberOfItems}</GoodsItemQuantity>
         <TotalPackageQuantity>55</TotalPackageQuantity>
         <AdditionalDocument>
-          <CategoryCode>{dec.documentationType.additionalDocPaymentCategory.getOrElse("")}</CategoryCode>
-          <ID>{dec.documentationType.additionalDocPaymentID.getOrElse("")}</ID>
-          <TypeCode>{dec.documentationType.additionalDocPaymentType.getOrElse("")}</TypeCode>
+          {maybeElement("CategoryCode", dec.documentationType.additionalPayment(0).additionalDocPaymentCategory)}
+          {maybeElement("ID", dec.documentationType.additionalPayment(0).additionalDocPaymentID)}
+          {maybeElement("TypeCode", dec.documentationType.additionalPayment(0).additionalDocPaymentType)}
+        </AdditionalDocument>
+        <AdditionalDocument>
+          {maybeElement("CategoryCode", dec.documentationType.additionalPayment(1).additionalDocPaymentCategory)}
+          {maybeElement("ID", dec.documentationType.additionalPayment(1).additionalDocPaymentID)}
+          {maybeElement("TypeCode", dec.documentationType.additionalPayment(1).additionalDocPaymentType)}
+        </AdditionalDocument>
+        <AdditionalDocument>
+          {maybeElement("CategoryCode", dec.documentationType.additionalPayment(2).additionalDocPaymentCategory)}
+          {maybeElement("ID", dec.documentationType.additionalPayment(2).additionalDocPaymentID)}
+          {maybeElement("TypeCode", dec.documentationType.additionalPayment(2).additionalDocPaymentType)}
+        </AdditionalDocument>
+        <AdditionalDocument>
+          {maybeElement("CategoryCode", dec.documentationType.additionalPayment(3).additionalDocPaymentCategory)}
+          {maybeElement("ID", dec.documentationType.additionalPayment(3).additionalDocPaymentID)}
+          {maybeElement("TypeCode", dec.documentationType.additionalPayment(3).additionalDocPaymentType)}
         </AdditionalDocument>
         <AdditionalInformation>
           <StatementCode>TSP01</StatementCode>
@@ -112,27 +126,32 @@ object DeclarationXml {
           <GovernmentAgencyGoodsItem>
             <SequenceNumeric>{dec.declarationType.goodsItemNumber}</SequenceNumeric>
             <AdditionalDocument>
-              <CategoryCode>C</CategoryCode>
-              <ID>GBEIR201909014000</ID>
-              <TypeCode>514</TypeCode>
+              {maybeElement("CategoryCode", dec.documentationType.additionalDocument(0).categoryCode)}
+              {maybeElement("ID", dec.documentationType.additionalDocument(0).id)}
+              {maybeElement("Name",dec.documentationType.additionalDocument(0).name)}
+              {maybeElement("TypeCode", dec.documentationType.additionalDocument(0).typeCode)}
+              {maybeElement("LPCOExemptionCode",dec.documentationType.additionalDocument(0).lpco)}
             </AdditionalDocument>
             <AdditionalDocument>
-              <CategoryCode>C</CategoryCode>
-              <ID>GBDPO1909241</ID>
-              <TypeCode>506</TypeCode>
+              {maybeElement("CategoryCode", dec.documentationType.additionalDocument(1).categoryCode)}
+              {maybeElement("ID", dec.documentationType.additionalDocument(1).id)}
+              {maybeElement("Name",dec.documentationType.additionalDocument(1).name)}
+              {maybeElement("TypeCode", dec.documentationType.additionalDocument(1).typeCode)}
+              {maybeElement("LPCOExemptionCode",dec.documentationType.additionalDocument(1).lpco)}
             </AdditionalDocument>
             <AdditionalDocument>
-              <CategoryCode>{dec.documentationType.additionalDocCategoryCode.getOrElse("")}</CategoryCode>
-              <ID>{dec.documentationType.additionalDocId.getOrElse("")}</ID>
-              <Name>{dec.documentationType.additionalDocName.getOrElse("")}</Name>
-              <TypeCode>{dec.documentationType.additionalDocTypeCode.getOrElse("")}</TypeCode>
-              <LPCOExemptionCode>{dec.documentationType.additionalDocLPCO.getOrElse("")}</LPCOExemptionCode>
+              {maybeElement("CategoryCode", dec.documentationType.additionalDocument(2).categoryCode)}
+              {maybeElement("ID", dec.documentationType.additionalDocument(2).id)}
+              {maybeElement("Name",dec.documentationType.additionalDocument(2).name)}
+              {maybeElement("TypeCode", dec.documentationType.additionalDocument(2).typeCode)}
+              {maybeElement("LPCOExemptionCode",dec.documentationType.additionalDocument(2).lpco)}
             </AdditionalDocument>
             <AdditionalDocument>
-              <CategoryCode>I</CategoryCode>
-              <ID>GBCPI000001-0001</ID>
-              <TypeCode>004</TypeCode>
-              <LPCOExemptionCode>AE</LPCOExemptionCode>
+              {maybeElement("CategoryCode", dec.documentationType.additionalDocument(3).categoryCode)}
+              {maybeElement("ID", dec.documentationType.additionalDocument(3).id)}
+              {maybeElement("Name",dec.documentationType.additionalDocument(3).name)}
+              {maybeElement("TypeCode", dec.documentationType.additionalDocument(3).typeCode)}
+              {maybeElement("LPCOExemptionCode",dec.documentationType.additionalDocument(3).lpco)}
               <WriteOff>
                 <QuantityQuantity unitCode="KGM#G">10</QuantityQuantity>
               </WriteOff>
@@ -195,7 +214,7 @@ object DeclarationXml {
             <PreviousDocument>
               <CategoryCode>{dec.documentationType.previousDocCategory.getOrElse("")}</CategoryCode>
               <ID>{dec.documentationType.previousDocReference.getOrElse("")}</ID>
-              <TypeCode>{dec.documentationType.previousDocType.getOrElse()}</TypeCode>
+              <TypeCode>{dec.documentationType.previousDocType.getOrElse("")}</TypeCode>
               <LineNumeric>{dec.documentationType.previousDocGoodsItemId.getOrElse("")}</LineNumeric>
             </PreviousDocument>
             <ValuationAdjustment>
@@ -230,6 +249,10 @@ object DeclarationXml {
 
   }
 
+  private def maybeElement(name: String, maybeValue: Option[String]) = {
+    if (maybeValue.exists(_.trim.nonEmpty))
+      Elem.apply(null, name, scala.xml.Null, scala.xml.TopScope, true, Text(maybeValue.getOrElse("").trim))
+  }
 
   //Turn a scala xml document into a fully escaped html string
   def prettyPrintToHtml(xml:Elem):String = {
