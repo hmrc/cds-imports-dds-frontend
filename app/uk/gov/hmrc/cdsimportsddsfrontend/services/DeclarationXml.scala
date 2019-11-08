@@ -303,14 +303,6 @@ object DeclarationXml {
     }
   }
 
-  def maybeExporter(parties: DeclarationParties): NodeSeq = {
-    parties.exporter match {
-      case Some(exporter) =>
-        <Consignor>
-          <Name>{exporter.name}</Name>
-          <ID>{exporter.identifier}</ID>
-          { maybeAddress(exporter) }
-        </Consignor>
   def maybeExporter(parties: DeclarationParties): NodeSeq = maybeParty("Consignor", parties.exporter)
 
   def maybeParty(tagName: String, party: Option[Party]): NodeSeq = {
