@@ -80,9 +80,7 @@ object DeclarationXml {
           <RegistrationNationalityCode>FR</RegistrationNationalityCode>
           <ModeCode>1</ModeCode>
         </BorderTransportMeans>
-        <CurrencyExchange>
-          <RateNumeric>{dec.valuationInformationAndTaxes.rateNumeric.getOrElse("")}</RateNumeric>
-        </CurrencyExchange>
+        {maybeCurrencyExchange(dec)}
         <Declarant>
           <ID>GB201909014000</ID>
         </Declarant>
@@ -173,24 +171,15 @@ object DeclarationXml {
                 <ID>10</ID>
                 <IdentificationTypeCode>TRC</IdentificationTypeCode>
               </Classification>
-              <DutyTaxFee>
-                <DutyRegimeCode>{dec.valuationInformationAndTaxes.dutyRegimeCode.getOrElse("")}</DutyRegimeCode>
-                <Payment>
-                  <MethodCode>{dec.valuationInformationAndTaxes.paymentMethodCode.getOrElse("")}</MethodCode>
-                </Payment>
-              </DutyTaxFee>
+              {maybeDutyTaxFee(dec)}
               <GoodsMeasure>
                 <GrossMassMeasure unitCode="KGM">90000100</GrossMassMeasure>
                 <NetNetWeightMeasure unitCode="KGM">90000000</NetNetWeightMeasure>
                 <TariffQuantity>90000000</TariffQuantity>
               </GoodsMeasure>
-              <InvoiceLine>
-                <ItemChargeAmount currencyID={dec.valuationInformationAndTaxes.currencyID.getOrElse("GBP").toUpperCase()}>{dec.valuationInformationAndTaxes.itemChargeAmount.getOrElse("")}</ItemChargeAmount>
-              </InvoiceLine>
+              {maybeInvoiceLine(dec)}
             </Commodity>
-            <CustomsValuation>
-              <MethodCode>{dec.valuationInformationAndTaxes.customsValuationMethodCode.getOrElse("")}</MethodCode>
-            </CustomsValuation>
+            {maybeCustomsValuation(dec)}
             <GovernmentProcedure>
               <CurrentCode>{dec.declarationType.requestedProcedureCode}</CurrentCode>
               <PreviousCode>{dec.declarationType.previousProcedureCode}</PreviousCode>
@@ -220,9 +209,7 @@ object DeclarationXml {
               <TypeCode>{dec.documentationType.previousDocType.getOrElse("")}</TypeCode>
               <LineNumeric>{dec.documentationType.previousDocGoodsItemId.getOrElse("")}</LineNumeric>
             </PreviousDocument>
-            <ValuationAdjustment>
-              <AdditionCode>{dec.valuationInformationAndTaxes.additionCode.getOrElse("")}</AdditionCode>
-            </ValuationAdjustment>
+            {maybeValuationAdjustment(dec)}
           </GovernmentAgencyGoodsItem>
           <Importer>
             <ID>GB201909014000</ID>
@@ -239,11 +226,7 @@ object DeclarationXml {
             <TypeCode>DCR</TypeCode>
             <LineNumeric>1</LineNumeric>
           </PreviousDocument>
-          <TradeTerms>
-            <ConditionCode>{dec.valuationInformationAndTaxes.conditionCode.getOrElse("")}</ConditionCode>
-            <LocationID>{dec.valuationInformationAndTaxes.locationID.getOrElse("")}</LocationID>
-            <LocationName>{dec.valuationInformationAndTaxes.locationName.getOrElse("")}</LocationName>
-          </TradeTerms>
+          {maybeTradeTerms(dec)}
           <UCR>
             <TraderAssignedReferenceID>{dec.documentationType.previousDocReference.getOrElse("")}-12345</TraderAssignedReferenceID>
           </UCR>
@@ -253,18 +236,78 @@ object DeclarationXml {
 
   }
 
+  private def maybeDutyTaxFee(declaration: Declaration) = {
+    if (declaration.valuationInformationAndTaxes.dutyRegimeCode.exists(_.trim.nonEmpty) ||
+        declaration.valuationInformationAndTaxes.paymentMethodCode.exists(_.trim.nonEmpty)) {
+      <DutyTaxFee>
+        {maybeElement("DutyRegimeCode", declaration.valuationInformationAndTaxes.dutyRegimeCode)}
+        {if (declaration.valuationInformationAndTaxes.paymentMethodCode.exists(_.trim.nonEmpty)) {
+            <Payment>
+              {maybeElement("MethodCode", declaration.valuationInformationAndTaxes.paymentMethodCode)}
+            </Payment>
+          }
+        }
+      </DutyTaxFee>
+    }
+  }
+
+  private def maybeTradeTerms(declaration: Declaration) = {
+    if (declaration.valuationInformationAndTaxes.conditionCode.exists(_.trim.nonEmpty) ||
+        declaration.valuationInformationAndTaxes.locationID.exists(_.trim.nonEmpty) ||
+        declaration.valuationInformationAndTaxes.locationName.exists(_.trim.nonEmpty)) {
+        <TradeTerms>
+          {maybeElement("ConditionCode", declaration.valuationInformationAndTaxes.conditionCode)}
+          {maybeElement("LocationID", declaration.valuationInformationAndTaxes.locationID)}
+          {maybeElement("LocationName", declaration.valuationInformationAndTaxes.locationName)}
+        </TradeTerms>
+    }
+  }
+
+  private def maybeValuationAdjustment(declaration: Declaration) = {
+    if (declaration.valuationInformationAndTaxes.additionCode.exists(_.trim.nonEmpty)) {
+      <ValuationAdjustment>
+        {maybeElement("AdditionCode", declaration.valuationInformationAndTaxes.additionCode)}
+      </ValuationAdjustment>
+    }
+  }
+
   private def maybeElement(name: String, maybeValue: Option[String]) = {
     if (maybeValue.exists(_.trim.nonEmpty))
       Elem.apply(null, name, scala.xml.Null, scala.xml.TopScope, true, Text(maybeValue.getOrElse("").trim))
   }
 
-  //Turn a scala xml document into a fully escaped html string
+  private def maybeInvoiceLine(declaration: Declaration) = {
+    if (declaration.valuationInformationAndTaxes.currencyID.exists(_.trim.nonEmpty) ||
+       declaration.valuationInformationAndTaxes.itemChargeAmount.exists(_.trim.nonEmpty)) {
+      <InvoiceLine>
+        <ItemChargeAmount currencyID={declaration.valuationInformationAndTaxes.currencyID.getOrElse("GBP").toUpperCase()}>{declaration.valuationInformationAndTaxes.itemChargeAmount.getOrElse("")}</ItemChargeAmount>
+      </InvoiceLine>
+    }
+  }
+
+  private def maybeCurrencyExchange(declaration: Declaration) = {
+    if (declaration.valuationInformationAndTaxes.rateNumeric.exists(_.trim.nonEmpty)) {
+      <CurrencyExchange>
+        {maybeElement("RateNumeric", declaration.valuationInformationAndTaxes.rateNumeric)}
+      </CurrencyExchange>
+    }
+  }
+
+  private def maybeCustomsValuation(declaration: Declaration) = {
+    if (declaration.valuationInformationAndTaxes.customsValuationMethodCode.exists(_.trim.nonEmpty)) {
+      <CustomsValuation>
+        {maybeElement("MethodCode", declaration.valuationInformationAndTaxes.customsValuationMethodCode)}
+      </CustomsValuation>
+    }
+  }
+
+  // Turn a scala xml document into a fully escaped html string
   def prettyPrintToHtml(xml:Elem):String = {
     val prettyPrinter = new PrettyPrinter(250,4)
     val xmlString = prettyPrinter.format(xml)
     HtmlFormat.escape(xmlString).toString()
       .replaceAll("[\r\n]", "<br/>")
-      .replaceAll("  ", "&nbsp;&nbsp;")
+      .replaceAll(" {2}", "&nbsp;&nbsp;")
   }
 
 

@@ -20,7 +20,7 @@ import play.api.data.Forms.{mapping, optional, text}
 import play.api.data.Mapping
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.ValuationInformationAndTaxes
 
-object ValuationInformationAndTaxesFormMapping extends FormValidators {
+object ValuationInformationAndTaxesFormMapping  {
 
   val valuationInformationAndTaxes: (String, Mapping[ValuationInformationAndTaxes]) = "valuationInformationAndTaxes" -> mapping(
     "conditionCode" -> optional(text), // Declaration/GoodsShipment/TradeTerms/ConditionCode

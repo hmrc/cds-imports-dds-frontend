@@ -31,7 +31,7 @@ case class ValuationInformationAndTaxes(
 
 object ValuationInformationAndTaxes {
   def apply(): ValuationInformationAndTaxes = {
-    new ValuationInformationAndTaxes(
+    ValuationInformationAndTaxes(
       Some("CFR"),
       Some("GBDVR"),
       Some("Great Britain Dover"),
