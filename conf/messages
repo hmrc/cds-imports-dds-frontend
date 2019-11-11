@@ -82,11 +82,11 @@ valuationInformationAndTaxes.dutyRegimeCode=4.17 Preference
 
 # Section 3
 declare.parties.exporter.name=3.1 Exporter - Name
-declare.parties.exporter.identifier=3.1 Exporter - EORI
 declare.parties.exporter.address.streetAndNumber=3.1 Exporter - Street and Number
 declare.parties.exporter.address.city=3.1 Exporter - City
 declare.parties.exporter.address.countryCode=3.1 Exporter - Country Code
 declare.parties.exporter.address.postcode=3.1 Exporter - Postcode
+declare.parties.exporter.identifier=3.2 Exporter - EORI
 declare.parties.declarant.identifier=3.18 Declarant - EORI
 #          //      | 3.15 Importer - Name                   | Foil Solutions          |
 #          //      | 3.15 Importer - Street and Number      | Aluminium Way           |
