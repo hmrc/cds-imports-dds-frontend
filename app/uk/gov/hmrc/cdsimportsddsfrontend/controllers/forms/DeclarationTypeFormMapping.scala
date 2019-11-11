@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
-import play.api.data.Forms.{mapping, optional, text}
+import play.api.data.Forms.mapping
 import play.api.data.Mapping
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.DeclarationType
 

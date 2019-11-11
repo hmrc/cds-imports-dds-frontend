@@ -16,9 +16,18 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class Declaration(
-                        declarationType: DeclarationType = DeclarationType(),
-                        documentationType: DocumentationType = DocumentationType(),
-                        parties: DeclarationParties = DeclarationParties(),
-                        valuationInformationAndTaxes: ValuationInformationAndTaxes = ValuationInformationAndTaxes()
-                      )
+case class DeclarationParties(
+                               declarant: Option[Party],
+                               exporter: Option[Party]
+                             )
+
+object DeclarationParties {
+  def apply(): DeclarationParties = {
+    new DeclarationParties(declarant = Some(Party()), exporter = Some(Party()))
+  }
+}
+
+
+
+
+

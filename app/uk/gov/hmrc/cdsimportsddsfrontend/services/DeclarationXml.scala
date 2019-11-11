@@ -18,15 +18,15 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services
 
 import java.util.UUID
 
-import play.twirl.api.{Html, HtmlFormat}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, Eori}
+import play.twirl.api.HtmlFormat
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, DeclarationParties, Eori, Party}
 
 import scala.xml.{Elem, NodeSeq, PrettyPrinter, Text}
 
 object DeclarationXml {
 
   // This should later build an xml that can be submitted to the declaration API.
-  def fromImportDeclaration(eori:Eori, dec: Declaration):Elem = {
+  def fromImportDeclaration(dec: Declaration):Elem = {
     val referenceId = UUID.randomUUID().toString.replaceAll("-","").take(10)
 
     <md:MetaData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:md="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2" xmlns:clm63055="urn:un:unece:uncefact:codelist:standard:UNECE:AgencyIdentificationCode:D12B" xmlns:ds="urn:wco:datamodel:WCO:MetaData_DS-DMS:2" xsi:schemaLocation="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2 ../DocumentMetaData_2_DMS.xsd " xmlns="urn:wco:datamodel:WCO:DEC-DMS:2">
@@ -71,9 +71,7 @@ object DeclarationXml {
           <ModeCode>1</ModeCode>
         </BorderTransportMeans>
         {maybeCurrencyExchange(dec)}
-        <Declarant>
-          <ID>GB201909014000</ID>
-        </Declarant>
+        { maybeParty("Declarant", dec.parties.declarant) }
         <Exporter>
           <Name>French Foil Ltd.</Name>
           <Address>
@@ -169,6 +167,7 @@ object DeclarationXml {
               </GoodsMeasure>
               {maybeInvoiceLine(dec)}
             </Commodity>
+            { maybeExporter(dec.parties) }
             {maybeCustomsValuation(dec)}
             <GovernmentProcedure>
               <CurrentCode>{dec.declarationType.requestedProcedureCode}</CurrentCode>
@@ -223,7 +222,6 @@ object DeclarationXml {
         </GoodsShipment>
       </Declaration>
     </md:MetaData>
-
   }
 
   private def maybeDutyTaxFee(declaration: Declaration) = {
@@ -305,6 +303,33 @@ object DeclarationXml {
     }
   }
 
+  def maybeExporter(parties: DeclarationParties): NodeSeq = maybeParty("Consignor", parties.exporter)
+
+  def maybeParty(tagName: String, party: Option[Party]): NodeSeq = {
+    party match {
+      case Some(party) =>
+        val childNodes =
+          maybeElement("Name", party.name) ++
+          maybeElement("ID", party.identifier) ++
+          maybeAddress(party)
+        Elem.apply(null, tagName, scala.xml.Null, scala.xml.TopScope, true, childNodes :_*)
+      case None => NodeSeq.Empty
+    }
+  }
+
+  def maybeAddress(party: Party): NodeSeq = {
+    party.address match {
+      case Some(address) =>
+        <Address>
+          <CityName>{address.city}</CityName>
+          <CountryCode>{address.countryCode}</CountryCode>
+          <Line>{address.streetAndNumber}</Line>
+          <PostcodeID>{address.postcode}</PostcodeID>
+        </Address>
+      case None => NodeSeq.Empty
+    }
+  }
+
   // Turn a scala xml document into a fully escaped html string
   def prettyPrintToHtml(xml:Elem):String = {
     val prettyPrinter = new PrettyPrinter(250,4)
@@ -313,8 +338,6 @@ object DeclarationXml {
       .replaceAll("[\r\n]", "<br/>")
       .replaceAll(" {2}", "&nbsp;&nbsp;")
   }
-
-
 
   def goodDeclaration():Elem = {
     val referenceId = UUID.randomUUID().toString.replaceAll("-","").take(10)

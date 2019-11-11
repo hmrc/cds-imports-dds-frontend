@@ -14,6 +14,7 @@ not-subscribed-to-cds.detail.help-line3=Open 8am to 6pm, Monday to Friday (close
 service-unavailable.title=Sorry, the service is unavailable
 service-unavailable.heading=Sorry, the service is unavailable
 
+# Single-page declaration form
 declare.legendHeading=Imports Declaration
 declare.declarationType=1.1 Declaration Type
 declare.additionalDeclarationType=1.2 Additional Declaration Type
@@ -79,6 +80,39 @@ valuationInformationAndTaxes.rateNumeric=4.15 Exchange Rate
 valuationInformationAndTaxes.customsValuationMethodCode=4.16 Valuation Method
 valuationInformationAndTaxes.dutyRegimeCode=4.17 Preference
 
+# Section 3
+declare.parties.exporter.name=3.1 Exporter - Name
+declare.parties.exporter.address.streetAndNumber=3.1 Exporter - Street and Number
+declare.parties.exporter.address.city=3.1 Exporter - City
+declare.parties.exporter.address.countryCode=3.1 Exporter - Country Code
+declare.parties.exporter.address.postcode=3.1 Exporter - Postcode
+declare.parties.exporter.identifier=3.2 Exporter - EORI
+declare.parties.declarant.identifier=3.18 Declarant - EORI
+#          //      | 3.15 Importer - Name                   | Foil Solutions          |
+#          //      | 3.15 Importer - Street and Number      | Aluminium Way           |
+#          //      | 3.15 Importer - City                   | Metalton                |
+#          //      | 3.15 Importer - CountryCode            | UK                      |
+#          //      | 3.15 Importer - Postcode               | ME7 4LL                 |
+#          //      | 3.16 Importer - EORI                   | GB87654321              |
+#          //      | 3.24 Seller - Name                     | Tinfoil Sans Frontieres |
+#          //      | 3.24 Seller - Street and Number        | 123 les Champs Insulees |
+#          //      | 3.24 Seller - City                     | Troyes                  |
+#          //      | 3.24 Seller - CountryCode              | FR                      |
+#          //      | 3.24 Seller - Postcode                 | 01414                   |
+#          //      | 3.24 Seller - Phone number             | 003344556677            |
+#          //      | 3.25 Seller - EORI                     | FR84736251              |
+#          //      | 3.26 Buyer - Name                      | Tinfoil R Us            |
+#          //      | 3.26 Buyer - Street and Number         | 12 Alcan Boulevard      |
+#          //      | 3.26 Buyer - City                      | Sheffield               |
+#          //      | 3.26 Buyer - CountryCode               | UK                      |
+#          //      | 3.26 Buyer - Postcode                  | S1 1VA                  |
+#          //      | 3.26 Buyer - Phone number              | 00441234567890          |
+#          //      | 3.27 Buyer - EORI                      | GB45362718              |
+#          //      | 3.39 Authorisation holder - identifier | GB62518473              |
+#          //      | 3.39 Authorisation holder - type code  | OK4U                    |
+#          //      | 3.40 VAT Number (or TSPVAT)            | 99887766                |
+#          //      | 3.40 Role Code                         | VAT                     |
+
 declaration.xml=Declaration XML
 declaration.xml.hint=Write your Valid Declaration xml into the edit box
 declaration.not.xml=This is not a valid xml document
@@ -89,5 +123,4 @@ error.summary.text=There was an error on the form
 site.submit=Submit
 
 service.name = cds-imports-dds-frontend
-service.homePageUrl = /
 

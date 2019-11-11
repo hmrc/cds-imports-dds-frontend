@@ -16,9 +16,20 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class Declaration(
-                        declarationType: DeclarationType = DeclarationType(),
-                        documentationType: DocumentationType = DocumentationType(),
-                        parties: DeclarationParties = DeclarationParties(),
-                        valuationInformationAndTaxes: ValuationInformationAndTaxes = ValuationInformationAndTaxes()
-                      )
+case class Address(
+                    streetAndNumber: String,
+                    city: String,
+                    countryCode: String,
+                    postcode: String
+                )
+
+object Address {
+  def apply(): Address = {
+    new Address("22 Droid Alley", "Mos Eisley", countryCode = "TA", postcode = "TA1 1TA")
+  }
+}
+
+
+
+
+

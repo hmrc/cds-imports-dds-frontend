@@ -14,11 +14,16 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.domain
+package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
-case class Declaration(
-                        declarationType: DeclarationType = DeclarationType(),
-                        documentationType: DocumentationType = DocumentationType(),
-                        parties: DeclarationParties = DeclarationParties(),
-                        valuationInformationAndTaxes: ValuationInformationAndTaxes = ValuationInformationAndTaxes()
-                      )
+import play.api.data.Forms.{mapping, optional}
+import play.api.data.Mapping
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.PartyFormMapping.partyMapping
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.DeclarationParties
+
+object PartiesFormMapping {
+  val parties: (String, Mapping[DeclarationParties]) = "parties" -> mapping(
+    "declarant" -> optional(partyMapping),
+    "exporter" -> optional(partyMapping)
+  )(DeclarationParties.apply)(DeclarationParties.unapply)
+}

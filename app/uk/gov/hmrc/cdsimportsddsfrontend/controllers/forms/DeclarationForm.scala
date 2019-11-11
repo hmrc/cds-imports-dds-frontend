@@ -20,6 +20,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DeclarationTypeFormMapping.declarationType
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DocumentationTypeFormMapping.documentationType
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.PartiesFormMapping.parties
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.ValuationInformationAndTaxesFormMapping.valuationInformationAndTaxes
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
 
@@ -29,6 +30,7 @@ object DeclarationForm extends FormValidators {
     mapping(
       declarationType,
       documentationType,
+      parties,
       valuationInformationAndTaxes
     )(Declaration.apply)(Declaration.unapply)
   )

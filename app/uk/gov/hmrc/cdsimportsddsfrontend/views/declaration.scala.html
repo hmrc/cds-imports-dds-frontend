@@ -16,8 +16,6 @@
 
 @import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 @import views.html.helper._
-@import uk.gov.hmrc.play.views.html._
-@import uk.gov.hmrc.cdsimportsddsfrontend.views.html.components.inputs.input_text
 @import uk.gov.hmrc.govukfrontend.views.html.components._
 @import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
 
@@ -37,6 +35,7 @@
 
             @components.declaration_type(form)
             @components.documentation_type(form)
+            @components.parties(form)
             @components.valuation_information_and_taxes(form)
         </fieldset>
 
