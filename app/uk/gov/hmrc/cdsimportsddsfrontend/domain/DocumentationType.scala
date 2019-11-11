@@ -52,16 +52,14 @@ object DocumentationType {
     Some("IMPORTER"),
     Seq(
       AdditionalDocumentType(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), Some("DocumentName1")),
-      AdditionalDocumentType(Some("C"), Some("514"), Some("GBEIR201909014000"), Some("AE"), Some("DocumentName2")),
-      AdditionalDocumentType(Some("C"), Some("506"), Some("GBDPO1909241"), Some("AC"), Some("DocumentName3")),
-      AdditionalDocumentType(Some("I"), Some("004"), Some("GBCPI000001-0001"), Some("AE"), Some("DocumentName4"))
+      AdditionalDocumentType(Some("C"), Some("514"), Some("GBEIR201909014000"), None, None),
+      AdditionalDocumentType(Some("C"), Some("506"), Some("GBDPO1909241"), None, None),
+      AdditionalDocumentType(Some("I"), Some("004"), Some("GBCPI000001-0001"), Some("AE"), None)
     ),
     Some("Test1234"),
     Seq(
       AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN")),
-      AdditionalPaymentType(Some("1909242"), Some("2"), Some("DAN")),
-      AdditionalPaymentType(Some("1909243"), Some("3"), Some("DAN")),
-      AdditionalPaymentType(Some("1909244"), Some("4"), Some("DAN"))
+      AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN"))
     )
   )
 }
