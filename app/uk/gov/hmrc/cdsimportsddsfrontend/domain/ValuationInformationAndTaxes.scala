@@ -17,31 +17,14 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class ValuationInformationAndTaxes(
-                                         conditionCode: Option[String],
-                                         locationID: Option[String],
-                                         locationName: Option[String],
-                                         paymentMethodCode: Option[String],
-                                         additionCode: Option[String],
-                                         itemChargeAmount: Option[String],
-                                         currencyID: Option[String],
-                                         rateNumeric: Option[String],
-                                         customsValuationMethodCode: Option[String],
-                                         dutyRegimeCode: Option[String]
+                                         conditionCode: Option[String] = Some("CFR"),
+                                         locationID: Option[String] = Some("GBDVR"),
+                                         locationName: Option[String] = Some(""),
+                                         paymentMethodCode: Option[String] = Some("E"),
+                                         additionCode: Option[String] = Some("0000"),
+                                         itemChargeAmount: Option[String] = Some("100"),
+                                         currencyID: Option[String] = Some("GBP"),
+                                         rateNumeric: Option[String] = Some("1.27"),
+                                         customsValuationMethodCode: Option[String] = Some("1"),
+                                         dutyRegimeCode: Option[String] = Some("100")
                                        )
-
-object ValuationInformationAndTaxes {
-  def apply(): ValuationInformationAndTaxes = {
-    ValuationInformationAndTaxes(
-      Some("CFR"),
-      Some("GBDVR"),
-      Some("Great Britain Dover"),
-      Some("E"),
-      Some("0000"),
-      Some("100"),
-      Some("GBP"),
-      Some("1.27"),
-      Some("1"),
-      Some("100")
-    )
-  }
-}

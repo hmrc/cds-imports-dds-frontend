@@ -17,7 +17,7 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.services
 
 import org.scalatest.{MustMatchers, WordSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, ValuationInformationAndTaxes}
 
 import scala.xml.Elem
 
@@ -25,12 +25,12 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
 
   "ValuationInformationAndTaxes data" should {
     "be populated in the XML" in {
-      val declaration = Declaration()
+      val declaration = Declaration(valuationInformationAndTaxes=ValuationInformationAndTaxes(locationName=Some("Some location name")))
 
       val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "TradeTerms" \ "ConditionCode").head.text mustBe "CFR"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "TradeTerms" \ "LocationID").head.text mustBe "GBDVR"
-      (xmlElement \ "Declaration" \ "GoodsShipment" \ "TradeTerms" \ "LocationName").head.text mustBe "Great Britain Dover"
+      (xmlElement \ "Declaration" \ "GoodsShipment" \ "TradeTerms" \ "LocationName").head.text mustBe "Some location name"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "DutyTaxFee" \ "Payment" \ "MethodCode").head.text mustBe "E"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "ValuationAdjustment" \ "AdditionCode").head.text mustBe "0000"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "InvoiceLine" \ "ItemChargeAmount").head.text mustBe "100"
