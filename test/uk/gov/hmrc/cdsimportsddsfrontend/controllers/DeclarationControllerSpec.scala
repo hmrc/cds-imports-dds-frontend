@@ -98,12 +98,6 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "documentationType.additionalPayment[1].additionalDocPaymentID")
         body should include element withName("input").withAttrValue("name", "documentationType.additionalPayment[1].additionalDocPaymentCategory")
         body should include element withName("input").withAttrValue("name", "documentationType.additionalPayment[1].additionalDocPaymentType")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalPayment[2].additionalDocPaymentID")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalPayment[2].additionalDocPaymentCategory")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalPayment[2].additionalDocPaymentType")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalPayment[3].additionalDocPaymentID")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalPayment[3].additionalDocPaymentCategory")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalPayment[3].additionalDocPaymentType")
       }
     }
 
