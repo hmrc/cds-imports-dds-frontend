@@ -72,15 +72,7 @@ object DeclarationXml {
         </BorderTransportMeans>
         {maybeCurrencyExchange(dec)}
         { maybeParty("Declarant", dec.parties.declarant) }
-        <Exporter>
-          <Name>French Foil Ltd.</Name>
-          <Address>
-            <CityName>Paris</CityName>
-            <CountryCode>FR</CountryCode>
-            <Line>10 Rue Paris</Line>
-            <PostcodeID>92311</PostcodeID>
-          </Address>
-        </Exporter>
+        {maybeParty("Exporter", dec.parties.exporter)}
         <GoodsShipment>
           <TransactionNatureCode>1</TransactionNatureCode>
           <Consignment>
@@ -167,7 +159,6 @@ object DeclarationXml {
               </GoodsMeasure>
               {maybeInvoiceLine(dec)}
             </Commodity>
-            { maybeExporter(dec.parties) }
             {maybeCustomsValuation(dec)}
             <GovernmentProcedure>
               <CurrentCode>{dec.declarationType.requestedProcedureCode}</CurrentCode>
@@ -302,8 +293,6 @@ object DeclarationXml {
       NodeSeq.Empty
     }
   }
-
-  def maybeExporter(parties: DeclarationParties): NodeSeq = maybeParty("Consignor", parties.exporter)
 
   def maybeParty(tagName: String, party: Option[Party]): NodeSeq = {
     party match {

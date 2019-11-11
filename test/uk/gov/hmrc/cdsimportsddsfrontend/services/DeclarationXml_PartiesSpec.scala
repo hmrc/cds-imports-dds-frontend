@@ -36,18 +36,18 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
         (xmlElement \ "Declaration" \ "Declarant" \ "ID").text mustBe "GB987654321"
       }
 
-      "populate item-level consignor name and ID" in {
+      "populate header-level exporter name and ID" in {
         val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
-        (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Name").text mustBe "Barney"
-        (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "ID").text mustBe "GB12345678A"
+        (xmlElement \ "Declaration" \ "Exporter" \ "Name").text mustBe "Barney"
+        (xmlElement \ "Declaration" \ "Exporter" \ "ID").text mustBe "GB12345678A"
       }
 
-      "populate item-level consignor address" in {
+      "populate header-level exporter address" in {
         val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
-        (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Address" \ "Line").text mustBe "123 Foobar Lane"
-        (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Address" \ "CityName").text mustBe "Glasgow"
-        (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Address" \ "CountryCode").text mustBe "GB"
-        (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Address" \ "PostcodeID").text mustBe "G12 4GG"
+        (xmlElement \ "Declaration" \ "Exporter" \ "Address" \ "Line").text mustBe "123 Foobar Lane"
+        (xmlElement \ "Declaration" \ "Exporter" \ "Address" \ "CityName").text mustBe "Glasgow"
+        (xmlElement \ "Declaration" \ "Exporter" \ "Address" \ "CountryCode").text mustBe "GB"
+        (xmlElement \ "Declaration" \ "Exporter" \ "Address" \ "PostcodeID").text mustBe "G12 4GG"
       }
 
       "omit Declarant tag if no declarant provided" in {
@@ -59,40 +59,40 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
         (xmlElement \ "Declaration" \ "Declarant").length mustBe 0 withClue ("Found unexpected Declarant tag")
       }
 
-      "omit Consignor tag if no importer provided" in {
+      "omit Exporter tag if no exporter provided" in {
         val someParties = DeclarationParties(None, None)
         val declaration = Declaration(parties = someParties)
 
         val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
 
-        (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor").length mustBe 0 withClue ("Found unexpected Consignor tag")
+        (xmlElement \ "Declaration" \ "Exporter").length mustBe 0 withClue ("Found unexpected Exporter tag")
       }
 
-      "omit Consignor Name tag if no importer name provided" in {
+      "omit Exporter Name tag if no exporter name provided" in {
         val someParties = DeclarationParties(None, Some(Party(None, Some("GB12345678A"), Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
         val declaration = Declaration(parties = someParties)
 
         val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
 
-        (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Name").length mustBe 0 withClue ("Found unexpected Consignor Name tag")
+        (xmlElement \ "Declaration" \ "Exporter" \ "Name").length mustBe 0 withClue ("Found unexpected Exporter Name tag")
       }
 
-      "omit Consignor ID tag if no importer ID provided" in {
+      "omit Exporter ID tag if no exporter ID provided" in {
         val someParties = DeclarationParties(None, Some(Party(Some("Barney"), None, Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
         val declaration = Declaration(parties = someParties)
 
         val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
 
-        (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "ID").length mustBe 0 withClue ("Found unexpected Consignor ID tag")
+        (xmlElement \ "Declaration" \ "Exporter" \ "ID").length mustBe 0 withClue ("Found unexpected Exporter ID tag")
       }
 
-      "omit Consignor address tag if no importer address provided" in {
+      "omit Exporter address tag if no exporter address provided" in {
         val someParties = DeclarationParties(None, Some(Party(Some("Barney"), Some("GB12345678A"), None)))
         val declaration = Declaration(parties = someParties)
 
         val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
 
-        (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Consignor" \ "Address").length mustBe 0 withClue ("Found unexpected Consignor Address tag")
+        (xmlElement \ "Declaration" \ "Exporter" \ "Address").length mustBe 0 withClue ("Found unexpected Exporter Address tag")
       }
     }
   }
