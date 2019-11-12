@@ -23,7 +23,7 @@ case class DeclarationParties(
 
 object DeclarationParties {
   def apply(): DeclarationParties = {
-    new DeclarationParties(declarant = Some(Party()), exporter = Some(Party()))
+    new DeclarationParties(declarant = Some(Party(None, Some("GB201909014000"), None)), exporter = Some(Party()))
   }
 }
 

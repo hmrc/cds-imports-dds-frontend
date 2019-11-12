@@ -17,21 +17,8 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class Party(
-                  name: Option[String],
-                  identifier: Option[String],
-                  address: Option[Address]
+                  name: Option[String]=Some("Jabba the Hutt"),
+                  identifier: Option[String]=Some("GB225456994000"),
+                  address: Option[Address]=Some(Address())
                 )
-
-object Party {
-  def apply(): Party = {
-    new Party(
-      Some("Jabba the Hutt"),
-      Some("GB225456994000"),
-      Some(Address())
-    )
-  }
-}
-
-
-
 
