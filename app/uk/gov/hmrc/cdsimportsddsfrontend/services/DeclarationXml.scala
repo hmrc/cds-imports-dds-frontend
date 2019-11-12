@@ -153,9 +153,9 @@ object DeclarationXml {
               </Classification>
               {maybeDutyTaxFee(dec)}
               <GoodsMeasure>
-                <GrossMassMeasure unitCode="KGM">90000100</GrossMassMeasure>
-                <NetNetWeightMeasure unitCode="KGM">90000000</NetNetWeightMeasure>
-                <TariffQuantity>90000000</TariffQuantity>
+                <GrossMassMeasure unitCode="KGM">60</GrossMassMeasure>
+                <NetNetWeightMeasure unitCode="KGM">50</NetNetWeightMeasure>
+                <TariffQuantity>50</TariffQuantity>
               </GoodsMeasure>
               {maybeInvoiceLine(dec)}
             </Commodity>
