@@ -191,9 +191,7 @@ object DeclarationXml {
             </PreviousDocument>
             {maybeValuationAdjustment(dec)}
           </GovernmentAgencyGoodsItem>
-          <Importer>
-            <ID>GB201909014000</ID>
-          </Importer>
+          {maybeParty("Importer", dec.parties.importer)}
           <PreviousDocument>
             <CategoryCode>Y</CategoryCode>
             <ID>20191101</ID>

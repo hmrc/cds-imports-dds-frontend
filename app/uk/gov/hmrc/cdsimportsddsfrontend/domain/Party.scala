@@ -17,8 +17,8 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class Party(
-                  name: Option[String]=Some("Jabba the Hutt"),
-                  identifier: Option[String]=Some("GB225456994000"),
-                  address: Option[Address]=Some(Address())
+                  name: Option[String] = Some("French Foil Ltd."),
+                  identifier: Option[String] = Some("GB225456994000"),
+                  address: Option[Address] = Some(Address())
                 )
 

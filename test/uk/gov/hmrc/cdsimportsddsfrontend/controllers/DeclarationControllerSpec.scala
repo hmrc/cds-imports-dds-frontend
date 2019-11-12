@@ -142,13 +142,13 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "parties.exporter.address.city")
         body should include element withName("input").withAttrValue("name", "parties.exporter.address.countryCode")
         body should include element withName("input").withAttrValue("name", "parties.exporter.address.postcode")
+        body should include element withName("input").withAttrValue("name", "parties.importer.name")
+        body should include element withName("input").withAttrValue("name", "parties.importer.identifier")
+        body should include element withName("input").withAttrValue("name", "parties.importer.address.streetAndNumber")
+        body should include element withName("input").withAttrValue("name", "parties.importer.address.city")
+        body should include element withName("input").withAttrValue("name", "parties.importer.address.countryCode")
+        body should include element withName("input").withAttrValue("name", "parties.importer.address.postcode")
         body should include element withName("input").withAttrValue("name", "parties.declarant.identifier")
-        //      | 3.15 Importer - Name                   | Foil Solutions          |
-        //      | 3.15 Importer - Street and Number      | Aluminium Way           |
-        //      | 3.15 Importer - City                   | Metalton                |
-        //      | 3.15 Importer - CountryCode            | UK                      |
-        //      | 3.15 Importer - Postcode               | ME7 4LL                 |
-        //      | 3.16 Importer - EORI                   | GB87654321              |
         //      | 3.24 Seller - Name                     | Tinfoil Sans Frontieres |
         //      | 3.24 Seller - Street and Number        | 123 les Champs Insulees |
         //      | 3.24 Seller - City                     | Troyes                  |
@@ -176,8 +176,6 @@ class DeclarationControllerSpec extends CdsImportsSpec
     "return 404 when the SinglePageDeclaration feature is disabled" in {
       featureSwitchRegistry.SinglePageDeclaration.disable()
       val formData = Map[String, Seq[String]]()
-      when(mockDeclarationService.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
-      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
       new PostScenario(formData) {
         status(response) must be(Status.NOT_FOUND)
       }
@@ -186,8 +184,6 @@ class DeclarationControllerSpec extends CdsImportsSpec
     "return 503 when the SinglePageDeclaration feature is suspended" in {
       featureSwitchRegistry.SinglePageDeclaration.suspend()
       val formData = Map[String, Seq[String]]()
-      when(mockDeclarationService.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
-      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
       new PostScenario(formData) {
         status(response) must be(Status.SERVICE_UNAVAILABLE)
       }
@@ -256,8 +252,6 @@ class DeclarationControllerSpec extends CdsImportsSpec
 
     "fail when some mandatory fields are missing" in signedInScenario { user =>
       val formData = Map("declarationType.declarationType" -> Seq("declarationType"))
-      when(mockDeclarationService.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
-      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
       new PostScenario(formData) {
         status(response) mustBe Status.BAD_REQUEST
         body should include element withName("a").withAttrValue("id", "declarationType.additionalDeclarationType-error").withValue("This field is required")

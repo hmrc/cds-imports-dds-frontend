@@ -17,17 +17,7 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class DeclarationParties(
-                               declarant: Option[Party],
-                               exporter: Option[Party]
+                               declarant: Option[Party] = Some(Party(None, Some("GB201909014000"), None)),
+                               importer: Option[Party] = Some(Party(name = Some("Foil R Us"))),
+                               exporter: Option[Party] = Some(Party())
                              )
-
-object DeclarationParties {
-  def apply(): DeclarationParties = {
-    new DeclarationParties(declarant = Some(Party(None, Some("GB201909014000"), None)), exporter = Some(Party()))
-  }
-}
-
-
-
-
-

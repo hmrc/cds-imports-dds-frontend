@@ -24,75 +24,132 @@ import scala.xml.Elem
 class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with AppendedClues {
 
   "Declaration XML builder" when {
-    "transforming parties data" should {
+    "transforming parties data" when {
       val someParties = DeclarationParties(
         Some(Party(None, Some("GB987654321"), None)),
+        Some(Party(Some("Fred"), Some("GB12345678F"), Some(Address("123 Girder Street", "Edinburgh", "SC", "E12 4GG")))),
         Some(Party(Some("Barney"), Some("GB12345678A"), Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG"))))
       )
       val declaration = Declaration(parties = someParties)
 
-      "populate declarant ID" in {
-        val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
-        (xmlElement \ "Declaration" \ "Declarant" \ "ID").text mustBe "GB987654321"
+      "transforming Declarant" should {
+        "populate declarant ID" in {
+          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          (xmlElement \ "Declaration" \ "Declarant" \ "ID").text mustBe "GB987654321"
+        }
+
+        "omit Declarant tag if no declarant provided" in {
+          val someParties = DeclarationParties(declarant = None)
+          val declaration = Declaration(parties = someParties)
+
+          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+
+          (xmlElement \ "Declaration" \ "Declarant").length mustBe 0 withClue ("Found unexpected Declarant tag")
+        }
       }
 
-      "populate header-level exporter name and ID" in {
-        val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
-        (xmlElement \ "Declaration" \ "Exporter" \ "Name").text mustBe "Barney"
-        (xmlElement \ "Declaration" \ "Exporter" \ "ID").text mustBe "GB12345678A"
+      "transforming Exporter" should {
+        "populate header-level exporter name and ID" in {
+          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          (xmlElement \ "Declaration" \ "Exporter" \ "Name").text mustBe "Barney"
+          (xmlElement \ "Declaration" \ "Exporter" \ "ID").text mustBe "GB12345678A"
+        }
+
+        "populate header-level exporter address" in {
+          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          (xmlElement \ "Declaration" \ "Exporter" \ "Address" \ "Line").text mustBe "123 Foobar Lane"
+          (xmlElement \ "Declaration" \ "Exporter" \ "Address" \ "CityName").text mustBe "Glasgow"
+          (xmlElement \ "Declaration" \ "Exporter" \ "Address" \ "CountryCode").text mustBe "GB"
+          (xmlElement \ "Declaration" \ "Exporter" \ "Address" \ "PostcodeID").text mustBe "G12 4GG"
+        }
+
+        "omit Exporter tag if no exporter provided" in {
+          val someParties = DeclarationParties(exporter = None)
+          val declaration = Declaration(parties = someParties)
+
+          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+
+          (xmlElement \ "Declaration" \ "Exporter").length mustBe 0 withClue ("Found unexpected Exporter tag")
+        }
+
+        "omit Exporter Name tag if no exporter name provided" in {
+          val someParties = DeclarationParties(exporter = Some(Party(None, Some("GB12345678A"), Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
+          val declaration = Declaration(parties = someParties)
+
+          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+
+          (xmlElement \ "Declaration" \ "Exporter" \ "Name").length mustBe 0 withClue ("Found unexpected Exporter Name tag")
+        }
+
+        "omit Exporter ID tag if no exporter ID provided" in {
+          val someParties = DeclarationParties(exporter = Some(Party(Some("Barney"), None, Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
+          val declaration = Declaration(parties = someParties)
+
+          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+
+          (xmlElement \ "Declaration" \ "Exporter" \ "ID").length mustBe 0 withClue ("Found unexpected Exporter ID tag")
+        }
+
+        "omit Exporter address tag if no exporter address provided" in {
+          val someParties = DeclarationParties(exporter = Some(Party(Some("Barney"), Some("GB12345678A"), None)))
+          val declaration = Declaration(parties = someParties)
+
+          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+
+          (xmlElement \ "Declaration" \ "Exporter" \ "Address").length mustBe 0 withClue ("Found unexpected Exporter Address tag")
+        }
       }
 
-      "populate header-level exporter address" in {
-        val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
-        (xmlElement \ "Declaration" \ "Exporter" \ "Address" \ "Line").text mustBe "123 Foobar Lane"
-        (xmlElement \ "Declaration" \ "Exporter" \ "Address" \ "CityName").text mustBe "Glasgow"
-        (xmlElement \ "Declaration" \ "Exporter" \ "Address" \ "CountryCode").text mustBe "GB"
-        (xmlElement \ "Declaration" \ "Exporter" \ "Address" \ "PostcodeID").text mustBe "G12 4GG"
-      }
+      "transforming Importer" should {
+        "populate header-level importer name and ID" in {
+          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer" \ "Name").text mustBe "Fred"
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer" \ "ID").text mustBe "GB12345678F"
+        }
 
-      "omit Declarant tag if no declarant provided" in {
-        val someParties = DeclarationParties(None, Some(Party(Some("Barney"), Some("GB12345678A"), Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
-        val declaration = Declaration(parties = someParties)
+        "populate header-level importer address" in {
+          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer" \ "Address" \ "Line").text mustBe "123 Girder Street"
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer" \ "Address" \ "CityName").text mustBe "Edinburgh"
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer" \ "Address" \ "CountryCode").text mustBe "SC"
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer" \ "Address" \ "PostcodeID").text mustBe "E12 4GG"
+        }
 
-        val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+        "omit Importer tag if no importer provided" in {
+          val someParties = DeclarationParties(importer = None)
+          val declaration = Declaration(parties = someParties)
 
-        (xmlElement \ "Declaration" \ "Declarant").length mustBe 0 withClue ("Found unexpected Declarant tag")
-      }
+          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
 
-      "omit Exporter tag if no exporter provided" in {
-        val someParties = DeclarationParties(None, None)
-        val declaration = Declaration(parties = someParties)
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer").length mustBe 0 withClue ("Found unexpected Importer tag")
+        }
 
-        val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+        "omit Importer Name tag if no importer name provided" in {
+          val someParties = DeclarationParties(importer = Some(Party(None, Some("GB12345678A"), Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
+          val declaration = Declaration(parties = someParties)
 
-        (xmlElement \ "Declaration" \ "Exporter").length mustBe 0 withClue ("Found unexpected Exporter tag")
-      }
+          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
 
-      "omit Exporter Name tag if no exporter name provided" in {
-        val someParties = DeclarationParties(None, Some(Party(None, Some("GB12345678A"), Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
-        val declaration = Declaration(parties = someParties)
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer" \ "Name").length mustBe 0 withClue ("Found unexpected Importer Name tag")
+        }
 
-        val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+        "omit Importer ID tag if no importer ID provided" in {
+          val someParties = DeclarationParties(importer = Some(Party(Some("Barney"), None, Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
+          val declaration = Declaration(parties = someParties)
 
-        (xmlElement \ "Declaration" \ "Exporter" \ "Name").length mustBe 0 withClue ("Found unexpected Exporter Name tag")
-      }
+          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
 
-      "omit Exporter ID tag if no exporter ID provided" in {
-        val someParties = DeclarationParties(None, Some(Party(Some("Barney"), None, Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
-        val declaration = Declaration(parties = someParties)
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer" \ "ID").length mustBe 0 withClue ("Found unexpected Importer ID tag")
+        }
 
-        val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+        "omit Importer address tag if no importer address provided" in {
+          val someParties = DeclarationParties(importer = Some(Party(Some("Barney"), Some("GB12345678A"), None)))
+          val declaration = Declaration(parties = someParties)
 
-        (xmlElement \ "Declaration" \ "Exporter" \ "ID").length mustBe 0 withClue ("Found unexpected Exporter ID tag")
-      }
+          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
 
-      "omit Exporter address tag if no exporter address provided" in {
-        val someParties = DeclarationParties(None, Some(Party(Some("Barney"), Some("GB12345678A"), None)))
-        val declaration = Declaration(parties = someParties)
-
-        val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
-
-        (xmlElement \ "Declaration" \ "Exporter" \ "Address").length mustBe 0 withClue ("Found unexpected Exporter Address tag")
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer" \ "Address").length mustBe 0 withClue ("Found unexpected Importer Address tag")
+        }
       }
     }
   }

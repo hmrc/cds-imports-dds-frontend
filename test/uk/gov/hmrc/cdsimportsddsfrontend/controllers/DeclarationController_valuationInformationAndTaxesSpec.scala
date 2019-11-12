@@ -120,8 +120,8 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         "valuationInformationAndTaxes.dutyRegimeCode" -> Seq("")
       ) ++ declarationTypeFormData ++ documentationFormData
 
-        when(mockDeclarationService.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
-        when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      when(mockDeclarationService.submit(any(), any())(any())).thenReturn(Future.successful(CustomsDeclarationsResponse(200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
 
       new PostScenario(formData) {
         status(response) mustBe Status.OK

@@ -25,7 +25,7 @@ case class Address(
 
 object Address {
   def apply(): Address = {
-    new Address("22 Droid Alley", "Mos Eisley", countryCode = "FR", postcode = "TA1 1TA")
+    new Address("82 Boulevard de Clichy", "Paris", countryCode = "FR", postcode = "75018")
   }
 }
 
