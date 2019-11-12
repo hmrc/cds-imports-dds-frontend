@@ -314,9 +314,9 @@ object DeclarationControllerSpec {
     "documentationType.additionalPayment[0].additionalDocPaymentCategory" -> Seq("1"),
     "documentationType.additionalPayment[0].additionalDocPaymentType" -> Seq("DAN"),
 
-        "documentationType.additionalPayment[1].additionalDocPaymentID" -> Seq("123456"),
-        "documentationType.additionalPayment[1].additionalDocPaymentCategory" -> Seq("1"),
-        "documentationType.additionalPayment[1].additionalDocPaymentType" -> Seq("DAN")
+    "documentationType.additionalPayment[1].additionalDocPaymentID" -> Seq("123456"),
+    "documentationType.additionalPayment[1].additionalDocPaymentCategory" -> Seq("1"),
+    "documentationType.additionalPayment[1].additionalDocPaymentType" -> Seq("DAN")
       )
 
 }
