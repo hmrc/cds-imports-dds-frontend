@@ -16,7 +16,18 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend
 
+import scala.xml.{Elem, Node, Text}
+
 package object domain {
   type Eori = String
   type ConversationID = String
+
+
+  def maybeElement(name: String, maybeValue: Option[String]): Option[Node] = {
+    if (maybeValue.exists(_.trim.nonEmpty)) {
+      Some(Elem.apply(null, name, scala.xml.Null, scala.xml.TopScope, true, Text(maybeValue.getOrElse("").trim)))
+    } else {
+      None
+    }
+  }
 }
