@@ -26,7 +26,7 @@ object Party {
   def apply(): Party = {
     new Party(
       Some("Jabba the Hutt"),
-      Some("TA0000000001"),
+      Some("GB225456994000"),
       Some(Address())
     )
   }
