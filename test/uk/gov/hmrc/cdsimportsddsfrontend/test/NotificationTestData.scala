@@ -22,7 +22,8 @@ import java.time.{LocalDateTime, ZoneId}
 
 import play.api.http.{ContentTypes, HeaderNames}
 import play.api.mvc.Codec
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{CustomsHeaderNames, ErrorPointer, NotificationError}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ErrorPointer, NotificationError}
+import uk.gov.hmrc.cdsimportsddsfrontend.services.CustomsHeaderNames
 
 import scala.util.Random
 import scala.xml.Elem
