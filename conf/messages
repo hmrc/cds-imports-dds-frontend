@@ -23,14 +23,41 @@ declare.totalNumberOfItems=1.9 Total Number Of Items
 declare.requestedProcedureCode=1.10 Requested Procedure Code
 declare.previousProcedureCode=1.10 Previous Procedure Code
 declare.additionalProcedureCode=1.11 Additional Procedure Code (000 or C07)
-declare.previousDocCategory=2.1 Previous Document Category
-declare.previousDocType=2.1 Previous Document Type
-declare.previousDocReference=2.1 Previous Document Reference
-declare.previousDocGoodsItemId=2.1 Previous Document Goods Item Identifier
+
+declare.previousDocCategory1=2.1 Previous Document Category 1
+declare.previousDocGoodsItemId1=2.1 Previous Document Goods Item Identifier 1
+declare.previousDocType1=2.1 Previous Document Type 1
+declare.previousDocReference1=2.1 Previous Document Reference 1
+declare.previousDocCategory2=2.1 Previous Document Category 2
+declare.previousDocGoodsItemId2=2.1 Previous Document Goods Item Identifier 2
+declare.previousDocType2=2.1 Previous Document Type 2
+declare.previousDocReference2=2.1 Previous Document Reference 2
+declare.previousDocCategory3=2.1 Previous Document Category 3
+declare.previousDocGoodsItemId3=2.1 Previous Document Goods Item Identifier 3
+declare.previousDocType3=2.1 Previous Document Type 3
+declare.previousDocReference3=2.1 Previous Document Reference 3
+declare.previousDocCategory4=2.1 Previous Document Category 4
+declare.previousDocGoodsItemId4=2.1 Previous Document Goods Item Identifier 4
+declare.previousDocType4=2.1 Previous Document Type 4
+declare.previousDocReference4=2.1 Previous Document Reference 4
+declare.previousDocCategory5=2.1 Previous Document Category 5
+declare.previousDocGoodsItemId5=2.1 Previous Document Goods Item Identifier 5
+declare.previousDocType5=2.1 Previous Document Type 5
+declare.previousDocReference5=2.1 Previous Document Reference 5
+declare.previousDocCategory6=2.1 Previous Document Category 6
+declare.previousDocGoodsItemId6=2.1 Previous Document Goods Item Identifier 6
+declare.previousDocTyp6=2.1 Previous Document Type 6
+declare.previousDocReference6=2.1 Previous Document Reference 6
+
 declare.header.additionalInformation.code=2.2 Header Additional Information Code
 declare.header.additionalInformation.description=2.2 Header Additional Information Description
 declare.item.additionalInformation.code=2.2 Item Additional Information Code {0}
 declare.item.additionalInformation.description=2.2 Item Additional Information Description {0}
+
+declare.additionalDocCategoryCode=2.3 Additional Document Category Code {0}
+declare.additionalDocTypeCode=2.3 Additional Document Type Code {0}
+declare.additionalDocId=2.3 Additional Document Identifier (include TSP authorisation number) {0}
+
 declare.additionalDocCategoryCode1=2.3 Additional Document Category Code 1
 declare.additionalDocTypeCode1=2.3 Additional Document Type Code 1
 declare.additionalDocId1=2.3 Additional Document Identifier (include TSP authorisation number) 1

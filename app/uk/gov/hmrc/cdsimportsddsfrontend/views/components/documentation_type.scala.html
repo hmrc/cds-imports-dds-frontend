@@ -20,10 +20,13 @@
 
 @(form: Form[Declaration])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@input_text(form("documentationType.previousDocCategory" ), "declare.previousDocCategory" )
-@input_text(form("documentationType.previousDocType" ), "declare.previousDocType" )
-@input_text(form("documentationType.previousDocReference" ), "declare.previousDocReference" )
-@input_text(form("documentationType.previousDocGoodsItemId" ), "declare.previousDocGoodsItemId" )
+@for((doc, count) <- form.value.getOrElse(Declaration()).documentationType.previousDocument.zipWithIndex) {
+ @input_text(form(s"documentationType.previousDocument[$count].categoryCode" ), s"declare.previousDocCategory${count+1}" )
+ @input_text(form(s"documentationType.previousDocument[$count].id" ), s"declare.previousDocGoodsItemId${count+1}" )
+ @input_text(form(s"documentationType.previousDocument[$count].typeCode" ), s"declare.previousDocType${count+1}" )
+ @input_text(form(s"documentationType.previousDocument[$count].lineNumeric" ), s"declare.previousDocReference${count+1}" )
+}
+
 @input_text(form("documentationType.header.additionalInformation.code" ), "declare.header.additionalInformation.code" )
 @input_text(form("documentationType.header.additionalInformation.description" ), "declare.header.additionalInformation.description")
 

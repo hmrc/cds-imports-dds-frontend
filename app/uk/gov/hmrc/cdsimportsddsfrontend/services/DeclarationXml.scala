@@ -180,10 +180,40 @@ class DeclarationXml {
               <LineNumeric>1</LineNumeric>
             </PreviousDocument>
             <PreviousDocument>
-              <CategoryCode>{dec.documentationType.previousDocCategory.getOrElse("")}</CategoryCode>
-              <ID>{dec.documentationType.previousDocReference.getOrElse("")}</ID>
-              <TypeCode>{dec.documentationType.previousDocType.getOrElse("")}</TypeCode>
-              <LineNumeric>{dec.documentationType.previousDocGoodsItemId.getOrElse("")}</LineNumeric>
+              {maybeElement("CategoryCode", dec.documentationType.previousDocument(0).categoryCode)}
+              {maybeElement("ID", dec.documentationType.previousDocument(0).id)}
+              {maybeElement("TypeCode", dec.documentationType.previousDocument(0).typeCode)}
+              {maybeElement("LineNumeric", dec.documentationType.previousDocument(0).lineNumeric)}
+            </PreviousDocument>
+            <PreviousDocument>
+              {maybeElement("CategoryCode", dec.documentationType.previousDocument(1).categoryCode)}
+              {maybeElement("ID", dec.documentationType.previousDocument(1).id)}
+              {maybeElement("TypeCode", dec.documentationType.previousDocument(1).typeCode)}
+              {maybeElement("LineNumeric", dec.documentationType.previousDocument(1).lineNumeric)}
+            </PreviousDocument>
+            <PreviousDocument>
+              {maybeElement("CategoryCode", dec.documentationType.previousDocument(2).categoryCode)}
+              {maybeElement("ID", dec.documentationType.previousDocument(2).id)}
+              {maybeElement("TypeCode", dec.documentationType.previousDocument(2).typeCode)}
+              {maybeElement("LineNumeric", dec.documentationType.previousDocument(2).lineNumeric)}
+            </PreviousDocument>
+            <PreviousDocument>
+              {maybeElement("CategoryCode", dec.documentationType.previousDocument(3).categoryCode)}
+              {maybeElement("ID", dec.documentationType.previousDocument(3).id)}
+              {maybeElement("TypeCode", dec.documentationType.previousDocument(3).typeCode)}
+              {maybeElement("LineNumeric", dec.documentationType.previousDocument(3).lineNumeric)}
+            </PreviousDocument>
+            <PreviousDocument>
+              {maybeElement("CategoryCode", dec.documentationType.previousDocument(4).categoryCode)}
+              {maybeElement("ID", dec.documentationType.previousDocument(4).id)}
+              {maybeElement("TypeCode", dec.documentationType.previousDocument(4).typeCode)}
+              {maybeElement("LineNumeric", dec.documentationType.previousDocument(4).lineNumeric)}
+            </PreviousDocument>
+            <PreviousDocument>
+              {maybeElement("CategoryCode", dec.documentationType.previousDocument(5).categoryCode)}
+              {maybeElement("ID", dec.documentationType.previousDocument(5).id)}
+              {maybeElement("TypeCode", dec.documentationType.previousDocument(5).typeCode)}
+              {maybeElement("LineNumeric", dec.documentationType.previousDocument(5).lineNumeric)}
             </PreviousDocument>
             {maybeValuationAdjustment(dec)}
           </GovernmentAgencyGoodsItem>
@@ -202,7 +232,7 @@ class DeclarationXml {
           </PreviousDocument>
           {maybeTradeTerms(dec)}
           <UCR>
-            <TraderAssignedReferenceID>{dec.documentationType.previousDocReference.getOrElse("")}-12345</TraderAssignedReferenceID>
+            <TraderAssignedReferenceID>{dec.documentationType.previousDocument(0).lineNumeric}-12345</TraderAssignedReferenceID>
           </UCR>
         </GoodsShipment>
       </Declaration>
