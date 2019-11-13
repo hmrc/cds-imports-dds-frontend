@@ -31,10 +31,7 @@ case class AdditionalPaymentType(
 )
 
 case class DocumentationType(
-  previousDocCategory:  Option[String],
-  previousDocType: Option[String],
-  previousDocReference: Option[String],
-  previousDocGoodsItemId: Option[String],
+  previousDocument: Seq[PreviousDocument],
   additionalInfoCode: Option[String],
   additionalInfoDescription: Option[String],
   additionalDocument: Seq[AdditionalDocumentType],
@@ -44,10 +41,14 @@ case class DocumentationType(
 
 object DocumentationType {
   def apply(): DocumentationType = DocumentationType(
-    Some("Y"),
-    Some("DCR"),
-    Some("9GB201909014000"),
-    Some("1"),
+    Seq(
+      PreviousDocument(Some("Y"),Some("20191101"), Some("CLE"),Some("1")),
+      PreviousDocument(Some("Y"),Some("9GB201909014000"), Some("DCR"),Some("1")),
+      PreviousDocument(Some("Z"),Some("20191103"), Some("ZZZ"),Some("1")),
+      PreviousDocument(Some("Z"),Some("9GB201909014002"), Some("235"),Some("1")),
+      PreviousDocument(Some("Z"),Some("9GB201909014003"), Some("ZZZ"),Some("1")),
+      PreviousDocument(Some("Z"),Some("9GB201909014004"), Some("270"),Some("1"))
+    ),
     Some("00500"),
     Some("IMPORTER"),
     Seq(

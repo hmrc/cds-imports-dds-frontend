@@ -38,14 +38,21 @@ object AdditionalPaymentTypeFormMapping {
   )(AdditionalPaymentType.apply)(AdditionalPaymentType.unapply))
 }
 
+object PreviousDocumentTypeFormMapping {
+  val previousDocumentType: (String, Mapping[Seq[PreviousDocument]]) = "previousDocument" -> seq(mapping(
+    "categoryCode" -> optional(text),
+    "id" -> optional(text),
+    "typeCode" -> optional(text),
+    "lineNumeric" -> optional(text)
+  )(PreviousDocument.apply)(PreviousDocument.unapply))
+}
+
 object DocumentationTypeFormMapping {
   import AdditionalPaymentTypeFormMapping.paymentType
   import AdditionalDocumentFormMapping.additionalDocumentType
+  import PreviousDocumentTypeFormMapping.previousDocumentType
   val documentationType: (String, Mapping[DocumentationType]) = "documentationType" -> mapping(
-    "previousDocCategory" -> optional(text),
-    "previousDocType" -> optional(text),
-    "previousDocReference" -> optional(text),
-    "previousDocGoodsItemId" -> optional(text),
+    previousDocumentType,
     "additionalInfoCode" -> optional(text),
     "additionalInfoDescription" -> optional(text),
     additionalDocumentType,
