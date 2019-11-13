@@ -173,7 +173,7 @@ class DeclarationXml {
               <QuantityQuantity>55</QuantityQuantity>
               <TypeCode>PK</TypeCode>
             </Packaging>
-            {for (pd <- dec.documentationType.previousDocument) yield {pd.toXml().getOrElse("")} }
+            {for (pd <- dec.documentationType.previousDocument) yield {pd.toXml().getOrElse(NodeSeq.Empty)} }
             {maybeValuationAdjustment(dec)}
           </GovernmentAgencyGoodsItem>
           {maybeParty("Importer", dec.parties.importer)}
@@ -191,7 +191,7 @@ class DeclarationXml {
           </PreviousDocument>
           {maybeTradeTerms(dec)}
           <UCR>
-            <TraderAssignedReferenceID>{dec.documentationType.previousDocument.head.id.getOrElse("")}-12345</TraderAssignedReferenceID>
+            <TraderAssignedReferenceID>{dec.documentationType.previousDocument(0).lineNumeric.getOrElse("").trim}-12345</TraderAssignedReferenceID>
           </UCR>
         </GoodsShipment>
       </Declaration>
