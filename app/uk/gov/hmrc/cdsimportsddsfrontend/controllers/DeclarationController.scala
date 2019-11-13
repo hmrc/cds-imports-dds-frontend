@@ -50,10 +50,9 @@ class DeclarationController @Inject()(simplifiedDeclaration: declaration
       formWithErrors =>
         Future.successful(BadRequest(simplifiedDeclaration(formWithErrors))),
       validDeclaration => {
-        val xml = DeclarationXml.fromImportDeclaration(validDeclaration)
         declarationStore.deleteAllNotifications()
-        declarationService.submit(request.user.eori, xml)
-          .map(declaration => Ok(resultTemplate(declaration, xml)))
+        declarationService.submit(request.user.eori, validDeclaration)
+          .map(declaration => Ok(resultTemplate(declaration)))
       }
     )
   }

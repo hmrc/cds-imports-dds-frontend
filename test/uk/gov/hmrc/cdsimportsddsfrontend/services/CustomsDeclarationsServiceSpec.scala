@@ -21,7 +21,7 @@ import org.mockito.Mockito.when
 import org.scalatest.{MustMatchers, WordSpec}
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{CustomsDeclarationsResponse, Declaration}
 import uk.gov.hmrc.cdsimportsddsfrontend.test.AppConfigReader
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
@@ -38,15 +38,32 @@ class CustomsDeclarationsServiceSpec extends WordSpec
     implicit val hc: HeaderCarrier = HeaderCarrier()
 
     val mockHttp:HttpClient = mock[HttpClient]
-    val customsDeclarationsService:CustomsDeclarationsService = new CustomsDeclarationsService(appConfig)(mockHttp, implicitly)
+    val mockDeclarationXml: DeclarationXml = mock[DeclarationXml]
+
+    val customsDeclarationsService:CustomsDeclarationsService = new CustomsDeclarationsService(appConfig, mockDeclarationXml)(mockHttp, implicitly)
   }
 
   "The service" should {
-    "Post a declaration to the Declaration API" in new Scenario() {
-      val expectedResponse = CustomsDeclarationsResponse(200,Some("The Response"))
-      when[Future[CustomsDeclarationsResponse]](mockHttp.POSTString(any(),any(),any())(any(), any(), any())).thenReturn(Future.successful(expectedResponse))
-      val response = await(customsDeclarationsService.submit(testEori, <DeclaringMyStuff/>))
-      response mustBe expectedResponse
+    "Post a raw XML declaration to the Declaration API" in new Scenario() {
+      val decApiResponse = CustomsDeclarationsResponse(200, Some("conversation id"))
+      when[Future[CustomsDeclarationsResponse]](mockHttp.POSTString(any(),any(),any())(any(), any(), any())).thenReturn(Future.successful(decApiResponse))
+      val response: DeclarationServiceResponse = await(customsDeclarationsService.submit(testEori, <DeclaringMyStuff/>))
+
+      response.conversationId mustBe decApiResponse.conversationId
+      response.status mustBe decApiResponse.status
+      response.xml mustBe <DeclaringMyStuff/>
+    }
+
+    "Post a Declaration to the Declaration API" in new Scenario() {
+      val decApiResponse = CustomsDeclarationsResponse(200, Some("conversation id"))
+      when[Future[CustomsDeclarationsResponse]](mockHttp.POSTString(any(),any(),any())(any(), any(), any())).thenReturn(Future.successful(decApiResponse))
+      when(mockDeclarationXml.fromImportDeclaration(any())).thenReturn(<DeclaringMyStuff/>)
+      val declaration = Declaration()
+      val response: DeclarationServiceResponse = await(customsDeclarationsService.submit(testEori, declaration))
+
+      response.conversationId mustBe decApiResponse.conversationId
+      response.status mustBe decApiResponse.status
+      response.xml mustBe <DeclaringMyStuff/>
     }
   }
 }
