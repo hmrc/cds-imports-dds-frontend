@@ -19,5 +19,5 @@ package uk.gov.hmrc.cdsimportsddsfrontend.domain
 case class DeclarationParties(
                                declarant: Option[Party] = Some(Party(None, Some("GB201909014000"), None)),
                                importer: Option[Party] = Some(Party(name = Some("Foil R Us"))),
-                               exporter: Option[Party] = Some(Party())
+                               exporter: Option[Party] = Some(Party(identifier = Some("GB025115155321")))
                              )
