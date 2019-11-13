@@ -35,9 +35,6 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       (governmentAgencyGoodsItem \ "PreviousDocument" \ "ID").toList.map(_.text) must contain("9GB201909014000")
       (governmentAgencyGoodsItem \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) must contain("1")
 
-      (governmentAgencyGoodsItem \ "AdditionalInformation" \ "StatementCode").text mustBe "00500"
-      (governmentAgencyGoodsItem \ "AdditionalInformation" \ "StatementDescription").text mustBe "IMPORTER"
-
       (governmentAgencyGoodsItem \ "AdditionalDocument" \ "CategoryCode").toList.map(_.text) mustBe List("N", "C", "C", "I")
       (governmentAgencyGoodsItem \ "AdditionalDocument" \ "TypeCode").toList.map(_.text) mustBe List("935", "514", "506", "004")
       (governmentAgencyGoodsItem \ "AdditionalDocument" \ "ID").toList.map(_.text) mustBe List("12345/30.09.2019", "GBEIR201909014000", "GBDPO1909241", "GBCPI000001-0001")
@@ -48,6 +45,9 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       (xmlElement \ "Declaration" \ "AdditionalDocument" \ "ID").head.text mustBe "1909241"
       (xmlElement \ "Declaration" \ "AdditionalDocument" \ "CategoryCode").head.text mustBe "1"
       (xmlElement \ "Declaration" \ "AdditionalDocument" \ "TypeCode").head.text mustBe "DAN"
+
+      (xmlElement \ "Declaration" \ "AdditionalInformation" \ "StatementCode").text mustBe "TSP01"
+      (xmlElement \ "Declaration" \ "AdditionalInformation" \ "StatementDescription").text mustBe "TSP"
     }
   }
 

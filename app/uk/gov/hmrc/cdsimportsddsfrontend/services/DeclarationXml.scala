@@ -57,8 +57,8 @@ class DeclarationXml {
           {maybeElement("TypeCode", dec.documentationType.additionalPayment(1).additionalDocPaymentType)}
         </AdditionalDocument>
         <AdditionalInformation>
-          <StatementCode>TSP01</StatementCode>
-          <StatementDescription>TSP</StatementDescription>
+          <StatementCode>{dec.documentationType.additionalInformationCode}</StatementCode>
+          <StatementDescription>{dec.documentationType.additionalInformationDescription}</StatementDescription>
         </AdditionalInformation>
         <AuthorisationHolder>
           <ID>GB201909014000</ID>
@@ -139,10 +139,6 @@ class DeclarationXml {
                 <QuantityQuantity unitCode="KGM#G">10</QuantityQuantity>
               </WriteOff>
             </AdditionalDocument>
-            <AdditionalInformation>
-              <StatementCode>{dec.documentationType.additionalInfoCode.getOrElse("")}</StatementCode>
-              <StatementDescription>{dec.documentationType.additionalInfoDescription.getOrElse("")}</StatementDescription>
-            </AdditionalInformation>
             <Commodity>
               <Description>Aluminium Foil not exceeding 0,2 mm</Description>
               <Classification>
