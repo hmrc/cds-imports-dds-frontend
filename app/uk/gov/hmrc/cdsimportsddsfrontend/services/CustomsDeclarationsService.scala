@@ -22,7 +22,6 @@ import play.api.http.{ContentTypes, HeaderNames}
 import play.api.mvc.Codec
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.{CustomsDeclarationsResponse, CustomsHeaderNames, Declaration, Eori}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.CustomsDeclarationsResponse.responseReader
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
 
@@ -41,20 +40,25 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml:
 
   def submit(eori: Eori, xml: Elem)(implicit hc: HeaderCarrier): Future[DeclarationServiceResponse] = {
 
-    val updatedHeaderCarrier = hc.copy(extraHeaders = Seq(
-      "X-Client-ID" -> appConfig.declarationsApi.clientId,
-      HeaderNames.ACCEPT -> s"application/vnd.hmrc.${appConfig.declarationsApi.apiVersion}+xml",
-      HeaderNames.CONTENT_TYPE -> ContentTypes.XML(Codec.utf_8),
-      CustomsHeaderNames.XEoriIdentifierHeaderName -> eori
-    ))
-
-    httpClient.POSTString[CustomsDeclarationsResponse](appConfig.declarationsApi.submitEndpoint, xml.toString())(responseReader, updatedHeaderCarrier, implicitly) //Calling POST will add quotes around the xml
+    httpClient.POSTString[CustomsDeclarationsResponse](appConfig.declarationsApi.submitEndpoint, xml.toString(), headers= headers(eori))(responseReader, hc, executionContext)
       .map { customsDeclarationsResponse: CustomsDeclarationsResponse =>
         log.info("Response from Declaration API: " + customsDeclarationsResponse);
         DeclarationServiceResponse(xml, customsDeclarationsResponse.status, customsDeclarationsResponse.conversationId)
       }
   }
 
+  implicit val responseReader:HttpReads[CustomsDeclarationsResponse] = new HttpReads[CustomsDeclarationsResponse] {
+    override def read(method: String, url: String, response: HttpResponse): CustomsDeclarationsResponse = {
+      CustomsDeclarationsResponse(response.status, response.allHeaders.get(CustomsHeaderNames.XConversationIdName).flatMap(_.headOption))
+    }
+  }
+
+  private def headers(eori: String): Seq[(String, String)] = Seq(
+    "X-Client-ID" -> appConfig.declarationsApi.clientId,
+    HeaderNames.ACCEPT -> s"application/vnd.hmrc.${appConfig.declarationsApi.apiVersion}+xml",
+    HeaderNames.CONTENT_TYPE -> ContentTypes.XML(Codec.utf_8),
+    CustomsHeaderNames.XEoriIdentifierHeaderName -> eori
+  )
 
 }
 

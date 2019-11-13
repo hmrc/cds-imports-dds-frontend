@@ -22,11 +22,6 @@ case class CustomsDeclarationsResponse(status: Int, conversationId: Option[Strin
 
 object CustomsDeclarationsResponse {
 
-  implicit val responseReader:HttpReads[CustomsDeclarationsResponse] = new HttpReads[CustomsDeclarationsResponse] {
-    override def read(method: String, url: String, response: HttpResponse): CustomsDeclarationsResponse = {
-      CustomsDeclarationsResponse(response.status, response.allHeaders.get(CustomsHeaderNames.XConversationIdName).flatMap(_.headOption))
-    }
-  }
 }
 
 
