@@ -20,10 +20,10 @@ import cats.implicits._
 import scala.xml.Node
 
 case class PreviousDocument(
-                        categoryCode: Option[String] = Some(""),
-                        id: Option[String] = Some(""),
-                        typeCode: Option[String] = Some(""),
-                        lineNumeric: Option[String] = Some("") ) {
+                             categoryCode: Option[String] = Some("Y"),
+                             id: Option[String] = Some("20191101"),
+                             typeCode: Option[String] = Some("CLE"),
+                             lineNumeric: Option[String] = Some("lnx") ) {
 
   def toXml(): Option[Node] = {
     val cc: Option[Node] = maybeElement("CategoryCode", this.categoryCode)

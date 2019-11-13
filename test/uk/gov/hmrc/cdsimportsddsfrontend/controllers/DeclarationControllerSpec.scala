@@ -66,10 +66,10 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "declarationType.requestedProcedureCode")
         body should include element withName("input").withAttrValue("name", "declarationType.previousProcedureCode")
         body should include element withName("input").withAttrValue("name", "declarationType.additionalProcedureCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocCategory")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocType")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocReference")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocGoodsItemId")
+        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[0].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[0].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[0].id")
+        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[0].lineNumeric")
         body should include element withName("input").withAttrValue("name", "documentationType.header.additionalInformation.code")
         body should include element withName("input").withAttrValue("name", "documentationType.header.additionalInformation.description")
         body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[0].code")
@@ -84,6 +84,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[4].description")
         body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[5].code")
         body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[5].description")
+        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[0].categoryCode")
         body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[0].typeCode")
         body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[0].id")
         body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[0].lpco")
@@ -264,11 +265,10 @@ object DeclarationControllerSpec {
   )
 
   val documentationFormData = Map(
-    "documentationType.previousDocCategory" -> Seq("previousDocCategory"),
-    "documentationType.previousDocType" -> Seq("previousDocType"),
-    "documentationType.previousDocReference" -> Seq("previousDocReference"),
-    "documentationType.previousDocGoodsItemId" -> Seq("previousDocGoodsItemId"),
-
+    "documentationType.previousDocument[0].categoryCode" -> Seq("categoryCode"),
+    "documentationType.previousDocument[0].typeCode" -> Seq("typeCode"),
+    "documentationType.previousDocument[0].id" -> Seq("id"),
+    "documentationType.previousDocument[0].lineNumeric" -> Seq("lineNumeric"),
     "documentationType.header.additionalInformation.code" -> Seq("additionalInfoCode"),
     "documentationType.header.additionalInformation.description" -> Seq("additionalInfoDescription"),
 
@@ -314,9 +314,9 @@ object DeclarationControllerSpec {
     "documentationType.additionalPayment[0].additionalDocPaymentCategory" -> Seq("1"),
     "documentationType.additionalPayment[0].additionalDocPaymentType" -> Seq("DAN"),
 
-        "documentationType.additionalPayment[1].additionalDocPaymentID" -> Seq("123456"),
-        "documentationType.additionalPayment[1].additionalDocPaymentCategory" -> Seq("1"),
-        "documentationType.additionalPayment[1].additionalDocPaymentType" -> Seq("DAN")
-      )
+    "documentationType.additionalPayment[1].additionalDocPaymentID" -> Seq("123456"),
+    "documentationType.additionalPayment[1].additionalDocPaymentCategory" -> Seq("1"),
+    "documentationType.additionalPayment[1].additionalDocPaymentType" -> Seq("DAN")
+  )
 
 }
