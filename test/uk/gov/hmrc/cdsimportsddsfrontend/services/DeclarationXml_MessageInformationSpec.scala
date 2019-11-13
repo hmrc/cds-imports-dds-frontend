@@ -27,7 +27,7 @@ class DeclarationXml_MessageInformationSpec extends WordSpec with MustMatchers {
     "be populated in the XML" in {
       val declaration = Declaration()
 
-      val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
       (xmlElement \ "Declaration" \ "TypeCode").head.text mustBe "IMZ"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "SequenceNumeric").head.text mustBe "1"
       (xmlElement \ "Declaration" \ "GoodsItemQuantity").head.text mustBe "1"

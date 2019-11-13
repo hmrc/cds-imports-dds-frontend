@@ -58,7 +58,7 @@ class SubmitDeclarationController @Inject()(submitTemplate: submit_declaration,
         val xml = scala.xml.XML.load(new InputSource(new StringReader(validatedForm.textarea)))
         declarationStore.deleteAllNotifications()
         declarationService.submit(request.user.eori, xml)
-          .map(declaration => Ok(resultTemplate(declaration, xml)))
+          .map(declarationServiceResponse => Ok(resultTemplate(declarationServiceResponse)))
       }
     )
   }

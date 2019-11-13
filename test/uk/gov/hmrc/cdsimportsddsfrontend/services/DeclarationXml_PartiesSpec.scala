@@ -34,7 +34,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
 
       "transforming Declarant" should {
         "populate declarant ID" in {
-          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
           (xmlElement \ "Declaration" \ "Declarant" \ "ID").text mustBe "GB987654321"
         }
 
@@ -42,7 +42,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
           val someParties = DeclarationParties(declarant = None)
           val declaration = Declaration(parties = someParties)
 
-          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
           (xmlElement \ "Declaration" \ "Declarant").length mustBe 0 withClue ("Found unexpected Declarant tag")
         }
@@ -50,13 +50,13 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
 
       "transforming Exporter" should {
         "populate header-level exporter name and ID" in {
-          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
           (xmlElement \ "Declaration" \ "Exporter" \ "Name").text mustBe "Barney"
           (xmlElement \ "Declaration" \ "Exporter" \ "ID").text mustBe "GB12345678A"
         }
 
         "populate header-level exporter address" in {
-          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
           (xmlElement \ "Declaration" \ "Exporter" \ "Address" \ "Line").text mustBe "123 Foobar Lane"
           (xmlElement \ "Declaration" \ "Exporter" \ "Address" \ "CityName").text mustBe "Glasgow"
           (xmlElement \ "Declaration" \ "Exporter" \ "Address" \ "CountryCode").text mustBe "GB"
@@ -67,7 +67,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
           val someParties = DeclarationParties(exporter = None)
           val declaration = Declaration(parties = someParties)
 
-          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
           (xmlElement \ "Declaration" \ "Exporter").length mustBe 0 withClue ("Found unexpected Exporter tag")
         }
@@ -76,7 +76,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
           val someParties = DeclarationParties(exporter = Some(Party(None, Some("GB12345678A"), Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
           val declaration = Declaration(parties = someParties)
 
-          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
           (xmlElement \ "Declaration" \ "Exporter" \ "Name").length mustBe 0 withClue ("Found unexpected Exporter Name tag")
         }
@@ -85,7 +85,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
           val someParties = DeclarationParties(exporter = Some(Party(Some("Barney"), None, Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
           val declaration = Declaration(parties = someParties)
 
-          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
           (xmlElement \ "Declaration" \ "Exporter" \ "ID").length mustBe 0 withClue ("Found unexpected Exporter ID tag")
         }
@@ -94,7 +94,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
           val someParties = DeclarationParties(exporter = Some(Party(Some("Barney"), Some("GB12345678A"), None)))
           val declaration = Declaration(parties = someParties)
 
-          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
           (xmlElement \ "Declaration" \ "Exporter" \ "Address").length mustBe 0 withClue ("Found unexpected Exporter Address tag")
         }
@@ -102,13 +102,13 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
 
       "transforming Importer" should {
         "populate header-level importer name and ID" in {
-          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
           (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer" \ "Name").text mustBe "Fred"
           (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer" \ "ID").text mustBe "GB12345678F"
         }
 
         "populate header-level importer address" in {
-          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
           (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer" \ "Address" \ "Line").text mustBe "123 Girder Street"
           (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer" \ "Address" \ "CityName").text mustBe "Edinburgh"
           (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer" \ "Address" \ "CountryCode").text mustBe "SC"
@@ -119,7 +119,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
           val someParties = DeclarationParties(importer = None)
           val declaration = Declaration(parties = someParties)
 
-          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
           (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer").length mustBe 0 withClue ("Found unexpected Importer tag")
         }
@@ -128,7 +128,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
           val someParties = DeclarationParties(importer = Some(Party(None, Some("GB12345678A"), Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
           val declaration = Declaration(parties = someParties)
 
-          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
           (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer" \ "Name").length mustBe 0 withClue ("Found unexpected Importer Name tag")
         }
@@ -137,7 +137,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
           val someParties = DeclarationParties(importer = Some(Party(Some("Barney"), None, Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
           val declaration = Declaration(parties = someParties)
 
-          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
           (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer" \ "ID").length mustBe 0 withClue ("Found unexpected Importer ID tag")
         }
@@ -146,7 +146,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
           val someParties = DeclarationParties(importer = Some(Party(Some("Barney"), Some("GB12345678A"), None)))
           val declaration = Declaration(parties = someParties)
 
-          val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
           (xmlElement \ "Declaration" \ "GoodsShipment" \ "Importer" \ "Address").length mustBe 0 withClue ("Found unexpected Importer Address tag")
         }

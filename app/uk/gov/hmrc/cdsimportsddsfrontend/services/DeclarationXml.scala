@@ -18,12 +18,14 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services
 
 import java.util.UUID
 
+import javax.inject.Singleton
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, DeclarationParties, Eori, Party}
 
 import scala.xml.{Elem, NodeSeq, PrettyPrinter, Text}
 
-object DeclarationXml {
+@Singleton
+class DeclarationXml {
 
   // This should later build an xml that can be submitted to the declaration API.
   def fromImportDeclaration(dec: Declaration):Elem = {
@@ -317,6 +319,11 @@ object DeclarationXml {
     }
   }
 
+
+
+}
+
+object DeclarationXml {
   // Turn a scala xml document into a fully escaped html string
   def prettyPrintToHtml(xml:Elem):String = {
     val prettyPrinter = new PrettyPrinter(250,4)

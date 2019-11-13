@@ -27,7 +27,7 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
     "be populated in the XML" in {
       val declaration = Declaration(valuationInformationAndTaxes=ValuationInformationAndTaxes(locationName=Some("Some location name")))
 
-      val xmlElement: Elem = DeclarationXml.fromImportDeclaration(declaration)
+      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "TradeTerms" \ "ConditionCode").head.text mustBe "CFR"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "TradeTerms" \ "LocationID").head.text mustBe "GBDVR"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "TradeTerms" \ "LocationName").head.text mustBe "Some location name"
