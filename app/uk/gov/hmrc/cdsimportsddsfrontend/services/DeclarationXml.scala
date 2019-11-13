@@ -20,7 +20,7 @@ import java.util.UUID
 
 import javax.inject.Singleton
 import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, DeclarationParties, Eori, Party}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, Party}
 
 import scala.xml.{Elem, NodeSeq, PrettyPrinter, Text}
 
@@ -57,8 +57,8 @@ class DeclarationXml {
           {maybeElement("TypeCode", dec.documentationType.additionalPayment(1).additionalDocPaymentType)}
         </AdditionalDocument>
         <AdditionalInformation>
-          <StatementCode>{dec.documentationType.additionalInformationCode}</StatementCode>
-          <StatementDescription>{dec.documentationType.additionalInformationDescription}</StatementDescription>
+          <StatementCode>{dec.documentationType.additionalInformation.code}</StatementCode>
+          <StatementDescription>{dec.documentationType.additionalInformation.description}</StatementDescription>
         </AdditionalInformation>
         <AuthorisationHolder>
           <ID>GB201909014000</ID>

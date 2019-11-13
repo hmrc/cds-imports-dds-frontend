@@ -200,8 +200,8 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("dd").withValue("Good")
 
         val actualDeclaration = captor.getValue
-        actualDeclaration.documentationType.additionalInformationCode mustBe("additionalInfoCode")
-        actualDeclaration.documentationType.additionalInformationDescription mustBe("additionalInfoDescription")
+        actualDeclaration.documentationType.additionalInformation.code mustBe("additionalInfoCode")
+        actualDeclaration.documentationType.additionalInformation.description mustBe("additionalInfoDescription")
       }
     }
 

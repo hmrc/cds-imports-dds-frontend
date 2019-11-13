@@ -38,16 +38,24 @@ object AdditionalPaymentTypeFormMapping {
   )(AdditionalPaymentType.apply)(AdditionalPaymentType.unapply))
 }
 
+object AdditionalInformationFormMapping extends FormValidators {
+  val additionalInformationMapping: Mapping[AdditionalInformation] = mapping(
+    "code" -> nonEmptyString,
+    "description" -> nonEmptyString
+  )(AdditionalInformation.apply)(AdditionalInformation.unapply)
+  val additionalInformation: (String, Mapping[AdditionalInformation]) = "additionalInformation" -> additionalInformationMapping
+}
+
 object DocumentationTypeFormMapping extends FormValidators {
   import AdditionalPaymentTypeFormMapping.paymentType
   import AdditionalDocumentFormMapping.additionalDocumentType
+  import AdditionalInformationFormMapping.additionalInformationMapping
   val documentationType: (String, Mapping[DocumentationType]) = "documentationType" -> mapping(
     "previousDocCategory" -> optional(text),
     "previousDocType" -> optional(text),
     "previousDocReference" -> optional(text),
     "previousDocGoodsItemId" -> optional(text),
-    "header.additionalInformation.code" -> nonEmptyString,
-    "header.additionalInformation.description" -> nonEmptyString,
+    "header.additionalInformation" -> additionalInformationMapping,
     additionalDocumentType,
     "localReferenceNumber" -> optional(text),
     paymentType
