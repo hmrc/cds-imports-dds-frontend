@@ -495,6 +495,30 @@ object DeclarationXml {
               <TypeCode>DCR</TypeCode>
               <LineNumeric>1</LineNumeric>
             </PreviousDocument>
+            <PreviousDocument>
+              <CategoryCode>Z</CategoryCode>
+              <ID>20191103</ID>
+              <TypeCode>ZZZ</TypeCode>
+              <LineNumeric>1</LineNumeric>
+            </PreviousDocument>
+            <PreviousDocument>
+              <CategoryCode>Z</CategoryCode>
+              <ID>9GB201909014002</ID>
+              <TypeCode>235</TypeCode>
+              <LineNumeric>1</LineNumeric>
+            </PreviousDocument>
+            <PreviousDocument>
+              <CategoryCode>Z</CategoryCode>
+              <ID>9GB201909014003</ID>
+              <TypeCode>ZZZ</TypeCode>
+              <LineNumeric>1</LineNumeric>
+            </PreviousDocument>
+            <PreviousDocument>
+              <CategoryCode>Z</CategoryCode>
+              <ID>9GB201909014004</ID>
+              <TypeCode>270</TypeCode>
+              <LineNumeric>1</LineNumeric>
+            </PreviousDocument>
             <ValuationAdjustment>
               <AdditionCode>0000</AdditionCode>
             </ValuationAdjustment>
