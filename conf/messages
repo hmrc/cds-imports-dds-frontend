@@ -27,13 +27,20 @@ declare.previousDocCategory=2.1 Previous Document Category
 declare.previousDocType=2.1 Previous Document Type
 declare.previousDocReference=2.1 Previous Document Reference
 declare.previousDocGoodsItemId=2.1 Previous Document Goods Item Identifier
-declare.additionalInfoCode=2.2 Additional Information Code
-declare.additionalInfoDescription=2.2 Additional Information Description
-
-declare.additionalDocCategoryCode=2.3 Additional Document Category Code {0}
-declare.additionalDocTypeCode=2.3 Additional Document Type Code {0}
-declare.additionalDocId=2.3 Additional Document Identifier (include TSP authorisation number) {0}
-
+declare.header.additionalInformation.code=2.2 Header Additional Information Code
+declare.header.additionalInformation.description=2.2 Header Additional Information Description
+declare.item.additionalInformation.1.code=2.2 Item Additional Information Code 1
+declare.item.additionalInformation.1.description=2.2 Item Additional Information Description 1
+declare.item.additionalInformation.2.code=2.2 Item Additional Information Code 2
+declare.item.additionalInformation.2.description=2.2 Item Additional Information Description 2
+declare.item.additionalInformation.3.code=2.2 Item Additional Information Code 3
+declare.item.additionalInformation.3.description=2.2 Item Additional Information Description 3
+declare.item.additionalInformation.4.code=2.2 Item Additional Information Code 4
+declare.item.additionalInformation.4.description=2.2 Item Additional Information Description 4
+declare.item.additionalInformation.5.code=2.2 Item Additional Information Code 5
+declare.item.additionalInformation.5.description=2.2 Item Additional Information Description 5
+declare.item.additionalInformation.6.code=2.2 Item Additional Information Code 6
+declare.item.additionalInformation.6.description=2.2 Item Additional Information Description 6
 declare.additionalDocCategoryCode1=2.3 Additional Document Category Code 1
 declare.additionalDocTypeCode1=2.3 Additional Document Type Code 1
 declare.additionalDocId1=2.3 Additional Document Identifier (include TSP authorisation number) 1

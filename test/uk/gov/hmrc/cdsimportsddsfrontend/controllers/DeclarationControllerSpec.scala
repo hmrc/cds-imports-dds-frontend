@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
+import org.mockito.ArgumentCaptor
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.scalatest.BeforeAndAfterEach
@@ -33,7 +34,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
   with FutureAwaits
   with BeforeAndAfterEach {
 
-  import DeclarationControllerSpec.declarationTypeFormData
+  import DeclarationControllerSpec._
 
   override def beforeEach(): Unit = {
     featureSwitchRegistry.SinglePageDeclaration.enable()
@@ -69,9 +70,20 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "documentationType.previousDocType")
         body should include element withName("input").withAttrValue("name", "documentationType.previousDocReference")
         body should include element withName("input").withAttrValue("name", "documentationType.previousDocGoodsItemId")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalInfoCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalInfoDescription")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[0].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.additionalInformation.code")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.additionalInformation.description")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[0].code")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[0].description")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[1].code")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[1].description")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[2].code")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[2].description")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[3].code")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[3].description")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[4].code")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[4].description")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[5].code")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[5].description")
         body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[0].typeCode")
         body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[0].id")
         body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[0].lpco")
@@ -188,78 +200,53 @@ class DeclarationControllerSpec extends CdsImportsSpec
       }
     }
 
-    "succeed when all required fields are present" in signedInScenario { user =>
-
-      val documentationFormData = Map(
-        "documentationType.previousDocCategory" -> Seq("previousDocCategory"),
-        "documentationType.previousDocType" -> Seq("previousDocType"),
-        "documentationType.previousDocReference" -> Seq("previousDocReference"),
-        "documentationType.previousDocGoodsItemId" -> Seq("previousDocGoodsItemId"),
-        "documentationType.additionalInfoCode" -> Seq("additionalInfoCode"),
-        "documentationType.additionalInfoDescription" -> Seq("additionalInfoDescription"),
-
-        "documentationType.additionalDocument[0].categoryCode" -> Seq("categoryCode"),
-        "documentationType.additionalDocument[0].typeCode" -> Seq("typeCode"),
-        "documentationType.additionalDocument[0].id" -> Seq("id"),
-        "documentationType.additionalDocument[0].lpco" -> Seq("lpco"),
-        "documentationType.additionalDocument[0].name" -> Seq("name"),
-
-        "documentationType.additionalDocument[1].categoryCode" -> Seq("categoryCode"),
-        "documentationType.additionalDocument[1].typeCode" -> Seq("typeCode"),
-        "documentationType.additionalDocument[1].id" -> Seq("id"),
-        "documentationType.additionalDocument[1].lpco" -> Seq("lpco"),
-        "documentationType.additionalDocument[1].name" -> Seq("name"),
-
-        "documentationType.additionalDocument[2].categoryCode" -> Seq("categoryCode"),
-        "documentationType.additionalDocument[2].typeCode" -> Seq("typeCode"),
-        "documentationType.additionalDocument[2].id" -> Seq("id"),
-        "documentationType.additionalDocument[2].lpco" -> Seq("lpco"),
-        "documentationType.additionalDocument[2].name" -> Seq("name"),
-
-        "documentationType.additionalDocument[3].categoryCode" -> Seq("categoryCode"),
-        "documentationType.additionalDocument[3].typeCode" -> Seq("typeCode"),
-        "documentationType.additionalDocument[3].id" -> Seq("id"),
-        "documentationType.additionalDocument[3].lpco" -> Seq("lpco"),
-        "documentationType.additionalDocument[3].name" -> Seq("name"),
-        "documentationType.localReferenceNumber" -> Seq("localRef"),
-
-        "documentationType.additionalPayment[0].additionalDocPaymentID" -> Seq("123456"),
-        "documentationType.additionalPayment[0].additionalDocPaymentCategory" -> Seq("1"),
-        "documentationType.additionalPayment[0].additionalDocPaymentType" -> Seq("DAN"),
-
-        "documentationType.additionalPayment[1].additionalDocPaymentID" -> Seq("123456"),
-        "documentationType.additionalPayment[1].additionalDocPaymentCategory" -> Seq("1"),
-        "documentationType.additionalPayment[1].additionalDocPaymentType" -> Seq("DAN"),
-
-        "documentationType.additionalPayment[2].additionalDocPaymentID" -> Seq("123456"),
-        "documentationType.additionalPayment[2].additionalDocPaymentCategory" -> Seq("1"),
-        "documentationType.additionalPayment[2].additionalDocPaymentType" -> Seq("DAN"),
-
-        "documentationType.additionalPayment[3].additionalDocPaymentID" -> Seq("123456"),
-        "documentationType.additionalPayment[3].additionalDocPaymentCategory" -> Seq("1"),
-        "documentationType.additionalPayment[3].additionalDocPaymentType" -> Seq("DAN")
-      )
-
-      val formData = declarationTypeFormData ++ documentationFormData
+    "post to the declaration service when all required fields are present" in signedInScenario { user =>
+      val formData = declarationTypeFormData
       when(mockDeclarationService.submit(any(), any[Declaration])(any())).thenReturn(Future.successful(DeclarationServiceResponse(<foo></foo>, 200, Some("Good"))))
       when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
       new PostScenario(formData) {
         status(response) mustBe Status.OK
-        body should include element withName("dd").withValue("Good")
       }
     }
 
-    "fail when some mandatory fields are missing" in signedInScenario { user =>
-      val formData = Map("declarationType.declarationType" -> Seq("declarationType"))
+    "post the expected additional information data to the declaration service" in signedInScenario { user =>
+      val formData = declarationTypeFormData ++ documentationFormData
+
+      val captor: ArgumentCaptor[Declaration] = ArgumentCaptor.forClass(classOf[Declaration])
+      when(mockDeclarationService.submit(any(), captor.capture())(any())).thenReturn(Future.successful(DeclarationServiceResponse(<foo></foo>, 200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
+        status(response) mustBe Status.OK
+
+        val actualDeclaration = captor.getValue
+        actualDeclaration.documentationType.headerAdditionalInformation.code mustBe(Some("additionalInfoCode"))
+        actualDeclaration.documentationType.headerAdditionalInformation.description mustBe(Some("additionalInfoDescription"))
+        actualDeclaration.documentationType.itemAdditionalInformation(0).code mustBe(Some("itemAdditionalInfoCode 1"))
+        actualDeclaration.documentationType.itemAdditionalInformation(0).description mustBe(Some("itemAdditionalInfoDescription 1"))
+        actualDeclaration.documentationType.itemAdditionalInformation(1).code mustBe(Some("itemAdditionalInfoCode 2"))
+        actualDeclaration.documentationType.itemAdditionalInformation(1).description mustBe(Some("itemAdditionalInfoDescription 2"))
+        actualDeclaration.documentationType.itemAdditionalInformation(2).code mustBe(Some("itemAdditionalInfoCode 3"))
+        actualDeclaration.documentationType.itemAdditionalInformation(2).description mustBe(Some("itemAdditionalInfoDescription 3"))
+        actualDeclaration.documentationType.itemAdditionalInformation(3).code mustBe(Some("itemAdditionalInfoCode 4"))
+        actualDeclaration.documentationType.itemAdditionalInformation(3).description mustBe(Some("itemAdditionalInfoDescription 4"))
+        actualDeclaration.documentationType.itemAdditionalInformation(4).code mustBe(Some("itemAdditionalInfoCode 5"))
+        actualDeclaration.documentationType.itemAdditionalInformation(4).description mustBe(Some("itemAdditionalInfoDescription 5"))
+        actualDeclaration.documentationType.itemAdditionalInformation(5).code mustBe(Some("itemAdditionalInfoCode 6"))
+        actualDeclaration.documentationType.itemAdditionalInformation(5).description mustBe(Some("itemAdditionalInfoDescription 6"))
+      }
+    }
+
+    "fail when mandatory fields are missing" in signedInScenario { user =>
+      val formData = Map[String, Seq[String]]()
       new PostScenario(formData) {
         status(response) mustBe Status.BAD_REQUEST
+        body should include element withName("a").withAttrValue("id", "declarationType.declarationType-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "declarationType.additionalDeclarationType-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "declarationType.goodsItemNumber-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "declarationType.totalNumberOfItems-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "declarationType.requestedProcedureCode-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "declarationType.previousProcedureCode-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "declarationType.additionalProcedureCode-error").withValue("This field is required")
-
       }
     }
   }
@@ -274,6 +261,70 @@ object DeclarationControllerSpec {
     "declarationType.requestedProcedureCode" -> Seq("requestedProcedureCode"),
     "declarationType.previousProcedureCode" -> Seq("previousProcedureCode"),
     "declarationType.additionalProcedureCode" -> Seq("additionalProcedureCode")
+  )
+
+  val documentationFormData = Map(
+    "documentationType.previousDocCategory" -> Seq("previousDocCategory"),
+    "documentationType.previousDocType" -> Seq("previousDocType"),
+    "documentationType.previousDocReference" -> Seq("previousDocReference"),
+    "documentationType.previousDocGoodsItemId" -> Seq("previousDocGoodsItemId"),
+
+    "documentationType.header.additionalInformation.code" -> Seq("additionalInfoCode"),
+    "documentationType.header.additionalInformation.description" -> Seq("additionalInfoDescription"),
+
+    "documentationType.item.additionalInformation[0].code" -> Seq("itemAdditionalInfoCode 1"),
+    "documentationType.item.additionalInformation[0].description" -> Seq("itemAdditionalInfoDescription 1"),
+    "documentationType.item.additionalInformation[1].code" -> Seq("itemAdditionalInfoCode 2"),
+    "documentationType.item.additionalInformation[1].description" -> Seq("itemAdditionalInfoDescription 2"),
+    "documentationType.item.additionalInformation[2].code" -> Seq("itemAdditionalInfoCode 3"),
+    "documentationType.item.additionalInformation[2].description" -> Seq("itemAdditionalInfoDescription 3"),
+    "documentationType.item.additionalInformation[3].code" -> Seq("itemAdditionalInfoCode 4"),
+    "documentationType.item.additionalInformation[3].description" -> Seq("itemAdditionalInfoDescription 4"),
+    "documentationType.item.additionalInformation[4].code" -> Seq("itemAdditionalInfoCode 5"),
+    "documentationType.item.additionalInformation[4].description" -> Seq("itemAdditionalInfoDescription 5"),
+    "documentationType.item.additionalInformation[5].code" -> Seq("itemAdditionalInfoCode 6"),
+    "documentationType.item.additionalInformation[5].description" -> Seq("itemAdditionalInfoDescription 6"),
+
+    "documentationType.additionalDocument[0].categoryCode" -> Seq("categoryCode"),
+    "documentationType.additionalDocument[0].typeCode" -> Seq("typeCode"),
+    "documentationType.additionalDocument[0].id" -> Seq("id"),
+    "documentationType.additionalDocument[0].lpco" -> Seq("lpco"),
+    "documentationType.additionalDocument[0].name" -> Seq("name"),
+
+    "documentationType.additionalDocument[1].categoryCode" -> Seq("categoryCode"),
+    "documentationType.additionalDocument[1].typeCode" -> Seq("typeCode"),
+    "documentationType.additionalDocument[1].id" -> Seq("id"),
+    "documentationType.additionalDocument[1].lpco" -> Seq("lpco"),
+    "documentationType.additionalDocument[1].name" -> Seq("name"),
+
+    "documentationType.additionalDocument[2].categoryCode" -> Seq("categoryCode"),
+    "documentationType.additionalDocument[2].typeCode" -> Seq("typeCode"),
+    "documentationType.additionalDocument[2].id" -> Seq("id"),
+    "documentationType.additionalDocument[2].lpco" -> Seq("lpco"),
+    "documentationType.additionalDocument[2].name" -> Seq("name"),
+
+    "documentationType.additionalDocument[3].categoryCode" -> Seq("categoryCode"),
+    "documentationType.additionalDocument[3].typeCode" -> Seq("typeCode"),
+    "documentationType.additionalDocument[3].id" -> Seq("id"),
+    "documentationType.additionalDocument[3].lpco" -> Seq("lpco"),
+    "documentationType.additionalDocument[3].name" -> Seq("name"),
+    "documentationType.localReferenceNumber" -> Seq("localRef"),
+
+    "documentationType.additionalPayment[0].additionalDocPaymentID" -> Seq("123456"),
+    "documentationType.additionalPayment[0].additionalDocPaymentCategory" -> Seq("1"),
+    "documentationType.additionalPayment[0].additionalDocPaymentType" -> Seq("DAN"),
+
+    "documentationType.additionalPayment[1].additionalDocPaymentID" -> Seq("123456"),
+    "documentationType.additionalPayment[1].additionalDocPaymentCategory" -> Seq("1"),
+    "documentationType.additionalPayment[1].additionalDocPaymentType" -> Seq("DAN"),
+
+    "documentationType.additionalPayment[2].additionalDocPaymentID" -> Seq("123456"),
+    "documentationType.additionalPayment[2].additionalDocPaymentCategory" -> Seq("1"),
+    "documentationType.additionalPayment[2].additionalDocPaymentType" -> Seq("DAN"),
+
+    "documentationType.additionalPayment[3].additionalDocPaymentID" -> Seq("123456"),
+    "documentationType.additionalPayment[3].additionalDocPaymentCategory" -> Seq("1"),
+    "documentationType.additionalPayment[3].additionalDocPaymentType" -> Seq("DAN")
   )
 
 }
