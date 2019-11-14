@@ -22,9 +22,10 @@
 
 <table class="govuk-table">
  <thead class="govuk-table__head">
- <tr class="govuk-table__row">
-  <th colspan="4" class="govuk-table__header">@messages("declare.previousDocuments")</th>
- </tr>
+  <tr class="govuk-table__row">
+   <th colspan="4" class="govuk-table__header">@messages("declare.previousDocuments")</th>
+  </tr>
+ </thead>
  <tbody class="govuk-table__body">
   @for((doc, count) <- form.value.getOrElse(Declaration()).documentationType.previousDocument.zipWithIndex) {
    <tr class="govuk-table__row">
