@@ -28,6 +28,13 @@
 @input_text(form("documentationType.header.additionalInformation.code" ), "declare.header.additionalInformation.code" )
 @input_text(form("documentationType.header.additionalInformation.description" ), "declare.header.additionalInformation.description")
 
+@for(index <- 0 to 5) {
+  @defining(index) { i =>
+   @input_text(form(s"documentationType.item.additionalInformation[$i].code"), s"declare.item.additionalInformation.${i+1}.code")
+   @input_text(form(s"documentationType.item.additionalInformation[$i].description"), s"declare.item.additionalInformation.${i+1}.description")
+  }
+}
+
 @for((doc, count) <- form.value.getOrElse(Declaration()).documentationType.additionalDocument.zipWithIndex) {
  @input_text(form(s"documentationType.additionalDocument[$count].categoryCode"), s"declare.additionalDocCategoryCode${count+1}")
  @input_text(form(s"documentationType.additionalDocument[$count].typeCode"), s"declare.additionalDocTypeCode${count+1}")

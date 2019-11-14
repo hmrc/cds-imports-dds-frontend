@@ -72,7 +72,18 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "documentationType.previousDocGoodsItemId")
         body should include element withName("input").withAttrValue("name", "documentationType.header.additionalInformation.code")
         body should include element withName("input").withAttrValue("name", "documentationType.header.additionalInformation.description")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[0].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[0].code")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[0].description")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[1].code")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[1].description")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[2].code")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[2].description")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[3].code")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[3].description")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[4].code")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[4].description")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[5].code")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[5].description")
         body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[0].typeCode")
         body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[0].id")
         body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[0].lpco")
@@ -189,7 +200,16 @@ class DeclarationControllerSpec extends CdsImportsSpec
       }
     }
 
-    "succeed when all required fields are present" in signedInScenario { user =>
+    "post to the declaration service when all required fields are present" in signedInScenario { user =>
+      val formData = declarationTypeFormData
+      when(mockDeclarationService.submit(any(), any[Declaration])(any())).thenReturn(Future.successful(DeclarationServiceResponse(<foo></foo>, 200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
+        status(response) mustBe Status.OK
+      }
+    }
+
+    "post the expected additional information data to the declaration service" in signedInScenario { user =>
       val formData = declarationTypeFormData ++ documentationFormData
 
       val captor: ArgumentCaptor[Declaration] = ArgumentCaptor.forClass(classOf[Declaration])
@@ -197,11 +217,22 @@ class DeclarationControllerSpec extends CdsImportsSpec
       when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
       new PostScenario(formData) {
         status(response) mustBe Status.OK
-        body should include element withName("dd").withValue("Good")
 
         val actualDeclaration = captor.getValue
-        actualDeclaration.documentationType.additionalInformation.code mustBe("additionalInfoCode")
-        actualDeclaration.documentationType.additionalInformation.description mustBe("additionalInfoDescription")
+        actualDeclaration.documentationType.headerAdditionalInformation.code mustBe(Some("additionalInfoCode"))
+        actualDeclaration.documentationType.headerAdditionalInformation.description mustBe(Some("additionalInfoDescription"))
+        actualDeclaration.documentationType.itemAdditionalInformation(0).code mustBe(Some("itemAdditionalInfoCode 1"))
+        actualDeclaration.documentationType.itemAdditionalInformation(0).description mustBe(Some("itemAdditionalInfoDescription 1"))
+        actualDeclaration.documentationType.itemAdditionalInformation(1).code mustBe(Some("itemAdditionalInfoCode 2"))
+        actualDeclaration.documentationType.itemAdditionalInformation(1).description mustBe(Some("itemAdditionalInfoDescription 2"))
+        actualDeclaration.documentationType.itemAdditionalInformation(2).code mustBe(Some("itemAdditionalInfoCode 3"))
+        actualDeclaration.documentationType.itemAdditionalInformation(2).description mustBe(Some("itemAdditionalInfoDescription 3"))
+        actualDeclaration.documentationType.itemAdditionalInformation(3).code mustBe(Some("itemAdditionalInfoCode 4"))
+        actualDeclaration.documentationType.itemAdditionalInformation(3).description mustBe(Some("itemAdditionalInfoDescription 4"))
+        actualDeclaration.documentationType.itemAdditionalInformation(4).code mustBe(Some("itemAdditionalInfoCode 5"))
+        actualDeclaration.documentationType.itemAdditionalInformation(4).description mustBe(Some("itemAdditionalInfoDescription 5"))
+        actualDeclaration.documentationType.itemAdditionalInformation(5).code mustBe(Some("itemAdditionalInfoCode 6"))
+        actualDeclaration.documentationType.itemAdditionalInformation(5).description mustBe(Some("itemAdditionalInfoDescription 6"))
       }
     }
 
@@ -216,9 +247,6 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("a").withAttrValue("id", "declarationType.requestedProcedureCode-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "declarationType.previousProcedureCode-error").withValue("This field is required")
         body should include element withName("a").withAttrValue("id", "declarationType.additionalProcedureCode-error").withValue("This field is required")
-        body should include element withName("a").withAttrValue("id", "documentationType.header.additionalInformation.code-error").withValue("This field is required")
-        body should include element withName("a").withAttrValue("id", "documentationType.header.additionalInformation.description-error").withValue("This field is required")
-
       }
     }
   }
@@ -240,8 +268,22 @@ object DeclarationControllerSpec {
     "documentationType.previousDocType" -> Seq("previousDocType"),
     "documentationType.previousDocReference" -> Seq("previousDocReference"),
     "documentationType.previousDocGoodsItemId" -> Seq("previousDocGoodsItemId"),
+
     "documentationType.header.additionalInformation.code" -> Seq("additionalInfoCode"),
     "documentationType.header.additionalInformation.description" -> Seq("additionalInfoDescription"),
+
+    "documentationType.item.additionalInformation[0].code" -> Seq("itemAdditionalInfoCode 1"),
+    "documentationType.item.additionalInformation[0].description" -> Seq("itemAdditionalInfoDescription 1"),
+    "documentationType.item.additionalInformation[1].code" -> Seq("itemAdditionalInfoCode 2"),
+    "documentationType.item.additionalInformation[1].description" -> Seq("itemAdditionalInfoDescription 2"),
+    "documentationType.item.additionalInformation[2].code" -> Seq("itemAdditionalInfoCode 3"),
+    "documentationType.item.additionalInformation[2].description" -> Seq("itemAdditionalInfoDescription 3"),
+    "documentationType.item.additionalInformation[3].code" -> Seq("itemAdditionalInfoCode 4"),
+    "documentationType.item.additionalInformation[3].description" -> Seq("itemAdditionalInfoDescription 4"),
+    "documentationType.item.additionalInformation[4].code" -> Seq("itemAdditionalInfoCode 5"),
+    "documentationType.item.additionalInformation[4].description" -> Seq("itemAdditionalInfoDescription 5"),
+    "documentationType.item.additionalInformation[5].code" -> Seq("itemAdditionalInfoCode 6"),
+    "documentationType.item.additionalInformation[5].description" -> Seq("itemAdditionalInfoDescription 6"),
 
     "documentationType.additionalDocument[0].categoryCode" -> Seq("categoryCode"),
     "documentationType.additionalDocument[0].typeCode" -> Seq("typeCode"),

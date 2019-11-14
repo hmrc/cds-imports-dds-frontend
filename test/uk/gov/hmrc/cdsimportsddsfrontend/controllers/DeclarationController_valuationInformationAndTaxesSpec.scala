@@ -68,7 +68,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         "valuationInformationAndTaxes.rateNumeric" -> Seq("rateNumeric"),
         "valuationInformationAndTaxes.customsValuationMethodCode" -> Seq("customsValuationMethodCode"),
         "valuationInformationAndTaxes.dutyRegimeCode" -> Seq("dutyRegimeCode")
-      ) ++ declarationTypeFormData ++ documentationFormData
+      ) ++ declarationTypeFormData
 
       when(mockDeclarationService.submit(any(), any[Declaration])(any())).thenReturn(Future.successful(DeclarationServiceResponse(<foo></foo>, 200, Some("Good"))))
       when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
@@ -91,7 +91,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         "valuationInformationAndTaxes.rateNumeric" -> Seq(""),
         "valuationInformationAndTaxes.customsValuationMethodCode" -> Seq(""),
         "valuationInformationAndTaxes.dutyRegimeCode" -> Seq("")
-      ) ++ declarationTypeFormData ++ documentationFormData
+      ) ++ declarationTypeFormData
 
       when(mockDeclarationService.submit(any(), any[Declaration])(any())).thenReturn(Future.successful(DeclarationServiceResponse(<foo></foo>, 200, Some("Good"))))
       when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))

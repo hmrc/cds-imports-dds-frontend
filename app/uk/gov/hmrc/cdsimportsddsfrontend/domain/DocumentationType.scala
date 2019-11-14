@@ -31,15 +31,16 @@ case class AdditionalPaymentType(
 )
 
 case class AdditionalInformation(
-                                  code: String,
-                                  description: String
+                                  code: Option[String],
+                                  description: Option[String]
                                 )
 case class DocumentationType(
                               previousDocCategory:  Option[String],
                               previousDocType: Option[String],
                               previousDocReference: Option[String],
                               previousDocGoodsItemId: Option[String],
-                              additionalInformation: AdditionalInformation,
+                              headerAdditionalInformation: AdditionalInformation,
+                              itemAdditionalInformation: Seq[AdditionalInformation],
                               additionalDocument: Seq[AdditionalDocumentType],
                               localReferenceNumber: Option[String],
                               additionalPayment: Seq[AdditionalPaymentType]
@@ -51,7 +52,8 @@ object DocumentationType {
     Some("DCR"),
     Some("9GB201909014000"),
     Some("1"),
-    AdditionalInformation("TSP01", "TSP"),
+    AdditionalInformation(Some("TSP01"), Some("TSP")),
+    Nil,
     Seq(
       AdditionalDocumentType(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), Some("DocumentName1")),
       AdditionalDocumentType(Some("C"), Some("514"), Some("GBEIR201909014000"), None, None),

@@ -20,7 +20,7 @@ import java.util.UUID
 
 import javax.inject.Singleton
 import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, Party}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{AdditionalInformation, Declaration, Party}
 
 import scala.xml.{Elem, NodeSeq, PrettyPrinter, Text}
 
@@ -56,10 +56,7 @@ class DeclarationXml {
           {maybeElement("ID", dec.documentationType.additionalPayment(1).additionalDocPaymentID)}
           {maybeElement("TypeCode", dec.documentationType.additionalPayment(1).additionalDocPaymentType)}
         </AdditionalDocument>
-        <AdditionalInformation>
-          <StatementCode>{dec.documentationType.additionalInformation.code}</StatementCode>
-          <StatementDescription>{dec.documentationType.additionalInformation.description}</StatementDescription>
-        </AdditionalInformation>
+        {additionalInformation(dec.documentationType.headerAdditionalInformation)}
         <AuthorisationHolder>
           <ID>GB201909014000</ID>
           <CategoryCode>EIR</CategoryCode>
@@ -139,6 +136,7 @@ class DeclarationXml {
                 <QuantityQuantity unitCode="KGM#G">10</QuantityQuantity>
               </WriteOff>
             </AdditionalDocument>
+            {dec.documentationType.itemAdditionalInformation.map(additionalInformation)}
             <Commodity>
               <Description>Aluminium Foil not exceeding 0,2 mm</Description>
               <Classification>
@@ -315,7 +313,16 @@ class DeclarationXml {
     }
   }
 
-
+  def additionalInformation(additionalInformation: AdditionalInformation): NodeSeq = {
+    additionalInformation match {
+      case AdditionalInformation(None, None) => NodeSeq.Empty
+      case _ =>
+        <AdditionalInformation>
+          {maybeElement("StatementCode", additionalInformation.code)}
+          {maybeElement("StatementDescription", additionalInformation.description)}
+        </AdditionalInformation>
+    }
+  }
 
 }
 
