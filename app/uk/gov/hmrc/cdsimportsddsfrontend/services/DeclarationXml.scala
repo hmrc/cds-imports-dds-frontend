@@ -173,7 +173,7 @@ class DeclarationXml {
               <QuantityQuantity>55</QuantityQuantity>
               <TypeCode>PK</TypeCode>
             </Packaging>
-            {for (pd <- dec.documentationType.previousDocument) yield {pd.toXml().getOrElse(NodeSeq.Empty)} }
+            {for (pd <- dec.documentationType.previousDocument) yield {pd.toXml().getOrElse("")} }
             {maybeValuationAdjustment(dec)}
           </GovernmentAgencyGoodsItem>
           {maybeParty("Importer", dec.parties.importer)}
@@ -191,13 +191,18 @@ class DeclarationXml {
           </PreviousDocument>
           {maybeTradeTerms(dec)}
           <UCR>
-            <TraderAssignedReferenceID>{dec.documentationType.previousDocument(0).lineNumeric.getOrElse("").trim}-12345</TraderAssignedReferenceID>
+            <TraderAssignedReferenceID>{maybeTraderAssignedReferenceID(dec)}</TraderAssignedReferenceID>
           </UCR>
         </GoodsShipment>
       </Declaration>
     </md:MetaData>
   }
 
+//  <TraderAssignedReferenceID>{dec.documentationType.previousDocument(0).lineNumeric.getOrElse("").trim}-12345</TraderAssignedReferenceID>
+  private def maybeTraderAssignedReferenceID(declaration: Declaration) = {
+    val res: Seq[String] = declaration.documentationType.previousDocument.flatMap(pd => pd.lineNumeric)
+    val res1 = if (!res.isEmpty) s"{res}-12345" else "12345"
+  }
   private def maybeDutyTaxFee(declaration: Declaration) = {
     if (declaration.valuationInformationAndTaxes.dutyRegimeCode.exists(_.trim.nonEmpty) ||
         declaration.valuationInformationAndTaxes.paymentMethodCode.exists(_.trim.nonEmpty)) {

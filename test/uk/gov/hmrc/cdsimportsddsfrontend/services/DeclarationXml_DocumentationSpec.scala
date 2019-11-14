@@ -17,9 +17,9 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.services
 
 import org.scalatest.{MustMatchers, WordSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{AdditionalInformation, Declaration, DocumentationType, ValuationInformationAndTaxes}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{AdditionalInformation, Declaration, DocumentationType, PreviousDocument}
 
-import scala.xml.{Elem, Node, NodeSeq}
+import scala.xml.Elem
 
 class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
 
@@ -131,4 +131,52 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       (governmentAgencyGoodsItem \ "AdditionalInformation").toList.length mustBe 2
     }
   }
+
+  "Previous documents data" should {
+    "not be populated in the XML when previous document is empty" in {
+
+      val documentationEmpty = DocumentationType().copy(previousDocument = Seq.empty)
+      val declaration = Declaration().copy(documentationType = documentationEmpty)
+
+      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
+
+      (governmentAgencyGoodsItem \ "PreviousDocument").toList.size mustBe 0
+    }
+  }
+
+  "Previous documents CategoryCode data" should {
+    "not be created in the XML when it is None" in {
+
+      val previousDocumentsWithNoCategory = PreviousDocument().copy(categoryCode = None)
+
+      val documentation = DocumentationType().copy(previousDocument = Seq(previousDocumentsWithNoCategory))
+      val declaration = Declaration().copy(documentationType = documentation)
+
+      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
+
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "CategoryCode").toList.size mustBe 0
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "TypeCode").toList.map(_.text) must contain("CLE")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "ID").toList.map(_.text) must contain("20191101")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) must contain("lnx")    }
+  }
+
+  "Previous documents TypeCode element" should {
+    "not be created in the XML when it is an empty string" in {
+
+      val previousDocumentsWithNoCategory = PreviousDocument().copy(typeCode = Some("   "))
+
+      val documentation = DocumentationType().copy(previousDocument = Seq(previousDocumentsWithNoCategory))
+      val declaration = Declaration().copy(documentationType = documentation)
+
+      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
+
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) must contain("Y")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "TypeCode").toList.size mustBe 0
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "ID").toList.map(_.text) must contain("20191101")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) must contain("lnx")    }
+  }
+
 }
