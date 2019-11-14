@@ -24,6 +24,8 @@ declare.requestedProcedureCode=1.10 Requested Procedure Code
 declare.previousProcedureCode=1.10 Previous Procedure Code
 declare.additionalProcedureCode=1.11 Additional Procedure Code (000 or C07)
 
+declare.document = Document {0}
+declare.previousDocuments=2.1 Previous Documents - Item Level
 declare.previousDocCategory1=2.1 Previous Document Category 1
 declare.previousDocGoodsItemId1=2.1 Previous Document Goods Item Identifier 1
 declare.previousDocType1=2.1 Previous Document Type 1
