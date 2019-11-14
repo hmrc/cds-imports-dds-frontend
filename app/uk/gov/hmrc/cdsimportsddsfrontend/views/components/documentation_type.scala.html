@@ -30,10 +30,8 @@
 
 @for(index <- 0 to 5) {
   @defining(index) { i =>
-   @input_text_basic(field = form(s"documentationType.item.additionalInformation[$i].code"),
-                     label = messages("declare.item.additionalInformation.code", i+1))
-   @input_text_basic(field = form(s"documentationType.item.additionalInformation[$i].description"),
-                     label = messages("declare.item.additionalInformation.description", i+1))
+   @input_text(form(s"documentationType.item.additionalInformation[$i].code"), "declare.item.additionalInformation.code", Seq(i+1))
+   @input_text(form(s"documentationType.item.additionalInformation[$i].description"), "declare.item.additionalInformation.description", Seq(i+1))
   }
 }
 
