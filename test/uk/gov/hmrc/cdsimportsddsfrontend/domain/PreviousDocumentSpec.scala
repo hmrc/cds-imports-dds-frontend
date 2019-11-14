@@ -17,7 +17,6 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 import org.scalatest.{Matchers, OptionValues, WordSpec}
-//import org.scalatest.{FlatSpec, Matchers}
 
 class PreviousDocumentSpec extends WordSpec with Matchers with OptionValues {
 
