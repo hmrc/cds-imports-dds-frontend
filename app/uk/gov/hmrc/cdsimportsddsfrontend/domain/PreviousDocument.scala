@@ -25,15 +25,13 @@ case class PreviousDocument(
                              typeCode: Option[String] = Some("CLE"),
                              lineNumeric: Option[String] = Some("lnx") ) {
 
-  def toXml(): Option[Node] = {
+  def toXml( ): Option[Node] = {
     val cc: Option[Node] = maybeElement("CategoryCode", this.categoryCode)
     val id = maybeElement("ID", this.id)
     val tc = maybeElement("TypeCode", this.typeCode)
     val ln = maybeElement("LineNumeric", this.lineNumeric)
     val l: List[Node] = List(cc, id, tc, ln).flattenOption
-    if (!l.isEmpty) {
-      Some(<PreviousDocument>{l}</PreviousDocument>)}
-    else
-      None
+
+    Option(l).filter(_.nonEmpty).map(e => <PreviousDocument>{e}</PreviousDocument>)
   }
 }

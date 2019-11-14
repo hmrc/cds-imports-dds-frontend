@@ -30,6 +30,18 @@ class PreviousDocumentSpec extends WordSpec with Matchers with OptionValues {
   val expectedResultMixed =
     <PreviousDocument><ID>id_1</ID><TypeCode>typeclass_1</TypeCode></PreviousDocument>
 
+  val expectedResultWithoutCategoryCode =
+    <PreviousDocument><ID>id_1</ID><TypeCode>typeclass_1</TypeCode><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
+
+  val expectedResultWithoutId =
+    <PreviousDocument><CategoryCode>category_1</CategoryCode><TypeCode>typeclass_1</TypeCode><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
+
+  val expectedResultWithoutTypeCode =
+    <PreviousDocument><CategoryCode>category_1</CategoryCode><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
+
+  val expectedResultLineNumeric =
+    <PreviousDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><TypeCode>typeclass_1</TypeCode></PreviousDocument>
+
   val previousDocumentAll = PreviousDocument(
     categoryCode = Some("category_1"),
     id = Some("id_1"),
@@ -47,7 +59,10 @@ class PreviousDocumentSpec extends WordSpec with Matchers with OptionValues {
   val previousDocumentWithEmptyString = previousDocumentAll.copy(typeCode = Some(""))
   val previousDocumentWithNone = previousDocumentAll.copy(categoryCode = None)
   val previousDocumentMixed = previousDocumentAll.copy(categoryCode = None, lineNumeric = Some("   "))
-
+  val previousDocumentWithoutCategoryCode = previousDocumentAll.copy(categoryCode = None)
+  val previousDocumentWithoutId = previousDocumentAll.copy(id = None)
+  val previousDocumentWithoutTypeCode = previousDocumentAll.copy(typeCode = None)
+  val previousDocumentWithoutLineNumeric = previousDocumentAll.copy(lineNumeric = None)
 
   "PreviousDocument generateXML " should {
     "return PreviousDocument node with text in all child elements" when {
@@ -65,6 +80,10 @@ class PreviousDocumentSpec extends WordSpec with Matchers with OptionValues {
     }
 
     "return an elements only for fields contain some text" in {
+      previousDocumentMixed.toXml() shouldBe Some(expectedResultMixed)
+    }
+
+    "return all elements  text" in {
       previousDocumentMixed.toXml() shouldBe Some(expectedResultMixed)
     }
 
