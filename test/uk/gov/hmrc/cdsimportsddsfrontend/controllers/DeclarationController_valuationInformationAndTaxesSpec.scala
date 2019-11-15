@@ -75,7 +75,6 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
 
       new PostScenario(formData) {
         status(response) mustBe Status.OK
-        body should include element withName("dd").withValue("Good")
       }
     }
 
@@ -98,7 +97,6 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
 
       new PostScenario(formData) {
         status(response) mustBe Status.OK
-        body should include element withName("dd").withValue("Good")
       }
     }
   }
