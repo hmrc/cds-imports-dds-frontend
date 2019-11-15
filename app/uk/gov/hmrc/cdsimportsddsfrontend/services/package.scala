@@ -23,23 +23,23 @@ import scala.xml.{Elem, Node, Text}
 
 package object services {
 
-  implicit def maybeElement(name: String, maybeValue: Option[String]): Option[Node] = {
-    if (maybeValue.exists(_.trim.nonEmpty)) {
-      Some(Elem.apply(null, name, scala.xml.Null, scala.xml.TopScope, true, Text(maybeValue.getOrElse("").trim)))
-    } else {
-      None
-    }
-  }
+//  implicit def maybeElement(name: String, maybeValue: Option[String]): Option[Node] = {
+//    if (maybeValue.exists(_.trim.nonEmpty)) {
+//      Some(Elem.apply(null, name, scala.xml.Null, scala.xml.TopScope, true, Text(maybeValue.getOrElse("").trim)))
+//    } else {
+//      None
+//    }
+//  }
 
-  implicit class PreviousDocumentExtension(val previousDocument: PreviousDocument) {
-    def toXml(): Option[Node] = {
-      val categoryCode: Option[Node] = maybeElement("CategoryCode", previousDocument.categoryCode)
-      val id = maybeElement("ID", previousDocument.id)
-      val typeCode = maybeElement("TypeCode", previousDocument.typeCode)
-      val lineNumeric = maybeElement("LineNumeric", previousDocument.lineNumeric)
-      val l: List[Node] = List(categoryCode, id, typeCode, lineNumeric).flattenOption
-
-      Option(l).filter(_.nonEmpty).map(e => <PreviousDocument>{e}</PreviousDocument>)
-    }
-  }
+//  implicit class PreviousDocumentExtension(val previousDocument: PreviousDocument) {
+//    def toXml(): Option[Node] = {
+//      val categoryCode: Option[Node] = maybeElement("CategoryCode", previousDocument.categoryCode)
+//      val id = maybeElement("ID", previousDocument.id)
+//      val typeCode = maybeElement("TypeCode", previousDocument.typeCode)
+//      val lineNumeric = maybeElement("LineNumeric", previousDocument.lineNumeric)
+//      val l: List[Node] = List(categoryCode, id, typeCode, lineNumeric).flattenOption
+//
+//      Option(l).filter(_.nonEmpty).map(e => <PreviousDocument>{e}</PreviousDocument>)
+//    }
+//  }
 }

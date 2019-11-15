@@ -17,6 +17,9 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 import org.scalatest.{Matchers, OptionValues, WordSpec}
+//import uk.gov.hmrc.cdsimportsddsfrontend.services._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.XmlSyntax._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.XmlWriterInstances._
 
 class PreviousDocumentSpec extends WordSpec with Matchers with OptionValues {
 
@@ -66,24 +69,24 @@ class PreviousDocumentSpec extends WordSpec with Matchers with OptionValues {
   "PreviousDocument generateXML " should {
     "return PreviousDocument node with text in all child elements" when {
       "all parameters are Some" in {
-        previousDocumentAll.toXml() shouldBe (Some(expectedResultAll))
+        previousDocumentAll.toXml shouldBe (Some(expectedResultAll))
       }
     }
 
     "return no PreviousDocument node when all fields are None" in {
-      previousDocumentEmpty.toXml() shouldBe None
+      previousDocumentEmpty.toXml shouldBe None
     }
 
     "return no element for a field which has an empty space" in {
-      previousDocumentWithEmptyString.toXml() shouldBe Some(expectedResultWithEmptyString)
+      previousDocumentWithEmptyString.toXml shouldBe Some(expectedResultWithEmptyString)
     }
 
     "return an elements only for fields contain some text" in {
-      previousDocumentMixed.toXml() shouldBe Some(expectedResultMixed)
+      previousDocumentMixed.toXml shouldBe Some(expectedResultMixed)
     }
 
     "return all elements  text" in {
-      previousDocumentMixed.toXml() shouldBe Some(expectedResultMixed)
+      previousDocumentMixed.toXml shouldBe Some(expectedResultMixed)
     }
 
 

@@ -30,7 +30,7 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
       val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
 
-      (governmentAgencyGoodsItem \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) must contain("Y")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) mustBe List("Y", "Y", "Z", "Z", "Z", "Z")
       (governmentAgencyGoodsItem \ "PreviousDocument" \ "TypeCode").toList.map(_.text) must contain("DCR")
       (governmentAgencyGoodsItem \ "PreviousDocument" \ "ID").toList.map(_.text) must contain("9GB201909014000")
       (governmentAgencyGoodsItem \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) must contain("1")
