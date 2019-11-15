@@ -17,12 +17,13 @@
 @(
   field: Field,
   label: String,
+  labelArgs: Seq[Any] = Nil,
   inputClass: Option[String] = None,
   disabled: Boolean = false,
   value: Option[String] = None
 )(implicit messages: Messages)
 <div class="govuk-form-group">
-   <label class="govuk-label" for="@{field.id}">@messages(label)</label>
+   <label class="govuk-label" for="@{field.id}">@messages(label, labelArgs: _*)</label>
    <input
        class="govuk-input @inputClass"
        id="@{field.id}"
