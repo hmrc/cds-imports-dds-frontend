@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend
+package uk.gov.hmrc.cdsimportsddsfrontend.services
 
-package object domain {
+object XmlSyntax {
 
-  type Eori = String
-  type ConversationID = String
-
+  implicit class XmlWriterOps[A](value: A) {
+    def toXml(implicit writer: XmlWriter[A]) = writer.toXml(value)
+  }
 }

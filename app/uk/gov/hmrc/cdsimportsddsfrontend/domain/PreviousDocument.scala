@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend
+package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-package object domain {
-
-  type Eori = String
-  type ConversationID = String
-
-}
+case class PreviousDocument(
+                             categoryCode: Option[String] = Some("Y"),
+                             id: Option[String] = Some("20191101"),
+                             typeCode: Option[String] = Some("CLE"),
+                             lineNumeric: Option[String] = Some("lnx")
+                           )

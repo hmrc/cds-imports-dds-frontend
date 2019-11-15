@@ -38,7 +38,16 @@ object AdditionalPaymentTypeFormMapping {
   )(AdditionalPaymentType.apply)(AdditionalPaymentType.unapply))
 }
 
-object AdditionalInformationFormMapping extends FormValidators {
+object PreviousDocumentFormMapping {
+  val previousDocument: (String, Mapping[Seq[PreviousDocument]]) = "previousDocument" -> seq(mapping(
+    "categoryCode" -> optional(text),
+    "id" -> optional(text),
+    "typeCode" -> optional(text),
+    "lineNumeric" -> optional(text)
+  )(PreviousDocument.apply)(PreviousDocument.unapply))
+}
+
+object AdditionalInformationFormMapping {
   val additionalInformationMapping: Mapping[AdditionalInformation] = mapping(
     "code" -> optional(text),
     "description" -> optional(text)
@@ -46,15 +55,13 @@ object AdditionalInformationFormMapping extends FormValidators {
   val additionalInformation: (String, Mapping[AdditionalInformation]) = "additionalInformation" -> additionalInformationMapping
 }
 
-object DocumentationTypeFormMapping extends FormValidators {
+object DocumentationTypeFormMapping {
   import AdditionalPaymentTypeFormMapping.paymentType
   import AdditionalDocumentFormMapping.additionalDocumentType
+  import PreviousDocumentFormMapping.previousDocument
   import AdditionalInformationFormMapping.additionalInformationMapping
   val documentationType: (String, Mapping[DocumentationType]) = "documentationType" -> mapping(
-    "previousDocCategory" -> optional(text),
-    "previousDocType" -> optional(text),
-    "previousDocReference" -> optional(text),
-    "previousDocGoodsItemId" -> optional(text),
+    previousDocument,
     "header.additionalInformation" -> additionalInformationMapping,
     "item.additionalInformation" -> seq(additionalInformationMapping),
     additionalDocumentType,

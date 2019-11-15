@@ -16,11 +16,13 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services
 
+import cats.implicits._
 import java.util.UUID
-
 import javax.inject.Singleton
 import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{AdditionalInformation, Declaration, Party}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain._
+import XmlSyntax._
+import XmlWriterInstances._
 
 import scala.xml.{Elem, NodeSeq, PrettyPrinter, Text}
 
@@ -173,18 +175,7 @@ class DeclarationXml {
               <QuantityQuantity>55</QuantityQuantity>
               <TypeCode>PK</TypeCode>
             </Packaging>
-            <PreviousDocument>
-              <CategoryCode>Y</CategoryCode>
-              <ID>20191101</ID>
-              <TypeCode>CLE</TypeCode>
-              <LineNumeric>1</LineNumeric>
-            </PreviousDocument>
-            <PreviousDocument>
-              <CategoryCode>{dec.documentationType.previousDocCategory.getOrElse("")}</CategoryCode>
-              <ID>{dec.documentationType.previousDocReference.getOrElse("")}</ID>
-              <TypeCode>{dec.documentationType.previousDocType.getOrElse("")}</TypeCode>
-              <LineNumeric>{dec.documentationType.previousDocGoodsItemId.getOrElse("")}</LineNumeric>
-            </PreviousDocument>
+            {dec.documentationType.previousDocument.flatMap(_.toXml)}
             {maybeValuationAdjustment(dec)}
           </GovernmentAgencyGoodsItem>
           {maybeParty("Importer", dec.parties.importer)}
@@ -202,7 +193,7 @@ class DeclarationXml {
           </PreviousDocument>
           {maybeTradeTerms(dec)}
           <UCR>
-            <TraderAssignedReferenceID>{dec.documentationType.previousDocReference.getOrElse("")}-12345</TraderAssignedReferenceID>
+            <TraderAssignedReferenceID>1-12345</TraderAssignedReferenceID>
           </UCR>
         </GoodsShipment>
       </Declaration>
@@ -504,6 +495,30 @@ object DeclarationXml {
               <CategoryCode>Y</CategoryCode>
               <ID>9GB201909014000</ID>
               <TypeCode>DCR</TypeCode>
+              <LineNumeric>1</LineNumeric>
+            </PreviousDocument>
+            <PreviousDocument>
+              <CategoryCode>Z</CategoryCode>
+              <ID>20191103</ID>
+              <TypeCode>ZZZ</TypeCode>
+              <LineNumeric>1</LineNumeric>
+            </PreviousDocument>
+            <PreviousDocument>
+              <CategoryCode>Z</CategoryCode>
+              <ID>9GB201909014002</ID>
+              <TypeCode>235</TypeCode>
+              <LineNumeric>1</LineNumeric>
+            </PreviousDocument>
+            <PreviousDocument>
+              <CategoryCode>Z</CategoryCode>
+              <ID>9GB201909014003</ID>
+              <TypeCode>ZZZ</TypeCode>
+              <LineNumeric>1</LineNumeric>
+            </PreviousDocument>
+            <PreviousDocument>
+              <CategoryCode>Z</CategoryCode>
+              <ID>9GB201909014004</ID>
+              <TypeCode>270</TypeCode>
               <LineNumeric>1</LineNumeric>
             </PreviousDocument>
             <ValuationAdjustment>
