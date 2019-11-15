@@ -140,7 +140,7 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
     }
 
     "Reject without a X-Conversation-ID Header" in {
-      val headers = validHeaders.filterNot { case (a, b) => a == CustomsHeaderNames.XConversationIdName }
+      val headers = validHeaders.filterNot { case (a, b) => a == CustomsHeaderNames.ConversationId }
       val xmlReq = FakeRequest(POST, "/notification")
         .withHeaders(headers: _*)
         .withXmlBody(exampleReceivedNotificationXML(movementReferenceNumber))

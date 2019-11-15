@@ -49,8 +49,8 @@ class CustomsDeclarationsServiceSpec extends WordSpec
       when[Future[CustomsDeclarationsResponse]](mockHttp.POSTString(any(),any(),any())(any(), any(), any())).thenReturn(Future.successful(decApiResponse))
       val response: DeclarationServiceResponse = await(customsDeclarationsService.submit(testEori, <DeclaringMyStuff/>))
 
-      response.conversationId mustBe decApiResponse.conversationId
-      response.status mustBe decApiResponse.status
+      response.customsDeclarationsResponse.conversationId mustBe decApiResponse.conversationId
+      response.customsDeclarationsResponse.status mustBe decApiResponse.status
       response.xml mustBe <DeclaringMyStuff/>
     }
 
@@ -61,8 +61,8 @@ class CustomsDeclarationsServiceSpec extends WordSpec
       val declaration = Declaration()
       val response: DeclarationServiceResponse = await(customsDeclarationsService.submit(testEori, declaration))
 
-      response.conversationId mustBe decApiResponse.conversationId
-      response.status mustBe decApiResponse.status
+      response.customsDeclarationsResponse.conversationId mustBe decApiResponse.conversationId
+      response.customsDeclarationsResponse.status mustBe decApiResponse.status
       response.xml mustBe <DeclaringMyStuff/>
     }
   }

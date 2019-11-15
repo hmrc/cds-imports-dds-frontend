@@ -43,13 +43,13 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml:
     httpClient.POSTString[CustomsDeclarationsResponse](appConfig.declarationsApi.submitEndpoint, xml.toString(), headers = headers(eori))(responseReader, hc, executionContext)
       .map { customsDeclarationsResponse: CustomsDeclarationsResponse =>
         log.info("Response from Declaration API: " + customsDeclarationsResponse);
-        DeclarationServiceResponse(xml, customsDeclarationsResponse.status, customsDeclarationsResponse.conversationId)
+        DeclarationServiceResponse(xml, CustomsDeclarationsResponse(customsDeclarationsResponse.status, customsDeclarationsResponse.conversationId))
       }
   }
 
-  implicit val responseReader: HttpReads[CustomsDeclarationsResponse] = new HttpReads[CustomsDeclarationsResponse] {
+  private implicit val responseReader: HttpReads[CustomsDeclarationsResponse] = new HttpReads[CustomsDeclarationsResponse] {
     override def read(method: String, url: String, response: HttpResponse): CustomsDeclarationsResponse = {
-      CustomsDeclarationsResponse(response.status, response.allHeaders.get(CustomsHeaderNames.XConversationIdName).flatMap(_.headOption))
+      CustomsDeclarationsResponse(response.status, response.allHeaders.get(CustomsHeaderNames.ConversationId).flatMap(_.headOption))
     }
   }
 
@@ -57,16 +57,16 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml:
     "X-Client-ID" -> appConfig.declarationsApi.clientId,
     HeaderNames.ACCEPT -> s"application/vnd.hmrc.${appConfig.declarationsApi.apiVersion}+xml",
     HeaderNames.CONTENT_TYPE -> ContentTypes.XML(Codec.utf_8),
-    CustomsHeaderNames.XEoriIdentifierHeaderName -> eori
+    CustomsHeaderNames.EoriIdentifier -> eori
   )
 
 }
 
 object CustomsHeaderNames {
-  val XEoriIdentifierHeaderName = "X-EORI-Identifier"
-  val XConversationIdName = "X-Conversation-ID"
+  val EoriIdentifier = "X-EORI-Identifier"
+  val ConversationId = "X-Conversation-ID"
 }
 
-case class DeclarationServiceResponse(xml: Elem, status: Int, conversationId: Option[String]) {}
+case class DeclarationServiceResponse(xml: Elem, customsDeclarationsResponse: CustomsDeclarationsResponse) {}
 
 case class CustomsDeclarationsResponse(status: Int, conversationId: Option[String] = None)

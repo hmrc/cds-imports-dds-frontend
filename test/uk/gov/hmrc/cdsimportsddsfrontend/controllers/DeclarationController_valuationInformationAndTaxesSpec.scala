@@ -23,7 +23,7 @@ import play.api.test.FutureAwaits
 import play.api.test.Helpers.status
 import play.mvc.Http.Status
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
-import uk.gov.hmrc.cdsimportsddsfrontend.services.DeclarationServiceResponse
+import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsResponse, DeclarationServiceResponse}
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
 import scala.concurrent.Future
@@ -70,7 +70,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         "valuationInformationAndTaxes.dutyRegimeCode" -> Seq("dutyRegimeCode")
       ) ++ declarationTypeFormData
 
-      when(mockDeclarationService.submit(any(), any[Declaration])(any())).thenReturn(Future.successful(DeclarationServiceResponse(<foo></foo>, 200, Some("Good"))))
+      when(mockDeclarationService.submit(any(), any[Declaration])(any())).thenReturn(Future.successful(DeclarationServiceResponse(<foo></foo>, CustomsDeclarationsResponse(200, Some("Good")))))
       when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
 
       new PostScenario(formData) {
@@ -93,7 +93,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         "valuationInformationAndTaxes.dutyRegimeCode" -> Seq("")
       ) ++ declarationTypeFormData
 
-      when(mockDeclarationService.submit(any(), any[Declaration])(any())).thenReturn(Future.successful(DeclarationServiceResponse(<foo></foo>, 200, Some("Good"))))
+      when(mockDeclarationService.submit(any(), any[Declaration])(any())).thenReturn(Future.successful(DeclarationServiceResponse(<foo></foo>, CustomsDeclarationsResponse(200, Some("Good")))))
       when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
 
       new PostScenario(formData) {
