@@ -16,22 +16,9 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-import cats.implicits._
-import scala.xml.Node
-
 case class PreviousDocument(
                              categoryCode: Option[String] = Some("Y"),
                              id: Option[String] = Some("20191101"),
                              typeCode: Option[String] = Some("CLE"),
-                             lineNumeric: Option[String] = Some("lnx") ) {
-
-  def toXml( ): Option[Node] = {
-    val cc: Option[Node] = maybeElement("CategoryCode", this.categoryCode)
-    val id = maybeElement("ID", this.id)
-    val tc = maybeElement("TypeCode", this.typeCode)
-    val ln = maybeElement("LineNumeric", this.lineNumeric)
-    val l: List[Node] = List(cc, id, tc, ln).flattenOption
-
-    Option(l).filter(_.nonEmpty).map(e => <PreviousDocument>{e}</PreviousDocument>)
-  }
-}
+                             lineNumeric: Option[String] = Some("lnx")
+                           )

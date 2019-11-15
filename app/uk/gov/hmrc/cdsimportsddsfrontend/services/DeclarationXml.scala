@@ -16,11 +16,11 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services
 
+import cats.implicits._
 import java.util.UUID
-
 import javax.inject.Singleton
 import play.twirl.api.HtmlFormat
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{AdditionalInformation, Declaration, Party}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
 import scala.xml.{Elem, NodeSeq, PrettyPrinter, Text}
 
@@ -173,7 +173,7 @@ class DeclarationXml {
               <QuantityQuantity>55</QuantityQuantity>
               <TypeCode>PK</TypeCode>
             </Packaging>
-            {for (pd <- dec.documentationType.previousDocument) yield {pd.toXml().getOrElse("")} }
+            {dec.documentationType.previousDocument.flatMap(_.toXml())}
             {maybeValuationAdjustment(dec)}
           </GovernmentAgencyGoodsItem>
           {maybeParty("Importer", dec.parties.importer)}

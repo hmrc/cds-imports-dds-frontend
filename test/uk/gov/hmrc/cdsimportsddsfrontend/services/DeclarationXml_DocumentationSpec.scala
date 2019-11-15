@@ -179,4 +179,37 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       (governmentAgencyGoodsItem \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) must contain("lnx")    }
   }
 
+  "Previous documents ID element" should {
+    "not be created in the XML when it is an empty string" in {
+
+      val previousDocumentsWithNoCategory = PreviousDocument().copy(id = Some("   "))
+
+      val documentation = DocumentationType().copy(previousDocument = Seq(previousDocumentsWithNoCategory))
+      val declaration = Declaration().copy(documentationType = documentation)
+
+      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
+
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) must contain("Y")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "TypeCode").toList.map(_.text) must contain ("CLE")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "ID").toList.size mustBe 0
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) must contain("lnx")    }
+  }
+
+  "Previous documents LineNumeric element" should {
+    "not be created in the XML when it is an empty string" in {
+
+      val previousDocumentsWithNoCategory = PreviousDocument().copy(lineNumeric = Some("   "))
+
+      val documentation = DocumentationType().copy(previousDocument = Seq(previousDocumentsWithNoCategory))
+      val declaration = Declaration().copy(documentationType = documentation)
+
+      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
+
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) must contain("Y")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "TypeCode").toList.map(_.text) must contain ("CLE")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "ID").toList.map(_.text) must contain("20191101")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "LineNumeric").toList.size mustBe 0 }
+  }
 }
