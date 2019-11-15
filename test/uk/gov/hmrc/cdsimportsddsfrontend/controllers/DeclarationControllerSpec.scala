@@ -24,7 +24,7 @@ import play.api.test.FutureAwaits
 import play.api.test.Helpers.status
 import play.mvc.Http.Status
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
-import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsResponse, DeclarationServiceResponse}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
 import scala.concurrent.Future
@@ -308,7 +308,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
 
     "post to the declaration service when all required fields are present" in signedInScenario { user =>
       val formData = declarationTypeFormData
-      when(mockDeclarationService.submit(any(), any[Declaration])(any())).thenReturn(Future.successful(DeclarationServiceResponse(<foo></foo>, CustomsDeclarationsResponse(200, Some("Good")))))
+      when(mockDeclarationService.submit(any(), any[Declaration])(any())).thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
       when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
       new PostScenario(formData) {
         status(response) mustBe Status.OK
@@ -319,7 +319,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
       val formData = declarationTypeFormData ++ documentationFormData
 
       val captor: ArgumentCaptor[Declaration] = ArgumentCaptor.forClass(classOf[Declaration])
-      when(mockDeclarationService.submit(any(), captor.capture())(any())).thenReturn(Future.successful(DeclarationServiceResponse(<foo></foo>, CustomsDeclarationsResponse(200, Some("Good")))))
+      when(mockDeclarationService.submit(any(), captor.capture())(any())).thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
       when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
       new PostScenario(formData) {
         status(response) mustBe Status.OK

@@ -21,6 +21,7 @@ import play.api.Logger
 import play.api.http.{ContentTypes, HeaderNames}
 import play.api.mvc.Codec
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, Eori}
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
@@ -43,7 +44,7 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml:
     httpClient.POSTString[CustomsDeclarationsResponse](appConfig.declarationsApi.submitEndpoint, xml.toString(), headers = headers(eori))(responseReader, hc, executionContext)
       .map { customsDeclarationsResponse: CustomsDeclarationsResponse =>
         log.info("Response from Declaration API: " + customsDeclarationsResponse);
-        DeclarationServiceResponse(xml, CustomsDeclarationsResponse(customsDeclarationsResponse.status, customsDeclarationsResponse.conversationId))
+        DeclarationServiceResponse(DeclarationXml.prettyPrintToHtml(xml), customsDeclarationsResponse.status, customsDeclarationsResponse.conversationId)
       }
   }
 
@@ -67,6 +68,4 @@ object CustomsHeaderNames {
   val ConversationId = "X-Conversation-ID"
 }
 
-case class DeclarationServiceResponse(xml: Elem, customsDeclarationsResponse: CustomsDeclarationsResponse) {}
-
-case class CustomsDeclarationsResponse(status: Int, conversationId: Option[String] = None)
+private case class CustomsDeclarationsResponse(status: Int, conversationId: Option[String] = None)
