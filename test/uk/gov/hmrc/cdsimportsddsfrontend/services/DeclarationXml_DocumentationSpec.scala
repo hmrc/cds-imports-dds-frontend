@@ -31,9 +31,9 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
 
       (governmentAgencyGoodsItem \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) mustBe List("Y", "Y", "Z", "Z", "Z", "Z")
-      (governmentAgencyGoodsItem \ "PreviousDocument" \ "TypeCode").toList.map(_.text) must contain("DCR")
-      (governmentAgencyGoodsItem \ "PreviousDocument" \ "ID").toList.map(_.text) must contain("9GB201909014000")
-      (governmentAgencyGoodsItem \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) must contain("1")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "TypeCode").toList.map(_.text) mustBe List("CLE", "DCR", "ZZZ", "235", "ZZZ", "270")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "ID").toList.map(_.text) mustBe List("20191101", "9GB201909014000", "20191103", "9GB201909014002", "9GB201909014003", "9GB201909014004")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) mustBe List("1", "1", "1", "1", "1", "1")
 
       (governmentAgencyGoodsItem \ "AdditionalDocument" \ "CategoryCode").toList.map(_.text) mustBe List("N", "C", "C", "I")
       (governmentAgencyGoodsItem \ "AdditionalDocument" \ "TypeCode").toList.map(_.text) mustBe List("935", "514", "506", "004")
@@ -157,9 +157,9 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
 
       (governmentAgencyGoodsItem \ "PreviousDocument" \ "CategoryCode").toList.size mustBe 0
-      (governmentAgencyGoodsItem \ "PreviousDocument" \ "TypeCode").toList.map(_.text) must contain("CLE")
-      (governmentAgencyGoodsItem \ "PreviousDocument" \ "ID").toList.map(_.text) must contain("20191101")
-      (governmentAgencyGoodsItem \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) must contain("lnx")    }
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "TypeCode").toList.map(_.text) mustBe List("CLE")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "ID").toList.map(_.text) mustBe List("20191101")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) mustBe List("lnx")}
   }
 
   "Previous documents TypeCode element" should {
@@ -173,10 +173,10 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
       val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
 
-      (governmentAgencyGoodsItem \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) must contain("Y")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) mustBe List("Y")
       (governmentAgencyGoodsItem \ "PreviousDocument" \ "TypeCode").toList.size mustBe 0
-      (governmentAgencyGoodsItem \ "PreviousDocument" \ "ID").toList.map(_.text) must contain("20191101")
-      (governmentAgencyGoodsItem \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) must contain("lnx")    }
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "ID").toList.map(_.text) mustBe List("20191101")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) mustBe List("lnx")}
   }
 
   "Previous documents ID element" should {
@@ -190,10 +190,10 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
       val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
 
-      (governmentAgencyGoodsItem \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) must contain("Y")
-      (governmentAgencyGoodsItem \ "PreviousDocument" \ "TypeCode").toList.map(_.text) must contain ("CLE")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) mustBe List("Y")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "TypeCode").toList.map(_.text) mustBe List("CLE")
       (governmentAgencyGoodsItem \ "PreviousDocument" \ "ID").toList.size mustBe 0
-      (governmentAgencyGoodsItem \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) must contain("lnx")    }
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) mustBe List("lnx")}
   }
 
   "Previous documents LineNumeric element" should {
@@ -207,9 +207,9 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
       val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
 
-      (governmentAgencyGoodsItem \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) must contain("Y")
-      (governmentAgencyGoodsItem \ "PreviousDocument" \ "TypeCode").toList.map(_.text) must contain ("CLE")
-      (governmentAgencyGoodsItem \ "PreviousDocument" \ "ID").toList.map(_.text) must contain("20191101")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) mustBe List("Y")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "TypeCode").toList.map(_.text) mustBe List("CLE")
+      (governmentAgencyGoodsItem \ "PreviousDocument" \ "ID").toList.map(_.text) mustBe List("20191101")
       (governmentAgencyGoodsItem \ "PreviousDocument" \ "LineNumeric").toList.size mustBe 0 }
   }
 }
