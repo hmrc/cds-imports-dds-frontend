@@ -48,7 +48,7 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml:
       }
   }
 
-  private implicit val responseReader: HttpReads[CustomsDeclarationsResponse] = new HttpReads[CustomsDeclarationsResponse] {
+  private val responseReader: HttpReads[CustomsDeclarationsResponse] = new HttpReads[CustomsDeclarationsResponse] {
     override def read(method: String, url: String, response: HttpResponse): CustomsDeclarationsResponse = {
       CustomsDeclarationsResponse(response.status, response.allHeaders.get(CustomsHeaderNames.ConversationId).flatMap(_.headOption))
     }

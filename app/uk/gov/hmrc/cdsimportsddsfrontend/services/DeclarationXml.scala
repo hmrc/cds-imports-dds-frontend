@@ -52,7 +52,7 @@ class DeclarationXml {
         {maybeElement("CategoryCode", dec.documentationType.additionalPayment(0).additionalDocPaymentCategory)}
         {maybeElement("ID", dec.documentationType.additionalPayment(0).additionalDocPaymentID)}
         {maybeElement("TypeCode", dec.documentationType.additionalPayment(0).additionalDocPaymentType)}
-      </AdditionalDocument>
+        </AdditionalDocument>
         <AdditionalDocument>
           {maybeElement("CategoryCode", dec.documentationType.additionalPayment(1).additionalDocPaymentCategory)}
           {maybeElement("ID", dec.documentationType.additionalPayment(1).additionalDocPaymentID)}
@@ -72,7 +72,7 @@ class DeclarationXml {
           <ModeCode>1</ModeCode>
         </BorderTransportMeans>
         {maybeCurrencyExchange(dec)}
-        { maybeParty("Declarant", dec.parties.declarant) }
+        {maybeParty("Declarant", dec.parties.declarant)}
         {maybeParty("Exporter", dec.parties.exporter)}
         <GoodsShipment>
           <TransactionNatureCode>1</TransactionNatureCode>
@@ -436,6 +436,26 @@ object DeclarationXml {
                 <QuantityQuantity unitCode="KGM#G">10</QuantityQuantity>
               </WriteOff>
             </AdditionalDocument>
+            <AdditionalInformation>
+              <StatementCode>00500</StatementCode>
+              <StatementDescription>IMPORTER</StatementDescription>
+            </AdditionalInformation>
+            <AdditionalInformation>
+              <StatementCode>00500</StatementCode>
+              <StatementDescription>IMPORTER</StatementDescription>
+            </AdditionalInformation>
+            <AdditionalInformation>
+              <StatementCode>00500</StatementCode>
+              <StatementDescription>IMPORTER</StatementDescription>
+            </AdditionalInformation>
+            <AdditionalInformation>
+              <StatementCode>00500</StatementCode>
+              <StatementDescription>IMPORTER</StatementDescription>
+            </AdditionalInformation>
+            <AdditionalInformation>
+              <StatementCode>00500</StatementCode>
+              <StatementDescription>IMPORTER</StatementDescription>
+            </AdditionalInformation>
             <AdditionalInformation>
               <StatementCode>00500</StatementCode>
               <StatementDescription>IMPORTER</StatementDescription>
