@@ -41,7 +41,7 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       (governmentAgencyGoodsItem \ "AdditionalDocument" \ "LPCOExemptionCode").toList.map(_.text) mustBe List("AC", "AE")
       (governmentAgencyGoodsItem \ "AdditionalDocument" \ "Name").toList.map(_.text) mustBe List("DocumentName1")
 
-      (xmlElement \ "Declaration" \ "FunctionalReferenceID").head.text mustBe "Test1234"
+      (xmlElement \ "Declaration" \ "FunctionalReferenceID").head.text mustBe declaration.documentationType.localReferenceNumber.getOrElse("#unexpected")
       (xmlElement \ "Declaration" \ "AdditionalDocument" \ "ID").head.text mustBe "1909241"
       (xmlElement \ "Declaration" \ "AdditionalDocument" \ "CategoryCode").head.text mustBe "1"
       (xmlElement \ "Declaration" \ "AdditionalDocument" \ "TypeCode").head.text mustBe "DAN"

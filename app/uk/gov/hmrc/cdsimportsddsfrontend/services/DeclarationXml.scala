@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services
 
-import cats.implicits._
 import java.util.UUID
 import javax.inject.Singleton
 import play.twirl.api.HtmlFormat
@@ -29,9 +28,7 @@ import scala.xml.{Elem, NodeSeq, PrettyPrinter, Text}
 @Singleton
 class DeclarationXml {
 
-  // This should later build an xml that can be submitted to the declaration API.
   def fromImportDeclaration(dec: Declaration):Elem = {
-    val referenceId = UUID.randomUUID().toString.replaceAll("-","").take(10)
 
     <md:MetaData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:md="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2" xmlns:clm63055="urn:un:unece:uncefact:codelist:standard:UNECE:AgencyIdentificationCode:D12B" xmlns:ds="urn:wco:datamodel:WCO:MetaData_DS-DMS:2" xsi:schemaLocation="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2 ../DocumentMetaData_2_DMS.xsd " xmlns="urn:wco:datamodel:WCO:DEC-DMS:2">
       <md:WCODataModelVersionCode>3.6</md:WCODataModelVersionCode>
@@ -45,7 +42,7 @@ class DeclarationXml {
         </AcceptanceDateTime>
         <FunctionCode>9</FunctionCode>
         <FunctionalReferenceID>{dec.documentationType.localReferenceNumber.getOrElse("")}</FunctionalReferenceID>
-        <TypeCode>{dec.declarationType.declarationType+dec.declarationType.additionalDeclarationType}</TypeCode>
+        <TypeCode>{dec.declarationType.declarationType + dec.declarationType.additionalDeclarationType}</TypeCode>
         <GoodsItemQuantity>{dec.declarationType.totalNumberOfItems}</GoodsItemQuantity>
         <TotalPackageQuantity>55</TotalPackageQuantity>
         <AdditionalDocument>
@@ -76,6 +73,7 @@ class DeclarationXml {
         {maybeParty("Exporter", dec.parties.exporter)}
         <GoodsShipment>
           <TransactionNatureCode>1</TransactionNatureCode>
+          {maybeParty("Buyer", dec.parties.buyer)}
           <Consignment>
             <ContainerCode>1</ContainerCode>
             <ArrivalTransportMeans>
@@ -244,7 +242,7 @@ class DeclarationXml {
 
   private def maybeElement(name: String, maybeValue: Option[String]): NodeSeq = {
     if (maybeValue.exists(_.trim.nonEmpty)) {
-      Elem.apply(null, name, scala.xml.Null, scala.xml.TopScope, true, Text(maybeValue.getOrElse("").trim))
+      Elem.apply(null, name, scala.xml.Null, scala.xml.TopScope, true, Text(maybeValue.getOrElse("").trim)) //scalastyle:ignore
     } else {
       NodeSeq.Empty
     }
@@ -253,8 +251,10 @@ class DeclarationXml {
   private def maybeInvoiceLine(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.currencyID.exists(_.trim.nonEmpty) ||
        declaration.valuationInformationAndTaxes.itemChargeAmount.exists(_.trim.nonEmpty)) {
+      val currencyId = declaration.valuationInformationAndTaxes.currencyID.getOrElse("GBP").toUpperCase()
+      val itemChargeAmount = declaration.valuationInformationAndTaxes.itemChargeAmount.getOrElse("")
       <InvoiceLine>
-        <ItemChargeAmount currencyID={declaration.valuationInformationAndTaxes.currencyID.getOrElse("GBP").toUpperCase()}>{declaration.valuationInformationAndTaxes.itemChargeAmount.getOrElse("")}</ItemChargeAmount>
+        <ItemChargeAmount currencyID={currencyId}>{itemChargeAmount}</ItemChargeAmount>
       </InvoiceLine>
     } else {
       NodeSeq.Empty
@@ -287,8 +287,9 @@ class DeclarationXml {
         val childNodes =
           maybeElement("Name", party.name) ++
           maybeElement("ID", party.identifier) ++
-          maybeAddress(party)
-        Elem.apply(null, tagName, scala.xml.Null, scala.xml.TopScope, true, childNodes :_*)
+          maybeAddress(party) ++
+          maybePhoneNumber(party)
+        Elem.apply(null, tagName, scala.xml.Null, scala.xml.TopScope, true, childNodes :_*) // scalastyle:ignore
       case None => NodeSeq.Empty
     }
   }
@@ -302,6 +303,16 @@ class DeclarationXml {
           <Line>{address.streetAndNumber}</Line>
           <PostcodeID>{address.postcode}</PostcodeID>
         </Address>
+      case None => NodeSeq.Empty
+    }
+  }
+
+  def maybePhoneNumber(party: Party): NodeSeq = {
+    party.phoneNumber match {
+      case Some(phoneNumber) =>
+        <Communication>
+          <ID>{phoneNumber}</ID>
+        </Communication>
       case None => NodeSeq.Empty
     }
   }

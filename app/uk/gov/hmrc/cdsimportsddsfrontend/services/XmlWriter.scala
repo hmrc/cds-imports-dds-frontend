@@ -28,7 +28,7 @@ object XmlWriterInstances {
 
     implicit def maybeElement(name: String, maybeValue: Option[String]): Option[Node] = {
       if (maybeValue.exists(_.trim.nonEmpty)) {
-        Some(Elem.apply(null, name, scala.xml.Null, scala.xml.TopScope, true, Text(maybeValue.getOrElse("").trim)))
+        Some(Elem.apply(null, name, scala.xml.Null, scala.xml.TopScope, true, Text(maybeValue.getOrElse("").trim))) // scalastyle:ignore
       } else {
         None
       }

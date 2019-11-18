@@ -16,6 +16,8 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
+import java.util.UUID
+
 case class AdditionalDocumentType(
   categoryCode: Option[String],
   typeCode: Option[String],
@@ -61,7 +63,7 @@ object DocumentationType {
       AdditionalDocumentType(Some("C"), Some("506"), Some("GBDPO1909241"), None, None),
       AdditionalDocumentType(Some("I"), Some("004"), Some("GBCPI000001-0001"), Some("AE"), None)
     ),
-    Some("Test1234"),
+    Some(UUID.randomUUID().toString.replaceAll("-","").take(30)),
     Seq(
       AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN")),
       AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN"))

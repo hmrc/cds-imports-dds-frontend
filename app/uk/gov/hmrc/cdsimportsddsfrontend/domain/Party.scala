@@ -19,6 +19,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.domain
 case class Party(
                   name: Option[String] = Some("French Foil Ltd."),
                   identifier: Option[String] = Some("GB225456994000"),
-                  address: Option[Address] = Some(Address())
+                  address: Option[Address] = Some(Address()),
+                  phoneNumber: Option[String] = None
                 )
 

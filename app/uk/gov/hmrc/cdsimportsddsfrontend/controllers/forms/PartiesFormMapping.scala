@@ -25,6 +25,7 @@ object PartiesFormMapping {
   val parties: (String, Mapping[DeclarationParties]) = "parties" -> mapping(
     "declarant" -> optional(partyMapping),
     "importer" -> optional(partyMapping),
-    "exporter" -> optional(partyMapping)
+    "exporter" -> optional(partyMapping),
+    "buyer" -> optional(partyMapping)
   )(DeclarationParties.apply)(DeclarationParties.unapply)
 }

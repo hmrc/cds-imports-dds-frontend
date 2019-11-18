@@ -23,7 +23,7 @@ import org.scalatest.BeforeAndAfterEach
 import play.api.test.FutureAwaits
 import play.api.test.Helpers.status
 import play.mvc.Http.Status
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Address, Declaration, Party}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
@@ -265,6 +265,13 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "parties.importer.address.city")
         body should include element withName("input").withAttrValue("name", "parties.importer.address.countryCode")
         body should include element withName("input").withAttrValue("name", "parties.importer.address.postcode")
+        body should include element withName("input").withAttrValue("name", "parties.buyer.name")
+        body should include element withName("input").withAttrValue("name", "parties.buyer.identifier")
+        body should include element withName("input").withAttrValue("name", "parties.buyer.address.streetAndNumber")
+        body should include element withName("input").withAttrValue("name", "parties.buyer.address.city")
+        body should include element withName("input").withAttrValue("name", "parties.buyer.address.countryCode")
+        body should include element withName("input").withAttrValue("name", "parties.buyer.address.postcode")
+        body should include element withName("input").withAttrValue("name", "parties.buyer.phoneNumber")
         body should include element withName("input").withAttrValue("name", "parties.declarant.identifier")
         //      | 3.24 Seller - Name                     | Tinfoil Sans Frontieres |
         //      | 3.24 Seller - Street and Number        | 123 les Champs Insulees |
@@ -273,13 +280,6 @@ class DeclarationControllerSpec extends CdsImportsSpec
         //      | 3.24 Seller - Postcode                 | 01414                   |
         //      | 3.24 Seller - Phone number             | 003344556677            |
         //      | 3.25 Seller - EORI                     | FR84736251              |
-        //      | 3.26 Buyer - Name                      | Tinfoil R Us            |
-        //      | 3.26 Buyer - Street and Number         | 12 Alcan Boulevard      |
-        //      | 3.26 Buyer - City                      | Sheffield               |
-        //      | 3.26 Buyer - CountryCode               | UK                      |
-        //      | 3.26 Buyer - Postcode                  | S1 1VA                  |
-        //      | 3.26 Buyer - Phone number              | 00441234567890          |
-        //      | 3.27 Buyer - EORI                      | GB45362718              |
         //      | 3.39 Authorisation holder - identifier | GB62518473              |
         //      | 3.39 Authorisation holder - type code  | OK4U                    |
         //      | 3.40 VAT Number (or TSPVAT)            | 99887766                |
@@ -308,7 +308,8 @@ class DeclarationControllerSpec extends CdsImportsSpec
 
     "post to the declaration service when all required fields are present" in signedInScenario { user =>
       val formData = declarationTypeFormData
-      when(mockDeclarationService.submit(any(), any[Declaration])(any())).thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
+      when(mockDeclarationService.submit(any(), any[Declaration])(any()))
+        .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
       when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
       new PostScenario(formData) {
         status(response) mustBe Status.OK
@@ -319,26 +320,54 @@ class DeclarationControllerSpec extends CdsImportsSpec
       val formData = declarationTypeFormData ++ documentationFormData
 
       val captor: ArgumentCaptor[Declaration] = ArgumentCaptor.forClass(classOf[Declaration])
-      when(mockDeclarationService.submit(any(), captor.capture())(any())).thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
+      when(mockDeclarationService.submit(any(), captor.capture())(any()))
+        .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
       when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
       new PostScenario(formData) {
         status(response) mustBe Status.OK
 
         val actualDeclaration = captor.getValue
-        actualDeclaration.documentationType.headerAdditionalInformation.code mustBe(Some("additionalInfoCode"))
-        actualDeclaration.documentationType.headerAdditionalInformation.description mustBe(Some("additionalInfoDescription"))
-        actualDeclaration.documentationType.itemAdditionalInformation(0).code mustBe(Some("itemAdditionalInfoCode 1"))
-        actualDeclaration.documentationType.itemAdditionalInformation(0).description mustBe(Some("itemAdditionalInfoDescription 1"))
-        actualDeclaration.documentationType.itemAdditionalInformation(1).code mustBe(Some("itemAdditionalInfoCode 2"))
-        actualDeclaration.documentationType.itemAdditionalInformation(1).description mustBe(Some("itemAdditionalInfoDescription 2"))
-        actualDeclaration.documentationType.itemAdditionalInformation(2).code mustBe(Some("itemAdditionalInfoCode 3"))
-        actualDeclaration.documentationType.itemAdditionalInformation(2).description mustBe(Some("itemAdditionalInfoDescription 3"))
-        actualDeclaration.documentationType.itemAdditionalInformation(3).code mustBe(Some("itemAdditionalInfoCode 4"))
-        actualDeclaration.documentationType.itemAdditionalInformation(3).description mustBe(Some("itemAdditionalInfoDescription 4"))
-        actualDeclaration.documentationType.itemAdditionalInformation(4).code mustBe(Some("itemAdditionalInfoCode 5"))
-        actualDeclaration.documentationType.itemAdditionalInformation(4).description mustBe(Some("itemAdditionalInfoDescription 5"))
-        actualDeclaration.documentationType.itemAdditionalInformation(5).code mustBe(Some("itemAdditionalInfoCode 6"))
-        actualDeclaration.documentationType.itemAdditionalInformation(5).description mustBe(Some("itemAdditionalInfoDescription 6"))
+        actualDeclaration.documentationType.headerAdditionalInformation.code mustBe (Some("additionalInfoCode"))
+        actualDeclaration.documentationType.headerAdditionalInformation.description mustBe (Some("additionalInfoDescription"))
+        actualDeclaration.documentationType.itemAdditionalInformation(0).code mustBe (Some("itemAdditionalInfoCode 1"))
+        actualDeclaration.documentationType.itemAdditionalInformation(0).description mustBe (Some("itemAdditionalInfoDescription 1"))
+        actualDeclaration.documentationType.itemAdditionalInformation(1).code mustBe (Some("itemAdditionalInfoCode 2"))
+        actualDeclaration.documentationType.itemAdditionalInformation(1).description mustBe (Some("itemAdditionalInfoDescription 2"))
+        actualDeclaration.documentationType.itemAdditionalInformation(2).code mustBe (Some("itemAdditionalInfoCode 3"))
+        actualDeclaration.documentationType.itemAdditionalInformation(2).description mustBe (Some("itemAdditionalInfoDescription 3"))
+        actualDeclaration.documentationType.itemAdditionalInformation(3).code mustBe (Some("itemAdditionalInfoCode 4"))
+        actualDeclaration.documentationType.itemAdditionalInformation(3).description mustBe (Some("itemAdditionalInfoDescription 4"))
+        actualDeclaration.documentationType.itemAdditionalInformation(4).code mustBe (Some("itemAdditionalInfoCode 5"))
+        actualDeclaration.documentationType.itemAdditionalInformation(4).description mustBe (Some("itemAdditionalInfoDescription 5"))
+        actualDeclaration.documentationType.itemAdditionalInformation(5).code mustBe (Some("itemAdditionalInfoCode 6"))
+        actualDeclaration.documentationType.itemAdditionalInformation(5).description mustBe (Some("itemAdditionalInfoDescription 6"))
+      }
+    }
+
+    "post the expected Buyer to the declaration service" in signedInScenario { user =>
+      val formData = declarationTypeFormData ++ Map(
+        "parties.buyer.name" -> Seq("Foo Ltd"),
+        "parties.buyer.address.streetAndNumber" -> Seq("123 Wembley Way"),
+        "parties.buyer.address.city" -> Seq("London"),
+        "parties.buyer.address.countryCode" -> Seq("GB"),
+        "parties.buyer.address.postcode" -> Seq("W1A 1AA"),
+        "parties.buyer.phoneNumber" -> Seq("0115 582 9384"),
+        "parties.buyer.identifier" -> Seq("GB1966")
+      )
+
+      val captor: ArgumentCaptor[Declaration] = ArgumentCaptor.forClass(classOf[Declaration])
+      when(mockDeclarationService.submit(any(), captor.capture())(any()))
+        .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
+        status(response) mustBe Status.OK
+
+        val actualDeclaration = captor.getValue
+        actualDeclaration.parties.buyer mustBe(Some(Party(
+          name = Some("Foo Ltd"),
+          identifier = Some("GB1966"),
+          address = Some(Address("123 Wembley Way", "London", "GB", "W1A 1AA")),
+          phoneNumber = Some("0115 582 9384"))))
       }
     }
 

@@ -30,7 +30,8 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.xml.Elem
 
 @Singleton
-class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml: DeclarationXml)(implicit val httpClient: HttpClient, executionContext: ExecutionContext) {
+class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml: DeclarationXml)
+                                          (implicit val httpClient: HttpClient, executionContext: ExecutionContext) {
 
   val log = Logger(this.getClass)
 

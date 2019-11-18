@@ -72,6 +72,13 @@ declare.parties.importer.address.city=3.15 Importer - City
 declare.parties.importer.address.countryCode=3.15 Importer - Country Code
 declare.parties.importer.address.postcode=3.15 Importer - Postcode
 declare.parties.importer.identifier=3.16 Importer - EORI
+declare.parties.buyer.name=3.26 Buyer - Name
+declare.parties.buyer.address.streetAndNumber=3.26 Buyer - Street and Number
+declare.parties.buyer.address.city=3.26 Buyer - City
+declare.parties.buyer.address.countryCode=3.26 Buyer - Country Code
+declare.parties.buyer.address.postcode=3.26 Buyer - Postcode
+declare.parties.buyer.phoneNumber=3.26 Buyer - Phone Number
+declare.parties.buyer.identifier=3.27 Buyer - EORI
 declare.parties.declarant.identifier=3.18 Declarant - EORI
 #          //      | 3.24 Seller - Name                     | Tinfoil Sans Frontieres |
 #          //      | 3.24 Seller - Street and Number        | 123 les Champs Insulees |
@@ -80,13 +87,6 @@ declare.parties.declarant.identifier=3.18 Declarant - EORI
 #          //      | 3.24 Seller - Postcode                 | 01414                   |
 #          //      | 3.24 Seller - Phone number             | 003344556677            |
 #          //      | 3.25 Seller - EORI                     | FR84736251              |
-#          //      | 3.26 Buyer - Name                      | Tinfoil R Us            |
-#          //      | 3.26 Buyer - Street and Number         | 12 Alcan Boulevard      |
-#          //      | 3.26 Buyer - City                      | Sheffield               |
-#          //      | 3.26 Buyer - CountryCode               | UK                      |
-#          //      | 3.26 Buyer - Postcode                  | S1 1VA                  |
-#          //      | 3.26 Buyer - Phone number              | 00441234567890          |
-#          //      | 3.27 Buyer - EORI                      | GB45362718              |
 #          //      | 3.39 Authorisation holder - identifier | GB62518473              |
 #          //      | 3.39 Authorisation holder - type code  | OK4U                    |
 #          //      | 3.40 VAT Number (or TSPVAT)            | 99887766                |

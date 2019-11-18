@@ -25,6 +25,7 @@ object PartyFormMapping extends FormValidators {
   val partyMapping: Mapping[Party] = mapping(
     "name" -> optional(text),
     "identifier" -> optional(text),
-    "address" -> optional(addressMapping)
+    "address" -> optional(addressMapping),
+    "phoneNumber" -> optional(text)
   )(Party.apply)(Party.unapply)
 }
