@@ -200,7 +200,7 @@ class DeclarationXml {
     </md:MetaData>
   }
 
-  private def maybeDutyTaxFee(declaration: Declaration) = {
+  private def maybeDutyTaxFee(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.dutyRegimeCode.exists(_.trim.nonEmpty) ||
         declaration.valuationInformationAndTaxes.paymentMethodCode.exists(_.trim.nonEmpty)) {
       <DutyTaxFee>
@@ -212,6 +212,8 @@ class DeclarationXml {
           }
         }
       </DutyTaxFee>
+    } else {
+      NodeSeq.Empty
     }
   }
 

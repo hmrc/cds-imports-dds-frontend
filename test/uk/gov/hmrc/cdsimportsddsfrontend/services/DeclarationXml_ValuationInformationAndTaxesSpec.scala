@@ -31,6 +31,7 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "TradeTerms" \ "ConditionCode").head.text mustBe "CFR"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "TradeTerms" \ "LocationID").head.text mustBe "GBDVR"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "TradeTerms" \ "LocationName").head.text mustBe "Some location name"
+      (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "DutyTaxFee" \ "DutyRegimeCode").head.text mustBe "100"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "DutyTaxFee" \ "Payment" \ "MethodCode").head.text mustBe "E"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "ValuationAdjustment" \ "AdditionCode").head.text mustBe "0000"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "InvoiceLine" \ "ItemChargeAmount").head.text mustBe "100"
@@ -46,6 +47,12 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
       val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "DutyTaxFee").length mustBe 0
 
+    }
+
+    "omit Payment element when paymentMethodCode is empty" in {
+      val declaration = Declaration(valuationInformationAndTaxes = ValuationInformationAndTaxes(paymentMethodCode = None))
+      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "DutyTaxFee" \ "Payment").length mustBe 0
     }
 
     "omit TradeTerm element when conditionCode, locationID and locationName are all empty" in {
