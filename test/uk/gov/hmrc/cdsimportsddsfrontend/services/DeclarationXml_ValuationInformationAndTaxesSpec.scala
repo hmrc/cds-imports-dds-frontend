@@ -25,7 +25,7 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
 
   "ValuationInformationAndTaxes data" should {
     "be populated in the XML" in {
-      val declaration = Declaration(valuationInformationAndTaxes=ValuationInformationAndTaxes(locationName=Some("Some location name")))
+      val declaration = Declaration(valuationInformationAndTaxes = ValuationInformationAndTaxes(locationName = Some("Some location name")))
 
       val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "TradeTerms" \ "ConditionCode").head.text mustBe "CFR"
@@ -39,6 +39,43 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "CustomsValuation" \ "MethodCode").head.text mustBe "1"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "DutyTaxFee" \ "DutyRegimeCode").head.text mustBe "100"
 
+    }
+
+    "omit DutyTaxFee element when dutyRegimeCode and paymentMethodCode are both empty" in {
+      val declaration = Declaration(valuationInformationAndTaxes = ValuationInformationAndTaxes(dutyRegimeCode = None, paymentMethodCode = None))
+      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "DutyTaxFee").length mustBe 0
+
+    }
+
+    "omit TradeTerm element when conditionCode, locationID and locationName are all empty" in {
+      val declaration = Declaration(valuationInformationAndTaxes = ValuationInformationAndTaxes(conditionCode = None, locationID = None, locationName = None))
+      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      (xmlElement \ "Declaration" \ "GoodsShipment" \ "TradeTerms").length mustBe 0
+    }
+
+    "omit ValuationAdjustment element when additionCode is empty" in {
+      val declaration = Declaration(valuationInformationAndTaxes = ValuationInformationAndTaxes(additionCode=None))
+      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "ValuationAdjustment" \ "AdditionCode").length mustBe 0
+    }
+
+    "omit InvoiceLine element when currencyID and itemChargeAmount are both empty" in {
+      val declaration = Declaration(valuationInformationAndTaxes = ValuationInformationAndTaxes(currencyID=None, itemChargeAmount=None))
+      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "InvoiceLine").length mustBe 0
+    }
+
+    "omit CurrencyExchange element when rateNumeric is empty" in {
+      val declaration = Declaration(valuationInformationAndTaxes = ValuationInformationAndTaxes(rateNumeric=None))
+      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      (xmlElement \ "Declaration" \ "CurrencyExchange").length mustBe 0
+    }
+
+    "omit CustomsValuation element when customsValuationMethodCode is empty" in {
+      val declaration = Declaration(valuationInformationAndTaxes = ValuationInformationAndTaxes(customsValuationMethodCode=None))
+      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "CustomsValuation").length mustBe 0
     }
   }
 }
