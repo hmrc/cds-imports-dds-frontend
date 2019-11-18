@@ -21,7 +21,8 @@ import org.mockito.Mockito.when
 import org.scalatest.{MustMatchers, WordSpec}
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{CustomsDeclarationsResponse, Declaration}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.test.AppConfigReader
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
@@ -51,7 +52,7 @@ class CustomsDeclarationsServiceSpec extends WordSpec
 
       response.conversationId mustBe decApiResponse.conversationId
       response.status mustBe decApiResponse.status
-      response.xml mustBe <DeclaringMyStuff/>
+      response.xml mustBe "&lt;DeclaringMyStuff/&gt;"
     }
 
     "Post a Declaration to the Declaration API" in new Scenario() {
@@ -63,7 +64,7 @@ class CustomsDeclarationsServiceSpec extends WordSpec
 
       response.conversationId mustBe decApiResponse.conversationId
       response.status mustBe decApiResponse.status
-      response.xml mustBe <DeclaringMyStuff/>
+      response.xml mustBe "&lt;DeclaringMyStuff/&gt;"
     }
   }
 }

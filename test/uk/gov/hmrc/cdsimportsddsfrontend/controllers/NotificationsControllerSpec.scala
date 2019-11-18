@@ -27,8 +27,8 @@ import play.api.test.Helpers._
 import play.api.test.{DefaultAwaitTimeout, FakeRequest, FutureAwaits}
 import play.mvc.Http.HeaderNames
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Notification.issueDateTimeFormatter
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{CustomsHeaderNames, Notification, SubmissionStatus}
-import uk.gov.hmrc.cdsimportsddsfrontend.services.DeclarationStore
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Notification, SubmissionStatus}
+import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsHeaderNames, DeclarationStore}
 import uk.gov.hmrc.cdsimportsddsfrontend.test.CdsImportsSpec
 import uk.gov.hmrc.cdsimportsddsfrontend.test.NotificationTestData._
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.view_notifications
@@ -140,7 +140,7 @@ class NotificationsControllerSpec extends CdsImportsSpec with FutureAwaits with 
     }
 
     "Reject without a X-Conversation-ID Header" in {
-      val headers = validHeaders.filterNot { case (a, b) => a == CustomsHeaderNames.XConversationIdName }
+      val headers = validHeaders.filterNot { case (a, b) => a == CustomsHeaderNames.ConversationId }
       val xmlReq = FakeRequest(POST, "/notification")
         .withHeaders(headers: _*)
         .withXmlBody(exampleReceivedNotificationXML(movementReferenceNumber))

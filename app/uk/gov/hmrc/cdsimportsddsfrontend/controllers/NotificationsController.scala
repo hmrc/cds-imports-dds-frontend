@@ -23,7 +23,7 @@ import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
-import uk.gov.hmrc.cdsimportsddsfrontend.services.DeclarationStore
+import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsHeaderNames, DeclarationStore}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.view_notifications
 
@@ -41,7 +41,7 @@ class NotificationsController @Inject()(declarationStore: DeclarationStore, view
 
     val notifications = for {
       authToken <- Either.fromOption(request.headers.get(HeaderNames.AUTHORIZATION), "No Authorization Header")
-      conversationId <- Either.fromOption(request.headers.get(CustomsHeaderNames.XConversationIdName), "No X-Conversation-ID Header")
+      conversationId <- Either.fromOption(request.headers.get(CustomsHeaderNames.ConversationId), "No X-Conversation-ID Header")
       xmlBody <- Either.fromOption(maybeXmlBody, "Body is not xml")
       notifications <- Notification.buildNotificationsFromRequest(NotificationApiRequestHeaders(AuthToken(authToken), ConversationId(conversationId)),xmlBody)
     } yield Future.sequence(notifications.map(declarationStore.putNotification))

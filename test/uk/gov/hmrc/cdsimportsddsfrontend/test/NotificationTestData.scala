@@ -22,7 +22,8 @@ import java.time.{LocalDateTime, ZoneId}
 
 import play.api.http.{ContentTypes, HeaderNames}
 import play.api.mvc.Codec
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{CustomsHeaderNames, ErrorPointer, NotificationError}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ErrorPointer, NotificationError}
+import uk.gov.hmrc.cdsimportsddsfrontend.services.CustomsHeaderNames
 
 import scala.util.Random
 import scala.xml.Elem
@@ -187,9 +188,9 @@ object NotificationTestData {
 
   val validHeaders: Seq[(String, String)] = Seq(
     "X-CDS-Client-ID" -> "1234",
-    CustomsHeaderNames.XConversationIdName -> "XConv1",
+    CustomsHeaderNames.ConversationId -> "XConv1",
     HeaderNames.AUTHORIZATION -> dummyAuthToken,
-    CustomsHeaderNames.XEoriIdentifierHeaderName -> "eori1",
+    CustomsHeaderNames.EoriIdentifier -> "eori1",
     HeaderNames.ACCEPT -> s"application/vnd.hmrc.${2.0}+xml",
     HeaderNames.CONTENT_TYPE -> ContentTypes.XML(Codec.utf_8)
   )

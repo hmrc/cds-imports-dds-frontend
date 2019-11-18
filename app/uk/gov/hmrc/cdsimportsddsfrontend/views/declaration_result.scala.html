@@ -20,7 +20,7 @@
 @import uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes
 @import scala.xml.Elem
 @import uk.gov.hmrc.cdsimportsddsfrontend.services.DeclarationXml
-@import uk.gov.hmrc.cdsimportsddsfrontend.services.DeclarationServiceResponse
+@import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 
 @this(mainTemplate: main_template)
 
@@ -60,7 +60,9 @@
     <h3 class="govuk-heading-m">The XML you just submitted to the declaration API:</h3>
 
     <p class="govuk-body">
-        <small>@Html(DeclarationXml.prettyPrintToHtml(declarationServiceResponse.xml))</small>
+        <code>
+            <small>@Html(declarationServiceResponse.xml)</small>
+        </code>
     </p>
 
 }
