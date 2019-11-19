@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.domain
+package uk.gov.hmrc.cdsimportsddsfrontend.services
 
 import org.scalatest.{Matchers, OptionValues, WordSpec}
-//import uk.gov.hmrc.cdsimportsddsfrontend.services._
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.PreviousDocument
 import uk.gov.hmrc.cdsimportsddsfrontend.services.XmlSyntax._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.XmlWriterInstances._
 
-class PreviousDocumentSpec extends WordSpec with Matchers with OptionValues {
+class XmlWriter_PreviousDocumentSpec extends WordSpec with Matchers with OptionValues {
 
   val previousDocumentAll = PreviousDocument(
     categoryCode = Some("category_1"),
@@ -63,25 +63,31 @@ class PreviousDocumentSpec extends WordSpec with Matchers with OptionValues {
       previousDocumentMixed.toXml shouldBe Some(expectedResultMixed)
     }
 
-    "omit CategoryCode if None" in {
-      val previousDocumentWithoutCategoryCode = previousDocumentAll.copy(categoryCode = None)
-      val expectedResultWithoutCategoryCode =
-        <PreviousDocument><ID>id_1</ID><TypeCode>typeclass_1</TypeCode><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
-      previousDocumentWithoutCategoryCode.toXml shouldBe Some(expectedResultWithoutCategoryCode)
+    List(Some(""), None) foreach { value =>
+      s"omit CategoryCode if $value" in {
+        val previousDocumentWithoutCategoryCode = previousDocumentAll.copy(categoryCode = value)
+        val expectedResultWithoutCategoryCode =
+          <PreviousDocument><ID>id_1</ID><TypeCode>typeclass_1</TypeCode><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
+        previousDocumentWithoutCategoryCode.toXml shouldBe Some(expectedResultWithoutCategoryCode)
+      }
     }
 
-    "omit ID if None" in {
-      val previousDocumentWithoutId = previousDocumentAll.copy(id = None)
-      val expectedResultWithoutId =
-        <PreviousDocument><CategoryCode>category_1</CategoryCode><TypeCode>typeclass_1</TypeCode><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
-      previousDocumentWithoutId.toXml shouldBe Some(expectedResultWithoutId)
+    List(Some(""), None) foreach { value =>
+      s"omit ID if $value" in {
+        val previousDocumentWithoutId = previousDocumentAll.copy(id = value)
+        val expectedResultWithoutId =
+          <PreviousDocument><CategoryCode>category_1</CategoryCode><TypeCode>typeclass_1</TypeCode><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
+        previousDocumentWithoutId.toXml shouldBe Some(expectedResultWithoutId)
+      }
     }
 
-    "omit TypeCode if None" in {
-      val previousDocumentWithoutTypeCode = previousDocumentAll.copy(typeCode = None)
-      val expectedResultWithoutTypeCode =
-        <PreviousDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
-      previousDocumentWithoutTypeCode.toXml shouldBe Some(expectedResultWithoutTypeCode)
+    List(Some(""), None) foreach { value =>
+      s"omit TypeCode if $value" in {
+        val previousDocumentWithoutTypeCode = previousDocumentAll.copy(typeCode = value)
+        val expectedResultWithoutTypeCode =
+          <PreviousDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
+        previousDocumentWithoutTypeCode.toXml shouldBe Some(expectedResultWithoutTypeCode)
+      }
     }
 
     List(Some(""), None) foreach { value =>
