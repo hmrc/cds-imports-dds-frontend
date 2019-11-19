@@ -371,6 +371,33 @@ class DeclarationControllerSpec extends CdsImportsSpec
       }
     }
 
+    "trims whitespace before binding the form" in signedInScenario { user =>
+      val formData = declarationTypeFormData ++ Map(
+        "parties.buyer.name" -> Seq("   Foo Ltd     "),
+        "parties.buyer.address.streetAndNumber" -> Seq("123 Wembley Way     "),
+        "parties.buyer.address.city" -> Seq("London     "),
+        "parties.buyer.address.countryCode" -> Seq("GB     "),
+        "parties.buyer.address.postcode" -> Seq("W1A 1AA     "),
+        "parties.buyer.phoneNumber" -> Seq("     "),
+        "parties.buyer.identifier" -> Seq("     ")
+      )
+
+      val captor: ArgumentCaptor[Declaration] = ArgumentCaptor.forClass(classOf[Declaration])
+      when(mockDeclarationService.submit(any(), captor.capture())(any()))
+        .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
+        status(response) mustBe Status.OK
+
+        val actualDeclaration = captor.getValue
+        actualDeclaration.parties.buyer mustBe(Some(Party(
+          name = Some("Foo Ltd"),
+          identifier = None,
+          address = Some(Address("123 Wembley Way", "London", "GB", "W1A 1AA")),
+          phoneNumber = None)))
+      }
+    }
+
     "fail when mandatory fields are missing" in signedInScenario { user =>
       val formData = Map[String, Seq[String]]()
       new PostScenario(formData) {

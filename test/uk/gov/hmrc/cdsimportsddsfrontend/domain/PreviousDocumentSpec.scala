@@ -23,27 +23,6 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.XmlWriterInstances._
 
 class PreviousDocumentSpec extends WordSpec with Matchers with OptionValues {
 
-  val expectedResultAll =
-    <PreviousDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><TypeCode>typeclass_1</TypeCode><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
-
-  val expectedResultWithEmptyString =
-      <PreviousDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
-
-  val expectedResultMixed =
-    <PreviousDocument><ID>id_1</ID><TypeCode>typeclass_1</TypeCode></PreviousDocument>
-
-  val expectedResultWithoutCategoryCode =
-    <PreviousDocument><ID>id_1</ID><TypeCode>typeclass_1</TypeCode><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
-
-  val expectedResultWithoutId =
-    <PreviousDocument><CategoryCode>category_1</CategoryCode><TypeCode>typeclass_1</TypeCode><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
-
-  val expectedResultWithoutTypeCode =
-    <PreviousDocument><CategoryCode>category_1</CategoryCode><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
-
-  val expectedResultLineNumeric =
-    <PreviousDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><TypeCode>typeclass_1</TypeCode></PreviousDocument>
-
   val previousDocumentAll = PreviousDocument(
     categoryCode = Some("category_1"),
     id = Some("id_1"),
@@ -51,44 +30,68 @@ class PreviousDocumentSpec extends WordSpec with Matchers with OptionValues {
     lineNumeric = Some("linenumeric_1")
   )
 
-  val previousDocumentEmpty = PreviousDocument(
-    categoryCode = None,
-    id = None,
-    typeCode = None,
-    lineNumeric = None
-  )
-
-  val previousDocumentWithEmptyString = previousDocumentAll.copy(typeCode = Some(""))
-  val previousDocumentWithNone = previousDocumentAll.copy(categoryCode = None)
-  val previousDocumentMixed = previousDocumentAll.copy(categoryCode = None, lineNumeric = Some("   "))
-  val previousDocumentWithoutCategoryCode = previousDocumentAll.copy(categoryCode = None)
-  val previousDocumentWithoutId = previousDocumentAll.copy(id = None)
-  val previousDocumentWithoutTypeCode = previousDocumentAll.copy(typeCode = None)
-  val previousDocumentWithoutLineNumeric = previousDocumentAll.copy(lineNumeric = None)
-
   "PreviousDocument generateXML " should {
     "return PreviousDocument node with text in all child elements" when {
       "all parameters are Some" in {
+          val expectedResultAll =
+            <PreviousDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><TypeCode>typeclass_1</TypeCode><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
         previousDocumentAll.toXml shouldBe (Some(expectedResultAll))
       }
     }
 
     "return no PreviousDocument node when all fields are None" in {
+      val previousDocumentEmpty = PreviousDocument(
+        categoryCode = None,
+        id = None,
+        typeCode = None,
+        lineNumeric = None
+      )
       previousDocumentEmpty.toXml shouldBe None
     }
 
-    "return no element for a field which has an empty space" in {
+    "return no element for a field which has an empty string" in {
+      val previousDocumentWithEmptyString = previousDocumentAll.copy(typeCode = Some(""))
+      val expectedResultWithEmptyString =
+        <PreviousDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
       previousDocumentWithEmptyString.toXml shouldBe Some(expectedResultWithEmptyString)
     }
 
-    "return an elements only for fields contain some text" in {
+    "return elements only for fields containing some text" in {
+      val previousDocumentMixed = previousDocumentAll.copy(categoryCode = None, lineNumeric = Some(""))
+      val expectedResultMixed =
+        <PreviousDocument><ID>id_1</ID><TypeCode>typeclass_1</TypeCode></PreviousDocument>
       previousDocumentMixed.toXml shouldBe Some(expectedResultMixed)
     }
 
-    "return all elements  text" in {
-      previousDocumentMixed.toXml shouldBe Some(expectedResultMixed)
+    "omit CategoryCode if None" in {
+      val previousDocumentWithoutCategoryCode = previousDocumentAll.copy(categoryCode = None)
+      val expectedResultWithoutCategoryCode =
+        <PreviousDocument><ID>id_1</ID><TypeCode>typeclass_1</TypeCode><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
+      previousDocumentWithoutCategoryCode.toXml shouldBe Some(expectedResultWithoutCategoryCode)
     }
 
+    "omit ID if None" in {
+      val previousDocumentWithoutId = previousDocumentAll.copy(id = None)
+      val expectedResultWithoutId =
+        <PreviousDocument><CategoryCode>category_1</CategoryCode><TypeCode>typeclass_1</TypeCode><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
+      previousDocumentWithoutId.toXml shouldBe Some(expectedResultWithoutId)
+    }
+
+    "omit TypeCode if None" in {
+      val previousDocumentWithoutTypeCode = previousDocumentAll.copy(typeCode = None)
+      val expectedResultWithoutTypeCode =
+        <PreviousDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
+      previousDocumentWithoutTypeCode.toXml shouldBe Some(expectedResultWithoutTypeCode)
+    }
+
+    List(Some(""), None) foreach { value =>
+      s"omit LineNumeric if $value" in {
+        val previousDocumentWithoutLineNumeric = previousDocumentAll.copy(lineNumeric = value)
+        val expectedResultWithoutLineNumeric =
+          <PreviousDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><TypeCode>typeclass_1</TypeCode></PreviousDocument>
+        previousDocumentWithoutLineNumeric.toXml shouldBe Some(expectedResultWithoutLineNumeric)
+      }
+    }
 
   }
 
