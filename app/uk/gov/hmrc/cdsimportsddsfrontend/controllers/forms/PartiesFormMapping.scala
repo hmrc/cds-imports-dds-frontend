@@ -26,6 +26,7 @@ object PartiesFormMapping {
     "declarant" -> optional(partyMapping),
     "importer" -> optional(partyMapping),
     "exporter" -> optional(partyMapping),
-    "buyer" -> optional(partyMapping)
+    "buyer" -> optional(partyMapping),
+    "seller" -> optional(partyMapping)
   )(DeclarationParties.apply)(DeclarationParties.unapply)
 }

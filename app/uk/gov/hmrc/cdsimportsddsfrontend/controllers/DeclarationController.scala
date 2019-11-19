@@ -51,6 +51,7 @@ class DeclarationController @Inject()(simplifiedDeclaration: declaration
     DeclarationForm.form.bindFromRequest(trimmedFormData).fold(
       formWithErrors =>
         Future.successful(BadRequest(simplifiedDeclaration(formWithErrors))),
+
       validDeclaration => {
         declarationStore.deleteAllNotifications()
         declarationService.submit(request.user.eori, validDeclaration)
