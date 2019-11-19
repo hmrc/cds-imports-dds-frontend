@@ -61,7 +61,9 @@ object DocumentationType {
       AdditionalDocumentType(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), Some("DocumentName1")),
       AdditionalDocumentType(Some("C"), Some("514"), Some("GBEIR201909014000"), None, None),
       AdditionalDocumentType(Some("C"), Some("506"), Some("GBDPO1909241"), None, None),
-      AdditionalDocumentType(Some("I"), Some("004"), Some("GBCPI000001-0001"), Some("AE"), None)
+      AdditionalDocumentType(Some("N"), Some("935"), Some("12345/30.07.2019"), Some("AC"), None),
+      AdditionalDocumentType(Some("N"), Some("935"), Some("12345/30.08.2019"), Some("AC"), None),
+      AdditionalDocumentType(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), None)
     ),
     Some(UUID.randomUUID().toString.replaceAll("-","").take(30)),
     Seq(

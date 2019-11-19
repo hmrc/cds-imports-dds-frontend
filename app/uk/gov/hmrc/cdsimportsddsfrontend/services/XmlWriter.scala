@@ -16,7 +16,8 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services
 
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.PreviousDocument
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{AdditionalDocumentType, PreviousDocument}
+
 import scala.xml.{Elem, Node, Text}
 import cats.implicits._
 
@@ -43,6 +44,19 @@ object XmlWriterInstances {
       val l: List[Node] = List(categoryCode, id, typeCode, lineNumeric).flattenOption
 
       Option(l).filter(_.nonEmpty).map(e => <PreviousDocument>{e}</PreviousDocument>)
+    }
+  }
+
+  implicit val additionalDocumentWriter: XmlWriter[AdditionalDocumentType] = new XmlWriter[AdditionalDocumentType] {
+    override def toXml( value: AdditionalDocumentType ): Option[Elem] = {
+      val categoryCode: Option[Node] = maybeElement("CategoryCode", value.categoryCode)
+      val id = maybeElement("ID", value.id)
+      val name = maybeElement("Name", value.name)
+      val typeCode = maybeElement("TypeCode", value.typeCode)
+      val lpcoExemptionCode = maybeElement("LPCOExemptionCode", value.lpco)
+      val l: List[Node] = List(categoryCode, id, name, typeCode, lpcoExemptionCode).flattenOption
+
+      Option(l).filter(_.nonEmpty).map(e => <AdditionalDocument>{e}</AdditionalDocument>)
     }
   }
 }

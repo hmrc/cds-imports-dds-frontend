@@ -105,37 +105,7 @@ class DeclarationXml {
           </ExportCountry>
           <GovernmentAgencyGoodsItem>
             <SequenceNumeric>{dec.declarationType.goodsItemNumber}</SequenceNumeric>
-            <AdditionalDocument>
-              {maybeElement("CategoryCode", dec.documentationType.additionalDocument(0).categoryCode)}
-              {maybeElement("ID", dec.documentationType.additionalDocument(0).id)}
-              {maybeElement("Name",dec.documentationType.additionalDocument(0).name)}
-              {maybeElement("TypeCode", dec.documentationType.additionalDocument(0).typeCode)}
-              {maybeElement("LPCOExemptionCode",dec.documentationType.additionalDocument(0).lpco)}
-            </AdditionalDocument>
-            <AdditionalDocument>
-              {maybeElement("CategoryCode", dec.documentationType.additionalDocument(1).categoryCode)}
-              {maybeElement("ID", dec.documentationType.additionalDocument(1).id)}
-              {maybeElement("Name",dec.documentationType.additionalDocument(1).name)}
-              {maybeElement("TypeCode", dec.documentationType.additionalDocument(1).typeCode)}
-              {maybeElement("LPCOExemptionCode",dec.documentationType.additionalDocument(1).lpco)}
-            </AdditionalDocument>
-            <AdditionalDocument>
-              {maybeElement("CategoryCode", dec.documentationType.additionalDocument(2).categoryCode)}
-              {maybeElement("ID", dec.documentationType.additionalDocument(2).id)}
-              {maybeElement("Name",dec.documentationType.additionalDocument(2).name)}
-              {maybeElement("TypeCode", dec.documentationType.additionalDocument(2).typeCode)}
-              {maybeElement("LPCOExemptionCode",dec.documentationType.additionalDocument(2).lpco)}
-            </AdditionalDocument>
-            <AdditionalDocument>
-              {maybeElement("CategoryCode", dec.documentationType.additionalDocument(3).categoryCode)}
-              {maybeElement("ID", dec.documentationType.additionalDocument(3).id)}
-              {maybeElement("Name",dec.documentationType.additionalDocument(3).name)}
-              {maybeElement("TypeCode", dec.documentationType.additionalDocument(3).typeCode)}
-              {maybeElement("LPCOExemptionCode",dec.documentationType.additionalDocument(3).lpco)}
-              <WriteOff>
-                <QuantityQuantity unitCode="KGM#G">10</QuantityQuantity>
-              </WriteOff>
-            </AdditionalDocument>
+            {dec.documentationType.additionalDocument.flatMap(_.toXml)}
             {dec.documentationType.itemAdditionalInformation.map(additionalInformation)}
             <Commodity>
               <Description>Aluminium Foil not exceeding 0,2 mm</Description>
@@ -448,6 +418,18 @@ object DeclarationXml {
               <WriteOff>
                 <QuantityQuantity unitCode="KGM#G">10</QuantityQuantity>
               </WriteOff>
+            </AdditionalDocument>
+            <AdditionalDocument>
+              <CategoryCode>N</CategoryCode>
+              <ID>12345/30.07.2019</ID>
+              <TypeCode>935</TypeCode>
+              <LPCOExemptionCode>AC</LPCOExemptionCode>
+            </AdditionalDocument>
+            <AdditionalDocument>
+              <CategoryCode>N</CategoryCode>
+              <ID>12345/30.09.2019</ID>
+              <TypeCode>935</TypeCode>
+              <LPCOExemptionCode>AC</LPCOExemptionCode>
             </AdditionalDocument>
             <AdditionalInformation>
               <StatementCode>00500</StatementCode>
