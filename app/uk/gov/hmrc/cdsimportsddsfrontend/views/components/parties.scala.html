@@ -27,13 +27,16 @@
 @input_text(form("parties.exporter.address.countryCode"), "declare.parties.exporter.address.countryCode")
 @input_text(form("parties.exporter.address.postcode"), "declare.parties.exporter.address.postcode")
 @input_text(form("parties.exporter.identifier"), "declare.parties.exporter.identifier")
+
 @input_text(form("parties.importer.name"), "declare.parties.importer.name")
 @input_text(form("parties.importer.address.streetAndNumber"), "declare.parties.importer.address.streetAndNumber")
 @input_text(form("parties.importer.address.city"), "declare.parties.importer.address.city")
 @input_text(form("parties.importer.address.countryCode"), "declare.parties.importer.address.countryCode")
 @input_text(form("parties.importer.address.postcode"), "declare.parties.importer.address.postcode")
 @input_text(form("parties.importer.identifier"), "declare.parties.importer.identifier")
+
 @input_text(form("parties.declarant.identifier"), "declare.parties.declarant.identifier")
+
 @input_text(form("parties.buyer.name"), "declare.parties.buyer.name")
 @input_text(form("parties.buyer.address.streetAndNumber"), "declare.parties.buyer.address.streetAndNumber")
 @input_text(form("parties.buyer.address.city"), "declare.parties.buyer.address.city")
@@ -41,6 +44,7 @@
 @input_text(form("parties.buyer.address.postcode"), "declare.parties.buyer.address.postcode")
 @input_text(form("parties.buyer.phoneNumber"), "declare.parties.buyer.phoneNumber")
 @input_text(form("parties.buyer.identifier"), "declare.parties.buyer.identifier")
+
 @input_text(form("parties.seller.name"), "declare.parties.seller.name")
 @input_text(form("parties.seller.address.streetAndNumber"), "declare.parties.seller.address.streetAndNumber")
 @input_text(form("parties.seller.address.city"), "declare.parties.seller.address.city")
@@ -48,3 +52,13 @@
 @input_text(form("parties.seller.address.postcode"), "declare.parties.seller.address.postcode")
 @input_text(form("parties.seller.phoneNumber"), "declare.parties.seller.phoneNumber")
 @input_text(form("parties.seller.identifier"), "declare.parties.seller.identifier")
+
+@for(i <- 0 to 1) {
+  @input_text(form(s"parties.authorisationHolder[$i].identifier"), "declare.parties.authorisationHolder.identifier", Seq(i+1))
+  @input_text(form(s"parties.authorisationHolder[$i].categoryCode"), "declare.parties.authorisationHolder.categoryCode", Seq(i+1))
+}
+
+@for(i <- 0 to 1) {
+  @input_text(form(s"parties.domesticDutyTaxParty[$i].identifier"), "declare.parties.domesticDutyTaxParty.identifier", Seq(i+1))
+  @input_text(form(s"parties.domesticDutyTaxParty[$i].roleCode"), "declare.parties.domesticDutyTaxParty.roleCode", Seq(i+1))
+}

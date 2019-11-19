@@ -21,5 +21,7 @@ case class DeclarationParties(
                                importer: Option[Party] = Some(Party(name = Some("Foil R Us"))),
                                exporter: Option[Party] = Some(Party(identifier = Some("GB025115155321"))),
                                buyer: Option[Party] = None,
-                               seller: Option[Party] = None
+                               seller: Option[Party] = None,
+                               authorisationHolders: Seq[AuthorisationHolder] = Seq(),
+                               domesticDutyTaxParties: Seq[DomesticDutyTaxParty] = Seq()
                              )

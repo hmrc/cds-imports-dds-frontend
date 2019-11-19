@@ -23,7 +23,7 @@ import org.scalatest.BeforeAndAfterEach
 import play.api.test.FutureAwaits
 import play.api.test.Helpers.status
 import play.mvc.Http.Status
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Address, Declaration, Party}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Address, AuthorisationHolder, Declaration, DomesticDutyTaxParty, Party}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
@@ -280,10 +280,14 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "parties.seller.address.postcode")
         body should include element withName("input").withAttrValue("name", "parties.seller.phoneNumber")
         body should include element withName("input").withAttrValue("name", "parties.declarant.identifier")
-        //      | 3.39 Authorisation holder - identifier | GB62518473              |
-        //      | 3.39 Authorisation holder - type code  | OK4U                    |
-        //      | 3.40 VAT Number (or TSPVAT)            | 99887766                |
-        //      | 3.40 Role Code                         | VAT                     |
+        body should include element withName("input").withAttrValue("name", "parties.authorisationHolder[0].identifier")
+        body should include element withName("input").withAttrValue("name", "parties.authorisationHolder[0].categoryCode")
+        body should include element withName("input").withAttrValue("name", "parties.authorisationHolder[1].identifier")
+        body should include element withName("input").withAttrValue("name", "parties.authorisationHolder[1].categoryCode")
+        body should include element withName("input").withAttrValue("name", "parties.domesticDutyTaxParty[0].identifier")
+        body should include element withName("input").withAttrValue("name", "parties.domesticDutyTaxParty[0].roleCode")
+        body should include element withName("input").withAttrValue("name", "parties.domesticDutyTaxParty[1].identifier")
+        body should include element withName("input").withAttrValue("name", "parties.domesticDutyTaxParty[1].roleCode")
       }
     }
   }
@@ -395,6 +399,52 @@ class DeclarationControllerSpec extends CdsImportsSpec
           identifier = Some("GB2001"),
           address = Some(Address("321 Arcade Av", "Leeds", "GB", "LS1 7DP")),
           phoneNumber = Some("0113 876 4567"))))
+      }
+    }
+
+    "post the expected AuthorisationHolders to the declaration service" in signedInScenario { user =>
+      val formData = declarationTypeFormData ++ Map(
+        "parties.authorisationHolder[0].identifier" -> Seq("GB1966"),
+        "parties.authorisationHolder[0].categoryCode" -> Seq("FOO"),
+        "parties.authorisationHolder[1].identifier" -> Seq("GB1945"),
+        "parties.authorisationHolder[1].categoryCode" -> Seq("BAR")
+      )
+
+      val captor: ArgumentCaptor[Declaration] = ArgumentCaptor.forClass(classOf[Declaration])
+      when(mockDeclarationService.submit(any(), captor.capture())(any()))
+        .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
+        status(response) mustBe Status.OK
+
+        val actualDeclaration = captor.getValue
+        actualDeclaration.parties.authorisationHolders mustBe(Seq(
+          AuthorisationHolder(Some("GB1966"), Some("FOO")),
+          AuthorisationHolder(Some("GB1945"), Some("BAR"))
+        ))
+      }
+    }
+
+    "post the expected DomesticDutyTaxParties to the declaration service" in signedInScenario { user =>
+      val formData = declarationTypeFormData ++ Map(
+        "parties.domesticDutyTaxParty[0].identifier" -> Seq("GB1966"),
+        "parties.domesticDutyTaxParty[0].roleCode" -> Seq("FOO"),
+        "parties.domesticDutyTaxParty[1].identifier" -> Seq("GB1945"),
+        "parties.domesticDutyTaxParty[1].roleCode" -> Seq("BAR")
+      )
+
+      val captor: ArgumentCaptor[Declaration] = ArgumentCaptor.forClass(classOf[Declaration])
+      when(mockDeclarationService.submit(any(), captor.capture())(any()))
+        .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
+        status(response) mustBe Status.OK
+
+        val actualDeclaration = captor.getValue
+        actualDeclaration.parties.domesticDutyTaxParties mustBe(Seq(
+          DomesticDutyTaxParty(Some("GB1966"), Some("FOO")),
+          DomesticDutyTaxParty(Some("GB1945"), Some("BAR"))
+        ))
       }
     }
 
