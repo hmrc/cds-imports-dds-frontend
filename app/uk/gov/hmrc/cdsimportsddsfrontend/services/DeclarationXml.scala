@@ -199,11 +199,11 @@ class DeclarationXml {
   }
 
   private def maybeDutyTaxFee(declaration: Declaration): NodeSeq = {
-    if (declaration.valuationInformationAndTaxes.dutyRegimeCode.exists(_.trim.nonEmpty) ||
-        declaration.valuationInformationAndTaxes.paymentMethodCode.exists(_.trim.nonEmpty)) {
+    if (declaration.valuationInformationAndTaxes.dutyRegimeCode.exists(_.nonEmpty) ||
+        declaration.valuationInformationAndTaxes.paymentMethodCode.exists(_.nonEmpty)) {
       <DutyTaxFee>
         {maybeElement("DutyRegimeCode", declaration.valuationInformationAndTaxes.dutyRegimeCode)}
-        {if (declaration.valuationInformationAndTaxes.paymentMethodCode.exists(_.trim.nonEmpty)) {
+        {if (declaration.valuationInformationAndTaxes.paymentMethodCode.exists(_.nonEmpty)) {
             <Payment>
               {maybeElement("MethodCode", declaration.valuationInformationAndTaxes.paymentMethodCode)}
             </Payment>
@@ -216,9 +216,9 @@ class DeclarationXml {
   }
 
   private def maybeTradeTerms(declaration: Declaration): NodeSeq = {
-    if (declaration.valuationInformationAndTaxes.conditionCode.exists(_.trim.nonEmpty) ||
-        declaration.valuationInformationAndTaxes.locationID.exists(_.trim.nonEmpty) ||
-        declaration.valuationInformationAndTaxes.locationName.exists(_.trim.nonEmpty)) {
+    if (declaration.valuationInformationAndTaxes.conditionCode.exists(_.nonEmpty) ||
+        declaration.valuationInformationAndTaxes.locationID.exists(_.nonEmpty) ||
+        declaration.valuationInformationAndTaxes.locationName.exists(_.nonEmpty)) {
         <TradeTerms>
           {maybeElement("ConditionCode", declaration.valuationInformationAndTaxes.conditionCode)}
           {maybeElement("LocationID", declaration.valuationInformationAndTaxes.locationID)}
@@ -231,7 +231,7 @@ class DeclarationXml {
   }
 
   private def maybeValuationAdjustment(declaration: Declaration): NodeSeq = {
-    if (declaration.valuationInformationAndTaxes.additionCode.exists(_.trim.nonEmpty)) {
+    if (declaration.valuationInformationAndTaxes.additionCode.exists(_.nonEmpty)) {
       <ValuationAdjustment>
         {maybeElement("AdditionCode", declaration.valuationInformationAndTaxes.additionCode)}
       </ValuationAdjustment>
@@ -240,17 +240,17 @@ class DeclarationXml {
     }
   }
 
-  private def maybeElement(name: String, maybeValue: Option[String]): NodeSeq = {
-    if (maybeValue.exists(_.trim.nonEmpty)) {
-      Elem.apply(null, name, scala.xml.Null, scala.xml.TopScope, true, Text(maybeValue.getOrElse("").trim)) //scalastyle:ignore
-    } else {
-      NodeSeq.Empty
+  private def maybeElement(elementName: String, maybeElementValue: Option[String]): NodeSeq = {
+    maybeElementValue match {
+      case Some(value) if value.nonEmpty =>
+        Elem.apply(null, elementName, scala.xml.Null, scala.xml.TopScope, true, Text(value)) //scalastyle:ignore
+      case _ => NodeSeq.Empty
     }
   }
 
   private def maybeInvoiceLine(declaration: Declaration): NodeSeq = {
-    if (declaration.valuationInformationAndTaxes.currencyID.exists(_.trim.nonEmpty) ||
-       declaration.valuationInformationAndTaxes.itemChargeAmount.exists(_.trim.nonEmpty)) {
+    if (declaration.valuationInformationAndTaxes.currencyID.exists(_.nonEmpty) ||
+       declaration.valuationInformationAndTaxes.itemChargeAmount.exists(_.nonEmpty)) {
       val currencyId = declaration.valuationInformationAndTaxes.currencyID.getOrElse("GBP").toUpperCase()
       val itemChargeAmount = declaration.valuationInformationAndTaxes.itemChargeAmount.getOrElse("")
       <InvoiceLine>
@@ -262,7 +262,7 @@ class DeclarationXml {
   }
 
   private def maybeCurrencyExchange(declaration: Declaration): NodeSeq = {
-    if (declaration.valuationInformationAndTaxes.rateNumeric.exists(_.trim.nonEmpty)) {
+    if (declaration.valuationInformationAndTaxes.rateNumeric.exists(_.nonEmpty)) {
       <CurrencyExchange>
         {maybeElement("RateNumeric", declaration.valuationInformationAndTaxes.rateNumeric)}
       </CurrencyExchange>
@@ -272,7 +272,7 @@ class DeclarationXml {
   }
 
   private def maybeCustomsValuation(declaration: Declaration): NodeSeq = {
-    if (declaration.valuationInformationAndTaxes.customsValuationMethodCode.exists(_.trim.nonEmpty)) {
+    if (declaration.valuationInformationAndTaxes.customsValuationMethodCode.exists(_.nonEmpty)) {
       <CustomsValuation>
         {maybeElement("MethodCode", declaration.valuationInformationAndTaxes.customsValuationMethodCode)}
       </CustomsValuation>

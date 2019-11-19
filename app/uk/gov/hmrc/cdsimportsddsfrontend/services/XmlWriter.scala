@@ -26,14 +26,6 @@ trait XmlWriter[A] {
 
 object XmlWriterInstances {
 
-    implicit def maybeElement(name: String, maybeValue: Option[String]): Option[Node] = {
-      if (maybeValue.exists(_.trim.nonEmpty)) {
-        Some(Elem.apply(null, name, scala.xml.Null, scala.xml.TopScope, true, Text(maybeValue.getOrElse("").trim))) // scalastyle:ignore
-      } else {
-        None
-      }
-    }
-
   implicit val previousDocumentWriter: XmlWriter[PreviousDocument] = new XmlWriter[PreviousDocument] {
     override def toXml( value: PreviousDocument ): Option[Elem] = {
       val categoryCode: Option[Node] = maybeElement("CategoryCode", value.categoryCode)
@@ -45,4 +37,11 @@ object XmlWriterInstances {
       Option(l).filter(_.nonEmpty).map(e => <PreviousDocument>{e}</PreviousDocument>)
     }
   }
+
+  private def maybeElement(elementName: String, maybeElementValue: Option[String]): Option[Node] = {
+    maybeElementValue.filter(_.nonEmpty).map { value =>
+        Elem.apply(null, elementName, scala.xml.Null, scala.xml.TopScope, true, Text(value)) //scalastyle:ignore
+    }
+  }
+
 }

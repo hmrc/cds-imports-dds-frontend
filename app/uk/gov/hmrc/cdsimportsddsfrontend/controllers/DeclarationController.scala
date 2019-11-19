@@ -46,7 +46,9 @@ class DeclarationController @Inject()(simplifiedDeclaration: declaration
   }
 
   def submit(): Action[AnyContent] = (featureSwitchRegistry.SinglePageDeclaration.action andThen authenticate) async { implicit request =>
-    DeclarationForm.form.bindFromRequest().fold(
+    val rawFormData = request.body.asFormUrlEncoded
+    val trimmedFormData = trimTrailingWhitespace(rawFormData)
+    DeclarationForm.form.bindFromRequest(trimmedFormData).fold(
       formWithErrors =>
         Future.successful(BadRequest(simplifiedDeclaration(formWithErrors))),
       validDeclaration => {
@@ -55,5 +57,11 @@ class DeclarationController @Inject()(simplifiedDeclaration: declaration
           .map(declaration => Ok(resultTemplate(declaration)))
       }
     )
+  }
+
+  private def trimTrailingWhitespace(maybeFormData: Option[Map[String, Seq[String]]]): Map[String, Seq[String]] = {
+    maybeFormData.map { formData =>
+      formData.map { case (key, values) => (key, values.map(_.trim)) }
+    }.getOrElse(Map())
   }
 }
