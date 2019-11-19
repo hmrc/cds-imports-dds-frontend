@@ -63,7 +63,7 @@ object DocumentationType {
       AdditionalDocumentType(Some("C"), Some("506"), Some("GBDPO1909241"), None, None),
       AdditionalDocumentType(Some("I"), Some("004"), Some("GBCPI000001-0001"), Some("AE"), None)
     ),
-    Some(UUID.randomUUID().toString.replaceAll("-","").take(30)),
+    Some(UUID.randomUUID().toString.replaceAll("-","").take(20)),
     Seq(
       AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN")),
       AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN"))
