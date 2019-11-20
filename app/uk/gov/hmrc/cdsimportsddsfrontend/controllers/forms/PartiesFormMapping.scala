@@ -19,6 +19,8 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 import play.api.data.Forms.{mapping, optional}
 import play.api.data.Mapping
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.PartyFormMapping.partyMapping
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.AuthorisationHolderFormMapping.authorisationHolders
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DomesticDutyTaxPartyFormMapping.domesticDutyTaxParties
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.DeclarationParties
 
 object PartiesFormMapping {
@@ -27,6 +29,8 @@ object PartiesFormMapping {
     "importer" -> optional(partyMapping),
     "exporter" -> optional(partyMapping),
     "buyer" -> optional(partyMapping),
-    "seller" -> optional(partyMapping)
+    "seller" -> optional(partyMapping),
+    authorisationHolders,
+    domesticDutyTaxParties
   )(DeclarationParties.apply)(DeclarationParties.unapply)
 }

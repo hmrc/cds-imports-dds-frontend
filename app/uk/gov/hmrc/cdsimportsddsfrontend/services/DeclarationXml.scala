@@ -56,14 +56,7 @@ class DeclarationXml {
           {maybeElement("TypeCode", dec.documentationType.additionalPayment(1).additionalDocPaymentType)}
         </AdditionalDocument>
         {additionalInformation(dec.documentationType.headerAdditionalInformation)}
-        <AuthorisationHolder>
-          <ID>GB201909014000</ID>
-          <CategoryCode>EIR</CategoryCode>
-        </AuthorisationHolder>
-        <AuthorisationHolder>
-          <ID>GB201909014000</ID>
-          <CategoryCode>DPO</CategoryCode>
-        </AuthorisationHolder>
+        {dec.parties.authorisationHolders.flatMap(_.toXml)}
         <BorderTransportMeans>
           <RegistrationNationalityCode>FR</RegistrationNationalityCode>
           <ModeCode>1</ModeCode>
@@ -96,10 +89,6 @@ class DeclarationXml {
           <Destination>
             <CountryCode>GB</CountryCode>
           </Destination>
-          <DomesticDutyTaxParty>
-            <ID>GB201909014</ID>
-            <RoleCode>FR1</RoleCode>
-          </DomesticDutyTaxParty>
           <ExportCountry>
             <ID>FR</ID>
           </ExportCountry>
@@ -126,6 +115,7 @@ class DeclarationXml {
               {maybeInvoiceLine(dec)}
             </Commodity>
             {maybeCustomsValuation(dec)}
+            {dec.parties.domesticDutyTaxParties.flatMap(_.toXml)}
             <GovernmentProcedure>
               <CurrentCode>{dec.declarationType.requestedProcedureCode}</CurrentCode>
               <PreviousCode>{dec.declarationType.previousProcedureCode}</PreviousCode>

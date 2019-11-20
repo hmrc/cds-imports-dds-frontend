@@ -17,7 +17,7 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.services
 
 import org.scalatest.{AppendedClues, MustMatchers, WordSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Address, Declaration, DeclarationParties, Party}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Address, AuthorisationHolder, Declaration, DeclarationParties, DomesticDutyTaxParty, Party}
 
 import scala.xml.Elem
 
@@ -30,7 +30,9 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
         Some(Party(Some("Fred"), Some("GB12345678F"), Some(Address("123 Girder Street", "Edinburgh", "SC", "E12 4GG")))),
         Some(Party(Some("Barney"), Some("GB12345678A"), Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))),
         Some(Party(Some("Wilma"), Some("GB14141414"), Some(Address("14 The Calls", "Leeds", "GB", "LS1 1AA")), Some("0113 25 26 27"))),
-        Some(Party(Some("Pebbles"), Some("GB4587342"), Some(Address("21 Mountain View", "York", "GB", "YK1 7ZX")), Some("0114 123 456")))
+        Some(Party(Some("Pebbles"), Some("GB4587342"), Some(Address("21 Mountain View", "York", "GB", "YK1 7ZX")), Some("0114 123 456"))),
+        Seq(AuthorisationHolder(Some("Shaggy"), Some("DUDE")), AuthorisationHolder(Some("Scoob"), Some("DOG"))),
+        Seq(DomesticDutyTaxParty(Some("Velma"), Some("GIRL")), DomesticDutyTaxParty(Some("Fred"), Some("GUY")))
       )
       val declaration = Declaration(parties = someParties)
 
@@ -283,6 +285,80 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
           val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
           (xmlElement \ "Declaration" \ "GoodsShipment" \ "Seller" \ "Communication").length mustBe 0 withClue ("Found unexpected Seller Communication tag")
+        }
+      }
+
+      "transforming AuthorisationHolder" should {
+
+        "populate header-level AuthorisationHolders" in {
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+
+          (xmlElement \ "Declaration" \ "AuthorisationHolder" \ "ID").map(_.text) mustBe Seq("Shaggy", "Scoob")
+          (xmlElement \ "Declaration" \ "AuthorisationHolder" \ "CategoryCode").map(_.text) mustBe Seq("DUDE", "DOG")
+        }
+
+        "omit AuthorisationHolder tag if no authorisationHolder provided" in {
+          val declaration = Declaration(parties = DeclarationParties(authorisationHolders = Seq()))
+
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+
+          (xmlElement \ "Declaration" \ "AuthorisationHolder").length mustBe 0 withClue ("Found unexpected AuthorisationHolder tag")
+        }
+
+        "omit AuthorisationHolder ID tag if not provided" in {
+          val declaration = Declaration(parties = DeclarationParties(authorisationHolders = Seq(AuthorisationHolder(None, Some("FOO")))))
+
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+
+          (xmlElement \ "Declaration" \ "AuthorisationHolder" \ "ID").length mustBe 0 withClue(
+            "Found unexpected AuthorisationHolder ID tag")
+        }
+
+        "omit AuthorisationHolder CategoryCode tag if not provided" in {
+          val declaration = Declaration(parties = DeclarationParties(authorisationHolders = Seq(AuthorisationHolder(Some("FOO"), None))))
+
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+
+          (xmlElement \ "Declaration" \ "AuthorisationHolder" \ "CategoryCode").length mustBe 0 withClue(
+            "Found unexpected AuthorisationHolder CategoryCode tag")
+        }
+      }
+
+      "transforming DomesticDutyTaxParty" should {
+
+        "populate item-level DomesticDutyTaxParties" in {
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+
+          val item = xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"
+          (item \ "DomesticDutyTaxParty" \ "ID").map(_.text) mustBe Seq("Velma", "Fred")
+          (item \ "DomesticDutyTaxParty" \ "RoleCode").map(_.text) mustBe Seq("GIRL", "GUY")
+        }
+
+        "omit DomesticDutyTaxParty tag if no domesticDutyTaxParty provided" in {
+          val declaration = Declaration(parties = DeclarationParties(domesticDutyTaxParties = Seq()))
+
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+
+          val item = xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"
+          (item \ "DomesticDutyTaxParty").length mustBe 0 withClue ("Found unexpected DomesticDutyTaxParty tag")
+        }
+
+        "omit DomesticDutyTaxParty ID tag if not provided" in {
+          val declaration = Declaration(parties = DeclarationParties(domesticDutyTaxParties = Seq(DomesticDutyTaxParty(None, Some("FOO")))))
+
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+
+          val item = xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"
+          (item \ "DomesticDutyTaxParty" \ "ID").length mustBe 0 withClue("Found unexpected DomesticDutyTaxParty ID tag")
+        }
+
+        "omit DomesticDutyTaxParty RoleCode tag if not provided" in {
+          val declaration = Declaration(parties = DeclarationParties(domesticDutyTaxParties = Seq(DomesticDutyTaxParty(Some("FOO"), None))))
+
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+
+          val item = xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"
+          (item \ "DomesticDutyTaxParty" \ "RoleCode").length mustBe 0 withClue("Found unexpected DomesticDutyTaxParty CategoryCode tag")
         }
       }
     }

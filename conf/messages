@@ -87,10 +87,10 @@ declare.parties.seller.address.countryCode=3.24 Seller - Country Code
 declare.parties.seller.address.postcode=3.24 Seller - Postcode
 declare.parties.seller.phoneNumber=3.24 Seller - Phone Number
 declare.parties.seller.identifier=3.25 Seller - EORI
-#          //      | 3.39 Authorisation holder - identifier | GB62518473              |
-#          //      | 3.39 Authorisation holder - type code  | OK4U                    |
-#          //      | 3.40 VAT Number (or TSPVAT)            | 99887766                |
-#          //      | 3.40 Role Code                         | VAT                     |
+declare.parties.authorisationHolder.identifier=3.39 Authorisation holder - identifier {0}
+declare.parties.authorisationHolder.categoryCode=3.39 Authorisation holder - type code {0}
+declare.parties.domesticDutyTaxParty.identifier=3.40 VAT Number (or TSPVAT) {0}
+declare.parties.domesticDutyTaxParty.roleCode=3.40 Role Code {0}
 
 declaration.xml=Declaration XML
 declaration.xml.hint=Write your Valid Declaration xml into the edit box
