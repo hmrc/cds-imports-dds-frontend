@@ -37,14 +37,6 @@
 
 @input_text(form("parties.declarant.identifier"), "declare.parties.declarant.identifier")
 
-@input_text(form("parties.buyer.name"), "declare.parties.buyer.name")
-@input_text(form("parties.buyer.address.streetAndNumber"), "declare.parties.buyer.address.streetAndNumber")
-@input_text(form("parties.buyer.address.city"), "declare.parties.buyer.address.city")
-@input_text(form("parties.buyer.address.countryCode"), "declare.parties.buyer.address.countryCode")
-@input_text(form("parties.buyer.address.postcode"), "declare.parties.buyer.address.postcode")
-@input_text(form("parties.buyer.phoneNumber"), "declare.parties.buyer.phoneNumber")
-@input_text(form("parties.buyer.identifier"), "declare.parties.buyer.identifier")
-
 @input_text(form("parties.seller.name"), "declare.parties.seller.name")
 @input_text(form("parties.seller.address.streetAndNumber"), "declare.parties.seller.address.streetAndNumber")
 @input_text(form("parties.seller.address.city"), "declare.parties.seller.address.city")
@@ -52,6 +44,14 @@
 @input_text(form("parties.seller.address.postcode"), "declare.parties.seller.address.postcode")
 @input_text(form("parties.seller.phoneNumber"), "declare.parties.seller.phoneNumber")
 @input_text(form("parties.seller.identifier"), "declare.parties.seller.identifier")
+
+@input_text(form("parties.buyer.name"), "declare.parties.buyer.name")
+@input_text(form("parties.buyer.address.streetAndNumber"), "declare.parties.buyer.address.streetAndNumber")
+@input_text(form("parties.buyer.address.city"), "declare.parties.buyer.address.city")
+@input_text(form("parties.buyer.address.countryCode"), "declare.parties.buyer.address.countryCode")
+@input_text(form("parties.buyer.address.postcode"), "declare.parties.buyer.address.postcode")
+@input_text(form("parties.buyer.phoneNumber"), "declare.parties.buyer.phoneNumber")
+@input_text(form("parties.buyer.identifier"), "declare.parties.buyer.identifier")
 
 @for(i <- 0 to 1) {
   @input_text(form(s"parties.authorisationHolder[$i].identifier"), "declare.parties.authorisationHolder.identifier", Seq(i+1))
