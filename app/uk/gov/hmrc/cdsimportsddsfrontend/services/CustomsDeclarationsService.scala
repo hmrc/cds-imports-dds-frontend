@@ -41,8 +41,8 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml:
   }
 
   def submit(eori: Eori, xml: Elem)(implicit hc: HeaderCarrier): Future[DeclarationServiceResponse] = {
-
-    httpClient.POSTString[CustomsDeclarationsResponse](appConfig.declarationsApi.submitEndpoint, xml.toString(), headers = headers(eori))(responseReader, hc, executionContext)
+    httpClient.POSTString[CustomsDeclarationsResponse](
+      appConfig.declarationsApi.submitEndpoint, xml.toString(), headers = headers(eori))(responseReader, hc, executionContext)
       .map { customsDeclarationsResponse: CustomsDeclarationsResponse =>
         log.info("Response from Declaration API: " + customsDeclarationsResponse);
         DeclarationServiceResponse(DeclarationXml.prettyPrintToHtml(xml), customsDeclarationsResponse.status, customsDeclarationsResponse.conversationId)

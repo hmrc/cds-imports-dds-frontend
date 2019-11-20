@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services
 
+// scalastyle:off
 object DmsErrorCodes {
 
   val codes = Map(
@@ -261,4 +262,5 @@ object DmsErrorCodes {
   "CDS50030"  -> "UCR cannot be associated as it has been Rejected Upon Arrival"
 
   )
+  // scalastyle:on
 }
