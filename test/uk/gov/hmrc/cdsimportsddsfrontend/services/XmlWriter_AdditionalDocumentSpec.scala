@@ -31,6 +31,8 @@ class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with Optio
     name = Some("name_1")
   )
 
+  val emptyFields = List(Some(""), None)
+
   "AdditionalDocument generateXml" should {
     "return AdditionalDocument node with all child elements populated" when {
       "all parameters are Some and not empty spaces" in {
@@ -66,7 +68,7 @@ class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with Optio
       additionalDocumentMixed.toXml shouldBe expectedResultMixed
     }
 
-    List(Some(""), None) foreach { value =>
+    emptyFields foreach { value =>
       s"omit CategoryCode if $value" in {
         val additionalDocumentWithoutCategoryCode = additionalDocumentAll.copy(categoryCode = value)
         val expectedResultWithoutCategoryCode =
@@ -76,7 +78,7 @@ class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with Optio
       }
     }
 
-    List(Some(""), None) foreach { value =>
+    emptyFields foreach { value =>
       s"omit ID if $value" in {
         val additionalDocumentWithoutId = additionalDocumentAll.copy(id = value)
         val expectedResultWithoutId =Some(<AdditionalDocument><CategoryCode>category_1</CategoryCode><Name>name_1</Name><TypeCode>typeCode_1</TypeCode><LPCOExemptionCode>lpco_1</LPCOExemptionCode></AdditionalDocument>)
@@ -85,7 +87,7 @@ class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with Optio
       }
     }
 
-    List(Some(""), None) foreach { value =>
+    emptyFields foreach { value =>
       s"omit TypeCode if $value" in {
         val additionalDocumentWithoutTypeCode = additionalDocumentAll.copy(typeCode = value)
         val expectedResultWithoutTypeCode =Some(<AdditionalDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><Name>name_1</Name><LPCOExemptionCode>lpco_1</LPCOExemptionCode></AdditionalDocument>)
@@ -94,7 +96,7 @@ class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with Optio
       }
     }
 
-    List(Some(""), None) foreach { value =>
+    emptyFields foreach { value =>
       s"omit LPCOExemptionCode if $value" in {
         val additionalDocumentWithoutLpco = additionalDocumentAll.copy(lpco = value)
         val expectedResultWithoutLpco =Some(<AdditionalDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><Name>name_1</Name><TypeCode>typeCode_1</TypeCode></AdditionalDocument>)
@@ -103,7 +105,7 @@ class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with Optio
       }
     }
 
-    List(Some(""), None) foreach { value =>
+    emptyFields foreach { value =>
       s"omit Name if $value" in {
         val additionalDocumentWithoutName = additionalDocumentAll.copy(name = value)
         val expectedResultWithoutName =Some(<AdditionalDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><TypeCode>typeCode_1</TypeCode><LPCOExemptionCode>lpco_1</LPCOExemptionCode></AdditionalDocument>)
