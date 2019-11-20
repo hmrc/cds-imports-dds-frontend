@@ -480,7 +480,19 @@ object DeclarationControllerSpec {
     "documentationType.additionalDocument[3].typeCode" -> Seq("typeCode"),
     "documentationType.additionalDocument[3].id" -> Seq("id"),
     "documentationType.additionalDocument[3].lpco" -> Seq("lpco"),
-    "documentationType.additionalDocument[3].name" -> Seq("name")
+    "documentationType.additionalDocument[3].name" -> Seq("name"),
+
+    "documentationType.additionalDocument[4].categoryCode" -> Seq("categoryCode"),
+    "documentationType.additionalDocument[4].typeCode" -> Seq("typeCode"),
+    "documentationType.additionalDocument[4].id" -> Seq("id"),
+    "documentationType.additionalDocument[4].lpco" -> Seq("lpco"),
+    "documentationType.additionalDocument[4].name" -> Seq("name"),
+
+    "documentationType.additionalDocument[5].categoryCode" -> Seq("categoryCode"),
+    "documentationType.additionalDocument[5].typeCode" -> Seq("typeCode"),
+    "documentationType.additionalDocument[5].id" -> Seq("id"),
+    "documentationType.additionalDocument[5].lpco" -> Seq("lpco"),
+    "documentationType.additionalDocument[5].name" -> Seq("name")
   )
 
   val documentationFormData = Map(
