@@ -272,14 +272,14 @@ class DeclarationControllerSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "parties.buyer.address.countryCode")
         body should include element withName("input").withAttrValue("name", "parties.buyer.address.postcode")
         body should include element withName("input").withAttrValue("name", "parties.buyer.phoneNumber")
+        body should include element withName("input").withAttrValue("name", "parties.seller.name")
+        body should include element withName("input").withAttrValue("name", "parties.seller.identifier")
+        body should include element withName("input").withAttrValue("name", "parties.seller.address.streetAndNumber")
+        body should include element withName("input").withAttrValue("name", "parties.seller.address.city")
+        body should include element withName("input").withAttrValue("name", "parties.seller.address.countryCode")
+        body should include element withName("input").withAttrValue("name", "parties.seller.address.postcode")
+        body should include element withName("input").withAttrValue("name", "parties.seller.phoneNumber")
         body should include element withName("input").withAttrValue("name", "parties.declarant.identifier")
-        //      | 3.24 Seller - Name                     | Tinfoil Sans Frontieres |
-        //      | 3.24 Seller - Street and Number        | 123 les Champs Insulees |
-        //      | 3.24 Seller - City                     | Troyes                  |
-        //      | 3.24 Seller - CountryCode              | FR                      |
-        //      | 3.24 Seller - Postcode                 | 01414                   |
-        //      | 3.24 Seller - Phone number             | 003344556677            |
-        //      | 3.25 Seller - EORI                     | FR84736251              |
         //      | 3.39 Authorisation holder - identifier | GB62518473              |
         //      | 3.39 Authorisation holder - type code  | OK4U                    |
         //      | 3.40 VAT Number (or TSPVAT)            | 99887766                |
@@ -371,7 +371,34 @@ class DeclarationControllerSpec extends CdsImportsSpec
       }
     }
 
-    "trims whitespace before binding the form" in signedInScenario { user =>
+    "post the expected Seller to the declaration service" in signedInScenario { user =>
+      val formData = declarationTypeFormData ++ Map(
+        "parties.seller.name" -> Seq("Bar Ltd"),
+        "parties.seller.address.streetAndNumber" -> Seq("321 Arcade Av"),
+        "parties.seller.address.city" -> Seq("Leeds"),
+        "parties.seller.address.countryCode" -> Seq("GB"),
+        "parties.seller.address.postcode" -> Seq("LS1 7DP"),
+        "parties.seller.phoneNumber" -> Seq("0113 876 4567"),
+        "parties.seller.identifier" -> Seq("GB2001")
+      )
+
+      val captor: ArgumentCaptor[Declaration] = ArgumentCaptor.forClass(classOf[Declaration])
+      when(mockDeclarationService.submit(any(), captor.capture())(any()))
+        .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
+        status(response) mustBe Status.OK
+
+        val actualDeclaration = captor.getValue
+        actualDeclaration.parties.seller mustBe(Some(Party(
+          name = Some("Bar Ltd"),
+          identifier = Some("GB2001"),
+          address = Some(Address("321 Arcade Av", "Leeds", "GB", "LS1 7DP")),
+          phoneNumber = Some("0113 876 4567"))))
+      }
+    }
+
+    "trims whitespace from buyer before binding the form" in signedInScenario { user =>
       val formData = declarationTypeFormData ++ Map(
         "parties.buyer.name" -> Seq("   Foo Ltd     "),
         "parties.buyer.address.streetAndNumber" -> Seq("123 Wembley Way     "),
@@ -391,6 +418,33 @@ class DeclarationControllerSpec extends CdsImportsSpec
 
         val actualDeclaration = captor.getValue
         actualDeclaration.parties.buyer mustBe(Some(Party(
+          name = Some("Foo Ltd"),
+          identifier = None,
+          address = Some(Address("123 Wembley Way", "London", "GB", "W1A 1AA")),
+          phoneNumber = None)))
+      }
+    }
+
+    "trims whitespace from seller before binding the form" in signedInScenario { user =>
+      val formData = declarationTypeFormData ++ Map(
+        "parties.seller.name" -> Seq("   Foo Ltd     "),
+        "parties.seller.address.streetAndNumber" -> Seq("123 Wembley Way     "),
+        "parties.seller.address.city" -> Seq("London     "),
+        "parties.seller.address.countryCode" -> Seq("GB     "),
+        "parties.seller.address.postcode" -> Seq("W1A 1AA     "),
+        "parties.seller.phoneNumber" -> Seq("     "),
+        "parties.seller.identifier" -> Seq("     ")
+      )
+
+      val captor: ArgumentCaptor[Declaration] = ArgumentCaptor.forClass(classOf[Declaration])
+      when(mockDeclarationService.submit(any(), captor.capture())(any()))
+        .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
+        status(response) mustBe Status.OK
+
+        val actualDeclaration = captor.getValue
+        actualDeclaration.parties.seller mustBe(Some(Party(
           name = Some("Foo Ltd"),
           identifier = None,
           address = Some(Address("123 Wembley Way", "London", "GB", "W1A 1AA")),

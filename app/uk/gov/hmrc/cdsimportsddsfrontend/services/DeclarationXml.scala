@@ -159,6 +159,7 @@ class DeclarationXml {
             <TypeCode>DCR</TypeCode>
             <LineNumeric>1</LineNumeric>
           </PreviousDocument>
+          {maybeParty("Seller", dec.parties.seller)}
           {maybeTradeTerms(dec)}
           <UCR>
             <TraderAssignedReferenceID>1-12345</TraderAssignedReferenceID>

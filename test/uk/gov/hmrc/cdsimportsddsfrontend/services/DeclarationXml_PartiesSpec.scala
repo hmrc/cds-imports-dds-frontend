@@ -29,7 +29,8 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
         Some(Party(None, Some("GB987654321"), None)),
         Some(Party(Some("Fred"), Some("GB12345678F"), Some(Address("123 Girder Street", "Edinburgh", "SC", "E12 4GG")))),
         Some(Party(Some("Barney"), Some("GB12345678A"), Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))),
-        Some(Party(Some("Wilma"), Some("GB14141414"), Some(Address("14 The Calls", "Leeds", "GB", "LS1 1AA")), Some("0113 25 26 27")))
+        Some(Party(Some("Wilma"), Some("GB14141414"), Some(Address("14 The Calls", "Leeds", "GB", "LS1 1AA")), Some("0113 25 26 27"))),
+        Some(Party(Some("Pebbles"), Some("GB4587342"), Some(Address("21 Mountain View", "York", "GB", "YK1 7ZX")), Some("0114 123 456")))
       )
       val declaration = Declaration(parties = someParties)
 
@@ -216,6 +217,72 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
           val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
           (xmlElement \ "Declaration" \ "GoodsShipment" \ "Buyer" \ "Communication").length mustBe 0 withClue ("Found unexpected Buyer Communication tag")
+        }
+      }
+
+      "transforming Seller" should {
+        "populate header-level seller name and ID" in {
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Seller" \ "Name").text mustBe "Pebbles"
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Seller" \ "ID").text mustBe "GB4587342"
+        }
+
+        "populate header-level seller address" in {
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Seller" \ "Address" \ "Line").text mustBe "21 Mountain View"
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Seller" \ "Address" \ "CityName").text mustBe "York"
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Seller" \ "Address" \ "CountryCode").text mustBe "GB"
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Seller" \ "Address" \ "PostcodeID").text mustBe "YK1 7ZX"
+        }
+
+        "populate header-level seller phone number" in {
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Seller" \ "Communication" \ "ID").text mustBe "0114 123 456"
+        }
+
+        "omit Seller tag if no seller provided" in {
+          val someParties = DeclarationParties(seller = None)
+          val declaration = Declaration(parties = someParties)
+
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Seller").length mustBe 0 withClue ("Found unexpected Seller tag")
+        }
+
+        "omit Seller Name tag if no seller name provided" in {
+          val someParties = DeclarationParties(seller = Some(Party(None, Some("GB12345678A"), Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
+          val declaration = Declaration(parties = someParties)
+
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Seller" \ "Name").length mustBe 0 withClue ("Found unexpected Seller Name tag")
+        }
+
+        "omit Seller ID tag if no seller ID provided" in {
+          val someParties = DeclarationParties(seller = Some(Party(Some("Barney"), None, Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
+          val declaration = Declaration(parties = someParties)
+
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Seller" \ "ID").length mustBe 0 withClue ("Found unexpected Seller ID tag")
+        }
+
+        "omit Seller address tag if no seller address provided" in {
+          val someParties = DeclarationParties(seller = Some(Party(Some("Barney"), Some("GB12345678A"), None)))
+          val declaration = Declaration(parties = someParties)
+
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Seller" \ "Address").length mustBe 0 withClue ("Found unexpected Seller Address tag")
+        }
+
+        "omit Seller Communication tag if no seller phone number provided" in {
+          val someParties = DeclarationParties(seller = Some(Party(Some("Barney"), Some("GB12345678A"), None, None)))
+          val declaration = Declaration(parties = someParties)
+
+          val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+
+          (xmlElement \ "Declaration" \ "GoodsShipment" \ "Seller" \ "Communication").length mustBe 0 withClue ("Found unexpected Seller Communication tag")
         }
       }
     }
