@@ -42,8 +42,8 @@ object XmlWriterInstances {
   implicit val authorisationHolderWriter: XmlWriter[AuthorisationHolder] = new XmlWriter[AuthorisationHolder] {
     override def toXml(value: AuthorisationHolder): Option[Elem] = {
       val id = maybeElement("ID", value.identifier)
-      val typeCode = maybeElement("CategoryCode", value.categoryCode)
-      val childNodes: List[Node] = List(id, typeCode).flattenOption
+      val categoryCode = maybeElement("CategoryCode", value.categoryCode)
+      val childNodes: List[Node] = List(id, categoryCode).flattenOption
 
       Option(childNodes).filter(_.nonEmpty).map(nonEmptyChildNodes => <AuthorisationHolder>{nonEmptyChildNodes}</AuthorisationHolder>)
     }
@@ -52,8 +52,8 @@ object XmlWriterInstances {
   implicit val domesticDutyTaxPartyWriter: XmlWriter[DomesticDutyTaxParty] = new XmlWriter[DomesticDutyTaxParty] {
     override def toXml(value: DomesticDutyTaxParty): Option[Elem] = {
       val id = maybeElement("ID", value.identifier)
-      val typeCode = maybeElement("RoleCode", value.roleCode)
-      val childNodes: List[Node] = List(id, typeCode).flattenOption
+      val roleCode = maybeElement("RoleCode", value.roleCode)
+      val childNodes: List[Node] = List(id, roleCode).flattenOption
 
       Option(childNodes).filter(_.nonEmpty).map(nonEmptyChildNodes => <DomesticDutyTaxParty>{nonEmptyChildNodes}</DomesticDutyTaxParty>)
     }
