@@ -16,13 +16,6 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-import uk.gov.hmrc.auth.core.{AffinityGroup, Enrolments}
-import uk.gov.hmrc.auth.core.retrieve.{Credentials, Name}
+import uk.gov.hmrc.auth.core.Enrolments
 
-case class SignedInUser(credentials: Option[Credentials],
-                        name: Option[Name],
-                        email: Option[String],
-                        eori: Eori,
-                        affinityGroup: Option[AffinityGroup],
-                        internalId: Option[String],
-                        enrolments: Enrolments)
+case class SignedInUser(eori: Eori, enrolments: Enrolments)

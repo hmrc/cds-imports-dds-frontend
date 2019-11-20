@@ -44,12 +44,7 @@ trait AuthenticationBehaviours extends MockitoSugar {
   def randomEori: String = Random.alphanumeric.take(EORI_LENGTH).mkString
 
   def subscribedUser(eori: String): SignedInUser = SignedInUser(
-    Some(Credentials("2345235235", "GovernmentGateway")),
-    Some(Name(Some("Aldo"), Some("Rain"))),
-    Some("amina@hmrc.co.uk"),
     eori,
-    Some(AffinityGroup.Organisation),
-    Some("Int-ba17b467-90f3-42b6-9570-73be7b78eb2b"),
     Enrolments(Set(
       Enrolment("IR-SA", List(EnrolmentIdentifier("UTR", "111111111")), "Activated", None),
       Enrolment("IR-CT", List(EnrolmentIdentifier("UTR", "222222222")), "Activated", None),
@@ -78,10 +73,10 @@ trait AuthenticationBehaviours extends MockitoSugar {
       mockAuthConnector
         .authorise(
           ArgumentMatchers.any(),
-          ArgumentMatchers.eq(credentials and name and email and affinityGroup and internalId and allEnrolments))(ArgumentMatchers.any(), ArgumentMatchers.any()
+          ArgumentMatchers.eq(allEnrolments))(ArgumentMatchers.any(), ArgumentMatchers.any()
         )
     ).thenReturn(
-      Future.successful(new ~(new ~(new ~(new ~(new ~(user.credentials, user.name), user.email), user.affinityGroup), user.internalId), user.enrolments))
+      Future.successful(user.enrolments)
     )
     test(user)
   }

@@ -23,7 +23,6 @@ import play.api.mvc._
 import play.api.{Configuration, Environment}
 import uk.gov.hmrc.auth.core._
 import uk.gov.hmrc.auth.core.retrieve.v2.Retrievals
-import uk.gov.hmrc.auth.core.retrieve.~
 import uk.gov.hmrc.cdsimportsddsfrontend.config.{AppConfig, EoriWhitelist, ErrorHandler}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.SignedInUser
 import uk.gov.hmrc.http.HeaderCarrier
@@ -53,8 +52,8 @@ class AuthAction @Inject()(override val authConnector: AuthConnector,
   override protected def refine[A](request: Request[A]): Future[Either[Result, AuthenticatedRequest[A]]] = {
     implicit val hc: HeaderCarrier = HeaderCarrierConverter.fromHeadersAndSession(request.headers, Some(request.session))
 
-    authorised().retrieve(Retrievals.credentials and Retrievals.name and Retrievals.email and Retrievals.affinityGroup and Retrievals.internalId and Retrievals.allEnrolments) {
-      case credentials ~ name ~ email ~ affinityGroup ~ internalId ~ allEnrolments =>
+    authorised().retrieve(Retrievals.allEnrolments) {
+      case allEnrolments =>
         implicit val enrollmentWriter = Json.writes[Enrolments]
         val eoriNumber = allEnrolments.getEnrolment("HMRC-CUS-ORG").flatMap(_.getIdentifier("EORINumber")) match {
           case Some(eori) => eori.value
@@ -62,7 +61,7 @@ class AuthAction @Inject()(override val authConnector: AuthConnector,
         }
 
         if (whitelist.allows(eoriNumber)) {
-          val cdsLoggedInUser = SignedInUser(credentials, name, email, eoriNumber, affinityGroup, internalId, allEnrolments)
+          val cdsLoggedInUser = SignedInUser(eoriNumber, allEnrolments)
           val authenticatedRequest = AuthenticatedRequest(request, cdsLoggedInUser)
           Future.successful(Right(authenticatedRequest))
         }

@@ -35,14 +35,7 @@ class AuthActionSpec extends CdsImportsSpec with AuthenticationBehaviours with J
 
   val controller = new MyFakeController(mockAuthAction)(mcc)
 
-  def notSubscribedUser(): SignedInUser = SignedInUser(
-    Some(Credentials("2345235235","GovernmentGateway")),
-    Some(Name(Some("Aldo"),Some("Rain"))),
-    Some("amina@hmrc.co.uk"),
-    "",
-    Some(AffinityGroup.Individual),
-    Some("Int-ba17b467-90f3-42b6-9570-73be7b78eb2b"),
-    Enrolments(Set())
+  def notSubscribedUser(): SignedInUser = SignedInUser("", Enrolments(Set())
   )
 
 
