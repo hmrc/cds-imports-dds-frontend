@@ -138,6 +138,7 @@ class DeclarationXml {
           </GovernmentAgencyGoodsItem>
           {maybeParty("Importer", dec.parties.importer)}
           {dec.documentationType.headerPreviousDocument.flatMap(_.toXml)}
+          {maybeParty("Seller", dec.parties.seller)}
           {maybeTradeTerms(dec)}
           <UCR>
             <TraderAssignedReferenceID>1-12345</TraderAssignedReferenceID>
