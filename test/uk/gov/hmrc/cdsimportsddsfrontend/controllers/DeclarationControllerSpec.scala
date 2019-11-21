@@ -375,7 +375,12 @@ class DeclarationControllerSpec extends CdsImportsSpec
     }
 
     "post the expected additional information data to the declaration service" in signedInScenario { user =>
-      val formData = declarationTypeFormData ++ documentationFormData
+
+      val formData =
+        declarationTypeFormData ++
+        previousDocumentHeaderFormData ++
+        previousDocumentItemFormData ++
+        documentationFormData
 
       val captor: ArgumentCaptor[Declaration] = ArgumentCaptor.forClass(classOf[Declaration])
       when(mockDeclarationService.submit(any(), captor.capture())(any()))
@@ -399,6 +404,46 @@ class DeclarationControllerSpec extends CdsImportsSpec
         actualDeclaration.documentationType.itemAdditionalInformation(4).description mustBe (Some("itemAdditionalInfoDescription 5"))
         actualDeclaration.documentationType.itemAdditionalInformation(5).code mustBe (Some("itemAdditionalInfoCode 6"))
         actualDeclaration.documentationType.itemAdditionalInformation(5).description mustBe (Some("itemAdditionalInfoDescription 6"))
+        actualDeclaration.documentationType.headerPreviousDocument(0).categoryCode mustBe Some("header_categoryCode_1")
+        actualDeclaration.documentationType.headerPreviousDocument(0).id mustBe Some("header_id_1")
+        actualDeclaration.documentationType.headerPreviousDocument(0).typeCode mustBe Some("header_typeCode_1")
+        actualDeclaration.documentationType.headerPreviousDocument(0).lineNumeric mustBe Some("header_lineNumeric_1")
+        actualDeclaration.documentationType.headerPreviousDocument(1).categoryCode mustBe Some("header_categoryCode_2")
+        actualDeclaration.documentationType.headerPreviousDocument(1).id mustBe Some("header_id_2")
+        actualDeclaration.documentationType.headerPreviousDocument(1).typeCode mustBe Some("header_typeCode_2")
+        actualDeclaration.documentationType.headerPreviousDocument(1).lineNumeric mustBe Some("header_lineNumeric_2")
+        actualDeclaration.documentationType.headerPreviousDocument(2).categoryCode mustBe Some("header_categoryCode_3")
+        actualDeclaration.documentationType.headerPreviousDocument(2).id mustBe Some("header_id_3")
+        actualDeclaration.documentationType.headerPreviousDocument(2).typeCode mustBe Some("header_typeCode_3")
+        actualDeclaration.documentationType.headerPreviousDocument(2).lineNumeric mustBe Some("header_lineNumeric_3")
+        actualDeclaration.documentationType.headerPreviousDocument(3).categoryCode mustBe Some("header_categoryCode_4")
+        actualDeclaration.documentationType.headerPreviousDocument(3).id mustBe Some("header_id_4")
+        actualDeclaration.documentationType.headerPreviousDocument(3).typeCode mustBe Some("header_typeCode_4")
+        actualDeclaration.documentationType.headerPreviousDocument(3).lineNumeric mustBe Some("header_lineNumeric_4")
+        actualDeclaration.documentationType.itemPreviousDocument(0).categoryCode mustBe Some("item_categoryCode_1")
+        actualDeclaration.documentationType.itemPreviousDocument(0).id mustBe Some("item_id_1")
+        actualDeclaration.documentationType.itemPreviousDocument(0).typeCode mustBe Some("item_typeCode_1")
+        actualDeclaration.documentationType.itemPreviousDocument(0).lineNumeric mustBe Some("item_lineNumeric_1")
+        actualDeclaration.documentationType.itemPreviousDocument(1).categoryCode mustBe Some("item_categoryCode_2")
+        actualDeclaration.documentationType.itemPreviousDocument(1).id mustBe Some("item_id_2")
+        actualDeclaration.documentationType.itemPreviousDocument(1).typeCode mustBe Some("item_typeCode_2")
+        actualDeclaration.documentationType.itemPreviousDocument(1).lineNumeric mustBe Some("item_lineNumeric_2")
+        actualDeclaration.documentationType.itemPreviousDocument(2).categoryCode mustBe Some("item_categoryCode_3")
+        actualDeclaration.documentationType.itemPreviousDocument(2).id mustBe Some("item_id_3")
+        actualDeclaration.documentationType.itemPreviousDocument(2).typeCode mustBe Some("item_typeCode_3")
+        actualDeclaration.documentationType.itemPreviousDocument(2).lineNumeric mustBe Some("item_lineNumeric_3")
+        actualDeclaration.documentationType.itemPreviousDocument(3).categoryCode mustBe Some("item_categoryCode_4")
+        actualDeclaration.documentationType.itemPreviousDocument(3).id mustBe Some("item_id_4")
+        actualDeclaration.documentationType.itemPreviousDocument(3).typeCode mustBe Some("item_typeCode_4")
+        actualDeclaration.documentationType.itemPreviousDocument(3).lineNumeric mustBe Some("item_lineNumeric_4")
+        actualDeclaration.documentationType.itemPreviousDocument(4).categoryCode mustBe Some("item_categoryCode_5")
+        actualDeclaration.documentationType.itemPreviousDocument(4).id mustBe Some("item_id_5")
+        actualDeclaration.documentationType.itemPreviousDocument(4).typeCode mustBe Some("item_typeCode_5")
+        actualDeclaration.documentationType.itemPreviousDocument(4).lineNumeric mustBe Some("item_lineNumeric_5")
+        actualDeclaration.documentationType.itemPreviousDocument(5).categoryCode mustBe Some("item_categoryCode_6")
+        actualDeclaration.documentationType.itemPreviousDocument(5).id mustBe Some("item_id_6")
+        actualDeclaration.documentationType.itemPreviousDocument(5).typeCode mustBe Some("item_typeCode_6")
+        actualDeclaration.documentationType.itemPreviousDocument(5).lineNumeric mustBe Some("item_lineNumeric_6")
       }
     }
 
@@ -573,6 +618,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
 }
 
 object DeclarationControllerSpec {
+
   val declarationTypeFormData: Map[String, Seq[String]] = Map(
     "declarationType.declarationType" -> Seq("declarationType"),
     "declarationType.additionalDeclarationType" -> Seq("additionalDeclarationType"),
@@ -583,75 +629,19 @@ object DeclarationControllerSpec {
     "declarationType.additionalProcedureCode" -> Seq("additionalProcedureCode")
   )
 
-  val previousDocumentFormData = Map(
-    "documentationType.previousDocument[0].categoryCode" -> Seq("categoryCode"),
-    "documentationType.previousDocument[0].typeCode" -> Seq("typeCode"),
-    "documentationType.previousDocument[0].id" -> Seq("id"),
-    "documentationType.previousDocument[0].lineNumeric" -> Seq("lineNumeric"),
+  private def previousDocumentFormDataRow(level: String, index: Int) = {
+    Map(
+      s"documentationType.${level}.previousDocument[$index].categoryCode" -> Seq(s"${level}_categoryCode_${index+1}"),
+      s"documentationType.${level}.previousDocument[$index].typeCode" -> Seq(s"${level}_typeCode_${index+1}"),
+      s"documentationType.${level}.previousDocument[$index].id" -> Seq(s"${level}_id_${index+1}"),
+      s"documentationType.${level}.previousDocument[$index].lineNumeric" -> Seq(s"${level}_lineNumeric_${index+1}"))
+  }
 
-    "documentationType.previousDocument[1].categoryCode" -> Seq("categoryCode2"),
-    "documentationType.previousDocument[1].typeCode" -> Seq("typeCode2"),
-    "documentationType.previousDocument[1].id" -> Seq("id2"),
-    "documentationType.previousDocument[1].lineNumeric" -> Seq("lineNumeric2"),
+  val previousDocumentHeaderFormData: Map[String, Seq[String]] =
+    (0 to 3).flatMap(i => previousDocumentFormDataRow("header", i)).toMap
 
-    "documentationType.previousDocument[2].categoryCode" -> Seq("categoryCode"),
-    "documentationType.previousDocument[2].typeCode" -> Seq("typeCode"),
-    "documentationType.previousDocument[2].id" -> Seq("id"),
-    "documentationType.previousDocument[2].lineNumeric" -> Seq("lineNumeric"),
-
-    "documentationType.previousDocument[3].categoryCode" -> Seq("categoryCode"),
-    "documentationType.previousDocument[3].typeCode" -> Seq("typeCode"),
-    "documentationType.previousDocument[3].id" -> Seq("id"),
-    "documentationType.previousDocument[3].lineNumeric" -> Seq("lineNumeric"),
-
-    "documentationType.previousDocument[4].categoryCode" -> Seq("categoryCode"),
-    "documentationType.previousDocument[4].typeCode" -> Seq("typeCode"),
-    "documentationType.previousDocument[4].id" -> Seq("id"),
-    "documentationType.previousDocument[4].lineNumeric" -> Seq("lineNumeric"),
-
-    "documentationType.previousDocument[5].categoryCode" -> Seq("categoryCode"),
-    "documentationType.previousDocument[5].typeCode" -> Seq("typeCode"),
-    "documentationType.previousDocument[5].id" -> Seq("id"),
-    "documentationType.previousDocument[5].lineNumeric" -> Seq("lineNumeric")
-  )
-
-  val additionalDocumentFormData = Map(
-    "documentationType.additionalDocument[0].categoryCode" -> Seq("categoryCode"),
-    "documentationType.additionalDocument[0].typeCode" -> Seq("typeCode"),
-    "documentationType.additionalDocument[0].id" -> Seq("id"),
-    "documentationType.additionalDocument[0].lpco" -> Seq("lpco"),
-    "documentationType.additionalDocument[0].name" -> Seq("name"),
-
-    "documentationType.additionalDocument[1].categoryCode" -> Seq("categoryCode"),
-    "documentationType.additionalDocument[1].typeCode" -> Seq("typeCode"),
-    "documentationType.additionalDocument[1].id" -> Seq("id"),
-    "documentationType.additionalDocument[1].lpco" -> Seq("lpco"),
-    "documentationType.additionalDocument[1].name" -> Seq("name"),
-
-    "documentationType.additionalDocument[2].categoryCode" -> Seq("categoryCode"),
-    "documentationType.additionalDocument[2].typeCode" -> Seq("typeCode"),
-    "documentationType.additionalDocument[2].id" -> Seq("id"),
-    "documentationType.additionalDocument[2].lpco" -> Seq("lpco"),
-    "documentationType.additionalDocument[2].name" -> Seq("name"),
-
-    "documentationType.additionalDocument[3].categoryCode" -> Seq("categoryCode"),
-    "documentationType.additionalDocument[3].typeCode" -> Seq("typeCode"),
-    "documentationType.additionalDocument[3].id" -> Seq("id"),
-    "documentationType.additionalDocument[3].lpco" -> Seq("lpco"),
-    "documentationType.additionalDocument[3].name" -> Seq("name"),
-
-    "documentationType.additionalDocument[4].categoryCode" -> Seq("categoryCode"),
-    "documentationType.additionalDocument[4].typeCode" -> Seq("typeCode"),
-    "documentationType.additionalDocument[4].id" -> Seq("id"),
-    "documentationType.additionalDocument[4].lpco" -> Seq("lpco"),
-    "documentationType.additionalDocument[4].name" -> Seq("name"),
-
-    "documentationType.additionalDocument[5].categoryCode" -> Seq("categoryCode"),
-    "documentationType.additionalDocument[5].typeCode" -> Seq("typeCode"),
-    "documentationType.additionalDocument[5].id" -> Seq("id"),
-    "documentationType.additionalDocument[5].lpco" -> Seq("lpco"),
-    "documentationType.additionalDocument[5].name" -> Seq("name")
-  )
+  val previousDocumentItemFormData: Map[String, Seq[String]] =
+    (0 to 5).flatMap(i => previousDocumentFormDataRow("item", i)).toMap
 
   val documentationFormData = Map(
     "documentationType.header.additionalInformation.code" -> Seq("additionalInfoCode"),
