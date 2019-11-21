@@ -22,6 +22,7 @@ case class DeclarationParties(
                                exporter: Option[Party] = Some(Party(identifier = Some("GB025115155321"))),
                                buyer: Option[Party] = None,
                                seller: Option[Party] = None,
-                               authorisationHolders: Seq[AuthorisationHolder] = Seq(),
+                               authorisationHolders: Seq[AuthorisationHolder] = Seq(AuthorisationHolder(Some("GB201909014000"), Some("EIR")),
+                                                                                    AuthorisationHolder(Some("GB201909014000"), Some("DPO"))),
                                domesticDutyTaxParties: Seq[DomesticDutyTaxParty] = Seq()
                              )
