@@ -27,8 +27,9 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
     "be populated in the XML" in {
       val declaration = Declaration()
 
-      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
-      val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
+      val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
+      val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
+      val governmentAgencyGoodsItem = goodsShipment \ "GovernmentAgencyGoodsItem"
 
       (governmentAgencyGoodsItem \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) mustBe List("Y", "Y", "Z", "Z", "Z", "Z")
       (governmentAgencyGoodsItem \ "PreviousDocument" \ "TypeCode").toList.map(_.text) mustBe List("CLE", "DCR", "ZZZ", "235", "ZZZ", "270")
@@ -40,6 +41,11 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       (governmentAgencyGoodsItem \ "AdditionalDocument" \ "ID").toList.map(_.text) mustBe List("12345/30.09.2019", "GBEIR201909014000", "GBDPO1909241", "12345/30.07.2019", "12345/30.08.2019", "12345/30.09.2019")
       (governmentAgencyGoodsItem \ "AdditionalDocument" \ "LPCOExemptionCode").toList.map(_.text) mustBe List("AC", "AC", "AC", "AC")
       (governmentAgencyGoodsItem \ "AdditionalDocument" \ "Name").toList.map(_.text) mustBe List("DocumentName1")
+
+      (goodsShipment \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) mustBe List("Y", "Y", "Y", "Y")
+      (goodsShipment \ "PreviousDocument" \ "TypeCode").toList.map(_.text) mustBe List("CLE", "DCR", "CLE", "DCR")
+      (goodsShipment \ "PreviousDocument" \ "ID").toList.map(_.text) mustBe List("20191101", "9GB201909014000", "20191101", "9GB201909014000")
+      (goodsShipment \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) mustBe List("1", "1", "1", "1")
 
       (xmlElement \ "Declaration" \ "FunctionalReferenceID").head.text mustBe declaration.documentationType.localReferenceNumber.getOrElse("#unexpected")
       (xmlElement \ "Declaration" \ "AdditionalDocument" \ "ID").head.text mustBe "1909241"
@@ -53,7 +59,7 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
     "omit item-level additional information if empty" in {
       val declaration = Declaration()
 
-      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
 
       val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
       (governmentAgencyGoodsItem \ "AdditionalInformation").toList mustBe Nil
@@ -64,7 +70,7 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       val documentation = DocumentationType().copy(itemAdditionalInformation = Seq(additionalInformation))
       val declaration = Declaration().copy(documentationType = documentation)
 
-      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
 
       val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
       (governmentAgencyGoodsItem \ "AdditionalInformation" \ "StatementCode").toList.map(_.text) mustBe List("foo")
@@ -82,7 +88,7 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       val documentation = DocumentationType().copy(itemAdditionalInformation = tooMuchInformation)
       val declaration = Declaration().copy(documentationType = documentation)
 
-      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
 
       val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
       (governmentAgencyGoodsItem \ "AdditionalInformation" \ "StatementCode").toList.map(_.text) mustBe List("foo1", "foo2", "foo3", "foo4", "foo5", "foo6")
@@ -97,7 +103,7 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       val documentation = DocumentationType().copy(itemAdditionalInformation = partialInformation)
       val declaration = Declaration().copy(documentationType = documentation)
 
-      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
 
       val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
       (governmentAgencyGoodsItem \ "AdditionalInformation" \ "StatementCode").toList.map(_.text) mustBe List("foo1", "foo3")
@@ -111,7 +117,7 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       val documentation = DocumentationType().copy(itemAdditionalInformation = partialInformation)
       val declaration = Declaration().copy(documentationType = documentation)
 
-      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
 
       val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
       (governmentAgencyGoodsItem \ "AdditionalInformation" \ "StatementDescription").toList.map(_.text) mustBe List("bar1", "bar3")
@@ -125,23 +131,47 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       val documentation = DocumentationType().copy(itemAdditionalInformation = partialInformation)
       val declaration = Declaration().copy(documentationType = documentation)
 
-      val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
 
       val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
       (governmentAgencyGoodsItem \ "AdditionalInformation").toList.length mustBe 2
     }
   }
 
-  "Previous documents data" should {
+  "omit item level previous documents data" should {
     "not be populated in the XML when previous document is empty" in {
 
-      val documentationEmpty = DocumentationType().copy(previousDocument = Seq.empty)
+      val documentationEmpty = DocumentationType().copy(itemPreviousDocument = Seq.empty)
+      val declaration = Declaration().copy(documentationType = documentationEmpty)
+      val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
+      val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
+
+      (governmentAgencyGoodsItem \ "PreviousDocument").toList.length mustBe 0
+    }
+  }
+
+  "render a single item level previous document element" in {
+    val previousDocument = PreviousDocument(Some("foo"), Some("bar"), None, None)
+    val documentation = DocumentationType().copy(itemPreviousDocument = Seq(previousDocument))
+    val declaration = Declaration().copy(documentationType = documentation)
+
+    val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
+
+    val governmentAgencyGoodsItem = xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"
+    (governmentAgencyGoodsItem \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) mustBe List("foo")
+    (governmentAgencyGoodsItem \ "PreviousDocument" \ "ID").toList.map(_.text) mustBe List("bar")
+  }
+
+  "Header level Previous documents data" should {
+    "not be populated in the XML when previous document is empty" in {
+
+      val documentationEmpty = DocumentationType().copy(headerPreviousDocument = Seq.empty)
       val declaration = Declaration().copy(documentationType = documentationEmpty)
 
       val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
-      val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
+      val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
 
-      (governmentAgencyGoodsItem \ "PreviousDocument").toList.size mustBe 0
+      (goodsShipment \ "PreviousDocument").toList.length mustBe 0
     }
   }
 

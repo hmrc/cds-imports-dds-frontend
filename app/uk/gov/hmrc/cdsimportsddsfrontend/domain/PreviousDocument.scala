@@ -17,8 +17,8 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class PreviousDocument(
-                             categoryCode: Option[String] = Some("Y"),
-                             id: Option[String] = Some("20191101"),
-                             typeCode: Option[String] = Some("CLE"),
-                             lineNumeric: Option[String] = Some("lnx")
-                           )
+  categoryCode: Option[String],
+  id: Option[String],
+  typeCode: Option[String],
+  lineNumeric: Option[String]
+)

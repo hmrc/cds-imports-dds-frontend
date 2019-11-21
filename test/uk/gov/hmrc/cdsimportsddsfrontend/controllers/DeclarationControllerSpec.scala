@@ -69,33 +69,62 @@ class DeclarationControllerSpec extends CdsImportsSpec
       }
     }
 
-    "show the expected previous document form fields" in signedInScenario { user =>
+    "show the expected header previous document form fields" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[0].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[0].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[0].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[0].lineNumeric")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[1].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[1].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[1].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[1].lineNumeric")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[2].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[2].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[2].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[2].lineNumeric")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[3].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[3].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[3].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[3].lineNumeric")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[4].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[4].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[4].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[4].lineNumeric")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[5].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[5].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[5].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[5].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[0].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[0].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[0].id")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[0].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[1].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[1].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[1].id")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[1].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[2].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[2].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[2].id")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[2].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[3].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[3].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[3].id")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[3].lineNumeric")
+      }
+    }
+
+
+    "show the expected item previous document form fields" in signedInScenario { user =>
+      new GetScenario() {
+        status(response) mustBe Status.OK
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[0].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[0].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[0].id")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[0].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[1].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[1].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[1].id")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[1].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[2].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[2].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[2].id")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[2].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[3].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[3].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[3].id")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[3].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[4].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[4].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[4].id")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[4].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[5].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[5].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[5].id")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[5].lineNumeric")
+      }
+    }
+
+    "show the expected additional information form fields" in signedInScenario { user =>
+      new GetScenario() {
+        status(response) mustBe Status.OK
         body should include element withName("input").withAttrValue("name", "documentationType.header.additionalInformation.code")
         body should include element withName("input").withAttrValue("name", "documentationType.header.additionalInformation.description")
         body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[0].code")
@@ -165,38 +194,38 @@ class DeclarationControllerSpec extends CdsImportsSpec
       }
     }
 
-    "show the previous document expected field labels" in signedInScenario { user =>
+    "show the item previous document expected field labels" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_0_categoryCode").withValue("2.1 Previous Document Category 1")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_0_id").withValue("2.1 Previous Document Goods Item Identifier 1")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_0_typeCode").withValue("2.1 Previous Document Type 1")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_0_lineNumeric").withValue("2.1 Previous Document Reference 1")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_0_categoryCode").withValue("Item 2.1 Previous Document Category 1")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_0_id").withValue("Item 2.1 Previous Document Goods Item Identifier 1")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_0_typeCode").withValue("Item 2.1 Previous Document Type 1")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_0_lineNumeric").withValue("Item 2.1 Previous Document Reference 1")
 
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_1_categoryCode").withValue("2.1 Previous Document Category 2")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_1_id").withValue("2.1 Previous Document Goods Item Identifier 2")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_1_typeCode").withValue("2.1 Previous Document Type 2")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_1_lineNumeric").withValue("2.1 Previous Document Reference 2")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_1_categoryCode").withValue("Item 2.1 Previous Document Category 2")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_1_id").withValue("Item 2.1 Previous Document Goods Item Identifier 2")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_1_typeCode").withValue("Item 2.1 Previous Document Type 2")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_1_lineNumeric").withValue("Item 2.1 Previous Document Reference 2")
 
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_2_categoryCode").withValue("2.1 Previous Document Category 3")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_2_id").withValue("2.1 Previous Document Goods Item Identifier 3")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_2_typeCode").withValue("2.1 Previous Document Type 3")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_2_lineNumeric").withValue("2.1 Previous Document Reference 3")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_2_categoryCode").withValue("Item 2.1 Previous Document Category 3")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_2_id").withValue("Item 2.1 Previous Document Goods Item Identifier 3")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_2_typeCode").withValue("Item 2.1 Previous Document Type 3")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_2_lineNumeric").withValue("Item 2.1 Previous Document Reference 3")
 
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_3_categoryCode").withValue("2.1 Previous Document Category 4")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_3_id").withValue("2.1 Previous Document Goods Item Identifier 4")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_3_typeCode").withValue("2.1 Previous Document Type 4")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_3_lineNumeric").withValue("2.1 Previous Document Reference 4")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_3_categoryCode").withValue("Item 2.1 Previous Document Category 4")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_3_id").withValue("Item 2.1 Previous Document Goods Item Identifier 4")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_3_typeCode").withValue("Item 2.1 Previous Document Type 4")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_3_lineNumeric").withValue("Item 2.1 Previous Document Reference 4")
 
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_4_categoryCode").withValue("2.1 Previous Document Category 5")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_4_id").withValue("2.1 Previous Document Goods Item Identifier 5")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_4_typeCode").withValue("2.1 Previous Document Type 5")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_4_lineNumeric").withValue("2.1 Previous Document Reference 5")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_4_categoryCode").withValue("Item 2.1 Previous Document Category 5")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_4_id").withValue("Item 2.1 Previous Document Goods Item Identifier 5")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_4_typeCode").withValue("Item 2.1 Previous Document Type 5")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_4_lineNumeric").withValue("Item 2.1 Previous Document Reference 5")
 
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_5_categoryCode").withValue("2.1 Previous Document Category 6")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_5_id").withValue("2.1 Previous Document Goods Item Identifier 6")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_5_typeCode").withValue("2.1 Previous Document Type 6")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_previousDocument_5_lineNumeric").withValue("2.1 Previous Document Reference 6")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_5_categoryCode").withValue("Item 2.1 Previous Document Category 6")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_5_id").withValue("Item 2.1 Previous Document Goods Item Identifier 6")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_5_typeCode").withValue("Item 2.1 Previous Document Type 6")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_5_lineNumeric").withValue("Item 2.1 Previous Document Reference 6")
       }
     }
 
@@ -213,38 +242,63 @@ class DeclarationControllerSpec extends CdsImportsSpec
       }
     }
 
-    "show the expected pre-populated previous document field values" in signedInScenario { user =>
+    "show the expected pre-populated header previous document field values" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[0].categoryCode").withAttrValue("value", "Y")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[0].id").withAttrValue("value", "20191101")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[0].typeCode").withAttrValue("value", "CLE")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[0].lineNumeric").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[0].categoryCode").withAttrValue("value", "Y")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[0].id").withAttrValue("value", "20191101")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[0].typeCode").withAttrValue("value", "CLE")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[0].lineNumeric").withAttrValue("value", "1")
 
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[1].categoryCode").withAttrValue("value", "Y")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[1].id").withAttrValue("value", "9GB201909014000")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[1].typeCode").withAttrValue("value", "DCR")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[1].lineNumeric").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[1].categoryCode").withAttrValue("value", "Y")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[1].id").withAttrValue("value", "9GB201909014000")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[1].typeCode").withAttrValue("value", "DCR")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[1].lineNumeric").withAttrValue("value", "1")
 
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[2].categoryCode").withAttrValue("value", "Z")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[2].id").withAttrValue("value", "20191103")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[2].typeCode").withAttrValue("value", "ZZZ")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[2].lineNumeric").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[2].categoryCode").withAttrValue("value", "Y")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[2].id").withAttrValue("value", "20191101")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[2].typeCode").withAttrValue("value", "CLE")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[2].lineNumeric").withAttrValue("value", "1")
 
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[3].categoryCode").withAttrValue("value", "Z")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[3].id").withAttrValue("value", "9GB201909014002")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[3].typeCode").withAttrValue("value", "235")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[3].lineNumeric").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[3].categoryCode").withAttrValue("value", "Y")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[3].id").withAttrValue("value", "9GB201909014000")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[3].typeCode").withAttrValue("value", "DCR")
+        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[3].lineNumeric").withAttrValue("value", "1")
+      }
+    }
 
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[4].categoryCode").withAttrValue("value", "Z")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[4].id").withAttrValue("value", "9GB201909014003")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[4].typeCode").withAttrValue("value", "ZZZ")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[4].lineNumeric").withAttrValue("value", "1")
+    "show the expected pre-populated item previous document field values" in signedInScenario { user =>
+      new GetScenario() {
+        status(response) mustBe Status.OK
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[0].categoryCode").withAttrValue("value", "Y")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[0].id").withAttrValue("value", "20191101")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[0].typeCode").withAttrValue("value", "CLE")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[0].lineNumeric").withAttrValue("value", "1")
 
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[5].categoryCode").withAttrValue("value", "Z")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[5].id").withAttrValue("value", "9GB201909014004")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[5].typeCode").withAttrValue("value", "270")
-        body should include element withName("input").withAttrValue("name", "documentationType.previousDocument[5].lineNumeric").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[1].categoryCode").withAttrValue("value", "Y")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[1].id").withAttrValue("value", "9GB201909014000")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[1].typeCode").withAttrValue("value", "DCR")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[1].lineNumeric").withAttrValue("value", "1")
+
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[2].categoryCode").withAttrValue("value", "Z")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[2].id").withAttrValue("value", "20191103")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[2].typeCode").withAttrValue("value", "ZZZ")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[2].lineNumeric").withAttrValue("value", "1")
+
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[3].categoryCode").withAttrValue("value", "Z")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[3].id").withAttrValue("value", "9GB201909014002")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[3].typeCode").withAttrValue("value", "235")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[3].lineNumeric").withAttrValue("value", "1")
+
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[4].categoryCode").withAttrValue("value", "Z")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[4].id").withAttrValue("value", "9GB201909014003")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[4].typeCode").withAttrValue("value", "ZZZ")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[4].lineNumeric").withAttrValue("value", "1")
+
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[5].categoryCode").withAttrValue("value", "Z")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[5].id").withAttrValue("value", "9GB201909014004")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[5].typeCode").withAttrValue("value", "270")
+        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[5].lineNumeric").withAttrValue("value", "1")
       }
     }
   }
