@@ -146,6 +146,19 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       (governmentAgencyGoodsItem \ "PreviousDocument").toList.length mustBe 0
     }
 
+    "omit item level previous document nodes if previous document fields are None or empty strings" in {
+      val previousDocumentWithNonesAndEmptyStrings =
+        PreviousDocument(categoryCode = None, id = Some(""), typeCode = Some(""), lineNumeric = None)
+
+      val documentationEmpty = DocumentationType().copy(itemPreviousDocument =
+        Seq(previousDocumentWithNonesAndEmptyStrings))
+      val declaration = Declaration().copy(documentationType = documentationEmpty)
+      val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
+      val governmentAgencyGoodsItem = xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"
+
+      (governmentAgencyGoodsItem \ "PreviousDocument").toList.length mustBe 0
+    }
+
     "render a single item level previous document element with all child nodes present if all fields are non-empty" in {
       val previousDocument =
         PreviousDocument(categoryCode = Some("foo"), id = Some("bar"), typeCode = Some("foo1"), lineNumeric = Some("bar1"))
@@ -246,6 +259,115 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
         val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
 
         (goodsShipment \ "PreviousDocument").toList.length mustBe 0
+      }
+
+      "omit header level previous document nodes if previous document fields are empty" in {
+        val documentationEmpty = DocumentationType().copy(headerPreviousDocument = Seq.empty)
+        val declaration = Declaration().copy(documentationType = documentationEmpty)
+        val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
+        val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
+
+        (goodsShipment \ "PreviousDocument").toList.length mustBe 0
+      }
+
+      "omit header level previous document nodes if previous document fields are None or empty strings" in {
+        val previousDocumentWithNonesAndEmptyStrings =
+          PreviousDocument(categoryCode = None, id = Some(""), typeCode = Some(""), lineNumeric = None)
+
+        val documentationEmpty = DocumentationType().copy(headerPreviousDocument =
+          Seq(previousDocumentWithNonesAndEmptyStrings))
+        val declaration = Declaration().copy(documentationType = documentationEmpty)
+        val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
+        val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
+
+        (goodsShipment \ "PreviousDocument").toList.length mustBe 0
+      }
+
+      "render a single header level previous document element with all child nodes present if all fields are non-empty" in {
+        val previousDocument =
+          PreviousDocument(categoryCode = Some("foo"), id = Some("bar"), typeCode = Some("foo1"), lineNumeric = Some("bar1"))
+        val documentation = DocumentationType().copy(headerPreviousDocument = Seq(previousDocument))
+        val declaration = Declaration().copy(documentationType = documentation)
+        val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
+        val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
+
+        (goodsShipment \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) mustBe List("foo")
+        (goodsShipment \ "PreviousDocument" \ "ID").toList.map(_.text) mustBe List("bar")
+        (goodsShipment \ "PreviousDocument" \ "TypeCode").toList.map(_.text) mustBe List("foo1")
+        (goodsShipment \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) mustBe List("bar1")
+      }
+
+      "render a previous document header node without CategoryCode element if the field is empty" in {
+        val previousDocument =
+          PreviousDocument(categoryCode = None, id = Some("bar"), typeCode = Some("foo1"), lineNumeric = Some("bar1"))
+        val documentation = DocumentationType().copy(headerPreviousDocument = Seq(previousDocument))
+        val declaration = Declaration().copy(documentationType = documentation)
+        val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
+
+        val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
+        (goodsShipment \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) mustBe List.empty
+        (goodsShipment \ "PreviousDocument" \ "ID").toList.map(_.text) mustBe List("bar")
+        (goodsShipment \ "PreviousDocument" \ "TypeCode").toList.map(_.text) mustBe List("foo1")
+        (goodsShipment \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) mustBe List("bar1")
+      }
+
+      "render a previous document header node without ID element if the field is empty" in {
+        val previousDocument =
+          PreviousDocument(categoryCode = Some("foo"), id = None, typeCode = Some("foo1"), lineNumeric = Some("bar1"))
+        val documentation = DocumentationType().copy(headerPreviousDocument = Seq(previousDocument))
+        val declaration = Declaration().copy(documentationType = documentation)
+        val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
+        val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
+
+        (goodsShipment \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) mustBe List("foo")
+        (goodsShipment \ "PreviousDocument" \ "ID").toList.map(_.text) mustBe List.empty
+        (goodsShipment \ "PreviousDocument" \ "TypeCode").toList.map(_.text) mustBe List("foo1")
+        (goodsShipment \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) mustBe List("bar1")
+      }
+
+      "render a previous document header node without TypeCode element if the field is empty" in {
+        val previousDocument =
+          PreviousDocument(categoryCode = Some("foo"), id = Some("bar"), typeCode = None, lineNumeric = Some("bar1"))
+        val documentation = DocumentationType().copy(headerPreviousDocument = Seq(previousDocument))
+        val declaration = Declaration().copy(documentationType = documentation)
+        val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
+        val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
+        (goodsShipment \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) mustBe List("foo")
+        (goodsShipment \ "PreviousDocument" \ "ID").toList.map(_.text) mustBe List("bar")
+        (goodsShipment \ "PreviousDocument" \ "TypeCode").toList.map(_.text) mustBe List.empty
+        (goodsShipment \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) mustBe List("bar1")
+      }
+
+      "render a previous document header node without LineNumeric element if the field is empty" in {
+        val previousDocument =
+          PreviousDocument(categoryCode = Some("foo"), id = Some("bar"), typeCode = Some("foo1"), lineNumeric = None)
+        val documentation = DocumentationType().copy(headerPreviousDocument = Seq(previousDocument))
+        val declaration = Declaration().copy(documentationType = documentation)
+        val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
+        val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
+
+        (goodsShipment \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) mustBe List("foo")
+        (goodsShipment \ "PreviousDocument" \ "ID").toList.map(_.text) mustBe List("bar")
+        (goodsShipment \ "PreviousDocument" \ "TypeCode").toList.map(_.text) mustBe List("foo1")
+        (goodsShipment \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) mustBe List.empty
+      }
+
+      "render 4 header level previous document elements" in {
+        val previousDocuments = (1 to 4).map(i => PreviousDocument(
+          Some(s"category_$i"),Some(s"id_$i"), Some(s"typeCode_$i"), Some(s"lineNumeric_$i"))).toSeq
+        val documentation = DocumentationType().copy(headerPreviousDocument = previousDocuments)
+        val declaration = Declaration().copy(documentationType = documentation)
+        val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
+        val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
+
+        (goodsShipment \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) mustBe
+          List("category_1", "category_2", "category_3", "category_4")
+        (goodsShipment \ "PreviousDocument" \ "ID").toList.map(_.text) mustBe
+          List("id_1", "id_2", "id_3", "id_4")
+        (goodsShipment \ "PreviousDocument" \ "TypeCode").toList.map(_.text) mustBe
+          List("typeCode_1", "typeCode_2", "typeCode_3", "typeCode_4")
+        (goodsShipment \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) mustBe
+          List("lineNumeric_1", "lineNumeric_2", "lineNumeric_3", "lineNumeric_4")
       }
     }
   }
