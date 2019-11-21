@@ -43,10 +43,10 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
       (item \ "Commodity" \ "DutyTaxFee" \ "Payment" \ "MethodCode").head.text mustBe "E"
       (item \ "ValuationAdjustment" \ "AdditionCode").head.text mustBe "0000"
       (item \ "Commodity" \ "InvoiceLine" \ "ItemChargeAmount").head.text mustBe "100"
-      (item \ "Commodity" \ "InvoiceLine" \ "ItemChargeAmount").head.attribute("currencyID").get.head.text mustBe "GBP"
+      (item \ "Commodity" \ "InvoiceLine" \ "ItemChargeAmount" \ "@currencyID").head.text mustBe "GBP"
       (item \ "CustomsValuation" \ "MethodCode").head.text mustBe "1"
       (item \ "CustomsValuation" \ "ChargeDeduction" \ "OtherChargeDeductionAmount").head.text mustBe "9001"
-      (item \ "CustomsValuation" \ "ChargeDeduction" \ "OtherChargeDeductionAmount").head.attribute("currencyID").get.head.text mustBe "HUF"
+      (item \ "CustomsValuation" \ "ChargeDeduction" \ "OtherChargeDeductionAmount" \ "@currencyID").head.text mustBe "HUF"
       (item \ "CustomsValuation" \ "ChargeDeduction" \ "ChargesTypeCode").head.text mustBe "FOO"
       (item \ "Commodity" \ "DutyTaxFee" \ "DutyRegimeCode").head.text mustBe "100"
     }
