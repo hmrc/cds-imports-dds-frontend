@@ -23,7 +23,7 @@
   value: Option[String] = None
 )(implicit messages: Messages)
 <div class="govuk-form-group">
-   <label class="govuk-label" for="@{field.id}">@messages(label, labelArgs: _*)</label>
+   <label class="govuk-label" for="@{field.id}">@Html(messages(label, labelArgs: _*))</label>
    <input
        class="govuk-input @inputClass"
        id="@{field.id}"
