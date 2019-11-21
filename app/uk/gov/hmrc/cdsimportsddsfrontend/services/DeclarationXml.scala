@@ -143,22 +143,11 @@ class DeclarationXml {
               <QuantityQuantity>55</QuantityQuantity>
               <TypeCode>PK</TypeCode>
             </Packaging>
-            {dec.documentationType.previousDocument.flatMap(_.toXml)}
+            {dec.documentationType.itemPreviousDocument.flatMap(_.toXml)}
             {maybeValuationAdjustment(dec)}
           </GovernmentAgencyGoodsItem>
           {maybeParty("Importer", dec.parties.importer)}
-          <PreviousDocument>
-            <CategoryCode>Y</CategoryCode>
-            <ID>20191101</ID>
-            <TypeCode>CLE</TypeCode>
-            <LineNumeric>1</LineNumeric>
-          </PreviousDocument>
-          <PreviousDocument>
-            <CategoryCode>Y</CategoryCode>
-            <ID>9GB201909014000</ID>
-            <TypeCode>DCR</TypeCode>
-            <LineNumeric>1</LineNumeric>
-          </PreviousDocument>
+          {dec.documentationType.headerPreviousDocument.flatMap(_.toXml)}
           {maybeTradeTerms(dec)}
           <UCR>
             <TraderAssignedReferenceID>1-12345</TraderAssignedReferenceID>
@@ -301,6 +290,9 @@ class DeclarationXml {
 }
 
 object DeclarationXml {
+
+  def apply(): DeclarationXml = new DeclarationXml()
+
   // Turn a scala xml document into a fully escaped html string
   def prettyPrintToHtml(xml:Elem):String = {
     val prettyPrinter = new PrettyPrinter(250,4)
@@ -309,6 +301,7 @@ object DeclarationXml {
       .replaceAll("[\r\n]", "<br/>")
       .replaceAll(" {2}", "&nbsp;&nbsp;")
   }
+
 
   def goodDeclaration():Elem = {
     val referenceId = UUID.randomUUID().toString.replaceAll("-","").take(10)
@@ -543,6 +536,18 @@ object DeclarationXml {
           <Importer>
             <ID>GB201909014000</ID>
           </Importer>
+          <PreviousDocument>
+            <CategoryCode>Y</CategoryCode>
+            <ID>20191101</ID>
+            <TypeCode>CLE</TypeCode>
+            <LineNumeric>1</LineNumeric>
+          </PreviousDocument>
+          <PreviousDocument>
+            <CategoryCode>Y</CategoryCode>
+            <ID>9GB201909014000</ID>
+            <TypeCode>DCR</TypeCode>
+            <LineNumeric>1</LineNumeric>
+          </PreviousDocument>
           <PreviousDocument>
             <CategoryCode>Y</CategoryCode>
             <ID>20191101</ID>
