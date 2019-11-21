@@ -72,10 +72,23 @@ object XmlWriterInstances {
     }
   }
 
-  private def maybeElement(elementName: String, maybeElementValue: Option[String]): Option[Node] = {
-    maybeElementValue.filter(_.nonEmpty).map { value =>
-      Elem.apply(null, elementName, scala.xml.Null, scala.xml.TopScope, true, Text(value)) //scalastyle:ignore
+  implicit val chargeDeductionWriter: XmlWriter[ChargeDeduction] = new XmlWriter[ChargeDeduction] {
+    override def toXml(value: ChargeDeduction): Option[Elem] = {
+      Some(
+        <ChargeDeduction>
+          <ChargesTypeCode>{value.typeCode}</ChargesTypeCode>
+          <OtherChargeDeductionAmount currencyID={value.currencyAmount.currency}>{value.currencyAmount.amount}</OtherChargeDeductionAmount>
+        </ChargeDeduction>
+      )
     }
+  }
+
+  private def maybeElement(elementName: String, maybeElementValue: Option[String]): Option[Node] = {
+    maybeElementValue.filter(_.nonEmpty).map(value => element(elementName, value))
+  }
+
+  private def element(elementName: String, elementValue: String): Node = {
+    Elem.apply(null, elementName, scala.xml.Null, scala.xml.TopScope, true, Text(elementValue)) //scalastyle:ignore
   }
 
 }
