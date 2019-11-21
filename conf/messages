@@ -16,6 +16,8 @@ service-unavailable.heading=Sorry, the service is unavailable
 
 # Single-page declaration form
 declare.legendHeading=Imports Declaration
+
+# Section 1 - Declaration type
 declare.declarationType=1.1 Declaration Type
 declare.additionalDeclarationType=1.2 Additional Declaration Type
 declare.goodsItemNumber=1.6 Goods Item Number
@@ -24,6 +26,7 @@ declare.requestedProcedureCode=1.10 Requested Procedure Code
 declare.previousProcedureCode=1.10 Previous Procedure Code
 declare.additionalProcedureCode=1.11 Additional Procedure Code (000 or C07)
 
+# Section 2 - Documents and references
 declare.document = Document {0}
 declare.previousDocuments=2.1 Previous Documents - Item Level
 declare.previousDocCategory=2.1 Previous Document Category {0}
@@ -47,19 +50,7 @@ declare.additionalDocPaymentID=2.6 Deferred Payment ID {0}
 declare.additionalDocPaymentCategory=2.6 Deferred Payment Category {0}
 declare.additionalDocPaymentType=2.6 Deferred Payment Type {0}
 
-# Section 4 - Valuation Information And Taxes
-valuationInformationAndTaxes.conditionCode=4.1 INCOTERM code
-valuationInformationAndTaxes.locationID=4.1 UN/LOCODE code
-valuationInformationAndTaxes.locationName=4.1 Country code + Location Name
-valuationInformationAndTaxes.paymentMethodCode=4.8 Method of Payment
-valuationInformationAndTaxes.additionCode=4.13 Valuation Indicators
-valuationInformationAndTaxes.itemChargeAmount=4.14 Item Price/Amount
-valuationInformationAndTaxes.currencyID=4.14 Item Price/Currency Unit
-valuationInformationAndTaxes.rateNumeric=4.15 Exchange Rate
-valuationInformationAndTaxes.customsValuationMethodCode=4.16 Valuation Method
-valuationInformationAndTaxes.dutyRegimeCode=4.17 Preference
-
-# Section 3
+# Section 3 - Parties
 declare.parties.exporter.name=3.1 Exporter - Name
 declare.parties.exporter.address.streetAndNumber=3.1 Exporter - Street and Number
 declare.parties.exporter.address.city=3.1 Exporter - City
@@ -92,14 +83,30 @@ declare.parties.authorisationHolder.categoryCode=3.39 Authorisation holder - typ
 declare.parties.domesticDutyTaxParty.identifier=3.40 VAT Number (or TSPVAT) {0}
 declare.parties.domesticDutyTaxParty.roleCode=3.40 Role Code {0}
 
+# Section 4 - Valuation Information And Taxes
+valuationInformationAndTaxes.conditionCode=4.1 INCOTERM code
+valuationInformationAndTaxes.locationID=4.1 UN/LOCODE code
+valuationInformationAndTaxes.locationName=4.1 Country code + Location Name
+valuationInformationAndTaxes.paymentMethodCode=4.8 Method of Payment
+valuationInformationAndTaxes.chargeDeduction.amount=4.9 Amount
+valuationInformationAndTaxes.chargeDeduction.currency=4.9 Currency
+valuationInformationAndTaxes.chargeDeduction.typeCode=4.9 Type
+valuationInformationAndTaxes.additionCode=4.13 Valuation Indicators
+valuationInformationAndTaxes.itemChargeAmount=4.14 Item Price/Amount
+valuationInformationAndTaxes.currencyID=4.14 Item Price/Currency Unit
+valuationInformationAndTaxes.rateNumeric=4.15 Exchange Rate
+valuationInformationAndTaxes.customsValuationMethodCode=4.16 Valuation Method
+valuationInformationAndTaxes.dutyRegimeCode=4.17 Preference
+
+# Raw XML declaration form
 declaration.xml=Declaration XML
 declaration.xml.hint=Write your Valid Declaration xml into the edit box
 declaration.not.xml=This is not a valid xml document
 
+# Error page
 error.summary.title=Error
 error.summary.text=There was an error on the form
 
 site.submit=Submit
 
 service.name = cds-imports-dds-frontend
-

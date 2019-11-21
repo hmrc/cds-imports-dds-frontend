@@ -233,9 +233,11 @@ class DeclarationXml {
   }
 
   private def maybeCustomsValuation(declaration: Declaration): NodeSeq = {
-    if (declaration.valuationInformationAndTaxes.customsValuationMethodCode.exists(_.nonEmpty)) {
+    if (declaration.valuationInformationAndTaxes.customsValuationMethodCode.exists(_.nonEmpty) ||
+        declaration.valuationInformationAndTaxes.chargeDeduction.isDefined) {
       <CustomsValuation>
         {maybeElement("MethodCode", declaration.valuationInformationAndTaxes.customsValuationMethodCode)}
+        {declaration.valuationInformationAndTaxes.chargeDeduction.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
       </CustomsValuation>
     } else {
       NodeSeq.Empty
