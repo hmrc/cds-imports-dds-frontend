@@ -25,9 +25,22 @@
 @input_text(form("valuationInformationAndTaxes.locationID"), "valuationInformationAndTaxes.locationID")
 @input_text(form("valuationInformationAndTaxes.locationName"), "valuationInformationAndTaxes.locationName")
 @input_text(form("valuationInformationAndTaxes.paymentMethodCode"), "valuationInformationAndTaxes.paymentMethodCode")
-@input_text(form("valuationInformationAndTaxes.chargeDeduction.currencyAmount.amount"), "valuationInformationAndTaxes.chargeDeduction.amount")
-@input_text(form("valuationInformationAndTaxes.chargeDeduction.currencyAmount.currency"), "valuationInformationAndTaxes.chargeDeduction.currency")
-@input_text(form("valuationInformationAndTaxes.chargeDeduction.typeCode"), "valuationInformationAndTaxes.chargeDeduction.typeCode")
+
+<table class="govuk-table">
+ <thead class="govuk-table__head">
+  <tr class="govuk-table__row">
+   <th colspan="3" class="govuk-table__header">@messages("valuationInformationAndTaxes.chargeDeduction")</th>
+  </tr>
+ </thead>
+ <tbody class="govuk-table__body">
+  <tr class="govuk-table__row">
+   <td>@input_text(form("valuationInformationAndTaxes.chargeDeduction.currencyAmount.amount"), "valuationInformationAndTaxes.chargeDeduction.amount")</td>
+   <td>@input_text(form("valuationInformationAndTaxes.chargeDeduction.currencyAmount.currency"), "valuationInformationAndTaxes.chargeDeduction.currency")</td>
+   <td>@input_text(form("valuationInformationAndTaxes.chargeDeduction.typeCode"), "valuationInformationAndTaxes.chargeDeduction.typeCode")</td>
+  </tr>
+ </tbody>
+</table>
+
 @input_text(form("valuationInformationAndTaxes.additionCode"), "valuationInformationAndTaxes.additionCode")
 @input_text(form("valuationInformationAndTaxes.itemChargeAmount"), "valuationInformationAndTaxes.itemChargeAmount")
 @input_text(form("valuationInformationAndTaxes.currencyID"), "valuationInformationAndTaxes.currencyID")

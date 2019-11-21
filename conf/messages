@@ -88,6 +88,7 @@ valuationInformationAndTaxes.conditionCode=4.1 INCOTERM code
 valuationInformationAndTaxes.locationID=4.1 UN/LOCODE code
 valuationInformationAndTaxes.locationName=4.1 Country code + Location Name
 valuationInformationAndTaxes.paymentMethodCode=4.8 Method of Payment
+valuationInformationAndTaxes.chargeDeduction=4.9 Additions & Deductions
 valuationInformationAndTaxes.chargeDeduction.amount=4.9 Amount
 valuationInformationAndTaxes.chargeDeduction.currency=4.9 Currency
 valuationInformationAndTaxes.chargeDeduction.typeCode=4.9 Type
