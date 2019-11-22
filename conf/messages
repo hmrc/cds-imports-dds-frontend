@@ -28,11 +28,11 @@ declare.additionalProcedureCode=1.11 Additional Procedure Code (000 or C07)
 
 # Section 2 - Documents and references
 declare.document = Document {0}
-declare.previousDocuments=2.1 Previous Documents - Item Level
-declare.previousDocCategory=2.1 Previous Document Category {0}
-declare.previousDocGoodsItemId=2.1 Previous Document Goods Item Identifier {0}
-declare.previousDocType=2.1 Previous Document Type {0}
-declare.previousDocReference=2.1 Previous Document Reference {0}
+declare.previousDocuments=2.1 Previous Documents - {0} Level
+declare.previousDocCategory=Category
+declare.previousDocGoodsItemId=Identifier
+declare.previousDocType=Type
+declare.previousDocReference=Reference
 
 declare.header.additionalInformation.code=2.2 Header Additional Information Code
 declare.header.additionalInformation.description=2.2 Header Additional Information Description

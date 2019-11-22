@@ -39,12 +39,12 @@ object AdditionalPaymentTypeFormMapping {
 }
 
 object PreviousDocumentFormMapping {
-  val previousDocument: (String, Mapping[Seq[PreviousDocument]]) = "previousDocument" -> seq(mapping(
+  val previousDocument: Mapping[PreviousDocument] = mapping(
     "categoryCode" -> optional(text),
     "id" -> optional(text),
     "typeCode" -> optional(text),
     "lineNumeric" -> optional(text)
-  )(PreviousDocument.apply)(PreviousDocument.unapply))
+  )(PreviousDocument.apply)(PreviousDocument.unapply)
 }
 
 object AdditionalInformationFormMapping {
@@ -61,7 +61,8 @@ object DocumentationTypeFormMapping {
   import PreviousDocumentFormMapping.previousDocument
   import AdditionalInformationFormMapping.additionalInformationMapping
   val documentationType: (String, Mapping[DocumentationType]) = "documentationType" -> mapping(
-    previousDocument,
+    "header.previousDocument" -> seq(previousDocument),
+    "item.previousDocument" -> seq(previousDocument),
     "header.additionalInformation" -> additionalInformationMapping,
     "item.additionalInformation" -> seq(additionalInformationMapping),
     additionalDocumentType,
