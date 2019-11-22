@@ -99,7 +99,7 @@ class SubmitDeclarationControllerSpec extends CdsImportsSpec
         val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
         new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
           status(response) mustBe Status.BAD_REQUEST
-          body should include element withName("body").withValue("This is not a valid xml document")
+          body should include element withName("body").withValue("This is not a valid XML document")
         }
       }
     }

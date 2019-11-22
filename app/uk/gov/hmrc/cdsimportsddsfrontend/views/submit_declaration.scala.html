@@ -26,7 +26,7 @@
 
 @(form:Form[SubmitDeclarationModel])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@mainTemplate(pageTitle = Some("Submit your declaration")) {
+@mainTemplate(pageTitle = Some(messages("service.name"))) {
 
     @helper.form(action=uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes.SubmitDeclarationController.submit) {
         @CSRF.formField
@@ -41,7 +41,7 @@
             rowsNumber = 15
         )
 
-        @govukButton(Button(content = Text(messages("site.submit"))))
+        @govukButton(Button(content = Text(messages("action.submit"))))
     }
 
 }

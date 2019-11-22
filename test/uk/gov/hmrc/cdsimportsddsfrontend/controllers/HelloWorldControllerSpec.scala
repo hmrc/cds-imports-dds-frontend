@@ -65,21 +65,24 @@ class HelloWorldControllerSpec extends CdsImportsSpec with GuiceOneAppPerSuite w
     "show the link to the Single Page Declaration page when that feature is enabled" in {
       val response = controller.helloWorld(fakeRequest)
       val html = contentAsString(response).asBodyFragment
-      html should include element withName("a").withAttrValue("href", "/customs/imports/single-page-declaration").withValue("Submit declaration FORM")
+      html should include element withName("a").withAttrValue("href", "/customs/imports/single-page-declaration")
+        .withValue("Submit your declaration via a one-page form")
     }
 
     "omit the link to the Single Page Declaration page when that feature is disabled" in {
       featureSwitchRegistry.SinglePageDeclaration.disable()
       val response = controller.helloWorld(fakeRequest)
       val html = contentAsString(response).asBodyFragment
-      html should not include element(withName("a").withAttrValue("href", "/customs/imports/single-page-declaration").withValue("Submit declaration FORM"))
+      html should not include element(withName("a").withAttrValue("href", "/customs/imports/single-page-declaration")
+        .withValue("Submit your declaration via a one-page form"))
     }
 
     "omit the link to the Single Page Declaration page when that feature is suspended" in {
       featureSwitchRegistry.SinglePageDeclaration.suspend()
       val response = controller.helloWorld(fakeRequest)
       val html = contentAsString(response).asBodyFragment
-      html should not include element(withName("a").withAttrValue("href", "/customs/imports/single-page-declaration").withValue("Submit declaration FORM"))
+      html should not include element(withName("a").withAttrValue("href", "/customs/imports/single-page-declaration")
+        .withValue("Submit your declaration via a one-page form"))
     }
   }
 

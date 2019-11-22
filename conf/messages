@@ -15,7 +15,7 @@ service-unavailable.title=Sorry, the service is unavailable
 service-unavailable.heading=Sorry, the service is unavailable
 
 # Single-page declaration form
-declare.legendHeading=Imports Declaration
+declare.legend=Make an import declaration
 
 # Section 1 - Declaration type
 declare.declarationType=1.1 Declaration Type
@@ -101,13 +101,13 @@ valuationInformationAndTaxes.dutyRegimeCode=4.17 Preference
 
 # Raw XML declaration form
 declaration.xml=Declaration XML
-declaration.xml.hint=Write your Valid Declaration xml into the edit box
-declaration.not.xml=This is not a valid xml document
+declaration.xml.hint=Enter your valid declaration XML
+declaration.not.xml=This is not a valid XML document
 
 # Error page
 error.summary.title=Error
 error.summary.text=There was an error on the form
 
-site.submit=Submit
-
-service.name = cds-imports-dds-frontend
+# Service-wide content
+service.name=Make an import declaration
+action.submit=Submit
