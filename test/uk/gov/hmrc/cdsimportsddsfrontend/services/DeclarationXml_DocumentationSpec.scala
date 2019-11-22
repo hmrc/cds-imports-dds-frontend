@@ -136,7 +136,9 @@ class DeclarationXml_DocumentationSpec extends WordSpec with MustMatchers {
       val governmentAgencyGoodsItem = (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
       (governmentAgencyGoodsItem \ "AdditionalInformation").toList.length mustBe 2
     }
+  }
 
+  "Item level Previous documents data" should {
     "omit item level previous document nodes if previous document fields are empty" in {
       val documentationEmpty = DocumentationType().copy(itemPreviousDocument = Seq.empty)
       val declaration = Declaration().copy(documentationType = documentationEmpty)

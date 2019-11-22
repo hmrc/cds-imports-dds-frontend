@@ -197,35 +197,35 @@ class DeclarationControllerSpec extends CdsImportsSpec
     "show the item previous document expected field labels" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_0_categoryCode").withValue("Item 2.1 Previous Document Category 1")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_0_id").withValue("Item 2.1 Previous Document Goods Item Identifier 1")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_0_typeCode").withValue("Item 2.1 Previous Document Type 1")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_0_lineNumeric").withValue("Item 2.1 Previous Document Reference 1")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_0_categoryCode").withValue("Category")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_0_id").withValue("Identifier")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_0_typeCode").withValue("Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_0_lineNumeric").withValue("Reference")
 
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_1_categoryCode").withValue("Item 2.1 Previous Document Category 2")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_1_id").withValue("Item 2.1 Previous Document Goods Item Identifier 2")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_1_typeCode").withValue("Item 2.1 Previous Document Type 2")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_1_lineNumeric").withValue("Item 2.1 Previous Document Reference 2")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_1_categoryCode").withValue("Category")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_1_id").withValue("Identifier")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_1_typeCode").withValue("Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_1_lineNumeric").withValue("Reference")
 
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_2_categoryCode").withValue("Item 2.1 Previous Document Category 3")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_2_id").withValue("Item 2.1 Previous Document Goods Item Identifier 3")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_2_typeCode").withValue("Item 2.1 Previous Document Type 3")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_2_lineNumeric").withValue("Item 2.1 Previous Document Reference 3")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_2_categoryCode").withValue("Category")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_2_id").withValue("Identifier")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_2_typeCode").withValue("Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_2_lineNumeric").withValue("Reference")
 
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_3_categoryCode").withValue("Item 2.1 Previous Document Category 4")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_3_id").withValue("Item 2.1 Previous Document Goods Item Identifier 4")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_3_typeCode").withValue("Item 2.1 Previous Document Type 4")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_3_lineNumeric").withValue("Item 2.1 Previous Document Reference 4")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_3_categoryCode").withValue("Category")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_3_id").withValue("Identifier")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_3_typeCode").withValue("Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_3_lineNumeric").withValue("Reference")
 
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_4_categoryCode").withValue("Item 2.1 Previous Document Category 5")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_4_id").withValue("Item 2.1 Previous Document Goods Item Identifier 5")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_4_typeCode").withValue("Item 2.1 Previous Document Type 5")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_4_lineNumeric").withValue("Item 2.1 Previous Document Reference 5")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_4_categoryCode").withValue("Category")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_4_id").withValue("Identifier")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_4_typeCode").withValue("Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_4_lineNumeric").withValue("Reference")
 
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_5_categoryCode").withValue("Item 2.1 Previous Document Category 6")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_5_id").withValue("Item 2.1 Previous Document Goods Item Identifier 6")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_5_typeCode").withValue("Item 2.1 Previous Document Type 6")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_5_lineNumeric").withValue("Item 2.1 Previous Document Reference 6")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_5_categoryCode").withValue("Category")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_5_id").withValue("Identifier")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_5_typeCode").withValue("Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_5_lineNumeric").withValue("Reference")
       }
     }
 
