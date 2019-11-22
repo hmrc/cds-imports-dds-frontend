@@ -78,14 +78,6 @@ trait CdsImportsSpec extends WordSpec with MustMatchers with AppConfigReader wit
   implicit val hc: HeaderCarrier = HeaderCarrier()
   implicit val ec: ExecutionContext = scala.concurrent.ExecutionContext.Implicits.global
 
-  //TODO maybe move these to it's own trait?
-  //Manually creating injectable views
-  val optimizelyConfig = new OptimizelyConfig(configuration)
-  val optimizelySnippet = new OptimizelySnippet(optimizelyConfig)
-  val assetsConfig = new AssetsConfig(configuration)
-  val gtmConfig = new GTMConfig(configuration)
-  val gtmSnippet = new GTMSnippet(gtmConfig)
-  val head = new Head(optimizelySnippet, assetsConfig, gtmSnippet)
   val govukTemplate = new govukTemplate(new GovukHeader, new GovukFooter, new GovukSkipLink)
   val mainTemplate = new main_template(new govukLayout(govukTemplate, new GovukHeader, new GovukFooter, new GovukBackLink), new head, new scripts)
 
@@ -100,12 +92,5 @@ trait CdsImportsSpec extends WordSpec with MustMatchers with AppConfigReader wit
     import play.api.test.CSRFTokenHelper._
     FakeRequest().withCSRFToken
   }
-
-  //  // FeatureSwitch depends on play config from a running app, so this wrapper must be used within a test body
-  //  def withFeatureSwitchEnabled(featureSwitches: FeatureName*)(test: => Unit): Unit = {
-  //    featureSwitches.foreach(_.enable())
-  //    test
-  //    featureSwitches.foreach(_.disable())
-  //  }
 
 }
