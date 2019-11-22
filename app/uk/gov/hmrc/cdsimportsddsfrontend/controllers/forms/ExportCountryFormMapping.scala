@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.domain
+package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
-case class Declaration(
-                        declarationType: DeclarationType = DeclarationType(),
-                        documentationType: DocumentationType = DocumentationType(),
-                        parties: DeclarationParties = DeclarationParties(),
-                        valuationInformationAndTaxes: ValuationInformationAndTaxes = ValuationInformationAndTaxes(),
-                        whenAndWhere: WhenAndWhere = WhenAndWhere()
-                      )
+import play.api.data.Forms.{mapping, optional, text}
+import play.api.data.Mapping
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.ExportCountry
+
+object ExportCountryFormMapping {
+
+  val exportCountry: Mapping[ExportCountry] = mapping(
+    "id" -> optional(text)
+  )(ExportCountry.apply)(ExportCountry.unapply)
+
+}

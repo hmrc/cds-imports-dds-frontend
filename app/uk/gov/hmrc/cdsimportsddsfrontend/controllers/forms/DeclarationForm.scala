@@ -21,6 +21,7 @@ import play.api.data.Forms._
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DeclarationTypeFormMapping.declarationType
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DocumentationTypeFormMapping.documentationType
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.PartiesFormMapping.parties
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.WhenAndWhereFormMapping.whenAndWhere
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.ValuationInformationAndTaxesFormMapping.valuationInformationAndTaxes
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
 
@@ -31,7 +32,8 @@ object DeclarationForm extends FormValidators {
       declarationType,
       documentationType,
       parties,
-      valuationInformationAndTaxes
+      valuationInformationAndTaxes,
+      whenAndWhere
     )(Declaration.apply)(Declaration.unapply)
   )
 
