@@ -16,14 +16,13 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
-import java.io.StringReader
-
 import javax.inject.{Inject, Singleton}
-import play.api.data.Form
-import play.api.data.Forms._
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.XmlDeclarationFormMapping
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.XmlDeclaration
+import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsService, DeclarationStore}
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DeclarationXml
 import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsService, DeclarationStore}
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{declaration_result, submit_declaration}
@@ -31,8 +30,6 @@ import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.util.Try
-import scala.xml.InputSource
 
 
 @Singleton
@@ -45,41 +42,22 @@ class SubmitDeclarationController @Inject()(submitTemplate: submit_declaration,
                                             mcc: MessagesControllerComponents) extends FrontendController(mcc) with I18nSupport {
 
   val show: Action[AnyContent] = authenticate.async { implicit request =>
-    val exampleXml = DeclarationXml.goodDeclaration().toString()
-    val form = SubmitDeclarationModel.form.fill(SubmitDeclarationModel(exampleXml))
+    val exampleXml = DeclarationXml.goodDeclaration()
+    val form = XmlDeclarationFormMapping.form.fill(XmlDeclaration(exampleXml))
     Future.successful(Ok(submitTemplate(form)))
   }
 
   val submit: Action[AnyContent] = authenticate.async { implicit request =>
-    SubmitDeclarationModel.form.bindFromRequest.fold(
+    XmlDeclarationFormMapping.form.bindFromRequest.fold(
       formWithErrors => {
         Future.successful(BadRequest(submitTemplate(formWithErrors)))
       },
       validatedForm => {
-        val xml = scala.xml.XML.load(new InputSource(new StringReader(validatedForm.textarea)))
         declarationStore.deleteAllNotifications()
-        declarationService.submit(request.user.eori, xml)
+        declarationService.submit(request.user.eori, validatedForm.declarationXml)
           .map(declarationServiceResponse => Ok(resultTemplate(declarationServiceResponse)))
       }
     )
   }
-
-
-
-}
-
-case class SubmitDeclarationModel(textarea: String) //TODO Make this into xml, then we don't have to re-parse it!
-
-object SubmitDeclarationModel {
-
-  val FieldName = "declaration-data"
-
-  val verifyXML: String => Boolean = xml => Try(scala.xml.XML.load(new InputSource(new StringReader(xml)))).isSuccess
-
-  val form: Form[SubmitDeclarationModel] = Form(
-    mapping(
-      FieldName -> nonEmptyText.verifying("declaration.not.xml", verifyXML)
-    )(SubmitDeclarationModel.apply)(SubmitDeclarationModel.unapply)
-  )
 
 }
