@@ -21,29 +21,29 @@
 
 @(form: Form[Declaration])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@input_text(form("valuationInformationAndTaxes.conditionCode"), "valuationInformationAndTaxes.conditionCode")
-@input_text(form("valuationInformationAndTaxes.locationID"), "valuationInformationAndTaxes.locationID")
-@input_text(form("valuationInformationAndTaxes.locationName"), "valuationInformationAndTaxes.locationName")
-@input_text(form("valuationInformationAndTaxes.paymentMethodCode"), "valuationInformationAndTaxes.paymentMethodCode")
+@input_text(form("valuationInformationAndTaxes.conditionCode"), "declare.valuationInformationAndTaxes.conditionCode")
+@input_text(form("valuationInformationAndTaxes.locationID"), "declare.valuationInformationAndTaxes.locationID")
+@input_text(form("valuationInformationAndTaxes.locationName"), "declare.valuationInformationAndTaxes.locationName")
+@input_text(form("valuationInformationAndTaxes.paymentMethodCode"), "declare.valuationInformationAndTaxes.paymentMethodCode")
 
 <table class="govuk-table">
  <thead class="govuk-table__head">
   <tr class="govuk-table__row">
-   <th colspan="3" class="govuk-table__header">@messages("valuationInformationAndTaxes.chargeDeduction")</th>
+   <th colspan="3" class="govuk-table__header">@messages("declare.valuationInformationAndTaxes.chargeDeduction")</th>
   </tr>
  </thead>
  <tbody class="govuk-table__body">
   <tr class="govuk-table__row">
-   <td>@input_text(form("valuationInformationAndTaxes.chargeDeduction.currencyAmount.amount"), "valuationInformationAndTaxes.chargeDeduction.amount")</td>
-   <td>@input_text(form("valuationInformationAndTaxes.chargeDeduction.currencyAmount.currency"), "valuationInformationAndTaxes.chargeDeduction.currency")</td>
-   <td>@input_text(form("valuationInformationAndTaxes.chargeDeduction.typeCode"), "valuationInformationAndTaxes.chargeDeduction.typeCode")</td>
+   <td>@input_text(form("valuationInformationAndTaxes.chargeDeduction.currencyAmount.amount"), "declare.valuationInformationAndTaxes.chargeDeduction.amount")</td>
+   <td>@input_text(form("valuationInformationAndTaxes.chargeDeduction.currencyAmount.currency"), "declare.valuationInformationAndTaxes.chargeDeduction.currency")</td>
+   <td>@input_text(form("valuationInformationAndTaxes.chargeDeduction.typeCode"), "declare.valuationInformationAndTaxes.chargeDeduction.typeCode")</td>
   </tr>
  </tbody>
 </table>
 
-@input_text(form("valuationInformationAndTaxes.additionCode"), "valuationInformationAndTaxes.additionCode")
-@input_text(form("valuationInformationAndTaxes.itemChargeAmount"), "valuationInformationAndTaxes.itemChargeAmount")
-@input_text(form("valuationInformationAndTaxes.currencyID"), "valuationInformationAndTaxes.currencyID")
-@input_text(form("valuationInformationAndTaxes.rateNumeric"), "valuationInformationAndTaxes.rateNumeric")
-@input_text(form("valuationInformationAndTaxes.customsValuationMethodCode"), "valuationInformationAndTaxes.customsValuationMethodCode")
-@input_text(form("valuationInformationAndTaxes.dutyRegimeCode"), "valuationInformationAndTaxes.dutyRegimeCode")
+@input_text(form("valuationInformationAndTaxes.additionCode"), "declare.valuationInformationAndTaxes.additionCode")
+@input_text(form("valuationInformationAndTaxes.itemChargeAmount"), "declare.valuationInformationAndTaxes.itemChargeAmount")
+@input_text(form("valuationInformationAndTaxes.currencyID"), "declare.valuationInformationAndTaxes.currencyID")
+@input_text(form("valuationInformationAndTaxes.rateNumeric"), "declare.valuationInformationAndTaxes.rateNumeric")
+@input_text(form("valuationInformationAndTaxes.customsValuationMethodCode"), "declare.valuationInformationAndTaxes.customsValuationMethodCode")
+@input_text(form("valuationInformationAndTaxes.dutyRegimeCode"), "declare.valuationInformationAndTaxes.dutyRegimeCode")

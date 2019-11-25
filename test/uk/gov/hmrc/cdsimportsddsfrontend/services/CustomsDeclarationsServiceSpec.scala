@@ -23,6 +23,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DeclarationXml
 import uk.gov.hmrc.cdsimportsddsfrontend.test.AppConfigReader
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.http.HttpClient

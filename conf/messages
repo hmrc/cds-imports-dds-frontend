@@ -84,20 +84,26 @@ declare.parties.domesticDutyTaxParty.identifier=3.40 VAT Number (or TSPVAT) {0}
 declare.parties.domesticDutyTaxParty.roleCode=3.40 Role Code {0}
 
 # Section 4 - Valuation Information And Taxes
-valuationInformationAndTaxes.conditionCode=4.1 INCOTERM code
-valuationInformationAndTaxes.locationID=4.1 UN/LOCODE code
-valuationInformationAndTaxes.locationName=4.1 Country code + Location Name
-valuationInformationAndTaxes.paymentMethodCode=4.8 Method of Payment
-valuationInformationAndTaxes.chargeDeduction=4.9 Additions & Deductions
-valuationInformationAndTaxes.chargeDeduction.amount=4.9 Amount
-valuationInformationAndTaxes.chargeDeduction.currency=4.9 Currency
-valuationInformationAndTaxes.chargeDeduction.typeCode=4.9 Type
-valuationInformationAndTaxes.additionCode=4.13 Valuation Indicators
-valuationInformationAndTaxes.itemChargeAmount=4.14 Item Price/Amount
-valuationInformationAndTaxes.currencyID=4.14 Item Price/Currency Unit
-valuationInformationAndTaxes.rateNumeric=4.15 Exchange Rate
-valuationInformationAndTaxes.customsValuationMethodCode=4.16 Valuation Method
-valuationInformationAndTaxes.dutyRegimeCode=4.17 Preference
+declare.valuationInformationAndTaxes.conditionCode=4.1 INCOTERM code
+declare.valuationInformationAndTaxes.locationID=4.1 UN/LOCODE code
+declare.valuationInformationAndTaxes.locationName=4.1 Country code + Location Name
+declare.valuationInformationAndTaxes.paymentMethodCode=4.8 Method of Payment
+declare.valuationInformationAndTaxes.chargeDeduction=4.9 Additions & Deductions
+declare.valuationInformationAndTaxes.chargeDeduction.amount=4.9 Amount
+declare.valuationInformationAndTaxes.chargeDeduction.currency=4.9 Currency
+declare.valuationInformationAndTaxes.chargeDeduction.typeCode=4.9 Type
+declare.valuationInformationAndTaxes.additionCode=4.13 Valuation Indicators
+declare.valuationInformationAndTaxes.itemChargeAmount=4.14 Item Price/Amount
+declare.valuationInformationAndTaxes.currencyID=4.14 Item Price/Currency Unit
+declare.valuationInformationAndTaxes.rateNumeric=4.15 Exchange Rate
+declare.valuationInformationAndTaxes.customsValuationMethodCode=4.16 Valuation Method
+declare.valuationInformationAndTaxes.dutyRegimeCode=4.17 Preference
+
+# Section 5
+declare.whenAndWhere.destination.countryCode=5.8 Destination country code
+declare.whenAndWhere.exportCountry.id=5.14 Dispatch/export country code
+declare.whenAndWhere.origin.countryCode=5.15 Origin country code
+declare.whenAndWhere.origin.typeCode=5.15 Origin country code type
 
 # Raw XML declaration form
 declaration.xml=Declaration XML

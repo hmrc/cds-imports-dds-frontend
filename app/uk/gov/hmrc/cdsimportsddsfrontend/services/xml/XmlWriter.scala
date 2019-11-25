@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.services
+package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
+import cats.implicits._
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
 import scala.xml.{Elem, Node, Text}
-import cats.implicits._
 
 trait XmlWriter[A] {
   def toXml(value: A): Option[Elem]
@@ -83,7 +83,7 @@ object XmlWriterInstances {
     }
   }
 
-  private def maybeElement(elementName: String, maybeElementValue: Option[String]): Option[Node] = {
+  def maybeElement(elementName: String, maybeElementValue: Option[String]): Option[Node] = {
     maybeElementValue.filter(_.nonEmpty).map(value => element(elementName, value))
   }
 

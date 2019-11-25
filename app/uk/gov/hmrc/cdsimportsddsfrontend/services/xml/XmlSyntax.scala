@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.domain
+package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
-case class Declaration(
-                        declarationType: DeclarationType = DeclarationType(),
-                        documentationType: DocumentationType = DocumentationType(),
-                        parties: DeclarationParties = DeclarationParties(),
-                        valuationInformationAndTaxes: ValuationInformationAndTaxes = ValuationInformationAndTaxes(),
-                        whenAndWhere: WhenAndWhere = WhenAndWhere()
-                      )
+import scala.xml.Elem
+
+object XmlSyntax {
+
+  implicit class XmlWriterOps[A](value: A) {
+    def toXml(implicit writer: XmlWriter[A]): Option[Elem] = writer.toXml(value)
+  }
+}

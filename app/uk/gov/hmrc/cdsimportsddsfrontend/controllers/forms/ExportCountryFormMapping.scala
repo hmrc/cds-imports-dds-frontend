@@ -14,11 +14,16 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.services
+package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
-object XmlSyntax {
+import play.api.data.Forms.{mapping, optional, text}
+import play.api.data.Mapping
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.ExportCountry
 
-  implicit class XmlWriterOps[A](value: A) {
-    def toXml(implicit writer: XmlWriter[A]) = writer.toXml(value)
-  }
+object ExportCountryFormMapping {
+
+  val exportCountry: Mapping[ExportCountry] = mapping(
+    "id" -> optional(text)
+  )(ExportCountry.apply)(ExportCountry.unapply)
+
 }

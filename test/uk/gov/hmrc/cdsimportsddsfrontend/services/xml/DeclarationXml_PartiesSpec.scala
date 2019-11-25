@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.services
+package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
 import org.scalatest.{AppendedClues, MustMatchers, WordSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Address, AuthorisationHolder, Declaration, DeclarationParties, DomesticDutyTaxParty, Party}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
 import scala.xml.Elem
 
