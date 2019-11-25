@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.services
+package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
 import java.util.UUID
+
 import javax.inject.Singleton
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
-import XmlSyntax._
-import XmlWriterInstances._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DestinationXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ExportCountryXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
 
 import scala.xml.{Elem, NodeSeq, PrettyPrinter, Text}
 
@@ -86,12 +90,8 @@ class DeclarationXml {
               <ID>DM1234</ID>
             </TransportEquipment>
           </Consignment>
-          <Destination>
-            <CountryCode>GB</CountryCode>
-          </Destination>
-          <ExportCountry>
-            <ID>FR</ID>
-          </ExportCountry>
+          {dec.whenAndWhere.destination.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
+          {dec.whenAndWhere.exportCountry.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
           <GovernmentAgencyGoodsItem>
             <SequenceNumeric>{dec.declarationType.goodsItemNumber}</SequenceNumeric>
             {dec.documentationType.additionalDocument.flatMap(_.toXml)}
@@ -123,10 +123,7 @@ class DeclarationXml {
             <GovernmentProcedure>
               <CurrentCode>{dec.declarationType.additionalProcedureCode}</CurrentCode>
             </GovernmentProcedure>
-            <Origin>
-              <CountryCode>FR</CountryCode>
-              <TypeCode>1</TypeCode>
-            </Origin>
+            {dec.whenAndWhere.origin.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
             <Packaging>
               <SequenceNumeric>1</SequenceNumeric>
               <MarksNumbersID>PK/12344</MarksNumbersID>

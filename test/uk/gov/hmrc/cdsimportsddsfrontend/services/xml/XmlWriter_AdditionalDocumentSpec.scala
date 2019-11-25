@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.services
+package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
 import org.scalatest.{Matchers, OptionValues, WordSpec}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.AdditionalDocumentType
-import uk.gov.hmrc.cdsimportsddsfrontend.services.XmlSyntax._
-import uk.gov.hmrc.cdsimportsddsfrontend.services.XmlWriterInstances.additionalDocumentWriter
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances.additionalDocumentWriter
 
 class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with OptionValues {
 

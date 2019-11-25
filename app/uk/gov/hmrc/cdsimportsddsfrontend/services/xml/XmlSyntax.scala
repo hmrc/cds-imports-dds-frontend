@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.services
+package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
+
+import scala.xml.Elem
 
 object XmlSyntax {
 
   implicit class XmlWriterOps[A](value: A) {
-    def toXml(implicit writer: XmlWriter[A]) = writer.toXml(value)
+    def toXml(implicit writer: XmlWriter[A]): Option[Elem] = writer.toXml(value)
   }
 }

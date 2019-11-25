@@ -22,7 +22,7 @@ import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.cdsimportsddsfrontend.config.{AppConfig, ErrorHandler, FeatureSwitchRegistry}
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DeclarationForm
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
-import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsService, DeclarationStore, DeclarationXml}
+import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsService, DeclarationStore}
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{declaration_result, declaration}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 

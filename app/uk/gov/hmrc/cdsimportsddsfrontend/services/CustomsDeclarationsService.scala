@@ -23,6 +23,7 @@ import play.api.mvc.Codec
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, Eori}
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DeclarationXml
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
 
