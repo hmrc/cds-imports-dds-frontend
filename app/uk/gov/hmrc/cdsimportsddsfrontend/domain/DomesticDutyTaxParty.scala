@@ -16,8 +16,25 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
+import cats.implicits._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.XmlWriter
+
+import scala.xml.{Elem, Node}
+
 case class DomesticDutyTaxParty(
                                  identifier: Option[String] = None,
                                  roleCode: Option[String] = None
                                )
+
+object DomesticDutyTaxParty {
+  implicit val domesticDutyTaxPartyWriter: XmlWriter[DomesticDutyTaxParty] = new XmlWriter[DomesticDutyTaxParty] {
+    override def toXml(value: DomesticDutyTaxParty): Option[Elem] = {
+      val id = maybeElement("ID", value.identifier)
+      val roleCode = maybeElement("RoleCode", value.roleCode)
+      val childNodes: List[Node] = List(id, roleCode).flattenOption
+
+      Option(childNodes).filter(_.nonEmpty).map(nonEmptyChildNodes => <DomesticDutyTaxParty>{nonEmptyChildNodes}</DomesticDutyTaxParty>)
+    }
+  }
+}
 

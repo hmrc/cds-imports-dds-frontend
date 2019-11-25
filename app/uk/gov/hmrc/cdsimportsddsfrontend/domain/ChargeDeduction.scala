@@ -16,7 +16,24 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
+import uk.gov.hmrc.cdsimportsddsfrontend.services.XmlWriter
+
+import scala.xml.Elem
+
 case class ChargeDeduction(
                             typeCode: String,
                             currencyAmount: CurrencyAmount
                           )
+
+object ChargeDeduction {
+  implicit val chargeDeductionWriter: XmlWriter[ChargeDeduction] = new XmlWriter[ChargeDeduction] {
+    override def toXml(value: ChargeDeduction): Option[Elem] = {
+      Some(
+        <ChargeDeduction>
+          <ChargesTypeCode>{value.typeCode}</ChargesTypeCode>
+          <OtherChargeDeductionAmount currencyID={value.currencyAmount.currency}>{value.currencyAmount.amount}</OtherChargeDeductionAmount>
+        </ChargeDeduction>
+      )
+    }
+  }
+}

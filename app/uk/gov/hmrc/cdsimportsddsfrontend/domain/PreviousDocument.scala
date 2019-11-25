@@ -16,9 +16,28 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
+import cats.implicits._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.XmlWriter
+
+import scala.xml.{Elem, Node}
+
 case class PreviousDocument(
   categoryCode: Option[String],
   id: Option[String],
   typeCode: Option[String],
   lineNumeric: Option[String]
 )
+
+object PreviousDocument {
+  implicit val previousDocumentWriter: XmlWriter[PreviousDocument] = new XmlWriter[PreviousDocument] {
+    override def toXml(value: PreviousDocument): Option[Elem] = {
+      val categoryCode: Option[Node] = maybeElement("CategoryCode", value.categoryCode)
+      val id = maybeElement("ID", value.id)
+      val typeCode = maybeElement("TypeCode", value.typeCode)
+      val lineNumeric = maybeElement("LineNumeric", value.lineNumeric)
+      val childNodes: List[Node] = List(categoryCode, id, typeCode, lineNumeric).flattenOption
+
+      Option(childNodes).filter(_.nonEmpty).map(nonEmptyChildNodes => <PreviousDocument>{nonEmptyChildNodes}</PreviousDocument>)
+    }
+  }
+}

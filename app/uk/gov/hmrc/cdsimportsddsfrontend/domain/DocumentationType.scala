@@ -18,6 +18,11 @@ package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 import java.util.UUID
 
+import cats.implicits._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.XmlWriter
+
+import scala.xml.{Elem, Node}
+
 case class AdditionalDocumentType(
   categoryCode: Option[String],
   typeCode: Option[String],
@@ -25,6 +30,21 @@ case class AdditionalDocumentType(
   lpco: Option[String],
   name: Option[String]
 )
+
+object AdditionalDocumentType {
+  implicit val additionalDocumentWriter: XmlWriter[AdditionalDocumentType] = new XmlWriter[AdditionalDocumentType] {
+    override def toXml( value: AdditionalDocumentType ): Option[Elem] = {
+      val categoryCode: Option[Node] = maybeElement("CategoryCode", value.categoryCode)
+      val id = maybeElement("ID", value.id)
+      val name = maybeElement("Name", value.name)
+      val typeCode = maybeElement("TypeCode", value.typeCode)
+      val lpcoExemptionCode = maybeElement("LPCOExemptionCode", value.lpco)
+      val l: List[Node] = List(categoryCode, id, name, typeCode, lpcoExemptionCode).flattenOption
+
+      Option(l).filter(_.nonEmpty).map(e => <AdditionalDocument>{e}</AdditionalDocument>)
+    }
+  }
+}
 
 case class AdditionalPaymentType(
   additionalDocPaymentID: Option[String],

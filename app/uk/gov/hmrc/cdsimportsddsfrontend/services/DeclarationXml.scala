@@ -17,11 +17,11 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.services
 
 import java.util.UUID
+
 import javax.inject.Singleton
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
-import XmlSyntax._
-import XmlWriterInstances._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.XmlSyntax._
 
 import scala.xml.{Elem, NodeSeq, PrettyPrinter, Text}
 

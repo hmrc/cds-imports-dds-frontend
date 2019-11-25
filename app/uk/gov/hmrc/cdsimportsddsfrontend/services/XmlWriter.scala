@@ -16,79 +16,16 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services
 
-import uk.gov.hmrc.cdsimportsddsfrontend.domain._
-
 import scala.xml.{Elem, Node, Text}
-import cats.implicits._
 
 trait XmlWriter[A] {
   def toXml(value: A): Option[Elem]
-}
 
-object XmlWriterInstances {
-
-  implicit val previousDocumentWriter: XmlWriter[PreviousDocument] = new XmlWriter[PreviousDocument] {
-    override def toXml(value: PreviousDocument): Option[Elem] = {
-      val categoryCode: Option[Node] = maybeElement("CategoryCode", value.categoryCode)
-      val id = maybeElement("ID", value.id)
-      val typeCode = maybeElement("TypeCode", value.typeCode)
-      val lineNumeric = maybeElement("LineNumeric", value.lineNumeric)
-      val childNodes: List[Node] = List(categoryCode, id, typeCode, lineNumeric).flattenOption
-
-      Option(childNodes).filter(_.nonEmpty).map(nonEmptyChildNodes => <PreviousDocument>{nonEmptyChildNodes}</PreviousDocument>)
-    }
-  }
-
-  implicit val authorisationHolderWriter: XmlWriter[AuthorisationHolder] = new XmlWriter[AuthorisationHolder] {
-    override def toXml(value: AuthorisationHolder): Option[Elem] = {
-      val id = maybeElement("ID", value.identifier)
-      val categoryCode = maybeElement("CategoryCode", value.categoryCode)
-      val childNodes: List[Node] = List(id, categoryCode).flattenOption
-
-      Option(childNodes).filter(_.nonEmpty).map(nonEmptyChildNodes => <AuthorisationHolder>{nonEmptyChildNodes}</AuthorisationHolder>)
-    }
-  }
-
-  implicit val domesticDutyTaxPartyWriter: XmlWriter[DomesticDutyTaxParty] = new XmlWriter[DomesticDutyTaxParty] {
-    override def toXml(value: DomesticDutyTaxParty): Option[Elem] = {
-      val id = maybeElement("ID", value.identifier)
-      val roleCode = maybeElement("RoleCode", value.roleCode)
-      val childNodes: List[Node] = List(id, roleCode).flattenOption
-
-      Option(childNodes).filter(_.nonEmpty).map(nonEmptyChildNodes => <DomesticDutyTaxParty>{nonEmptyChildNodes}</DomesticDutyTaxParty>)
-    }
-  }
-
-  implicit val additionalDocumentWriter: XmlWriter[AdditionalDocumentType] = new XmlWriter[AdditionalDocumentType] {
-    override def toXml( value: AdditionalDocumentType ): Option[Elem] = {
-      val categoryCode: Option[Node] = maybeElement("CategoryCode", value.categoryCode)
-      val id = maybeElement("ID", value.id)
-      val name = maybeElement("Name", value.name)
-      val typeCode = maybeElement("TypeCode", value.typeCode)
-      val lpcoExemptionCode = maybeElement("LPCOExemptionCode", value.lpco)
-      val l: List[Node] = List(categoryCode, id, name, typeCode, lpcoExemptionCode).flattenOption
-
-      Option(l).filter(_.nonEmpty).map(e => <AdditionalDocument>{e}</AdditionalDocument>)
-    }
-  }
-
-  implicit val chargeDeductionWriter: XmlWriter[ChargeDeduction] = new XmlWriter[ChargeDeduction] {
-    override def toXml(value: ChargeDeduction): Option[Elem] = {
-      Some(
-        <ChargeDeduction>
-          <ChargesTypeCode>{value.typeCode}</ChargesTypeCode>
-          <OtherChargeDeductionAmount currencyID={value.currencyAmount.currency}>{value.currencyAmount.amount}</OtherChargeDeductionAmount>
-        </ChargeDeduction>
-      )
-    }
-  }
-
-  private def maybeElement(elementName: String, maybeElementValue: Option[String]): Option[Node] = {
+  def maybeElement(elementName: String, maybeElementValue: Option[String]): Option[Node] = {
     maybeElementValue.filter(_.nonEmpty).map(value => element(elementName, value))
   }
 
-  private def element(elementName: String, elementValue: String): Node = {
+  def element(elementName: String, elementValue: String): Node = {
     Elem.apply(null, elementName, scala.xml.Null, scala.xml.TopScope, true, Text(elementValue)) //scalastyle:ignore
   }
-
 }

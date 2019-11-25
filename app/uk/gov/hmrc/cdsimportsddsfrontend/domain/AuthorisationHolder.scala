@@ -16,8 +16,24 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
+import cats.implicits._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.XmlWriter
+
+import scala.xml.{Elem, Node}
+
 case class AuthorisationHolder(
                                 identifier: Option[String] = None,
                                 categoryCode: Option[String] = None
                               )
 
+object AuthorisationHolder {
+  implicit val authorisationHolderWriter: XmlWriter[AuthorisationHolder] = new XmlWriter[AuthorisationHolder] {
+    override def toXml(value: AuthorisationHolder): Option[Elem] = {
+      val id = maybeElement("ID", value.identifier)
+      val categoryCode = maybeElement("CategoryCode", value.categoryCode)
+      val childNodes: List[Node] = List(id, categoryCode).flattenOption
+
+      Option(childNodes).filter(_.nonEmpty).map(nonEmptyChildNodes => <AuthorisationHolder>{nonEmptyChildNodes}</AuthorisationHolder>)
+    }
+  }
+}
