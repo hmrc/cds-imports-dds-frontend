@@ -24,7 +24,7 @@ import play.api.test.FutureAwaits
 import play.api.test.Helpers.status
 import play.mvc.Http.Status
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ChargeDeduction, CurrencyAmount, Declaration, Destination, ExportCountry, Origin, ValuationInformationAndTaxes, WhenAndWhere}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
 import scala.concurrent.Future
@@ -46,6 +46,8 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "whenAndWhere.exportCountry.id")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.origin.countryCode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.origin.typeCode")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.name")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.typeCode")
       }
     }
   }
@@ -57,7 +59,9 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         "whenAndWhere.destination.countryCode" -> Seq("destination countryCode"),
         "whenAndWhere.exportCountry.id" -> Seq("id"),
         "whenAndWhere.origin.countryCode" -> Seq("origin countryCode"),
-        "whenAndWhere.origin.typeCode" -> Seq("typeCode")
+        "whenAndWhere.origin.typeCode" -> Seq("typeCode"),
+        "whenAndWhere.goodsLocation.name" -> Seq("goods location name"),
+        "whenAndWhere.goodsLocation.typeCode" -> Seq("goods location type")
       ) ++ declarationTypeFormData
 
       val captor: ArgumentCaptor[Declaration] = ArgumentCaptor.forClass(classOf[Declaration])
@@ -68,12 +72,11 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         status(response) mustBe Status.OK
 
         private val actualDeclaration = captor.getValue
-        actualDeclaration.whenAndWhere mustBe (
-          WhenAndWhere(Some(Destination(Some("destination countryCode"))),
-            Some(ExportCountry(id = Some("id"))),
-            Some(Origin(countryCode = Some("origin countryCode"),
-              typeCode = Some("typeCode"))))
-          )
+        actualDeclaration.whenAndWhere mustBe WhenAndWhere(
+          Some(Destination(Some("destination countryCode"))),
+          Some(ExportCountry(id = Some("id"))),
+          Some(Origin(countryCode = Some("origin countryCode"), typeCode = Some("typeCode"))),
+          Some(GoodsLocation(name = Some("goods location name"), typeCode = Some("goods location type"), address = None)))
       }
     }
 

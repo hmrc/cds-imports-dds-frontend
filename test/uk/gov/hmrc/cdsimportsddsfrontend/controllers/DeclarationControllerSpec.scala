@@ -469,7 +469,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
         actualDeclaration.parties.buyer mustBe(Some(Party(
           name = Some("Foo Ltd"),
           identifier = Some("GB1966"),
-          address = Some(Address("123 Wembley Way", "London", "GB", "W1A 1AA")),
+          address = Some(Address(Some("123 Wembley Way"), Some("London"), Some("GB"), Some("W1A 1AA"), None)),
           phoneNumber = Some("0115 582 9384"))))
       }
     }
@@ -496,7 +496,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
         actualDeclaration.parties.seller mustBe(Some(Party(
           name = Some("Bar Ltd"),
           identifier = Some("GB2001"),
-          address = Some(Address("321 Arcade Av", "Leeds", "GB", "LS1 7DP")),
+          address = Some(Address(Some("321 Arcade Av"), Some("Leeds"), Some("GB"), Some("LS1 7DP"), None)),
           phoneNumber = Some("0113 876 4567"))))
       }
     }
@@ -569,7 +569,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
         actualDeclaration.parties.buyer mustBe(Some(Party(
           name = Some("Foo Ltd"),
           identifier = None,
-          address = Some(Address("123 Wembley Way", "London", "GB", "W1A 1AA")),
+          address = Some(Address(Some("123 Wembley Way"), Some("London"), Some("GB"), Some("W1A 1AA"), None)),
           phoneNumber = None)))
       }
     }
@@ -596,7 +596,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
         actualDeclaration.parties.seller mustBe(Some(Party(
           name = Some("Foo Ltd"),
           identifier = None,
-          address = Some(Address("123 Wembley Way", "London", "GB", "W1A 1AA")),
+          address = Some(Address(Some("123 Wembley Way"), Some("London"), Some("GB"), Some("W1A 1AA"), None)),
           phoneNumber = None)))
       }
     }

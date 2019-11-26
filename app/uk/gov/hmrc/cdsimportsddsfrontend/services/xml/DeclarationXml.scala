@@ -246,12 +246,13 @@ class DeclarationXml {
   def maybeAddress(party: Party): NodeSeq = {
     party.address match {
       case Some(address) =>
-        <Address>
-          <CityName>{address.city}</CityName>
-          <CountryCode>{address.countryCode}</CountryCode>
-          <Line>{address.streetAndNumber}</Line>
-          <PostcodeID>{address.postcode}</PostcodeID>
-        </Address>
+        val childNodes =
+          maybeElement("CityName", address.city) ++
+          maybeElement("CountryCode", address.countryCode) ++
+          maybeElement("Line", address.streetAndNumber) ++
+          maybeElement("PostcodeID", address.postcode) ++
+          maybeElement("TypeCode", address.typeCode)
+        Elem.apply(null, "Address", scala.xml.Null, scala.xml.TopScope, true, childNodes :_*) // scalastyle:ignore
       case None => NodeSeq.Empty
     }
   }

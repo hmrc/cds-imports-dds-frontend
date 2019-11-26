@@ -27,10 +27,10 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
     "transforming parties data" when {
       val someParties = DeclarationParties(
         Some(Party(None, Some("GB987654321"), None)),
-        Some(Party(Some("Fred"), Some("GB12345678F"), Some(Address("123 Girder Street", "Edinburgh", "SC", "E12 4GG")))),
-        Some(Party(Some("Barney"), Some("GB12345678A"), Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))),
-        Some(Party(Some("Wilma"), Some("GB14141414"), Some(Address("14 The Calls", "Leeds", "GB", "LS1 1AA")), Some("0113 25 26 27"))),
-        Some(Party(Some("Pebbles"), Some("GB4587342"), Some(Address("21 Mountain View", "York", "GB", "YK1 7ZX")), Some("0114 123 456"))),
+        Some(Party(Some("Fred"), Some("GB12345678F"), Some(Address(Some("123 Girder Street"), Some("Edinburgh"), Some("SC"), Some("E12 4GG"), None)))),
+        Some(Party(Some("Barney"), Some("GB12345678A"), Some(Address(Some("123 Foobar Lane"), Some("Glasgow"), Some("GB"), Some("G12 4GG"), None)))),
+        Some(Party(Some("Wilma"), Some("GB14141414"), Some(Address(Some("14 The Calls"), Some("Leeds"), Some("GB"), Some("LS1 1AA"), None)), Some("0113 25 26 27"))),
+        Some(Party(Some("Pebbles"), Some("GB4587342"), Some(Address(Some("21 Mountain View"), Some("York"), Some("GB"), Some("YK1 7ZX"), None)), Some("0114 123 456"))),
         Seq(AuthorisationHolder(Some("Shaggy"), Some("DUDE")), AuthorisationHolder(Some("Scoob"), Some("DOG"))),
         Seq(DomesticDutyTaxParty(Some("Velma"), Some("GIRL")), DomesticDutyTaxParty(Some("Fred"), Some("GUY")))
       )
@@ -77,7 +77,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
         }
 
         "omit Exporter Name tag if no exporter name provided" in {
-          val someParties = DeclarationParties(exporter = Some(Party(None, Some("GB12345678A"), Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
+          val someParties = DeclarationParties(exporter = Some(Party(None, Some("GB12345678A"), Some(Address(Some("123 Foobar Lane"), Some("Glasgow"), Some("GB"), Some("G12 4GG"), None)))))
           val declaration = Declaration(parties = someParties)
 
           val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -86,7 +86,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
         }
 
         "omit Exporter ID tag if no exporter ID provided" in {
-          val someParties = DeclarationParties(exporter = Some(Party(Some("Barney"), None, Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
+          val someParties = DeclarationParties(exporter = Some(Party(Some("Barney"), None, Some(Address(Some("123 Foobar Lane"), Some("Glasgow"), Some("GB"), Some("G12 4GG"), None)))))
           val declaration = Declaration(parties = someParties)
 
           val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -129,7 +129,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
         }
 
         "omit Importer Name tag if no importer name provided" in {
-          val someParties = DeclarationParties(importer = Some(Party(None, Some("GB12345678A"), Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
+          val someParties = DeclarationParties(importer = Some(Party(None, Some("GB12345678A"), Some(Address(Some("123 Foobar Lane"), Some("Glasgow"), Some("GB"), Some("G12 4GG"), None)))))
           val declaration = Declaration(parties = someParties)
 
           val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -138,7 +138,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
         }
 
         "omit Importer ID tag if no importer ID provided" in {
-          val someParties = DeclarationParties(importer = Some(Party(Some("Barney"), None, Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
+          val someParties = DeclarationParties(importer = Some(Party(Some("Barney"), None, Some(Address(Some("123 Foobar Lane"), Some("Glasgow"), Some("GB"), Some("G12 4GG"), None)))))
           val declaration = Declaration(parties = someParties)
 
           val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -186,7 +186,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
         }
 
         "omit Buyer Name tag if no buyer name provided" in {
-          val someParties = DeclarationParties(buyer = Some(Party(None, Some("GB12345678A"), Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
+          val someParties = DeclarationParties(buyer = Some(Party(None, Some("GB12345678A"), Some(Address(Some("123 Foobar Lane"), Some("Glasgow"), Some("GB"), Some("G12 4GG"), None)))))
           val declaration = Declaration(parties = someParties)
 
           val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -195,7 +195,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
         }
 
         "omit Buyer ID tag if no buyer ID provided" in {
-          val someParties = DeclarationParties(buyer = Some(Party(Some("Barney"), None, Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
+          val someParties = DeclarationParties(buyer = Some(Party(Some("Barney"), None, Some(Address(Some("123 Foobar Lane"), Some("Glasgow"), Some("GB"), Some("G12 4GG"), None)))))
           val declaration = Declaration(parties = someParties)
 
           val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -252,7 +252,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
         }
 
         "omit Seller Name tag if no seller name provided" in {
-          val someParties = DeclarationParties(seller = Some(Party(None, Some("GB12345678A"), Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
+          val someParties = DeclarationParties(seller = Some(Party(None, Some("GB12345678A"), Some(Address(Some("123 Foobar Lane"), Some("Glasgow"), Some("GB"), Some("G12 4GG"), None)))))
           val declaration = Declaration(parties = someParties)
 
           val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -261,7 +261,7 @@ class DeclarationXml_PartiesSpec extends WordSpec with MustMatchers with Appende
         }
 
         "omit Seller ID tag if no seller ID provided" in {
-          val someParties = DeclarationParties(seller = Some(Party(Some("Barney"), None, Some(Address("123 Foobar Lane", "Glasgow", "GB", "G12 4GG")))))
+          val someParties = DeclarationParties(seller = Some(Party(Some("Barney"), None, Some(Address(Some("123 Foobar Lane"), Some("Glasgow"), Some("GB"), Some("G12 4GG"), None)))))
           val declaration = Declaration(parties = someParties)
 
           val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
