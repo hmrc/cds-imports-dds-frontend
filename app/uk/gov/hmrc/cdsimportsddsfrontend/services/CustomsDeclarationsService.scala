@@ -23,6 +23,7 @@ import play.api.mvc.Codec
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, Eori}
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.{Declaration => DeclarationVM}
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DeclarationXml
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
@@ -36,8 +37,16 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml:
 
   val log = Logger(this.getClass)
 
-  def submit(eori: Eori, declaration: Declaration)(implicit hc: HeaderCarrier): Future[DeclarationServiceResponse] = {
-    val xml = declarationXml.fromImportDeclaration(declaration)
+  def submit(eori: Eori, declarationVM: DeclarationVM)(implicit hc: HeaderCarrier): Future[DeclarationServiceResponse] = {
+
+    val declarationDM: Declaration = Declaration(declarationType = declarationVM.declarationType,
+      documentationType = declarationVM.documentationType,
+      parties = declarationVM.parties,
+      valuationInformationAndTaxes = declarationVM.valuationInformationAndTaxes,
+      whenAndWhere = declarationVM.whenAndWhere
+
+    )
+    val xml = declarationXml.fromImportDeclaration(declarationDM)
     submit(eori, xml)
   }
 

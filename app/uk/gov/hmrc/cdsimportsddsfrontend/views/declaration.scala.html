@@ -17,7 +17,7 @@
 @import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 @import views.html.helper._
 @import uk.gov.hmrc.govukfrontend.views.html.components._
-@import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
+@import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.Declaration
 
 @this(
     mainTemplate: main_template,
@@ -38,6 +38,8 @@
             @components.parties(form)
             @components.valuation_information_and_taxes(form)
             @components.when_and_where(form)
+            @components.goods_identification(form)
+
         </fieldset>
 
         @govukButton(Button(content = Text(messages("action.submit"))))

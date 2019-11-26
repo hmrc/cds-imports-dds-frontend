@@ -43,7 +43,7 @@ with Scenarios with FutureAwaits with BeforeAndAfterEach {
         body should include element withName("input").withAttrValue("name", "goodsIdentification.supplementaryUnits")
         body should include element withName("input").withAttrValue("name", "goodsIdentification.grossMass")
         body should include element withName("input").withAttrValue("name", "goodsIdentification.description")
-        body should include element withName("input").withAttrValue("name", "goodsIdentification.typesOfPackage")
+        body should include element withName("input").withAttrValue("name", "goodsIdentification.typeOfPackages")
         body should include element withName("input").withAttrValue("name", "goodsIdentification.numberOfPackages")
         body should include element withName("input").withAttrValue("name", "goodsIdentification.shippingMarks")
       }

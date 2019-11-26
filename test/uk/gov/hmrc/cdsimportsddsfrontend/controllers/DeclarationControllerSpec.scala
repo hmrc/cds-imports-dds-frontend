@@ -23,7 +23,8 @@ import org.scalatest.BeforeAndAfterEach
 import play.api.test.FutureAwaits
 import play.api.test.Helpers.status
 import play.mvc.Http.Status
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Address, AuthorisationHolder, Declaration, DomesticDutyTaxParty, Party}
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.Declaration
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Address, AuthorisationHolder, DomesticDutyTaxParty, Party}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 

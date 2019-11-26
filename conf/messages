@@ -115,7 +115,7 @@ declare.goodsIdentification.supplementaryUnits=6.2 Supplementary units
 declare.goodsIdentification.grossMass=6.5 Gross Mass
 declare.goodsIdentification.descriptionOfGoods=6.8 Description of goods
 declare.goodsIdentification.typeOfPackages=6.9 Type of packages
-declare.goodsIdentification.nmuberOfPackages=6.10 Number of packages
+declare.goodsIdentification.numberOfPackages=6.10 Number of packages
 declare.goodsIdentification.shippingMarks=6.11 Shipping marks
 
 # Raw XML declaration form
