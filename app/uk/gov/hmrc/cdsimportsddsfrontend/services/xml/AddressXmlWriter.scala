@@ -26,13 +26,13 @@ object AddressXmlWriter {
 
   implicit val addressXmlWriter: XmlWriter[Address] = new XmlWriter[Address] {
     override def toXml(value: Address): Option[Elem] = {
+      val typeCode = maybeElement("TypeCode", value.typeCode)
       val cityName = maybeElement("CityName", value.city)
       val countryCode = maybeElement("CountryCode", value.countryCode)
       val line = maybeElement("Line", value.streetAndNumber)
       val postCode = maybeElement("PostcodeID", value.postcode)
-      val typeCode = maybeElement("TypeCode", value.typeCode)
 
-      val nodes: List[Node] = List(cityName, countryCode, line, postCode, typeCode).flattenOption
+      val nodes: List[Node] = List(typeCode, cityName, countryCode, line, postCode).flattenOption
       Option(nodes).filter(_.nonEmpty).map(nonEmptyChildNodes => <Address>{nonEmptyChildNodes}</Address>)
     }
   }

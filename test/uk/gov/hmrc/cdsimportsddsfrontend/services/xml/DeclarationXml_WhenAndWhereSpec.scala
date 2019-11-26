@@ -73,7 +73,6 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
         (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" \ "Address" \ "CountryCode").head.text mustBe "GB"
         (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" \ "Address" \ "TypeCode").head.text mustBe "U"
       }
-
     }
 
     "be omitted from XML" when {
