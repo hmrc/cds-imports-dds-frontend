@@ -16,12 +16,13 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.model
 
-case class GoodsIdentification(
-                              netMass: Option[String] = Some("100"),
-                              supplementaryUnits: Option[String] = Some("100"),
-                              grossMass: Option[String] = Some("105"),
-                              description: Option[String] = Some("TSP no description required"),
-                              typeOfPackages: Option[String] = Some("BF"),
-                              numberOfPackages: Option[String] = Some("1"),
-                              shippingMarks: Option[String] = Some("TSP not required")
-                              )
+import uk.gov.hmrc.cdsimportsddsfrontend.domain._
+
+case class DeclarationViewModel(
+                        declarationType: DeclarationType = DeclarationType(),
+                        documentationType: DocumentationType = DocumentationType(),
+                        parties: DeclarationParties = DeclarationParties(),
+                        valuationInformationAndTaxes: ValuationInformationAndTaxes = ValuationInformationAndTaxes(),
+                        whenAndWhere: WhenAndWhere = WhenAndWhere(),
+                        goodsIdentification: GoodsIdentificationViewModel = GoodsIdentificationViewModel()
+                      )

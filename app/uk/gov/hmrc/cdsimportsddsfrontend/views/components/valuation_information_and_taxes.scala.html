@@ -15,11 +15,11 @@
  *@
 
 @import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
-@import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.Declaration
+@import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
 @import uk.gov.hmrc.cdsimportsddsfrontend.views.html.components.inputs.input_text
 
 
-@(form: Form[Declaration])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+@(form: Form[DeclarationViewModel])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @input_text(form("valuationInformationAndTaxes.conditionCode"), "declare.valuationInformationAndTaxes.conditionCode")
 @input_text(form("valuationInformationAndTaxes.locationID"), "declare.valuationInformationAndTaxes.locationID")

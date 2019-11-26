@@ -17,13 +17,12 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
 import play.api.data.Forms._
-
 import play.api.data.Mapping
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.GoodsIdentification
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.GoodsIdentificationViewModel
 
 object GoodsIdentificationFormMapping {
 
-  val goodsIdentification: (String, Mapping[GoodsIdentification]) = "goodsIdentification" -> mapping(
+  val goodsIdentification: (String, Mapping[GoodsIdentificationViewModel]) = "goodsIdentification" -> mapping(
     "netMass" -> optional(text),
     "supplementaryUnits" -> optional(text),
     "grossMass" ->  optional(text),
@@ -31,5 +30,5 @@ object GoodsIdentificationFormMapping {
     "typeOfPackages" ->  optional(text),
     "numberOfPackages" ->  optional(text),
     "shippingMarks" -> optional(text)
-  )(GoodsIdentification.apply)(GoodsIdentification.unapply)
+  )(GoodsIdentificationViewModel.apply)(GoodsIdentificationViewModel.unapply)
 }

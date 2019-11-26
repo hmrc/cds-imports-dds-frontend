@@ -20,15 +20,15 @@ import play.api.data.Form
 import play.api.data.Forms._
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DeclarationTypeFormMapping.declarationType
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DocumentationTypeFormMapping.documentationType
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.PartiesFormMapping.parties
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.WhenAndWhereFormMapping.whenAndWhere
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.GoodsIdentificationFormMapping.goodsIdentification
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.PartiesFormMapping.parties
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.ValuationInformationAndTaxesFormMapping.valuationInformationAndTaxes
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.Declaration
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.WhenAndWhereFormMapping.whenAndWhere
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
 
 object DeclarationForm extends FormValidators {
 
-  val form: Form[Declaration] = Form(
+  val form: Form[DeclarationViewModel] = Form(
     mapping(
       declarationType,
       documentationType,
@@ -36,7 +36,7 @@ object DeclarationForm extends FormValidators {
       valuationInformationAndTaxes,
       whenAndWhere,
       goodsIdentification
-    )(Declaration.apply)(Declaration.unapply)
+    )(DeclarationViewModel.apply)(DeclarationViewModel.unapply)
   )
 
 }

@@ -23,7 +23,7 @@ import org.scalatest.BeforeAndAfterEach
 import play.api.test.FutureAwaits
 import play.api.test.Helpers.status
 import play.mvc.Http.Status
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.{Declaration, GoodsIdentification}
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.{DeclarationViewModel, GoodsIdentificationViewModel}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Destination, ExportCountry, Origin, WhenAndWhere}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
@@ -69,7 +69,7 @@ with Scenarios with FutureAwaits with BeforeAndAfterEach {
         "goodsIdentification.shippingMarks" -> Seq("crosses")
       ) ++ declarationTypeFormData
 
-      val captor: ArgumentCaptor[Declaration] = ArgumentCaptor.forClass(classOf[Declaration])
+      val captor: ArgumentCaptor[DeclarationViewModel] = ArgumentCaptor.forClass(classOf[DeclarationViewModel])
       when(mockDeclarationService.submit(any(), captor.capture())(any()))
         .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
       when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
@@ -78,7 +78,7 @@ with Scenarios with FutureAwaits with BeforeAndAfterEach {
 
         private val actualDeclaration = captor.getValue
         actualDeclaration.goodsIdentification mustBe (
-          GoodsIdentification(Some("987"), Some("765"),
+          GoodsIdentificationViewModel(Some("987"), Some("765"),
             Some("432"), Some("Our test description"), Some("boxes"), Some("13"), Some("crosses"))
           )
       }
@@ -95,7 +95,7 @@ with Scenarios with FutureAwaits with BeforeAndAfterEach {
         "goodsIdentification.shippingMarks" -> Seq("")
       ) ++ declarationTypeFormData
 
-      when(mockDeclarationService.submit(any(), any[Declaration])(any()))
+      when(mockDeclarationService.submit(any(), any[DeclarationViewModel])(any()))
         .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
       when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
 
