@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.domain
+package uk.gov.hmrc.cdsimportsddsfrontend.controllers.model
 
-case class Declaration(
-                        declarationType: DeclarationType = DeclarationType(),
-                        documentationType: DocumentationType = DocumentationType(),
-                        parties: DeclarationParties = DeclarationParties(),
-                        valuationInformationAndTaxes: ValuationInformationAndTaxes = ValuationInformationAndTaxes(),
-                        whenAndWhere: WhenAndWhere = WhenAndWhere()
-                      )
+case class GoodsIdentification(
+                              netMass: Option[String],
+                              supplementaryUnits: Option[String],
+                              grossMass: Option[String],
+                              description: Option[String],
+                              typeOfPackages: Option[String],
+                              numberOfPackages: Option[String],
+                              shippingMarks: Option[String]
+                              )
