@@ -21,11 +21,13 @@ import java.util.UUID
 import javax.inject.Singleton
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.AddressXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DestinationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ExportCountryXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsLocationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances._
 
 import scala.xml.{Elem, NodeSeq, PrettyPrinter, Text}
 
@@ -77,14 +79,7 @@ class DeclarationXml {
               <ID>12345</ID>
               <IdentificationTypeCode>10</IdentificationTypeCode>
             </ArrivalTransportMeans>
-            <GoodsLocation>
-              <Name>DVRDOVDVR</Name>
-              <TypeCode>A</TypeCode>
-              <Address>
-                <TypeCode>U</TypeCode>
-                <CountryCode>GB</CountryCode>
-              </Address>
-            </GoodsLocation>
+            {dec.whenAndWhere.goodsLocation.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
             <TransportEquipment>
               <SequenceNumeric>1</SequenceNumeric>
               <ID>DM1234</ID>
@@ -236,23 +231,9 @@ class DeclarationXml {
         val childNodes =
           maybeElement("Name", party.name) ++
           maybeElement("ID", party.identifier) ++
-          maybeAddress(party) ++
+          party.address.flatMap(_.toXml).getOrElse(NodeSeq.Empty) ++
           maybePhoneNumber(party)
         Elem.apply(null, tagName, scala.xml.Null, scala.xml.TopScope, true, childNodes :_*) // scalastyle:ignore
-      case None => NodeSeq.Empty
-    }
-  }
-
-  def maybeAddress(party: Party): NodeSeq = {
-    party.address match {
-      case Some(address) =>
-        val childNodes =
-          maybeElement("CityName", address.city) ++
-          maybeElement("CountryCode", address.countryCode) ++
-          maybeElement("Line", address.streetAndNumber) ++
-          maybeElement("PostcodeID", address.postcode) ++
-          maybeElement("TypeCode", address.typeCode)
-        Elem.apply(null, "Address", scala.xml.Null, scala.xml.TopScope, true, childNodes :_*) // scalastyle:ignore
       case None => NodeSeq.Empty
     }
   }

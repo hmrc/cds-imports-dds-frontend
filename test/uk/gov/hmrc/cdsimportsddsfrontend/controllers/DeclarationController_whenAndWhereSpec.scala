@@ -23,8 +23,8 @@ import org.scalatest.BeforeAndAfterEach
 import play.api.test.FutureAwaits
 import play.api.test.Helpers.status
 import play.mvc.Http.Status
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
 import scala.concurrent.Future
@@ -48,6 +48,8 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "whenAndWhere.origin.typeCode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.name")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.typeCode")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.countryCode")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.typeCode")
       }
     }
   }
@@ -61,7 +63,9 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         "whenAndWhere.origin.countryCode" -> Seq("origin countryCode"),
         "whenAndWhere.origin.typeCode" -> Seq("typeCode"),
         "whenAndWhere.goodsLocation.name" -> Seq("goods location name"),
-        "whenAndWhere.goodsLocation.typeCode" -> Seq("goods location type")
+        "whenAndWhere.goodsLocation.typeCode" -> Seq("goods location type"),
+        "whenAndWhere.goodsLocation.address.countryCode" -> Seq("goods location country code"),
+        "whenAndWhere.goodsLocation.address.typeCode" -> Seq("goods location type code")
       ) ++ declarationTypeFormData
 
       val captor: ArgumentCaptor[Declaration] = ArgumentCaptor.forClass(classOf[Declaration])
@@ -76,7 +80,8 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
           Some(Destination(Some("destination countryCode"))),
           Some(ExportCountry(id = Some("id"))),
           Some(Origin(countryCode = Some("origin countryCode"), typeCode = Some("typeCode"))),
-          Some(GoodsLocation(name = Some("goods location name"), typeCode = Some("goods location type"), address = None)))
+          Some(GoodsLocation(name = Some("goods location name"), typeCode = Some("goods location type"),
+            address = Some(Address(None, None, Some("goods location country code"), None, Some("goods location type code"))))))
       }
     }
 

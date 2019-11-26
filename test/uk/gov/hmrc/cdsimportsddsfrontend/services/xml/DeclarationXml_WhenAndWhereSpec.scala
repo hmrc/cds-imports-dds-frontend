@@ -59,6 +59,21 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Origin" \ "TypeCode").head.text mustBe "99"
       }
 
+      "the goods location is present in the data" in {
+        val declaration = Declaration(
+          whenAndWhere = WhenAndWhere(
+            goodsLocation = Some(GoodsLocation(name = Some("FXTFXTFXT"), typeCode = Some("A"),
+              address = Some(Address(None, None, Some("GB"), None, Some("U")))))
+          )
+        )
+
+        val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+        (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" \ "Name").head.text mustBe "FXTFXTFXT"
+        (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" \ "TypeCode").head.text mustBe "A"
+        (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" \ "Address" \ "CountryCode").head.text mustBe "GB"
+        (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" \ "Address" \ "TypeCode").head.text mustBe "U"
+      }
+
     }
 
     "be omitted from XML" when {
