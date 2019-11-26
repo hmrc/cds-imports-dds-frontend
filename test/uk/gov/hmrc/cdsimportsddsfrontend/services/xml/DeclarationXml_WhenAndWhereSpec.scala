@@ -109,6 +109,16 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Origin" ).length mustBe 0
       }
 
+      "the goods location data is missing" in {
+        val declaration = Declaration(
+          whenAndWhere = WhenAndWhere(
+            goodsLocation = None
+          )
+        )
+
+        val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+        (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" ).length mustBe 0
+      }
     }
   }
 }
