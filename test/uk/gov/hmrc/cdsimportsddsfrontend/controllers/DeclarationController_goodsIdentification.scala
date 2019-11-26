@@ -23,7 +23,12 @@ import org.scalatest.BeforeAndAfterEach
 import play.api.test.FutureAwaits
 import play.api.test.Helpers.status
 import play.mvc.Http.Status
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.{Declaration, GoodsIdentification}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Destination, ExportCountry, Origin, WhenAndWhere}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
+
+import scala.concurrent.Future
 
 
 class DeclarationController_goodsIdentification  extends CdsImportsSpec
@@ -50,4 +55,53 @@ with Scenarios with FutureAwaits with BeforeAndAfterEach {
     }
   }
 
+
+  "A POST Request" should {
+
+    "post the expected data to the declaration service" in signedInScenario { user =>
+      val formData: Map[String, Seq[String]] = Map(
+        "goodsIdentification.netMass" -> Seq("987"),
+        "goodsIdentification.supplementaryUnits" -> Seq("765"),
+        "goodsIdentification.grossMass" -> Seq("432"),
+        "goodsIdentification.description" -> Seq("Our test description"),
+        "goodsIdentification.typeOfPackages" -> Seq("boxes"),
+        "goodsIdentification.numberOfPackages" -> Seq("13"),
+        "goodsIdentification.shippingMarks" -> Seq("crosses")
+      ) ++ declarationTypeFormData
+
+      val captor: ArgumentCaptor[Declaration] = ArgumentCaptor.forClass(classOf[Declaration])
+      when(mockDeclarationService.submit(any(), captor.capture())(any()))
+        .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+      new PostScenario(formData) {
+        status(response) mustBe Status.OK
+
+        private val actualDeclaration = captor.getValue
+        actualDeclaration.goodsIdentification mustBe (
+          GoodsIdentification(Some("987"), Some("765"),
+            Some("432"), Some("Our test description"), Some("boxes"), Some("13"), Some("crosses"))
+          )
+      }
+    }
+
+    "succeed when all optional fields are empty" in signedInScenario { user =>
+      val formData: Map[String, Seq[String]] = Map(
+        "goodsIdentification.netMass" -> Seq(""),
+        "goodsIdentification.supplementaryUnits" -> Seq(""),
+        "goodsIdentification.grossMass" -> Seq(""),
+        "goodsIdentification.description" -> Seq(""),
+        "goodsIdentification.typeOfPackages" -> Seq(""),
+        "goodsIdentification.numberOfPackages" -> Seq(""),
+        "goodsIdentification.shippingMarks" -> Seq("")
+      ) ++ declarationTypeFormData
+
+      when(mockDeclarationService.submit(any(), any[Declaration])(any()))
+        .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
+      when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
+
+      new PostScenario(formData) {
+        status(response) mustBe Status.OK
+      }
+    }
+  }
 }
