@@ -14,19 +14,8 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
+package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-import play.api.data.Forms.{mapping, optional, text}
-import play.api.data.Mapping
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.Address
-
-object AddressFormMapping extends FormValidators {
-  val addressMapping: Mapping[Address] = mapping(
-    "streetAndNumber" -> optional(text),
-    "city" -> optional(text),
-    "countryCode" -> optional(text),
-    "postcode" -> optional(text),
-    "typeCode" -> optional(text)
-  )(Address.apply)(Address.unapply)
-  val address: (String, Mapping[Address]) = "address" -> addressMapping
-}
+case class GoodsLocation(name: Option[String] = Some("FXTFXTFXT"),
+                         typeCode: Option[String] = Some("A"),
+                         address: Option[Address] = Some(Address()))

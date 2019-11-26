@@ -104,6 +104,10 @@ declare.whenAndWhere.destination.countryCode=5.8 Destination country code
 declare.whenAndWhere.exportCountry.id=5.14 Dispatch/export country code
 declare.whenAndWhere.origin.countryCode=5.15 Origin country code
 declare.whenAndWhere.origin.typeCode=5.15 Origin country code type
+declare.whenAndWhere.goodsLocation.name=5.23 Goods Location - Name
+declare.whenAndWhere.goodsLocation.typeCode=5.23 Goods Location - Type
+declare.whenAndWhere.goodsLocation.address.countryCode=5.23 Goods Location - Country Code
+declare.whenAndWhere.goodsLocation.address.typeCode=5.23 Goods Location - Address Type
 
 # Raw XML declaration form
 declaration.xml=Declaration XML

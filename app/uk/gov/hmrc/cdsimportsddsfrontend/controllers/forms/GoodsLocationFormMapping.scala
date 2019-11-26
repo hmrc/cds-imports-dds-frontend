@@ -18,15 +18,14 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
 import play.api.data.Forms.{mapping, optional, text}
 import play.api.data.Mapping
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.Address
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Address, GoodsLocation}
+import AddressFormMapping.addressMapping
 
-object AddressFormMapping extends FormValidators {
-  val addressMapping: Mapping[Address] = mapping(
-    "streetAndNumber" -> optional(text),
-    "city" -> optional(text),
-    "countryCode" -> optional(text),
-    "postcode" -> optional(text),
-    "typeCode" -> optional(text)
-  )(Address.apply)(Address.unapply)
-  val address: (String, Mapping[Address]) = "address" -> addressMapping
+object GoodsLocationFormMapping {
+
+  val goodsLocation: Mapping[GoodsLocation] = mapping(
+    "name" -> optional(text),
+    "typeCode" -> optional(text),
+    "address" -> optional(addressMapping)
+  )(GoodsLocation.apply)(GoodsLocation.unapply)
 }
