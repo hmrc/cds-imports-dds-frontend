@@ -21,9 +21,9 @@ import play.api.Logger
 import play.api.http.{ContentTypes, HeaderNames}
 import play.api.mvc.Codec
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.{DeclarationViewModel => DeclarationVM}
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, Eori}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Commodity, Declaration, Eori, GoodsMeasure, Packaging}
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DeclarationXml
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
@@ -37,16 +37,25 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml:
 
   val log = Logger(this.getClass)
 
-  def submit(eori: Eori, declarationVM: DeclarationVM)(implicit hc: HeaderCarrier): Future[DeclarationServiceResponse] = {
+  def submit(eori: Eori, declarationViewModel: DeclarationViewModel)(implicit hc: HeaderCarrier): Future[DeclarationServiceResponse] = {
 
-    val declarationDM: Declaration = Declaration(declarationType = declarationVM.declarationType,
-      documentationType = declarationVM.documentationType,
-      parties = declarationVM.parties,
-      valuationInformationAndTaxes = declarationVM.valuationInformationAndTaxes,
-      whenAndWhere = declarationVM.whenAndWhere
-
+    val declaration: Declaration = Declaration(declarationType = declarationViewModel.declarationType,
+      documentationType = declarationViewModel.documentationType,
+      parties = declarationViewModel.parties,
+      valuationInformationAndTaxes = declarationViewModel.valuationInformationAndTaxes,
+      whenAndWhere = declarationViewModel.whenAndWhere,
+      totalGrossMassMeasure = declarationViewModel.goodsIdentification.grossMass,
+      commodity = Commodity(
+        goodsMeasure = GoodsMeasure(netNetWeightMeasure = declarationViewModel.goodsIdentification.netMass,
+                                    tariffQuantity = declarationViewModel.goodsIdentification.supplementaryUnits,
+                                    grossMassMeasure = declarationViewModel.goodsIdentification.grossMass),
+        description = declarationViewModel.goodsIdentification.description),
+        packaging = Packaging(typeCode = declarationViewModel.goodsIdentification.typeOfPackages,
+                              quantityQuantity = declarationViewModel.goodsIdentification.numberOfPackages,
+                              marksNumberId = declarationViewModel.goodsIdentification.shippingMarks)
     )
-    val xml = declarationXml.fromImportDeclaration(declarationDM)
+
+    val xml = declarationXml.fromImportDeclaration(declaration)
     submit(eori, xml)
   }
 

@@ -21,5 +21,8 @@ case class Declaration(
                         documentationType: DocumentationType = DocumentationType(),
                         parties: DeclarationParties = DeclarationParties(),
                         valuationInformationAndTaxes: ValuationInformationAndTaxes = ValuationInformationAndTaxes(),
-                        whenAndWhere: WhenAndWhere = WhenAndWhere()
+                        whenAndWhere: WhenAndWhere = WhenAndWhere(),
+                        commodity: Commodity = Commodity(),
+                        totalGrossMassMeasure: Option[String] = None,
+                        packaging: Packaging = Packaging()
                       )
