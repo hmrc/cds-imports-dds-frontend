@@ -24,5 +24,7 @@ case class Declaration(
                         whenAndWhere: WhenAndWhere = WhenAndWhere(),
                         commodity: Option[Commodity] = None,
                         totalGrossMassMeasure: Option[String] = None,
-                        packaging: Option[Packaging] = None
+                        packaging: Option[Packaging] = None,
+                        borderTransportMeans: Option[BorderTransportMeans] = None,
+                        consignment: Option[Consignment] = None
                       )

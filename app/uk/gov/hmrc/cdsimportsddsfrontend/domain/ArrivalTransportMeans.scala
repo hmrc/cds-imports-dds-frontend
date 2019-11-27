@@ -16,6 +16,4 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class WhenAndWhere(destination: Option[Destination] = Some(Destination()),
-                        exportCountry: Option[ExportCountry] = Some(ExportCountry()),
-                        origin: Option[Origin] = Some(Origin()))
+case class ArrivalTransportMeans(identificationTypeCode: Option[String] = Some("10"), id: Option[String] = Some("1023465738"))

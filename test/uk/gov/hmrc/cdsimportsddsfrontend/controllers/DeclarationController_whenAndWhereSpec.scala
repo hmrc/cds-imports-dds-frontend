@@ -23,8 +23,8 @@ import org.scalatest.BeforeAndAfterEach
 import play.api.test.FutureAwaits
 import play.api.test.Helpers.status
 import play.mvc.Http.Status
-import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
+import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
@@ -80,9 +80,8 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         actualDeclaration.whenAndWhere mustBe WhenAndWhere(
           Some(Destination(Some("destination countryCode"))),
           Some(ExportCountry(id = Some("id"))),
-          Some(Origin(countryCode = Some("origin countryCode"), typeCode = Some("typeCode"))),
-          Some(GoodsLocation(name = Some("goods location name"), typeCode = Some("goods location type"),
-            address = Some(Address(None, None, Some("goods location country code"), None, Some("goods location type code"))))))
+          Some(Origin(countryCode = Some("origin countryCode"), typeCode = Some("typeCode")))
+        )
       }
     }
 
