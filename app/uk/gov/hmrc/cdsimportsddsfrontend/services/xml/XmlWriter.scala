@@ -19,7 +19,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 import cats.implicits._
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
-import scala.xml._
+import scala.xml.{Attribute, Elem, MetaData, Node, Text}
 
 trait XmlWriter[A] {
   def toXml(value: A): Option[Elem]

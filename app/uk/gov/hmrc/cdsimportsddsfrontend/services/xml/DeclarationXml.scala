@@ -40,9 +40,6 @@ class DeclarationXml {
 
   def fromImportDeclaration(dec: Declaration):Elem = {
 
-    val res: Option[GoodsMeasure] = dec.commodity.flatMap(c => c.goodsMeasure) //.map(_.toXml)).getOrElse(NodeSeq.Empty)
-    val res1 = res.map(_.toXml).flatten.getOrElse(NodeSeq.Empty)
-
     <md:MetaData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:md="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2" xmlns:clm63055="urn:un:unece:uncefact:codelist:standard:UNECE:AgencyIdentificationCode:D12B" xmlns:ds="urn:wco:datamodel:WCO:MetaData_DS-DMS:2" xsi:schemaLocation="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2 ../DocumentMetaData_2_DMS.xsd " xmlns="urn:wco:datamodel:WCO:DEC-DMS:2">
       <md:WCODataModelVersionCode>3.6</md:WCODataModelVersionCode>
       <md:WCOTypeName>DEC</md:WCOTypeName>
@@ -95,7 +92,7 @@ class DeclarationXml {
                 <IdentificationTypeCode>TRC</IdentificationTypeCode>
               </Classification>
               {maybeDutyTaxFee(dec)}
-              {res1}
+              {dec.commodity.flatMap(c => c.goodsMeasure).flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
               {maybeInvoiceLine(dec)}
             </Commodity>
             {maybeCustomsValuation(dec)}
