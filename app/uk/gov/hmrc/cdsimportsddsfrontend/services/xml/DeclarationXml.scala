@@ -27,6 +27,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ConsignmentXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DestinationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ExportCountryXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.PackagingXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances._
 
@@ -106,12 +107,7 @@ class DeclarationXml {
               <CurrentCode>{dec.declarationType.additionalProcedureCode}</CurrentCode>
             </GovernmentProcedure>
             {dec.whenAndWhere.origin.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
-            <Packaging>
-              <SequenceNumeric>1</SequenceNumeric>
-              <MarksNumbersID>PK/12344</MarksNumbersID>
-              <QuantityQuantity>55</QuantityQuantity>
-              <TypeCode>PK</TypeCode>
-            </Packaging>
+            {dec.packaging.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
             {dec.documentationType.itemPreviousDocument.flatMap(_.toXml)}
             {maybeValuationAdjustment(dec)}
           </GovernmentAgencyGoodsItem>
