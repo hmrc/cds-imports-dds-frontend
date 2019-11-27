@@ -83,7 +83,7 @@ class DeclarationXml {
             {dec.documentationType.additionalDocument.flatMap(_.toXml)}
             {dec.documentationType.itemAdditionalInformation.map(additionalInformation)}
             <Commodity>
-              <Description>Aluminium Foil not exceeding 0,2 mm</Description>
+              {maybeElement("Description", dec.commodity.flatMap(a => a.description))}
               <Classification>
                 <ID>76071111</ID>
                 <IdentificationTypeCode>TSP</IdentificationTypeCode>
