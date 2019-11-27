@@ -54,6 +54,7 @@ class DeclarationXml {
         <FunctionalReferenceID>{dec.documentationType.localReferenceNumber.getOrElse("")}</FunctionalReferenceID>
         <TypeCode>{dec.declarationType.declarationType + dec.declarationType.additionalDeclarationType}</TypeCode>
         <GoodsItemQuantity>{dec.declarationType.totalNumberOfItems}</GoodsItemQuantity>
+        {maybeElement("TotalGrossMassMeasure", dec.totalGrossMassMeasure)}
         <TotalPackageQuantity>55</TotalPackageQuantity>
         <AdditionalDocument>
         {maybeElement("CategoryCode", dec.documentationType.additionalPayment(0).additionalDocPaymentCategory)}
