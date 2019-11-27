@@ -22,7 +22,7 @@ case class Declaration(
                         parties: DeclarationParties = DeclarationParties(),
                         valuationInformationAndTaxes: ValuationInformationAndTaxes = ValuationInformationAndTaxes(),
                         whenAndWhere: WhenAndWhere = WhenAndWhere(),
-                        commodity: Commodity = Commodity(),
+                        commodity: Option[Commodity] = None,
                         totalGrossMassMeasure: Option[String] = None,
-                        packaging: Packaging = Packaging()
+                        packaging: Option[Packaging] = None
                       )

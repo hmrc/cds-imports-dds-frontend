@@ -28,13 +28,13 @@ case class GoodsIdentificationViewModel(
                                          shippingMarks: Option[String] = Some("TSP not required")
                                        ) {
 
-  def toGoodsMeasure() = GoodsMeasure(
+  def toGoodsMeasure = GoodsMeasure(
     netNetWeightMeasure = this.netMass,
     tariffQuantity = this.supplementaryUnits,
     grossMassMeasure = this.grossMass
   )
 
-  def toPackaging( ) = Packaging(
+  def toPackaging = Packaging(
     typeCode = this.typeOfPackages,
     quantityQuantity = this.numberOfPackages,
     marksNumberId = this.shippingMarks

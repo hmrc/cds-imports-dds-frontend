@@ -45,10 +45,10 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml:
       valuationInformationAndTaxes = declarationViewModel.valuationInformationAndTaxes,
       whenAndWhere = declarationViewModel.whenAndWhere,
       totalGrossMassMeasure = declarationViewModel.goodsIdentification.grossMass,
-      commodity = Commodity(
-        goodsMeasure = declarationViewModel.goodsIdentification.toGoodsMeasure(),
-        description = declarationViewModel.goodsIdentification.description),
-        packaging = declarationViewModel.goodsIdentification.toPackaging()
+      commodity = Some(Commodity(
+        goodsMeasure = Some(declarationViewModel.goodsIdentification.toGoodsMeasure),
+        description = declarationViewModel.goodsIdentification.description)),
+        packaging = Some(declarationViewModel.goodsIdentification.toPackaging)
     )
 
     val xml = declarationXml.fromImportDeclaration(declaration)
