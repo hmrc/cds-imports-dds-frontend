@@ -28,6 +28,8 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DestinationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ExportCountryXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.PackagingXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsMeasureXmlWriter._
+
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances._
 
@@ -37,6 +39,9 @@ import scala.xml.{Elem, NodeSeq, PrettyPrinter, Text}
 class DeclarationXml {
 
   def fromImportDeclaration(dec: Declaration):Elem = {
+
+    val res: Option[GoodsMeasure] = dec.commodity.flatMap(c => c.goodsMeasure) //.map(_.toXml)).getOrElse(NodeSeq.Empty)
+    val res1 = res.map(_.toXml).flatten.getOrElse(NodeSeq.Empty)
 
     <md:MetaData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:md="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2" xmlns:clm63055="urn:un:unece:uncefact:codelist:standard:UNECE:AgencyIdentificationCode:D12B" xmlns:ds="urn:wco:datamodel:WCO:MetaData_DS-DMS:2" xsi:schemaLocation="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2 ../DocumentMetaData_2_DMS.xsd " xmlns="urn:wco:datamodel:WCO:DEC-DMS:2">
       <md:WCODataModelVersionCode>3.6</md:WCODataModelVersionCode>
@@ -90,11 +95,7 @@ class DeclarationXml {
                 <IdentificationTypeCode>TRC</IdentificationTypeCode>
               </Classification>
               {maybeDutyTaxFee(dec)}
-              <GoodsMeasure>
-                <GrossMassMeasure unitCode="KGM">60</GrossMassMeasure>
-                <NetNetWeightMeasure unitCode="KGM">50</NetNetWeightMeasure>
-                <TariffQuantity>50</TariffQuantity>
-              </GoodsMeasure>
+              {res1}
               {maybeInvoiceLine(dec)}
             </Commodity>
             {maybeCustomsValuation(dec)}

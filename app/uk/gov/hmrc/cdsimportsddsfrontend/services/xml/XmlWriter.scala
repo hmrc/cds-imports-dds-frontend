@@ -19,7 +19,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 import cats.implicits._
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
-import scala.xml.{Elem, Node, Text}
+import scala.xml._
 
 trait XmlWriter[A] {
   def toXml(value: A): Option[Elem]
@@ -84,11 +84,21 @@ object XmlWriterInstances {
   }
 
   def maybeElement(elementName: String, maybeElementValue: Option[String]): Option[Node] = {
-    maybeElementValue.filter(_.nonEmpty).map(value => element(elementName, value))
+    maybeElementValue.filter(_.nonEmpty).map(value => element(elementName, value, None))
   }
 
-  private def element(elementName: String, elementValue: String): Node = {
-    Elem.apply(null, elementName, scala.xml.Null, scala.xml.TopScope, true, Text(elementValue)) //scalastyle:ignore
+  def maybeElement(elementName: String, maybeElementValue: Option[String], attribute: Option[Attribute]): Option[Node] = {
+    maybeElementValue.filter(_.nonEmpty).map(value => element(elementName, value, attribute))
+  }
+
+  private def element(elementName: String, elementValue: String, attribute: Option[Attribute] ): Node = {
+
+    val attributes: MetaData = attribute match {
+      case Some(attrValue) => attrValue
+      case None  => scala.xml.Null
+    }
+
+    Elem.apply(null, elementName, attributes, scala.xml.TopScope, true, Text(elementValue)) //scalastyle:ignore
   }
 
 }
