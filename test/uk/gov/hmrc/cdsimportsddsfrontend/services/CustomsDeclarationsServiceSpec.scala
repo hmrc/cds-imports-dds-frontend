@@ -21,7 +21,7 @@ import org.mockito.Mockito.when
 import org.scalatest.{MustMatchers, WordSpec}
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DeclarationXml
 import uk.gov.hmrc.cdsimportsddsfrontend.test.AppConfigReader
@@ -60,7 +60,7 @@ class CustomsDeclarationsServiceSpec extends WordSpec
       val decApiResponse = CustomsDeclarationsResponse(200, Some("conversation id"))
       when[Future[CustomsDeclarationsResponse]](mockHttp.POSTString(any(),any(),any())(any(), any(), any())).thenReturn(Future.successful(decApiResponse))
       when(mockDeclarationXml.fromImportDeclaration(any())).thenReturn(<DeclaringMyStuff/>)
-      val declaration = Declaration()
+      val declaration = DeclarationViewModel()
       val response: DeclarationServiceResponse = await(customsDeclarationsService.submit(testEori, declaration))
 
       response.conversationId mustBe decApiResponse.conversationId

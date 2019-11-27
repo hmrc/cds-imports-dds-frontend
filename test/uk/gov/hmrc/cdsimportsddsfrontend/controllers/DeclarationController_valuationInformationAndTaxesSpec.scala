@@ -24,7 +24,8 @@ import play.api.test.FutureAwaits
 import play.api.test.Helpers.status
 import play.mvc.Http.Status
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ChargeDeduction, CurrencyAmount, Declaration, ValuationInformationAndTaxes}
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ChargeDeduction, CurrencyAmount, ValuationInformationAndTaxes}
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
 import scala.concurrent.Future
@@ -77,7 +78,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         "valuationInformationAndTaxes.dutyRegimeCode" -> Seq("dutyRegimeCode")
       ) ++ declarationTypeFormData
 
-      val captor: ArgumentCaptor[Declaration] = ArgumentCaptor.forClass(classOf[Declaration])
+      val captor: ArgumentCaptor[DeclarationViewModel] = ArgumentCaptor.forClass(classOf[DeclarationViewModel])
       when(mockDeclarationService.submit(any(), captor.capture())(any()))
         .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
       when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
@@ -114,7 +115,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         "valuationInformationAndTaxes.dutyRegimeCode" -> Seq("")
       ) ++ declarationTypeFormData
 
-      when(mockDeclarationService.submit(any(), any[Declaration])(any()))
+      when(mockDeclarationService.submit(any(), any[DeclarationViewModel])(any()))
         .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
       when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
 

@@ -21,8 +21,9 @@ import play.api.Logger
 import play.api.http.{ContentTypes, HeaderNames}
 import play.api.mvc.Codec
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Declaration, Eori}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Commodity, Declaration, Eori, GoodsMeasure, Packaging}
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DeclarationXml
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
@@ -36,7 +37,20 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml:
 
   val log = Logger(this.getClass)
 
-  def submit(eori: Eori, declaration: Declaration)(implicit hc: HeaderCarrier): Future[DeclarationServiceResponse] = {
+  def submit(eori: Eori, declarationViewModel: DeclarationViewModel)(implicit hc: HeaderCarrier): Future[DeclarationServiceResponse] = {
+
+    val declaration: Declaration = Declaration(declarationType = declarationViewModel.declarationType,
+      documentationType = declarationViewModel.documentationType,
+      parties = declarationViewModel.parties,
+      valuationInformationAndTaxes = declarationViewModel.valuationInformationAndTaxes,
+      whenAndWhere = declarationViewModel.whenAndWhere,
+      totalGrossMassMeasure = declarationViewModel.goodsIdentification.grossMass,
+      commodity = Some(Commodity(
+        goodsMeasure = Some(declarationViewModel.goodsIdentification.toGoodsMeasure),
+        description = declarationViewModel.goodsIdentification.description)),
+        packaging = Some(declarationViewModel.goodsIdentification.toPackaging)
+    )
+
     val xml = declarationXml.fromImportDeclaration(declaration)
     submit(eori, xml)
   }

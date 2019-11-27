@@ -16,6 +16,6 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class GoodsLocation(name: Option[String] = Some("FXTFXTFXT"),
-                         typeCode: Option[String] = Some("A"),
-                         address: Option[Address] = Some(Address().copy(countryCode = Some("GB"))))
+case class Commodity(description: Option[String] = None,
+                     goodsMeasure: Option[GoodsMeasure]
+                    )

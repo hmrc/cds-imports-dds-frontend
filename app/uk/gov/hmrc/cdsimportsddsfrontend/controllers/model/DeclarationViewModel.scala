@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.domain
+package uk.gov.hmrc.cdsimportsddsfrontend.controllers.model
 
-case class Declaration(
+import uk.gov.hmrc.cdsimportsddsfrontend.domain._
+
+case class DeclarationViewModel(
                         declarationType: DeclarationType = DeclarationType(),
                         documentationType: DocumentationType = DocumentationType(),
                         parties: DeclarationParties = DeclarationParties(),
                         valuationInformationAndTaxes: ValuationInformationAndTaxes = ValuationInformationAndTaxes(),
                         whenAndWhere: WhenAndWhere = WhenAndWhere(),
-                        commodity: Option[Commodity] = None,
-                        totalGrossMassMeasure: Option[String] = None,
-                        packaging: Option[Packaging] = None
+                        goodsIdentification: GoodsIdentificationViewModel = GoodsIdentificationViewModel()
                       )

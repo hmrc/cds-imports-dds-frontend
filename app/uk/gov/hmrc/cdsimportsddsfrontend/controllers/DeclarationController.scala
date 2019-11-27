@@ -21,9 +21,10 @@ import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.cdsimportsddsfrontend.config.{AppConfig, ErrorHandler, FeatureSwitchRegistry}
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DeclarationForm
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.Declaration
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
 import uk.gov.hmrc.cdsimportsddsfrontend.services.{CustomsDeclarationsService, DeclarationStore}
-import uk.gov.hmrc.cdsimportsddsfrontend.views.html.{declaration_result, declaration}
+import uk.gov.hmrc.cdsimportsddsfrontend.views.html.declaration_result
+import uk.gov.hmrc.cdsimportsddsfrontend.views.html.declaration
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -42,7 +43,7 @@ class DeclarationController @Inject()(simplifiedDeclaration: declaration
   extends FrontendController(mcc) with I18nSupport {
 
   def show(): Action[AnyContent] = (featureSwitchRegistry.SinglePageDeclaration.action andThen authenticate) async { implicit req =>
-    Future.successful(Ok(simplifiedDeclaration(DeclarationForm.form.fill(Declaration()))))
+    Future.successful(Ok(simplifiedDeclaration(DeclarationForm.form.fill(DeclarationViewModel()))))
   }
 
   def submit(): Action[AnyContent] = (featureSwitchRegistry.SinglePageDeclaration.action andThen authenticate) async { implicit request =>
