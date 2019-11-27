@@ -23,14 +23,13 @@ import org.scalatest.BeforeAndAfterEach
 import play.api.test.FutureAwaits
 import play.api.test.Helpers.status
 import play.mvc.Http.Status
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.{DeclarationViewModel, WhenAndWhereViewModel}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain._
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.{DeclarationViewModel, TransportInformationViewModel}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
 import scala.concurrent.Future
 
-class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
+class DeclarationController_transportInformationSpec extends CdsImportsSpec
   with Scenarios with FutureAwaits with BeforeAndAfterEach {
 
   import DeclarationControllerSpec._
@@ -43,30 +42,23 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
     "show the expected form fields" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.destination.countryCode")
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.exportCountry.id")
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.origin.countryCode")
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.origin.typeCode")
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.name")
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.typeCode")
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.countryCode")
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.typeCode")
+        body should include element withName("input").withAttrValue("name", "transportInformation.container")
+        body should include element withName("input").withAttrValue("name", "transportInformation.modeOfTransport")
+        body should include element withName("input").withAttrValue("name", "transportInformation.transportIdentificationType")
+        body should include element withName("input").withAttrValue("name", "transportInformation.transportId")
+        body should include element withName("input").withAttrValue("name", "transportInformation.registrationNationalityCode")
       }
     }
   }
 
   "A POST Request" should {
-
     "post the expected data to the declaration service" in signedInScenario { user =>
       val formData: Map[String, Seq[String]] = Map(
-        "whenAndWhere.destination.countryCode" -> Seq("destination countryCode"),
-        "whenAndWhere.exportCountry.id" -> Seq("id"),
-        "whenAndWhere.origin.countryCode" -> Seq("origin countryCode"),
-        "whenAndWhere.origin.typeCode" -> Seq("typeCode"),
-        "whenAndWhere.goodsLocation.name" -> Seq("goods location name"),
-        "whenAndWhere.goodsLocation.typeCode" -> Seq("goods location type"),
-        "whenAndWhere.goodsLocation.address.countryCode" -> Seq("goods location country code"),
-        "whenAndWhere.goodsLocation.address.typeCode" -> Seq("goods location type code")
+        "transportInformation.container" -> Seq("container code"),
+        "transportInformation.modeOfTransport" -> Seq("mode of transport"),
+        "transportInformation.transportIdentificationType" -> Seq("transport identification type"),
+        "transportInformation.transportId" -> Seq("transport id"),
+        "transportInformation.registrationNationalityCode" -> Seq("registration nationality code")
       ) ++ declarationTypeFormData
 
       val captor: ArgumentCaptor[DeclarationViewModel] = ArgumentCaptor.forClass(classOf[DeclarationViewModel])
@@ -77,22 +69,23 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         status(response) mustBe Status.OK
 
         private val actualDeclaration = captor.getValue
-        actualDeclaration.whenAndWhereViewModel mustBe WhenAndWhereViewModel(
-          Some(Destination(Some("destination countryCode"))),
-          Some(ExportCountry(id = Some("id"))),
-          Some(Origin(countryCode = Some("origin countryCode"), typeCode = Some("typeCode"))),
-          Some(GoodsLocation(name = Some("goods location name"), typeCode = Some("goods location type"),
-            address = Some(Address(None, None, Some("goods location country code"), None, Some("goods location type code")))))
+        actualDeclaration.transportInformationViewModel mustBe TransportInformationViewModel(
+          Some("container code"),
+          Some("mode of transport"),
+          Some("transport identification type"),
+          Some("transport id"),
+          Some("registration nationality code")
         )
       }
     }
 
     "succeed when all optional fields are empty" in signedInScenario { user =>
       val formData: Map[String, Seq[String]] = Map(
-        "whenAndWhere.destination.countryCode" -> Seq(""),
-        "whenAndWhere.exportCountry.id" -> Seq(""),
-        "whenAndWhere.origin.countryCode" -> Seq(""),
-        "whenAndWhere.origin.typeCode" -> Seq("")
+        "transportInformation.container" -> Seq(""),
+        "transportInformation.modeOfTransport" -> Seq(""),
+        "transportInformation.transportIdentificationType" -> Seq(""),
+        "transportInformation.transportId" -> Seq(""),
+        "transportInformation.registrationNationalityCode" -> Seq("")
       ) ++ declarationTypeFormData
 
       when(mockDeclarationService.submit(any(), any[DeclarationViewModel])(any()))
@@ -105,4 +98,3 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
     }
   }
 }
-

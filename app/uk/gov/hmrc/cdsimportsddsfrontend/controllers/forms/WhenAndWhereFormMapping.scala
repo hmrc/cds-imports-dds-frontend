@@ -20,15 +20,16 @@ import play.api.data.Forms.{mapping, optional}
 import play.api.data.Mapping
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DestinationFormMapping.destination
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.ExportCountryFormMapping.exportCountry
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.GoodsLocationFormMapping.goodsLocation
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.OriginFormMapping.origin
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.WhenAndWhere
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.WhenAndWhereViewModel
 
 object WhenAndWhereFormMapping  {
 
-  val whenAndWhere: (String, Mapping[WhenAndWhere]) = "whenAndWhere" -> mapping(
+  val whenAndWhere: (String, Mapping[WhenAndWhereViewModel]) = "whenAndWhere" -> mapping(
     "destination" -> optional(destination),
     "exportCountry" -> optional(exportCountry),
-    "origin" -> optional(origin)
-  )(WhenAndWhere.apply)(WhenAndWhere.unapply)
-
+    "origin" -> optional(origin),
+    "goodsLocation" -> optional(goodsLocation)
+  )(WhenAndWhereViewModel.apply)(WhenAndWhereViewModel.unapply)
 }

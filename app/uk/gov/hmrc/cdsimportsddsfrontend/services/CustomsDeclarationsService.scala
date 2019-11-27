@@ -22,8 +22,8 @@ import play.api.http.{ContentTypes, HeaderNames}
 import play.api.mvc.Codec
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
+import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Commodity, Declaration, Eori, GoodsMeasure, Packaging}
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DeclarationXml
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
@@ -39,16 +39,25 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml:
 
   def submit(eori: Eori, declarationViewModel: DeclarationViewModel)(implicit hc: HeaderCarrier): Future[DeclarationServiceResponse] = {
 
+    val transportmodel = declarationViewModel.transportInformationViewModel
+
+    val consignment: Consignment = {
+      val goodsLocation = declarationViewModel.whenAndWhereViewModel.goodsLocation
+      Consignment(transportmodel.modeOfTransport, Some(transportmodel.toArrivalTransportMeans()), goodsLocation)
+    }
+
     val declaration: Declaration = Declaration(declarationType = declarationViewModel.declarationType,
       documentationType = declarationViewModel.documentationType,
       parties = declarationViewModel.parties,
       valuationInformationAndTaxes = declarationViewModel.valuationInformationAndTaxes,
-      whenAndWhere = declarationViewModel.whenAndWhere,
+      whenAndWhere = declarationViewModel.whenAndWhereViewModel.toWhenAndWhere(),
       totalGrossMassMeasure = declarationViewModel.goodsIdentification.grossMass,
       commodity = Some(Commodity(
         goodsMeasure = Some(declarationViewModel.goodsIdentification.toGoodsMeasure),
         description = declarationViewModel.goodsIdentification.description)),
-        packaging = Some(declarationViewModel.goodsIdentification.toPackaging)
+      packaging = Some(declarationViewModel.goodsIdentification.toPackaging),
+      borderTransportMeans = Some(transportmodel.toBorderTransportMeans()),
+      consignment = Some(consignment)
     )
 
     val xml = declarationXml.fromImportDeclaration(declaration)

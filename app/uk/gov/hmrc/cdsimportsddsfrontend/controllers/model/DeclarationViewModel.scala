@@ -23,6 +23,7 @@ case class DeclarationViewModel(
                         documentationType: DocumentationType = DocumentationType(),
                         parties: DeclarationParties = DeclarationParties(),
                         valuationInformationAndTaxes: ValuationInformationAndTaxes = ValuationInformationAndTaxes(),
-                        whenAndWhere: WhenAndWhere = WhenAndWhere(),
-                        goodsIdentification: GoodsIdentificationViewModel = GoodsIdentificationViewModel()
+                        whenAndWhereViewModel: WhenAndWhereViewModel = WhenAndWhereViewModel(),
+                        goodsIdentification: GoodsIdentificationViewModel = GoodsIdentificationViewModel(),
+                        transportInformationViewModel: TransportInformationViewModel = TransportInformationViewModel()
                       )

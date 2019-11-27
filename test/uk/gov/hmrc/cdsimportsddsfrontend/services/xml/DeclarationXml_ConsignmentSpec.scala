@@ -45,8 +45,6 @@ class DeclarationXml_ConsignmentSpec extends WordSpec with MustMatchers {
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
         (xml \ "Declaration" \ "GoodsShipment" \ "Consignment").length mustBe 0
-        (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "ArrivalTransportMeans" ).length mustBe 0
-        (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" ).length mustBe 0
       }
     }
   }

@@ -22,6 +22,7 @@ import javax.inject.Singleton
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.AddressXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.BorderTransportMeansXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ConsignmentXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DestinationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ExportCountryXmlWriter._
@@ -63,10 +64,7 @@ class DeclarationXml {
         </AdditionalDocument>
         {additionalInformation(dec.documentationType.headerAdditionalInformation)}
         {dec.parties.authorisationHolders.flatMap(_.toXml)}
-        <BorderTransportMeans>
-          <RegistrationNationalityCode>FR</RegistrationNationalityCode>
-          <ModeCode>1</ModeCode>
-        </BorderTransportMeans>
+        {dec.borderTransportMeans.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
         {maybeCurrencyExchange(dec)}
         {maybeParty("Declarant", dec.parties.declarant)}
         {maybeParty("Exporter", dec.parties.exporter)}
