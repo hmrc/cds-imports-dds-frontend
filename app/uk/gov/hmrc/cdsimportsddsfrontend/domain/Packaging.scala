@@ -18,4 +18,6 @@ package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class Packaging(typeCode: Option[String] = None,
                      quantityQuantity: Option[String] = None,
-                     marksNumberId: Option[String] = None)
+                     marksNumberId: Option[String] = None) {
+
+}

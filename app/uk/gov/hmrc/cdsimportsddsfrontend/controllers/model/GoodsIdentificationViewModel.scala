@@ -16,12 +16,27 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.model
 
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{GoodsMeasure, Packaging}
+
 case class GoodsIdentificationViewModel(
-                              netMass: Option[String] = Some("100"),
-                              supplementaryUnits: Option[String] = Some("100"),
-                              grossMass: Option[String] = Some("105"),
-                              description: Option[String] = Some("TSP no description required"),
-                              typeOfPackages: Option[String] = Some("BF"),
-                              numberOfPackages: Option[String] = Some("1"),
-                              shippingMarks: Option[String] = Some("TSP not required")
-                              )
+                                         netMass: Option[String] = Some("100"),
+                                         supplementaryUnits: Option[String] = Some("100"),
+                                         grossMass: Option[String] = Some("105"),
+                                         description: Option[String] = Some("TSP no description required"),
+                                         typeOfPackages: Option[String] = Some("BF"),
+                                         numberOfPackages: Option[String] = Some("1"),
+                                         shippingMarks: Option[String] = Some("TSP not required")
+                                       ) {
+
+  def toGoodsMeasure() = GoodsMeasure(
+    netNetWeightMeasure = this.netMass,
+    tariffQuantity = this.supplementaryUnits,
+    grossMassMeasure = this.grossMass
+  )
+
+  def toPackaging( ) = Packaging(
+    typeCode = this.typeOfPackages,
+    quantityQuantity = this.numberOfPackages,
+    marksNumberId = this.shippingMarks
+  )
+}
