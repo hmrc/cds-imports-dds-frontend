@@ -26,7 +26,9 @@ class DeclarationXml_ConsignmentSpec extends WordSpec with MustMatchers {
   "Consignment data" should {
     "be populated in the XML" when {
       "the consignment is present in the declaration data" in {
-        val declaration = Declaration(consignment = Some(Consignment()))
+        val declaration = Declaration(consignment = Some(Consignment(containerCode = Some("0"),
+          arrivalTransportMeans = Some(ArrivalTransportMeans(Some("10"), Some("1023465738"))),
+          goodsLocation = Some(GoodsLocation(Some("FXTFXTFXT"), Some("A"), Some(Address()))))))
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
         (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "ContainerCode").head.text mustBe "0"
@@ -34,7 +36,7 @@ class DeclarationXml_ConsignmentSpec extends WordSpec with MustMatchers {
         (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "ArrivalTransportMeans" \ "IdentificationTypeCode").head.text mustBe "10"
         (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" \ "Name").head.text mustBe "FXTFXTFXT"
         (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" \ "TypeCode").head.text mustBe "A"
-        (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" \ "Address" \ "CountryCode").head.text mustBe "GB"
+        (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" \ "Address" \ "CountryCode").head.text mustBe "FR"
         (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" \ "Address" \ "TypeCode").head.text mustBe "U"
       }
     }

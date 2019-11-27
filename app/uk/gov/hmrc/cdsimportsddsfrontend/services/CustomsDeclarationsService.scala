@@ -38,28 +38,7 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml:
   val log = Logger(this.getClass)
 
   def submit(eori: Eori, declarationViewModel: DeclarationViewModel)(implicit hc: HeaderCarrier): Future[DeclarationServiceResponse] = {
-
-    val transportmodel = declarationViewModel.transportInformationViewModel
-
-    val consignment: Consignment = {
-      val goodsLocation = declarationViewModel.whenAndWhereViewModel.goodsLocation
-      Consignment(transportmodel.modeOfTransport, Some(transportmodel.toArrivalTransportMeans()), goodsLocation)
-    }
-
-    val declaration: Declaration = Declaration(declarationType = declarationViewModel.declarationType,
-      documentationType = declarationViewModel.documentationType,
-      parties = declarationViewModel.parties,
-      valuationInformationAndTaxes = declarationViewModel.valuationInformationAndTaxes,
-      whenAndWhere = declarationViewModel.whenAndWhereViewModel.toWhenAndWhere(),
-      totalGrossMassMeasure = declarationViewModel.goodsIdentification.grossMass,
-      commodity = Some(Commodity(
-        goodsMeasure = Some(declarationViewModel.goodsIdentification.toGoodsMeasure),
-        description = declarationViewModel.goodsIdentification.description)),
-      packaging = Some(declarationViewModel.goodsIdentification.toPackaging),
-      borderTransportMeans = Some(transportmodel.toBorderTransportMeans()),
-      consignment = Some(consignment)
-    )
-
+    val declaration: Declaration = declarationViewModel.toDeclaration()
     val xml = declarationXml.fromImportDeclaration(declaration)
     submit(eori, xml)
   }

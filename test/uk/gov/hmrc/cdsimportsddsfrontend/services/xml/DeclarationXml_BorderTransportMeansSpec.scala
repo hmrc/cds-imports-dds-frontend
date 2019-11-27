@@ -26,7 +26,7 @@ class DeclarationXml_BorderTransportMeansSpec extends WordSpec with MustMatchers
   "BorderTransportMeans data" should {
     "be populated in the XML" when {
       "the borderTransportMeans is present in the declaration data" in {
-        val declaration = Declaration(borderTransportMeans = Some(BorderTransportMeans()))
+        val declaration = Declaration(borderTransportMeans = Some(BorderTransportMeans(Some("FR"), Some("1"))))
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
         (xml \ "Declaration" \ "BorderTransportMeans" \ "RegistrationNationalityCode").head.text mustBe "FR"

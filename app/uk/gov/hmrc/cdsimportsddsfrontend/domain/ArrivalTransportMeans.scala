@@ -16,4 +16,4 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class ArrivalTransportMeans(identificationTypeCode: Option[String] = Some("10"), id: Option[String] = Some("1023465738"))
+case class ArrivalTransportMeans(identificationTypeCode: Option[String], id: Option[String])

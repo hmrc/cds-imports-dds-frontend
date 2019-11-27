@@ -21,7 +21,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 case class WhenAndWhereViewModel(destination: Option[Destination] = Some(Destination()),
                         exportCountry: Option[ExportCountry] = Some(ExportCountry()),
                         origin: Option[Origin] = Some(Origin()),
-                        goodsLocation: Option[GoodsLocation] = Some(GoodsLocation())) {
+                        goodsLocation: Option[GoodsLocation] = Some(GoodsLocation(Some("FXTFXTFXT"), Some("A"), Some(Address())))) {
   def toWhenAndWhere(): WhenAndWhere = {
     WhenAndWhere(destination, exportCountry, origin)
   }

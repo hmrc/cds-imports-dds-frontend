@@ -16,5 +16,5 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class BorderTransportMeans(registrationNationalityCode: Option[String] = Some("FR"), modeCode: Option[String] = Some("1"))
+case class BorderTransportMeans(registrationNationalityCode: Option[String], modeCode: Option[String])
 

@@ -16,6 +16,6 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class Consignment(containerCode: Option[String] = Some("0"),
-                       arrivalTransportMeans: Option[ArrivalTransportMeans] = Some(ArrivalTransportMeans()),
-                       goodsLocation: Option[GoodsLocation] = Some(GoodsLocation()))
+case class Consignment(containerCode: Option[String],
+                       arrivalTransportMeans: Option[ArrivalTransportMeans],
+                       goodsLocation: Option[GoodsLocation])
