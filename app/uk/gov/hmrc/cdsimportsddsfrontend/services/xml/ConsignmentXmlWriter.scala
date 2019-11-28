@@ -21,7 +21,6 @@ import uk.gov.hmrc.cdsimportsddsfrontend.domain.Consignment
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ArrivalTransportMeansXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsLocationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances.maybeElement
 
 import scala.xml.{Elem, Node}
 

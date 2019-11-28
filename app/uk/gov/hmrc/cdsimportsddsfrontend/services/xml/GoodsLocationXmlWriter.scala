@@ -20,7 +20,6 @@ import cats.implicits._
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.GoodsLocation
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.AddressXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances.maybeElement
 
 import scala.xml.{Elem, Node}
 

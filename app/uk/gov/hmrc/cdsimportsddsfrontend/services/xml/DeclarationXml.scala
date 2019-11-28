@@ -27,6 +27,9 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ConsignmentXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DestinationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ExportCountryXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.PackagingXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsMeasureXmlWriter._
+
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances._
 
@@ -51,6 +54,7 @@ class DeclarationXml {
         <FunctionalReferenceID>{dec.documentationType.localReferenceNumber.getOrElse("")}</FunctionalReferenceID>
         <TypeCode>{dec.declarationType.declarationType + dec.declarationType.additionalDeclarationType}</TypeCode>
         <GoodsItemQuantity>{dec.declarationType.totalNumberOfItems}</GoodsItemQuantity>
+        {maybeElement("TotalGrossMassMeasure", dec.totalGrossMassMeasure)}
         <TotalPackageQuantity>55</TotalPackageQuantity>
         <AdditionalDocument>
         {maybeElement("CategoryCode", dec.documentationType.additionalPayment(0).additionalDocPaymentCategory)}
@@ -79,7 +83,7 @@ class DeclarationXml {
             {dec.documentationType.additionalDocument.flatMap(_.toXml)}
             {dec.documentationType.itemAdditionalInformation.map(additionalInformation)}
             <Commodity>
-              <Description>Aluminium Foil not exceeding 0,2 mm</Description>
+              {maybeElement("Description", dec.commodity.flatMap(a => a.description))}
               <Classification>
                 <ID>76071111</ID>
                 <IdentificationTypeCode>TSP</IdentificationTypeCode>
@@ -89,11 +93,7 @@ class DeclarationXml {
                 <IdentificationTypeCode>TRC</IdentificationTypeCode>
               </Classification>
               {maybeDutyTaxFee(dec)}
-              <GoodsMeasure>
-                <GrossMassMeasure unitCode="KGM">60</GrossMassMeasure>
-                <NetNetWeightMeasure unitCode="KGM">50</NetNetWeightMeasure>
-                <TariffQuantity>50</TariffQuantity>
-              </GoodsMeasure>
+              {dec.commodity.flatMap(c => c.goodsMeasure).flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
               {maybeInvoiceLine(dec)}
             </Commodity>
             {maybeCustomsValuation(dec)}
@@ -106,12 +106,7 @@ class DeclarationXml {
               <CurrentCode>{dec.declarationType.additionalProcedureCode}</CurrentCode>
             </GovernmentProcedure>
             {dec.whenAndWhere.origin.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
-            <Packaging>
-              <SequenceNumeric>1</SequenceNumeric>
-              <MarksNumbersID>PK/12344</MarksNumbersID>
-              <QuantityQuantity>55</QuantityQuantity>
-              <TypeCode>PK</TypeCode>
-            </Packaging>
+            {dec.packaging.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
             {dec.documentationType.itemPreviousDocument.flatMap(_.toXml)}
             {maybeValuationAdjustment(dec)}
           </GovernmentAgencyGoodsItem>

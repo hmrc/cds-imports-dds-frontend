@@ -17,5 +17,5 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class Commodity(description: Option[String] = None,
-                     goodsMeasure: Option[GoodsMeasure]
+                     goodsMeasure: Option[GoodsMeasure] = None
                     )

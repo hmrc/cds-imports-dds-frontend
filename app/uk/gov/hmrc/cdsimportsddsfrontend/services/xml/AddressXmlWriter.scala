@@ -18,7 +18,6 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
 import cats.implicits._
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Address
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances.maybeElement
 
 import scala.xml.{Elem, Node}
 
