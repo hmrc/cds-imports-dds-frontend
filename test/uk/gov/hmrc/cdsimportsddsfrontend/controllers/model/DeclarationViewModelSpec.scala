@@ -37,7 +37,7 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
       declaration.borderTransportMeans shouldBe Some(BorderTransportMeans(Some("US"), Some("1")))
 
       declaration.consignment shouldBe Some(Consignment(Some("0"), Some(ArrivalTransportMeans(Some("10"), Some("1023465738"))),
-        Some(GoodsLocation(Some("FXTFXTFXT"), Some("A"), Some(Address(Some("82 Boulevard de Clichy"), Some("Paris"), Some("FR"), Some("75018"), Some("U")))))))
+        Some(GoodsLocation(Some("FXTFXTFXT"), Some("A"), Some(Address(None, None, Some("GB"), None, Some("U")))))))
     }
   }
 }
