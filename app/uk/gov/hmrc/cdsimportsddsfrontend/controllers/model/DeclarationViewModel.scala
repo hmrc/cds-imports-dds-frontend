@@ -43,7 +43,7 @@ case class DeclarationViewModel(
       totalGrossMassMeasure = goodsIdentification.grossMass,
       commodity = Some(Commodity(
         goodsMeasure = Some(goodsIdentification.toGoodsMeasure),
-        classification = None,
+        classification = Some(goodsIdentification.toClassification()),
         description = goodsIdentification.description)),
       packaging = Some(goodsIdentification.toPackaging),
       borderTransportMeans = Some(transportInformationViewModel.toBorderTransportMeans()),

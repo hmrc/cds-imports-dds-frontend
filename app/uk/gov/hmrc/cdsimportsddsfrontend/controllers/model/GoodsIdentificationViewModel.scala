@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.model
 
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{GoodsMeasure, Packaging}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Classification, GoodsMeasure, Packaging}
 
 case class GoodsIdentificationViewModel(
                                          netMass: Option[String] = Some("100"),
@@ -25,18 +25,33 @@ case class GoodsIdentificationViewModel(
                                          description: Option[String] = Some("TSP no description required"),
                                          typeOfPackages: Option[String] = Some("BF"),
                                          numberOfPackages: Option[String] = Some("1"),
-                                         shippingMarks: Option[String] = Some("TSP not required")
+                                         shippingMarks: Option[String] = Some("TSP not required"),
+                                         combinedNomenclatureCodeId: Option[String] = Some("18061015"),
+                                         combinedNomenclatureCodeIdentificationType: Option[String] = Some("TSP"),
+                                         taricCodeId: Option[String] = Some("10"),
+                                         taricCodeIdentificationType: Option[String] = Some("TRC"),
+                                         taricAdditionalCodeId: Option[String] = Some("1234"),
+                                         taricAdditionalCodeIdentificationType: Option[String] = Some("TRA"),
+                                         nationalAdditionalCodeId: Option[String] = Some("VATZ"),
+                                         nationalAdditionalCodeIdentificationType: Option[String] = Some("GN")
                                        ) {
 
-  def toGoodsMeasure = GoodsMeasure(
+  def toGoodsMeasure: GoodsMeasure = GoodsMeasure(
     netNetWeightMeasure = this.netMass,
     tariffQuantity = this.supplementaryUnits,
     grossMassMeasure = this.grossMass
   )
 
-  def toPackaging = Packaging(
+  def toPackaging: Packaging = Packaging(
     typeCode = this.typeOfPackages,
     quantityQuantity = this.numberOfPackages,
     marksNumberId = this.shippingMarks
   )
+
+  def toClassification(): Seq[Classification] = {
+    Seq(Classification(combinedNomenclatureCodeId, combinedNomenclatureCodeIdentificationType),
+      Classification(taricCodeId, taricCodeIdentificationType),
+      Classification(taricAdditionalCodeId, taricAdditionalCodeIdentificationType),
+        Classification(nationalAdditionalCodeId, nationalAdditionalCodeIdentificationType))
+  }
 }

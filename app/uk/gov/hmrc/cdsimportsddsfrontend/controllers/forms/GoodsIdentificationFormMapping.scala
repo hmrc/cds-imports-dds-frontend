@@ -29,6 +29,14 @@ object GoodsIdentificationFormMapping {
     "description" ->  optional(text),
     "typeOfPackages" ->  optional(text),
     "numberOfPackages" ->  optional(text),
-    "shippingMarks" -> optional(text)
+    "shippingMarks" -> optional(text),
+    "combinedNomenclatureCode.id" -> optional(text),
+    "combinedNomenclatureCode.identificationTypeCode" -> optional(text),
+    "taricCode.id" -> optional(text),
+    "taricCode.identificationTypeCode" -> optional(text),
+    "taricAdditionalCode.id" -> optional(text),
+    "taricAdditionalCode.identificationTypeCode" -> optional(text),
+    "nationalAdditionalCode.id" -> optional(text),
+    "nationalAdditionalCode.identificationTypeCode" -> optional(text)
   )(GoodsIdentificationViewModel.apply)(GoodsIdentificationViewModel.unapply)
 }

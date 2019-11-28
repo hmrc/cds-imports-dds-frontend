@@ -24,20 +24,19 @@ import play.api.test.FutureAwaits
 import play.api.test.Helpers.status
 import play.mvc.Http.Status
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.{DeclarationViewModel, GoodsIdentificationViewModel}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Destination, ExportCountry, Origin, WhenAndWhere}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
 import scala.concurrent.Future
 
 
-class DeclarationController_goodsIdentification  extends CdsImportsSpec
-with Scenarios with FutureAwaits with BeforeAndAfterEach {
+class DeclarationController_goodsIdentificationSpec extends CdsImportsSpec
+  with Scenarios with FutureAwaits with BeforeAndAfterEach {
 
   import DeclarationControllerSpec._
 
   override def beforeEach(): Unit = {
-  featureSwitchRegistry.SinglePageDeclaration.enable ()
+    featureSwitchRegistry.SinglePageDeclaration.enable()
   }
 
   "A GET Request" should {
@@ -51,6 +50,14 @@ with Scenarios with FutureAwaits with BeforeAndAfterEach {
         body should include element withName("input").withAttrValue("name", "goodsIdentification.typeOfPackages")
         body should include element withName("input").withAttrValue("name", "goodsIdentification.numberOfPackages")
         body should include element withName("input").withAttrValue("name", "goodsIdentification.shippingMarks")
+        body should include element withName("input").withAttrValue("name", "goodsIdentification.combinedNomenclatureCode.id")
+        body should include element withName("input").withAttrValue("name", "goodsIdentification.combinedNomenclatureCode.identificationTypeCode")
+        body should include element withName("input").withAttrValue("name", "goodsIdentification.taricCode.id")
+        body should include element withName("input").withAttrValue("name", "goodsIdentification.taricCode.identificationTypeCode")
+        body should include element withName("input").withAttrValue("name", "goodsIdentification.taricAdditionalCode.id")
+        body should include element withName("input").withAttrValue("name", "goodsIdentification.taricAdditionalCode.identificationTypeCode")
+        body should include element withName("input").withAttrValue("name", "goodsIdentification.nationalAdditionalCode.id")
+        body should include element withName("input").withAttrValue("name", "goodsIdentification.nationalAdditionalCode.identificationTypeCode")
       }
     }
   }
@@ -66,7 +73,15 @@ with Scenarios with FutureAwaits with BeforeAndAfterEach {
         "goodsIdentification.description" -> Seq("Our test description"),
         "goodsIdentification.typeOfPackages" -> Seq("boxes"),
         "goodsIdentification.numberOfPackages" -> Seq("13"),
-        "goodsIdentification.shippingMarks" -> Seq("crosses")
+        "goodsIdentification.shippingMarks" -> Seq("crosses"),
+        "goodsIdentification.combinedNomenclatureCode.id" -> Seq("180"),
+        "goodsIdentification.combinedNomenclatureCode.identificationTypeCode" -> Seq("TSP"),
+        "goodsIdentification.taricCode.id" -> Seq("180"),
+        "goodsIdentification.taricCode.identificationTypeCode" -> Seq("TSP"),
+        "goodsIdentification.taricAdditionalCode.id" -> Seq("180"),
+        "goodsIdentification.taricAdditionalCode.identificationTypeCode" -> Seq("TSP"),
+        "goodsIdentification.nationalAdditionalCode.id" -> Seq("180"),
+        "goodsIdentification.nationalAdditionalCode.identificationTypeCode" -> Seq("TSP")
       ) ++ declarationTypeFormData
 
       val captor: ArgumentCaptor[DeclarationViewModel] = ArgumentCaptor.forClass(classOf[DeclarationViewModel])
@@ -79,7 +94,8 @@ with Scenarios with FutureAwaits with BeforeAndAfterEach {
         private val actualDeclaration = captor.getValue
         actualDeclaration.goodsIdentification mustBe (
           GoodsIdentificationViewModel(Some("987"), Some("765"),
-            Some("432"), Some("Our test description"), Some("boxes"), Some("13"), Some("crosses"))
+            Some("432"), Some("Our test description"), Some("boxes"), Some("13"), Some("crosses"),
+            Some("180"), Some("TSP"), Some("180"), Some("TSP"), Some("180"), Some("TSP"), Some("180"), Some("TSP"))
           )
       }
     }
@@ -92,7 +108,15 @@ with Scenarios with FutureAwaits with BeforeAndAfterEach {
         "goodsIdentification.description" -> Seq(""),
         "goodsIdentification.typeOfPackages" -> Seq(""),
         "goodsIdentification.numberOfPackages" -> Seq(""),
-        "goodsIdentification.shippingMarks" -> Seq("")
+        "goodsIdentification.shippingMarks" -> Seq(""),
+        "goodsIdentification.combinedNomenclatureCode.id" -> Seq(""),
+        "goodsIdentification.combinedNomenclatureCode.identificationTypeCode" -> Seq(""),
+        "goodsIdentification.taricCode.id" -> Seq(""),
+        "goodsIdentification.taricCode.identificationTypeCode" -> Seq(""),
+        "goodsIdentification.taricAdditionalCode.id" -> Seq(""),
+        "goodsIdentification.taricAdditionalCode.identificationTypeCode" -> Seq(""),
+        "goodsIdentification.nationalAdditionalCode.id" -> Seq(""),
+        "goodsIdentification.nationalAdditionalCode.identificationTypeCode" -> Seq("")
       ) ++ declarationTypeFormData
 
       when(mockDeclarationService.submit(any(), any[DeclarationViewModel])(any()))
