@@ -23,7 +23,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
 
 class OriginXmlWriterSpec extends WordSpec with Matchers with OptionValues {
 
-  "Origin XM writer" should {
+  "Origin XML writer" should {
     "generate the Origin XML element" when {
       "all values are present" in {
 

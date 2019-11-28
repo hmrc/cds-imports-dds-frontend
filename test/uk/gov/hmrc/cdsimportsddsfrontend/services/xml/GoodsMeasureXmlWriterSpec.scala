@@ -23,7 +23,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 
 class GoodsMeasureXmlWriterSpec extends WordSpec with Matchers with OptionValues {
 
-  "GoodsMeasure XM writer" should {
+  "GoodsMeasure XML writer" should {
     "generate the GoodsMeasure XML element" when {
       "all values are present" in {
 

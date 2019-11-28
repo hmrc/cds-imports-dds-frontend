@@ -23,7 +23,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 
 class PackagingXmlWriterSpec extends WordSpec with Matchers with OptionValues {
 
-  "Packaging XM writer" should {
+  "Packaging XML writer" should {
     "generate the Packaging XML element" when {
       "all values are present" in {
 
