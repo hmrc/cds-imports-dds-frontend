@@ -17,7 +17,6 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.GoodsMeasure
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances.maybeElement
 import cats.implicits._
 
 import scala.xml.{Attribute, Elem, Node}

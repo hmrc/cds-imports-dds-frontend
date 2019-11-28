@@ -23,6 +23,21 @@ import scala.xml.{Attribute, Elem, MetaData, Node, Text}
 
 trait XmlWriter[A] {
   def toXml(value: A): Option[Elem]
+
+  protected def maybeElement(elementName: String, maybeElementValue: Option[String], attribute: Option[Attribute] = None): Option[Node] = {
+    maybeElementValue.filter(_.nonEmpty).map(value => element(elementName, value, attribute))
+  }
+
+  private def element(elementName: String, elementValue: String, attribute: Option[Attribute] ): Node = {
+
+    val attributes: MetaData = attribute match {
+      case Some(attrValue) => attrValue
+      case None  => scala.xml.Null
+    }
+
+    Elem.apply(null, elementName, attributes, scala.xml.TopScope, true, Text(elementValue)) //scalastyle:ignore
+  }
+
 }
 
 object XmlWriterInstances {
@@ -81,24 +96,6 @@ object XmlWriterInstances {
         </ChargeDeduction>
       )
     }
-  }
-
-  def maybeElement(elementName: String, maybeElementValue: Option[String]): Option[Node] = {
-    maybeElementValue.filter(_.nonEmpty).map(value => element(elementName, value, None))
-  }
-
-  def maybeElement(elementName: String, maybeElementValue: Option[String], attribute: Option[Attribute]): Option[Node] = {
-    maybeElementValue.filter(_.nonEmpty).map(value => element(elementName, value, attribute))
-  }
-
-  private def element(elementName: String, elementValue: String, attribute: Option[Attribute] ): Node = {
-
-    val attributes: MetaData = attribute match {
-      case Some(attrValue) => attrValue
-      case None  => scala.xml.Null
-    }
-
-    Elem.apply(null, elementName, attributes, scala.xml.TopScope, true, Text(elementValue)) //scalastyle:ignore
   }
 
 }

@@ -17,9 +17,7 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Packaging
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances.maybeElement
 
-import scala.collection.immutable
 import scala.xml.{Elem, Node}
 
 object PackagingXmlWriter {
