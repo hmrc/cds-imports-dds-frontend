@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services
 
-import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers.{any, eq => meq}
 import org.mockito.Mockito.when
 import org.scalatest.{MustMatchers, WordSpec}
 import org.scalatestplus.mockito.MockitoSugar
@@ -42,7 +42,7 @@ class CustomsDeclarationsServiceSpec extends WordSpec
     val mockHttp:HttpClient = mock[HttpClient]
     val mockDeclarationXml: DeclarationXml = mock[DeclarationXml]
 
-    val customsDeclarationsService:CustomsDeclarationsService = new CustomsDeclarationsService(appConfig, mockDeclarationXml)(mockHttp, implicitly)
+    val customsDeclarationsService: CustomsDeclarationsService = new CustomsDeclarationsService(appConfig, mockDeclarationXml)(mockHttp, implicitly)
   }
 
   "The service" should {
@@ -56,12 +56,15 @@ class CustomsDeclarationsServiceSpec extends WordSpec
       response.xml mustBe "&lt;DeclaringMyStuff/&gt;"
     }
 
-    "Post a Declaration to the Declaration API" in new Scenario() {
+    "maps view model to declaration and post to the Declaration API" in new Scenario() {
       val decApiResponse = CustomsDeclarationsResponse(200, Some("conversation id"))
+      val declarationViewModel = DeclarationViewModel()
+
       when[Future[CustomsDeclarationsResponse]](mockHttp.POSTString(any(),any(),any())(any(), any(), any())).thenReturn(Future.successful(decApiResponse))
-      when(mockDeclarationXml.fromImportDeclaration(any())).thenReturn(<DeclaringMyStuff/>)
-      val declaration = DeclarationViewModel()
-      val response: DeclarationServiceResponse = await(customsDeclarationsService.submit(testEori, declaration))
+
+      when(mockDeclarationXml.fromImportDeclaration(meq(declarationViewModel.toDeclaration()))).thenReturn(<DeclaringMyStuff/>)
+
+      val response: DeclarationServiceResponse = await(customsDeclarationsService.submit(testEori, declarationViewModel))
 
       response.conversationId mustBe decApiResponse.conversationId
       response.status mustBe decApiResponse.status

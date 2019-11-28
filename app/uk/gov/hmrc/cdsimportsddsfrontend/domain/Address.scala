@@ -17,15 +17,9 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class Address(
-                    streetAndNumber: Option[String],
-                    city: Option[String],
-                    countryCode: Option[String],
-                    postcode: Option[String],
-                    typeCode: Option[String]
+                    streetAndNumber: Option[String] = Some("82 Boulevard de Clichy"),
+                    city: Option[String] = Some("Paris"),
+                    countryCode: Option[String] = Some("FR"),
+                    postcode: Option[String] = Some("75018"),
+                    typeCode: Option[String] = Some("U")
                 )
-
-object Address {
-  def apply(): Address = {
-    new Address(Some("82 Boulevard de Clichy"), Some("Paris"), countryCode = Some("FR"), postcode = Some("75018"), typeCode = Some("U"))
-  }
-}

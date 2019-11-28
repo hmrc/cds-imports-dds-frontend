@@ -118,6 +118,13 @@ declare.goodsIdentification.typeOfPackages=6.9 Type of packages
 declare.goodsIdentification.numberOfPackages=6.10 Number of packages
 declare.goodsIdentification.shippingMarks=6.11 Shipping marks
 
+#Section 7
+declare.transportInformation.container=7.2 Container
+declare.transportInformation.modeOfTransport=7.4 Mode of transport code
+declare.transportInformation.transportId=7.9 ID of means of transport on arrival
+declare.transportInformation.transportIdentificationType=7.9 Transport ID type
+declare.transportInformation.registrationNationalityCode=7.15 Nationality of means of transport at border
+
 # Raw XML declaration form
 declaration.xml=Declaration XML
 declaration.xml.hint=Enter your valid declaration XML

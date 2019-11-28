@@ -22,9 +22,10 @@ import javax.inject.Singleton
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.AddressXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.BorderTransportMeansXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ConsignmentXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DestinationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ExportCountryXmlWriter._
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsLocationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances._
@@ -63,28 +64,14 @@ class DeclarationXml {
         </AdditionalDocument>
         {additionalInformation(dec.documentationType.headerAdditionalInformation)}
         {dec.parties.authorisationHolders.flatMap(_.toXml)}
-        <BorderTransportMeans>
-          <RegistrationNationalityCode>FR</RegistrationNationalityCode>
-          <ModeCode>1</ModeCode>
-        </BorderTransportMeans>
+        {dec.borderTransportMeans.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
         {maybeCurrencyExchange(dec)}
         {maybeParty("Declarant", dec.parties.declarant)}
         {maybeParty("Exporter", dec.parties.exporter)}
         <GoodsShipment>
           <TransactionNatureCode>1</TransactionNatureCode>
           {maybeParty("Buyer", dec.parties.buyer)}
-          <Consignment>
-            <ContainerCode>1</ContainerCode>
-            <ArrivalTransportMeans>
-              <ID>12345</ID>
-              <IdentificationTypeCode>10</IdentificationTypeCode>
-            </ArrivalTransportMeans>
-            {dec.whenAndWhere.goodsLocation.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
-            <TransportEquipment>
-              <SequenceNumeric>1</SequenceNumeric>
-              <ID>DM1234</ID>
-            </TransportEquipment>
-          </Consignment>
+          {dec.consignment.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
           {dec.whenAndWhere.destination.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
           {dec.whenAndWhere.exportCountry.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
           <GovernmentAgencyGoodsItem>

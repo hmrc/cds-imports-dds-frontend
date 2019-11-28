@@ -16,6 +16,4 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class GoodsLocation(name: Option[String],
-                         typeCode: Option[String],
-                         address: Option[Address])
+case class ArrivalTransportMeans(identificationTypeCode: Option[String], id: Option[String])
