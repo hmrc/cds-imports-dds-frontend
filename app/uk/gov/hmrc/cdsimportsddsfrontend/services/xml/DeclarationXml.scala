@@ -23,13 +23,13 @@ import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.AddressXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.BorderTransportMeansXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ClassificationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ConsignmentXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DestinationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ExportCountryXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsMeasureXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.PackagingXmlWriter._
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsMeasureXmlWriter._
-
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances._
 
@@ -84,14 +84,7 @@ class DeclarationXml {
             {dec.documentationType.itemAdditionalInformation.map(additionalInformation)}
             <Commodity>
               {maybeElement("Description", dec.commodity.flatMap(a => a.description))}
-              <Classification>
-                <ID>76071111</ID>
-                <IdentificationTypeCode>TSP</IdentificationTypeCode>
-              </Classification>
-              <Classification>
-                <ID>10</ID>
-                <IdentificationTypeCode>TRC</IdentificationTypeCode>
-              </Classification>
+              {dec.commodity.flatMap(_.classification.map(_.flatMap(_.toXml))).getOrElse(NodeSeq.Empty)}
               {maybeDutyTaxFee(dec)}
               {dec.commodity.flatMap(c => c.goodsMeasure).flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
               {maybeInvoiceLine(dec)}

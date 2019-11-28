@@ -16,8 +16,8 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.GoodsMeasure
 import cats.implicits._
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.GoodsMeasure
 
 import scala.xml.{Attribute, Elem, Node}
 
@@ -25,8 +25,6 @@ object GoodsMeasureXmlWriter {
 
   implicit val goodsMeasureXmlWriter: XmlWriter[GoodsMeasure] = new XmlWriter[GoodsMeasure] {
     override def toXml(value: GoodsMeasure): Option[Elem] = {
-
-
       val attr = Attribute.apply(pre = "", key = "unitCode", value= "KGM", scala.xml.Null)
 
       val grossMassMeasure: Option[Node] = maybeElement("GrossMassMeasure", value.grossMassMeasure, Some(attr))

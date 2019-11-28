@@ -29,7 +29,7 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
 
       declaration.whenAndWhere shouldBe WhenAndWhere()
 
-      declaration.commodity shouldBe Some(Commodity(Some("TSP no description required"),
+      declaration.commodity shouldBe Some(Commodity(Some("TSP no description required"), None,
         Some(GoodsMeasure(Some("100"), Some("100"), Some("105")))))
 
       declaration.packaging shouldBe Some(Packaging(Some("BF"), Some("1"), Some("TSP not required")))
