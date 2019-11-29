@@ -26,6 +26,7 @@ import play.mvc.Http.Status
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ChargeDeduction, CurrencyAmount, ValuationInformationAndTaxes}
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.ValuationInformationAndTaxesViewModel
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
 import scala.concurrent.Future
@@ -85,9 +86,9 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
       new PostScenario(formData) {
         status(response) mustBe Status.OK
 
-        private val actualDeclaration = captor.getValue
-        actualDeclaration.valuationInformationAndTaxes mustBe(
-          ValuationInformationAndTaxes(
+        private val actualDeclaration: DeclarationViewModel = captor.getValue
+        actualDeclaration.valuationInformationAndTaxesViewModel mustBe(
+          ValuationInformationAndTaxesViewModel(
             Some("conditionCode"), Some("locationID"), Some("locationName"), Some("paymentMethodCode"),
             Some(ChargeDeduction("chargeDeduction_typeCode",
               CurrencyAmount("chargeDeduction_currencyAmount_currency", "chargeDeduction_currencyAmount_amount"))),

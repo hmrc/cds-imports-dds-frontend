@@ -19,13 +19,13 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers.model
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
 case class DeclarationViewModel(
-                        declarationType: DeclarationType = DeclarationType(),
-                        documentationType: DocumentationType = DocumentationType(),
-                        parties: DeclarationParties = DeclarationParties(),
-                        valuationInformationAndTaxes: ValuationInformationAndTaxes = ValuationInformationAndTaxes(),
-                        whenAndWhereViewModel: WhenAndWhereViewModel = WhenAndWhereViewModel(),
-                        goodsIdentification: GoodsIdentificationViewModel = GoodsIdentificationViewModel(),
-                        transportInformationViewModel: TransportInformationViewModel = TransportInformationViewModel()
+                                 declarationType: DeclarationType = DeclarationType(),
+                                 documentationType: DocumentationType = DocumentationType(),
+                                 parties: DeclarationParties = DeclarationParties(),
+                                 valuationInformationAndTaxesViewModel: ValuationInformationAndTaxesViewModel = ValuationInformationAndTaxesViewModel(),
+                                 whenAndWhereViewModel: WhenAndWhereViewModel = WhenAndWhereViewModel(),
+                                 goodsIdentification: GoodsIdentificationViewModel = GoodsIdentificationViewModel(),
+                                 transportInformationViewModel: TransportInformationViewModel = TransportInformationViewModel()
                       ) {
   def toDeclaration(): Declaration = {
     val consignment: Consignment = {
@@ -38,7 +38,7 @@ case class DeclarationViewModel(
     Declaration(declarationType = declarationType,
       documentationType = documentationType,
       parties = parties,
-      valuationInformationAndTaxes = valuationInformationAndTaxes,
+      valuationInformationAndTaxes = valuationInformationAndTaxesViewModel.toValuationInformationAndTaxes,
       whenAndWhere = whenAndWhereViewModel.toWhenAndWhere(),
       totalGrossMassMeasure = goodsIdentification.grossMass,
       commodity = Some(Commodity(
@@ -47,7 +47,8 @@ case class DeclarationViewModel(
         description = goodsIdentification.description)),
       packaging = Some(goodsIdentification.toPackaging),
       borderTransportMeans = Some(transportInformationViewModel.toBorderTransportMeans()),
-      consignment = Some(consignment)
+      consignment = Some(consignment),
+      itemCustomsValuation = Some(valuationInformationAndTaxesViewModel.toItemCustomsValuation)
     )
   }
 }

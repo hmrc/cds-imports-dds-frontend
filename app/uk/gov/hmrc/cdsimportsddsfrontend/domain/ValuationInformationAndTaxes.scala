@@ -21,11 +21,9 @@ case class ValuationInformationAndTaxes(
                                          locationID: Option[String] = Some("GBDVR"),
                                          locationName: Option[String] = Some(""),
                                          paymentMethodCode: Option[String] = Some("E"),
-                                         chargeDeduction: Option[ChargeDeduction] = None,
                                          additionCode: Option[String] = Some("0000"),
                                          itemChargeAmount: Option[String] = Some("100"),
                                          currencyID: Option[String] = Some("GBP"),
                                          rateNumeric: Option[String] = Some("1.27"),
-                                         customsValuationMethodCode: Option[String] = Some("1"),
                                          dutyRegimeCode: Option[String] = Some("100")
                                        )

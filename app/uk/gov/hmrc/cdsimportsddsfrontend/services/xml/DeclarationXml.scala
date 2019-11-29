@@ -92,7 +92,7 @@ class DeclarationXml {
               {dec.commodity.flatMap(c => c.goodsMeasure).flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
               {maybeInvoiceLine(dec)}
             </Commodity>
-            {maybeCustomsValuation(dec)}
+            {dec.itemCustomsValuation.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
             {dec.parties.domesticDutyTaxParties.flatMap(_.toXml)}
             <GovernmentProcedure>
               <CurrentCode>{dec.declarationType.requestedProcedureCode}</CurrentCode>
@@ -186,18 +186,6 @@ class DeclarationXml {
       <CurrencyExchange>
         {maybeElement("RateNumeric", declaration.valuationInformationAndTaxes.rateNumeric)}
       </CurrencyExchange>
-    } else {
-      NodeSeq.Empty
-    }
-  }
-
-  private[this] def maybeCustomsValuation(declaration: Declaration): NodeSeq = {
-    if (declaration.valuationInformationAndTaxes.customsValuationMethodCode.exists(_.nonEmpty) ||
-        declaration.valuationInformationAndTaxes.chargeDeduction.isDefined) {
-      <CustomsValuation>
-        {maybeElement("MethodCode", declaration.valuationInformationAndTaxes.customsValuationMethodCode)}
-        {declaration.valuationInformationAndTaxes.chargeDeduction.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
-      </CustomsValuation>
     } else {
       NodeSeq.Empty
     }

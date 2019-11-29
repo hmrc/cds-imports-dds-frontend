@@ -17,7 +17,7 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
 import org.scalatest.{MustMatchers, WordSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ChargeDeduction, CurrencyAmount, Declaration, ValuationInformationAndTaxes}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ChargeDeduction, CurrencyAmount, Declaration, ItemCustomsValuation, ValuationInformationAndTaxes}
 
 import scala.xml.Elem
 
@@ -27,9 +27,12 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
     "be populated in the XML" in {
       val declaration = Declaration(
         valuationInformationAndTaxes = ValuationInformationAndTaxes(
-          locationName = Some("Some location name"),
+          locationName = Some("Some location name")
+        ),
+        itemCustomsValuation = Some(ItemCustomsValuation(
+          methodCode = Some("1"),
           chargeDeduction = Some(ChargeDeduction("FOO", CurrencyAmount("HUF", "9001")))
-        )
+        ))
       )
 
       val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -88,7 +91,7 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
     }
 
     "omit CustomsValuation element when customsValuationMethodCode and chargeDeduction are empty" in {
-      val declaration = Declaration(valuationInformationAndTaxes = ValuationInformationAndTaxes(customsValuationMethodCode=None))
+      val declaration = Declaration(valuationInformationAndTaxes = ValuationInformationAndTaxes())
       val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
       (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "CustomsValuation").length mustBe 0
     }
