@@ -17,20 +17,19 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
 import cats.implicits._
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.ItemCustomsValuation
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances.chargeDeductionWriter
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.HeaderCustomsValuation
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances.chargeDeductionWriter
 
 import scala.xml.{Elem, Node}
 
-object ItemCustomsValuationXmlWriter {
+object HeaderCustomsValuationXmlWriter {
 
-  implicit val itemCustomsValuationXmlWriter: XmlWriter[ItemCustomsValuation] = new XmlWriter[ItemCustomsValuation] {
-    override def toXml(value: ItemCustomsValuation): Option[Elem] = {
-      val methodCode: Option[Node] = maybeElement("MethodCode", value.methodCode)
+  implicit val headerCustomsValuationXmlWriter: XmlWriter[HeaderCustomsValuation] = new XmlWriter[HeaderCustomsValuation] {
+    override def toXml(value: HeaderCustomsValuation): Option[Elem] = {
       val chargeDeduction: Option[Node] = value.chargeDeduction.flatMap(_.toXml)
 
-      val nodes: List[Node] = List(methodCode, chargeDeduction).flattenOption
+      val nodes: List[Node] = List(chargeDeduction).flattenOption
       Option(nodes).filter(_.nonEmpty).map(nonEmptyChildNodes => <CustomsValuation>{nonEmptyChildNodes}</CustomsValuation>)
     }
   }

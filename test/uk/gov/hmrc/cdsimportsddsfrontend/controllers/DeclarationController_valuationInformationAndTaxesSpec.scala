@@ -47,15 +47,18 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.locationID")
         body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.locationName")
         body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.paymentMethodCode")
-        body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.chargeDeduction.currencyAmount.amount")
-        body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.chargeDeduction.currencyAmount.currency")
-        body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.chargeDeduction.typeCode")
+        body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.amount")
+        body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.currency")
+        body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.itemChargeDeduction.typeCode")
         body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.additionCode")
         body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.itemChargeAmount")
         body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.currencyID")
         body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.rateNumeric")
         body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.customsValuationMethodCode")
         body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.dutyRegimeCode")
+        body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.amount")
+        body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.currency")
+        body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.headerChargeDeduction.typeCode")
       }
     }
   }
@@ -68,15 +71,18 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         "valuationInformationAndTaxes.locationID" -> Seq("locationID"),
         "valuationInformationAndTaxes.locationName" -> Seq("locationName"),
         "valuationInformationAndTaxes.paymentMethodCode" -> Seq("paymentMethodCode"),
-        "valuationInformationAndTaxes.chargeDeduction.currencyAmount.amount" -> Seq("chargeDeduction_currencyAmount_amount"),
-        "valuationInformationAndTaxes.chargeDeduction.currencyAmount.currency" -> Seq("chargeDeduction_currencyAmount_currency"),
-        "valuationInformationAndTaxes.chargeDeduction.typeCode" -> Seq("chargeDeduction_typeCode"),
+        "valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.amount" -> Seq("itemChargeDeduction_currencyAmount_amount"),
+        "valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.currency" -> Seq("itemChargeDeduction_currencyAmount_currency"),
+        "valuationInformationAndTaxes.itemChargeDeduction.typeCode" -> Seq("itemChargeDeduction_typeCode"),
         "valuationInformationAndTaxes.additionCode" -> Seq("additionCode"),
         "valuationInformationAndTaxes.itemChargeAmount" -> Seq("itemChargeAmount"),
         "valuationInformationAndTaxes.currencyID" -> Seq("currencyID"),
         "valuationInformationAndTaxes.rateNumeric" -> Seq("rateNumeric"),
         "valuationInformationAndTaxes.customsValuationMethodCode" -> Seq("customsValuationMethodCode"),
-        "valuationInformationAndTaxes.dutyRegimeCode" -> Seq("dutyRegimeCode")
+        "valuationInformationAndTaxes.dutyRegimeCode" -> Seq("dutyRegimeCode"),
+        "valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.amount" -> Seq("headerChargeDeduction_currencyAmount_amount"),
+        "valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.currency" -> Seq("headerChargeDeduction_currencyAmount_currency"),
+        "valuationInformationAndTaxes.headerChargeDeduction.typeCode" -> Seq("headerChargeDeduction_typeCode")
       ) ++ declarationTypeFormData
 
       val captor: ArgumentCaptor[DeclarationViewModel] = ArgumentCaptor.forClass(classOf[DeclarationViewModel])
@@ -90,31 +96,19 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         actualDeclaration.valuationInformationAndTaxesViewModel mustBe(
           ValuationInformationAndTaxesViewModel(
             Some("conditionCode"), Some("locationID"), Some("locationName"), Some("paymentMethodCode"),
-            Some(ChargeDeduction("chargeDeduction_typeCode",
-              CurrencyAmount("chargeDeduction_currencyAmount_currency", "chargeDeduction_currencyAmount_amount"))),
+            Some(ChargeDeduction("itemChargeDeduction_typeCode",
+              CurrencyAmount("itemChargeDeduction_currencyAmount_currency", "itemChargeDeduction_currencyAmount_amount"))),
             Some("additionCode"), Some("itemChargeAmount"), Some("currencyID"), Some("rateNumeric"),
-            Some("customsValuationMethodCode"), Some("dutyRegimeCode")
+            Some("customsValuationMethodCode"), Some("dutyRegimeCode"),
+            Some(ChargeDeduction("headerChargeDeduction_typeCode",
+              CurrencyAmount("headerChargeDeduction_currencyAmount_currency", "headerChargeDeduction_currencyAmount_amount")))
           )
         )
       }
     }
 
     "succeed when all optional fields are empty" in signedInScenario { user =>
-      val formData: Map[String, Seq[String]] = Map(
-        "valuationInformationAndTaxes.conditionCode" -> Seq(""),
-        "valuationInformationAndTaxes.locationID" -> Seq(""),
-        "valuationInformationAndTaxes.locationName" -> Seq(""),
-        "valuationInformationAndTaxes.paymentMethodCode" -> Seq(""),
-        "valuationInformationAndTaxes.chargeDeduction.currencyAmount.amount" -> Seq(""),
-        "valuationInformationAndTaxes.chargeDeduction.currencyAmount.currency" -> Seq(""),
-        "valuationInformationAndTaxes.chargeDeduction.typeCode" -> Seq(""),
-        "valuationInformationAndTaxes.additionCode" -> Seq(""),
-        "valuationInformationAndTaxes.itemChargeAmount" -> Seq(""),
-        "valuationInformationAndTaxes.currencyID" -> Seq(""),
-        "valuationInformationAndTaxes.rateNumeric" -> Seq(""),
-        "valuationInformationAndTaxes.customsValuationMethodCode" -> Seq(""),
-        "valuationInformationAndTaxes.dutyRegimeCode" -> Seq("")
-      ) ++ declarationTypeFormData
+      val formData: Map[String, Seq[String]] = declarationTypeFormData
 
       when(mockDeclarationService.submit(any(), any[DeclarationViewModel])(any()))
         .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
@@ -125,42 +119,81 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
       }
     }
 
-    "fail when chargeDeduction is missing the typeCode" in signedInScenario { user =>
+    "fail when item chargeDeduction is missing the typeCode" in signedInScenario { user =>
       val formData: Map[String, Seq[String]] = Map(
-        "valuationInformationAndTaxes.chargeDeduction.currencyAmount.amount" -> Seq("USD"),
-        "valuationInformationAndTaxes.chargeDeduction.currencyAmount.currency" -> Seq("999")
-      ).withDefaultValue(Seq("")) ++ declarationTypeFormData
+        "valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.amount" -> Seq("USD"),
+        "valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.currency" -> Seq("999")
+      ) ++ declarationTypeFormData
 
       new PostScenario(formData) {
         status(response) mustBe Status.BAD_REQUEST
         body should include element withName("a").withValue("This field is required")
-          .withAttrValue("id", "valuationInformationAndTaxes.chargeDeduction.typeCode-error")
+          .withAttrValue("id", "valuationInformationAndTaxes.itemChargeDeduction.typeCode-error")
       }
     }
 
-    "fail when chargeDeduction is missing the currency" in signedInScenario { user =>
+    "fail when header chargeDeduction is missing the typeCode" in signedInScenario { user =>
       val formData: Map[String, Seq[String]] = Map(
-        "valuationInformationAndTaxes.chargeDeduction.typeCode" -> Seq("FOO"),
-        "valuationInformationAndTaxes.chargeDeduction.currencyAmount.amount" -> Seq("123")
-      ).withDefaultValue(Seq("")) ++ declarationTypeFormData
+        "valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.amount" -> Seq("USD"),
+        "valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.currency" -> Seq("999")
+      ) ++ declarationTypeFormData
 
       new PostScenario(formData) {
         status(response) mustBe Status.BAD_REQUEST
         body should include element withName("a").withValue("This field is required")
-          .withAttrValue("id", "valuationInformationAndTaxes.chargeDeduction.currencyAmount.currency-error")
+          .withAttrValue("id", "valuationInformationAndTaxes.headerChargeDeduction.typeCode-error")
       }
     }
 
-    "fail when chargeDeduction is missing the amount" in signedInScenario { user =>
+    "fail when item chargeDeduction is missing the currency" in signedInScenario { user =>
       val formData: Map[String, Seq[String]] = Map(
-        "valuationInformationAndTaxes.chargeDeduction.typeCode" -> Seq("FOO"),
-        "valuationInformationAndTaxes.chargeDeduction.currencyAmount.currency" -> Seq("USD")
-      ).withDefaultValue(Seq("")) ++ declarationTypeFormData
+        "valuationInformationAndTaxes.itemChargeDeduction.typeCode" -> Seq("FOO"),
+        "valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.amount" -> Seq("123")
+      ) ++ declarationTypeFormData
 
       new PostScenario(formData) {
         status(response) mustBe Status.BAD_REQUEST
         body should include element withName("a").withValue("This field is required")
-          .withAttrValue("id", "valuationInformationAndTaxes.chargeDeduction.currencyAmount.amount-error")
+          .withAttrValue("id", "valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.currency-error")
+      }
+    }
+
+    "fail when header chargeDeduction is missing the currency" in signedInScenario { user =>
+      val formData: Map[String, Seq[String]] = Map(
+        "valuationInformationAndTaxes.headerChargeDeduction.typeCode" -> Seq("FOO"),
+        "valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.amount" -> Seq("123")
+      ) ++ declarationTypeFormData
+
+      new PostScenario(formData) {
+        status(response) mustBe Status.BAD_REQUEST
+        body should include element withName("a").withValue("This field is required")
+          .withAttrValue("id", "valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.currency-error")
+      }
+    }
+
+    "fail when item chargeDeduction is missing the amount" in signedInScenario { user =>
+      val formData: Map[String, Seq[String]] = Map(
+        "valuationInformationAndTaxes.itemChargeDeduction.typeCode" -> Seq("FOO"),
+        "valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.currency" -> Seq("USD")
+      ) ++ declarationTypeFormData
+
+      new PostScenario(formData) {
+        status(response) mustBe Status.BAD_REQUEST
+        body should include element withName("a").withValue("This field is required")
+          .withAttrValue("id", "valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.amount-error")
+      }
+    }
+
+    "fail when header chargeDeduction is missing the amount" in signedInScenario { user =>
+      val formData: Map[String, Seq[String]] = Map(
+        "valuationInformationAndTaxes.headerChargeDeduction.typeCode" -> Seq("FOO"),
+        "valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.currency" -> Seq("USD")
+      ) ++ declarationTypeFormData
+
+      new PostScenario(formData) {
+        status(response) mustBe Status.BAD_REQUEST
+        body should include element withName("a").withValue("This field is required")
+          .withAttrValue("id", "valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.amount-error")
       }
     }
   }

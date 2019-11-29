@@ -16,20 +16,21 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.model
 
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ChargeDeduction, ItemCustomsValuation, ValuationInformationAndTaxes}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ChargeDeduction, HeaderCustomsValuation, ItemCustomsValuation, ValuationInformationAndTaxes}
 
 case class ValuationInformationAndTaxesViewModel(
                                                   conditionCode: Option[String] = Some("CFR"),
                                                   locationID: Option[String] = Some("GBDVR"),
                                                   locationName: Option[String] = Some(""),
                                                   paymentMethodCode: Option[String] = Some("E"),
-                                                  chargeDeduction: Option[ChargeDeduction] = None,
+                                                  itemChargeDeduction: Option[ChargeDeduction] = None,
                                                   additionCode: Option[String] = Some("0000"),
                                                   itemChargeAmount: Option[String] = Some("100"),
                                                   currencyID: Option[String] = Some("GBP"),
                                                   rateNumeric: Option[String] = Some("1.27"),
                                                   customsValuationMethodCode: Option[String] = Some("1"),
-                                                  dutyRegimeCode: Option[String] = Some("100")
+                                                  dutyRegimeCode: Option[String] = Some("100"),
+                                                  headerChargeDeduction: Option[ChargeDeduction] = None
                                                 ) {
 
   def toValuationInformationAndTaxes: ValuationInformationAndTaxes = {
@@ -49,7 +50,13 @@ case class ValuationInformationAndTaxesViewModel(
   def toItemCustomsValuation: ItemCustomsValuation = {
     ItemCustomsValuation(
       methodCode = customsValuationMethodCode,
-      chargeDeduction = chargeDeduction
+      chargeDeduction = itemChargeDeduction
+    )
+  }
+
+  def toHeaderCustomsValuation: HeaderCustomsValuation = {
+    HeaderCustomsValuation(
+      chargeDeduction = headerChargeDeduction
     )
   }
 

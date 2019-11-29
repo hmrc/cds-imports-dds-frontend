@@ -17,42 +17,40 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
 import org.scalatest.{Matchers, OptionValues, WordSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ChargeDeduction, CurrencyAmount, ItemCustomsValuation}
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ItemCustomsValuationXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ChargeDeduction, CurrencyAmount, HeaderCustomsValuation, ItemCustomsValuation}
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.HeaderCustomsValuationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 
 import scala.xml.Utility
 
-class ItemCustomsValuationXmlWriterSpec extends WordSpec with Matchers with OptionValues {
+class HeaderCustomsValuationXmlWriterSpec extends WordSpec with Matchers with OptionValues {
 
-  "ItemCustomsValuation XML writer" should {
-    "generate the ItemCustomsValuation XML element" when {
+  "HeaderCustomsValuation XML writer" should {
+    "generate the HeaderCustomsValuation XML element" when {
       "all values are present" in {
 
-        val itemCustomsValuation = ItemCustomsValuation(
-          methodCode = Some("12"),
-          chargeDeduction = Some(ChargeDeduction(typeCode = "AS",
-            currencyAmount = CurrencyAmount(currency = "GBP", amount = "100")))
+        val headerCustomsValuation = HeaderCustomsValuation(
+          chargeDeduction = Some(ChargeDeduction(typeCode = "ZX",
+            currencyAmount = CurrencyAmount(currency = "EUR", amount = "42")))
         )
 
         val expectedXml = Utility.trim({
           <CustomsValuation>
-            <MethodCode>12</MethodCode>
             <ChargeDeduction>
-              <ChargesTypeCode>AS</ChargesTypeCode>
-              <OtherChargeDeductionAmount currencyID="GBP">100</OtherChargeDeductionAmount>
+              <ChargesTypeCode>ZX</ChargesTypeCode>
+              <OtherChargeDeductionAmount currencyID="EUR">42</OtherChargeDeductionAmount>
             </ChargeDeduction>
           </CustomsValuation>
         })
 
-        itemCustomsValuation.toXml.map(Utility.trim(_)) shouldBe Some(expectedXml)
+        headerCustomsValuation.toXml.map(Utility.trim(_)) shouldBe Some(expectedXml)
       }
     }
 
-    "not generate the ItemCustomsValuation XML element" when {
+    "not generate the HeaderCustomsValuation XML element" when {
       "non of the child values are present" in {
-        val itemCustomsValuation = ItemCustomsValuation(methodCode =  None)
-        itemCustomsValuation.toXml shouldBe None
+        val headerCustomsValuation = HeaderCustomsValuation()
+        headerCustomsValuation.toXml shouldBe None
       }
     }
 

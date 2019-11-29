@@ -34,9 +34,14 @@
  </thead>
  <tbody class="govuk-table__body">
   <tr class="govuk-table__row">
-   <td>@input_text(form("valuationInformationAndTaxes.chargeDeduction.currencyAmount.amount"), "declare.valuationInformationAndTaxes.chargeDeduction.amount")</td>
-   <td>@input_text(form("valuationInformationAndTaxes.chargeDeduction.currencyAmount.currency"), "declare.valuationInformationAndTaxes.chargeDeduction.currency")</td>
-   <td>@input_text(form("valuationInformationAndTaxes.chargeDeduction.typeCode"), "declare.valuationInformationAndTaxes.chargeDeduction.typeCode")</td>
+   <td>@input_text(form("valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.amount"), "declare.valuationInformationAndTaxes.headerChargeDeduction.amount")</td>
+   <td>@input_text(form("valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.currency"), "declare.valuationInformationAndTaxes.headerChargeDeduction.currency")</td>
+   <td>@input_text(form("valuationInformationAndTaxes.headerChargeDeduction.typeCode"), "declare.valuationInformationAndTaxes.headerChargeDeduction.typeCode")</td>
+  </tr>
+  <tr class="govuk-table__row">
+   <td>@input_text(form("valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.amount"), "declare.valuationInformationAndTaxes.itemChargeDeduction.amount")</td>
+   <td>@input_text(form("valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.currency"), "declare.valuationInformationAndTaxes.itemChargeDeduction.currency")</td>
+   <td>@input_text(form("valuationInformationAndTaxes.itemChargeDeduction.typeCode"), "declare.valuationInformationAndTaxes.itemChargeDeduction.typeCode")</td>
   </tr>
  </tbody>
 </table>

@@ -28,13 +28,14 @@ object ValuationInformationAndTaxesFormMapping  {
     "locationID" -> optional(text), // Declaration/GoodsShipment/TradeTerms/LocationID
     "locationName" -> optional(text), // Declaration/GoodsShipment/TradeTerms/LocationName
     "paymentMethodCode" -> optional(text), // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/Commodity/DutyTaxFee/Payment/MethodCode
-    "chargeDeduction" -> optional(chargeDeductionMapping),
+    "itemChargeDeduction" -> optional(chargeDeductionMapping),
     "additionCode" -> optional(text), // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/ValuationAdjustment/AdditionCode
     "itemChargeAmount" -> optional(text), // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/Commodity/InvoiceLine/ItemChargeAmount
     "currencyID" -> optional(text), // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/Commodity/InvoiceLine/ItemChargeAmount@currencyID
     "rateNumeric" -> optional(text), // Declaration/CurrencyExchange/RateNumeric
     "customsValuationMethodCode" -> optional(text), // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/CustomsValuation/MethodCode
-    "dutyRegimeCode" -> optional(text) // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/Commodity/DutyTaxFee/DutyRegimeCode
+    "dutyRegimeCode" -> optional(text), // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/Commodity/DutyTaxFee/DutyRegimeCode,
+    "headerChargeDeduction" -> optional(chargeDeductionMapping)
   )(ValuationInformationAndTaxesViewModel.apply)(ValuationInformationAndTaxesViewModel.unapply)
 
 }
