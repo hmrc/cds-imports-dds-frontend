@@ -55,7 +55,7 @@ class DeclarationXml {
         <TypeCode>{dec.declarationType.declarationType + dec.declarationType.additionalDeclarationType}</TypeCode>
         <GoodsItemQuantity>{dec.declarationType.totalNumberOfItems}</GoodsItemQuantity>
         {maybeElement("TotalGrossMassMeasure", dec.totalGrossMassMeasure)}
-        <TotalPackageQuantity>55</TotalPackageQuantity>
+        <TotalPackageQuantity>1</TotalPackageQuantity>
         <AdditionalDocument>
         {maybeElement("CategoryCode", dec.documentationType.additionalPayment(0).additionalDocPaymentCategory)}
         {maybeElement("ID", dec.documentationType.additionalPayment(0).additionalDocPaymentID)}
@@ -157,7 +157,7 @@ class DeclarationXml {
     }
   }
 
-  private def maybeElement(elementName: String, maybeElementValue: Option[String]): NodeSeq = {
+  def maybeElement(elementName: String, maybeElementValue: Option[String]): NodeSeq = {
     maybeElementValue match {
       case Some(value) if value.nonEmpty =>
         Elem.apply(null, elementName, scala.xml.Null, scala.xml.TopScope, true, Text(value)) //scalastyle:ignore
@@ -165,7 +165,7 @@ class DeclarationXml {
     }
   }
 
-  private def maybeInvoiceLine(declaration: Declaration): NodeSeq = {
+  def maybeInvoiceLine(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.currencyID.exists(_.nonEmpty) ||
        declaration.valuationInformationAndTaxes.itemChargeAmount.exists(_.nonEmpty)) {
       val currencyId = declaration.valuationInformationAndTaxes.currencyID.getOrElse("GBP").toUpperCase()
@@ -249,7 +249,7 @@ object DeclarationXml {
       .replaceAll(" {2}", "&nbsp;&nbsp;")
   }
 
-  def goodDeclaration():Elem = {
+  def goodDeclaration(): Elem = {
     val referenceId = UUID.randomUUID().toString.replaceAll("-","").take(10)
 
     <md:MetaData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:md="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2" xmlns:clm63055="urn:un:unece:uncefact:codelist:standard:UNECE:AgencyIdentificationCode:D12B" xmlns:ds="urn:wco:datamodel:WCO:MetaData_DS-DMS:2" xsi:schemaLocation="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2 ../DocumentMetaData_2_DMS.xsd " xmlns="urn:wco:datamodel:WCO:DEC-DMS:2">
@@ -266,7 +266,7 @@ object DeclarationXml {
         <FunctionalReferenceID>R251_TC14_129</FunctionalReferenceID>
         <TypeCode>IMZ</TypeCode>
         <GoodsItemQuantity>1</GoodsItemQuantity>
-        <TotalPackageQuantity>55</TotalPackageQuantity>
+        <TotalPackageQuantity>1</TotalPackageQuantity>
         <AdditionalDocument>
           <CategoryCode>1</CategoryCode>
           <ID>1909241</ID>
