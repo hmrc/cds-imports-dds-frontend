@@ -48,6 +48,7 @@ case class DeclarationViewModel(
       packaging = Some(goodsIdentification.toPackaging),
       borderTransportMeans = Some(transportInformationViewModel.toBorderTransportMeans()),
       consignment = Some(consignment),
+      headerCustomsValuation = Some(valuationInformationAndTaxesViewModel.toHeaderCustomsValuation),
       itemCustomsValuation = Some(valuationInformationAndTaxesViewModel.toItemCustomsValuation)
     )
   }

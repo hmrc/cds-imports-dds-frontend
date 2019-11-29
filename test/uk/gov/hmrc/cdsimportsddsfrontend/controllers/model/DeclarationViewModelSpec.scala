@@ -23,7 +23,14 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
 
   "DeclarationViewModel" should {
     "convert to Declaration" in {
-      val viewModel = DeclarationViewModel()
+      val viewModel = DeclarationViewModel(valuationInformationAndTaxesViewModel =
+        ValuationInformationAndTaxesViewModel(
+          customsValuationMethodCode = Some("1"),
+          headerChargeDeduction = Some(ChargeDeduction(typeCode = "header type",
+                                                currencyAmount = CurrencyAmount(currency = "XYZ", amount = "87"))),
+          itemChargeDeduction = Some(ChargeDeduction(typeCode = "item type",
+                                                currencyAmount = CurrencyAmount(currency = "GBP", amount = "65"))))
+      )
 
       val declaration = viewModel.toDeclaration()
 
@@ -40,6 +47,14 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
 
       declaration.consignment shouldBe Some(Consignment(Some("0"), Some(ArrivalTransportMeans(Some("10"), Some("1023465738"))),
         Some(GoodsLocation(Some("FXTFXTFXT"), Some("A"), Some(Address(None, None, Some("GB"), None, Some("U")))))))
+
+      declaration.headerCustomsValuation shouldBe Some(HeaderCustomsValuation(
+        chargeDeduction = Some(ChargeDeduction(typeCode = "header type", currencyAmount = CurrencyAmount(currency = "XYZ", amount = "87")))
+      ))
+
+      declaration.itemCustomsValuation shouldBe Some(ItemCustomsValuation(
+        chargeDeduction = Some(ChargeDeduction(typeCode = "item type", currencyAmount = CurrencyAmount(currency = "GBP", amount = "65"))),
+        methodCode = Some("1")))
     }
   }
 }

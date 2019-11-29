@@ -17,7 +17,7 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
 import org.scalatest.{MustMatchers, WordSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ChargeDeduction, CurrencyAmount, Declaration, ItemCustomsValuation, ValuationInformationAndTaxes}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ChargeDeduction, CurrencyAmount, Declaration, HeaderCustomsValuation, ItemCustomsValuation, ValuationInformationAndTaxes}
 
 import scala.xml.Elem
 
@@ -32,7 +32,10 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
         itemCustomsValuation = Some(ItemCustomsValuation(
           methodCode = Some("1"),
           chargeDeduction = Some(ChargeDeduction("FOO", CurrencyAmount("HUF", "9001")))
-        ))
+        )),
+        headerCustomsValuation = Some(HeaderCustomsValuation(
+          Some(ChargeDeduction("BAR", CurrencyAmount("CHF", "675"))))
+        )
       )
 
       val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -41,7 +44,12 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
       (xml \ "Declaration" \ "GoodsShipment" \ "TradeTerms" \ "LocationName").head.text mustBe "Some location name"
       (xml \ "Declaration" \ "CurrencyExchange" \ "RateNumeric").head.text mustBe "1.27"
 
-      val item = (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem")
+      val goodsShipment = xml \ "Declaration" \ "GoodsShipment"
+      (goodsShipment \ "CustomsValuation" \ "ChargeDeduction" \ "OtherChargeDeductionAmount").head.text mustBe "675"
+      (goodsShipment \ "CustomsValuation" \ "ChargeDeduction" \ "OtherChargeDeductionAmount" \ "@currencyID").head.text mustBe "CHF"
+      (goodsShipment \ "CustomsValuation" \ "ChargeDeduction" \ "ChargesTypeCode").head.text mustBe "BAR"
+
+      val item = xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"
       (item \ "Commodity" \ "DutyTaxFee" \ "DutyRegimeCode").head.text mustBe "100"
       (item \ "Commodity" \ "DutyTaxFee" \ "Payment" \ "MethodCode").head.text mustBe "E"
       (item \ "ValuationAdjustment" \ "AdditionCode").head.text mustBe "0000"
@@ -96,10 +104,16 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
       (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "CustomsValuation").length mustBe 0
     }
 
-    "omit ChargeDeduction element when chargeDeduction is not supplied" in {
+    "omit ChargeDeduction element when item chargeDeduction is not supplied" in {
       val declaration = Declaration()
       val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
       (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "CustomsValuation" \ "ChargeDeduction").length mustBe 0
+    }
+
+    "omit ChargeDeduction element when header chargeDeduction is not supplied" in {
+      val declaration = Declaration()
+      val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
+      (xml \ "Declaration" \ "GoodsShipment" \ "CustomsValuation" \ "ChargeDeduction").length mustBe 0
     }
   }
 }

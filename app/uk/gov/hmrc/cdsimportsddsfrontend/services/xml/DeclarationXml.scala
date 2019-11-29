@@ -31,6 +31,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsMeasureXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.PackagingXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsMeasureXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.HeaderCustomsValuationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ItemCustomsValuationXmlWriter._
 
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
@@ -79,6 +80,7 @@ class DeclarationXml {
           <TransactionNatureCode>1</TransactionNatureCode>
           {maybeParty("Buyer", dec.parties.buyer)}
           {dec.consignment.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
+          {dec.headerCustomsValuation.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
           {dec.whenAndWhere.destination.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
           {dec.whenAndWhere.exportCountry.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
           <GovernmentAgencyGoodsItem>
