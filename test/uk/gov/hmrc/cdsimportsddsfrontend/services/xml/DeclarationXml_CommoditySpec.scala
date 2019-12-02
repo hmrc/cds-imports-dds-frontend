@@ -28,8 +28,8 @@ class DeclarationXml_CommoditySpec extends WordSpec with MustMatchers {
       "the commodity data is present in declaration" in {
         val declaration = Declaration(
           commodity = Some(Commodity(description = Some("Tin foil"),
-            classification = Some(Seq(Classification(Some("id1"), Some("identificationTypeCode1")),
-              Classification(Some("id2"), Some("identificationTypeCode2")))),
+            classification = Seq(Classification(Some("id1"), Some("identificationTypeCode1")),
+              Classification(Some("id2"), Some("identificationTypeCode2"))),
             goodsMeasure = Some(GoodsMeasure(netNetWeightMeasure = Some("123"), tariffQuantity = Some("345"), grossMassMeasure = Some("678")))))
         )
 
@@ -45,7 +45,7 @@ class DeclarationXml_CommoditySpec extends WordSpec with MustMatchers {
 
     "be omitted from XML" when {
       "the no description of goods data exists" in {
-        val declaration = Declaration(commodity = Some(Commodity(None, None, None)))
+        val declaration = Declaration(commodity = Some(Commodity(None, Seq.empty, None)))
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "Description").length mustBe 0

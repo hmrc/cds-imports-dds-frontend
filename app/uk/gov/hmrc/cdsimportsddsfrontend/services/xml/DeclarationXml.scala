@@ -83,8 +83,8 @@ class DeclarationXml {
             {dec.documentationType.additionalDocument.flatMap(_.toXml)}
             {dec.documentationType.itemAdditionalInformation.map(additionalInformation)}
             <Commodity>
-              {maybeElement("Description", dec.commodity.flatMap(a => a.description))}
-              {dec.commodity.flatMap(_.classification.map(_.flatMap(_.toXml))).getOrElse(NodeSeq.Empty)}
+              {maybeElement("Description", dec.commodity.flatMap(_.description))}
+              {dec.commodity.map(_.classification.flatMap(_.toXml)).getOrElse(NodeSeq.Empty)}
               {maybeDutyTaxFee(dec)}
               {dec.commodity.flatMap(c => c.goodsMeasure).flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
               {maybeInvoiceLine(dec)}
@@ -115,7 +115,7 @@ class DeclarationXml {
     </md:MetaData>
   }
 
-  private def maybeDutyTaxFee(declaration: Declaration): NodeSeq = {
+  private[this] def maybeDutyTaxFee(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.dutyRegimeCode.exists(_.nonEmpty) ||
         declaration.valuationInformationAndTaxes.paymentMethodCode.exists(_.nonEmpty)) {
       <DutyTaxFee>
@@ -132,7 +132,7 @@ class DeclarationXml {
     }
   }
 
-  private def maybeTradeTerms(declaration: Declaration): NodeSeq = {
+  private[this] def maybeTradeTerms(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.conditionCode.exists(_.nonEmpty) ||
         declaration.valuationInformationAndTaxes.locationID.exists(_.nonEmpty) ||
         declaration.valuationInformationAndTaxes.locationName.exists(_.nonEmpty)) {
@@ -147,7 +147,7 @@ class DeclarationXml {
 
   }
 
-  private def maybeValuationAdjustment(declaration: Declaration): NodeSeq = {
+  private[this] def maybeValuationAdjustment(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.additionCode.exists(_.nonEmpty)) {
       <ValuationAdjustment>
         {maybeElement("AdditionCode", declaration.valuationInformationAndTaxes.additionCode)}
@@ -157,7 +157,7 @@ class DeclarationXml {
     }
   }
 
-  def maybeElement(elementName: String, maybeElementValue: Option[String]): NodeSeq = {
+  private[this] def maybeElement(elementName: String, maybeElementValue: Option[String]): NodeSeq = {
     maybeElementValue match {
       case Some(value) if value.nonEmpty =>
         Elem.apply(null, elementName, scala.xml.Null, scala.xml.TopScope, true, Text(value)) //scalastyle:ignore
@@ -165,7 +165,7 @@ class DeclarationXml {
     }
   }
 
-  def maybeInvoiceLine(declaration: Declaration): NodeSeq = {
+  private[this] def maybeInvoiceLine(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.currencyID.exists(_.nonEmpty) ||
        declaration.valuationInformationAndTaxes.itemChargeAmount.exists(_.nonEmpty)) {
       val currencyId = declaration.valuationInformationAndTaxes.currencyID.getOrElse("GBP").toUpperCase()
@@ -178,7 +178,7 @@ class DeclarationXml {
     }
   }
 
-  private def maybeCurrencyExchange(declaration: Declaration): NodeSeq = {
+  private[this] def maybeCurrencyExchange(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.rateNumeric.exists(_.nonEmpty)) {
       <CurrencyExchange>
         {maybeElement("RateNumeric", declaration.valuationInformationAndTaxes.rateNumeric)}
@@ -188,7 +188,7 @@ class DeclarationXml {
     }
   }
 
-  private def maybeCustomsValuation(declaration: Declaration): NodeSeq = {
+  private[this] def maybeCustomsValuation(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.customsValuationMethodCode.exists(_.nonEmpty) ||
         declaration.valuationInformationAndTaxes.chargeDeduction.isDefined) {
       <CustomsValuation>
@@ -200,7 +200,7 @@ class DeclarationXml {
     }
   }
 
-  def maybeParty(tagName: String, party: Option[Party]): NodeSeq = {
+  private[this] def maybeParty(tagName: String, party: Option[Party]): NodeSeq = {
     party match {
       case Some(party) =>
         val childNodes =
@@ -213,7 +213,7 @@ class DeclarationXml {
     }
   }
 
-  def maybePhoneNumber(party: Party): NodeSeq = {
+  private[this] def maybePhoneNumber(party: Party): NodeSeq = {
     party.phoneNumber match {
       case Some(phoneNumber) =>
         <Communication>
@@ -223,7 +223,7 @@ class DeclarationXml {
     }
   }
 
-  def additionalInformation(additionalInformation: AdditionalInformation): NodeSeq = {
+  private[this] def additionalInformation(additionalInformation: AdditionalInformation): NodeSeq = {
     additionalInformation match {
       case AdditionalInformation(None, None) => NodeSeq.Empty
       case _ =>

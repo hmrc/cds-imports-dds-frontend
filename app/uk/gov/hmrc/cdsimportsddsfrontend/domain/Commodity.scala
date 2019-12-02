@@ -17,5 +17,5 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class Commodity(description: Option[String],
-                     classification: Option[Seq[Classification]],
+                     classification: Seq[Classification],
                      goodsMeasure: Option[GoodsMeasure])

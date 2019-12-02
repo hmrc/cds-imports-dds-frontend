@@ -76,12 +76,12 @@ class DeclarationController_goodsIdentificationSpec extends CdsImportsSpec
         "goodsIdentification.shippingMarks" -> Seq("crosses"),
         "goodsIdentification.combinedNomenclatureCode.id" -> Seq("180"),
         "goodsIdentification.combinedNomenclatureCode.identificationTypeCode" -> Seq("TSP"),
-        "goodsIdentification.taricCode.id" -> Seq("180"),
-        "goodsIdentification.taricCode.identificationTypeCode" -> Seq("TSP"),
-        "goodsIdentification.taricAdditionalCode.id" -> Seq("180"),
-        "goodsIdentification.taricAdditionalCode.identificationTypeCode" -> Seq("TSP"),
-        "goodsIdentification.nationalAdditionalCode.id" -> Seq("180"),
-        "goodsIdentification.nationalAdditionalCode.identificationTypeCode" -> Seq("TSP")
+        "goodsIdentification.taricCode.id" -> Seq("181"),
+        "goodsIdentification.taricCode.identificationTypeCode" -> Seq("TSP1"),
+        "goodsIdentification.taricAdditionalCode.id" -> Seq("182"),
+        "goodsIdentification.taricAdditionalCode.identificationTypeCode" -> Seq("TSP2"),
+        "goodsIdentification.nationalAdditionalCode.id" -> Seq("183"),
+        "goodsIdentification.nationalAdditionalCode.identificationTypeCode" -> Seq("TSP3")
       ) ++ declarationTypeFormData
 
       val captor: ArgumentCaptor[DeclarationViewModel] = ArgumentCaptor.forClass(classOf[DeclarationViewModel])
@@ -95,29 +95,13 @@ class DeclarationController_goodsIdentificationSpec extends CdsImportsSpec
         actualDeclaration.goodsIdentification mustBe (
           GoodsIdentificationViewModel(Some("987"), Some("765"),
             Some("432"), Some("Our test description"), Some("boxes"), Some("13"), Some("crosses"),
-            Some("180"), Some("TSP"), Some("180"), Some("TSP"), Some("180"), Some("TSP"), Some("180"), Some("TSP"))
+            Some("180"), Some("TSP"), Some("181"), Some("TSP1"), Some("182"), Some("TSP2"), Some("183"), Some("TSP3"))
           )
       }
     }
 
     "succeed when all optional fields are empty" in signedInScenario { user =>
-      val formData: Map[String, Seq[String]] = Map(
-        "goodsIdentification.netMass" -> Seq(""),
-        "goodsIdentification.supplementaryUnits" -> Seq(""),
-        "goodsIdentification.grossMass" -> Seq(""),
-        "goodsIdentification.description" -> Seq(""),
-        "goodsIdentification.typeOfPackages" -> Seq(""),
-        "goodsIdentification.numberOfPackages" -> Seq(""),
-        "goodsIdentification.shippingMarks" -> Seq(""),
-        "goodsIdentification.combinedNomenclatureCode.id" -> Seq(""),
-        "goodsIdentification.combinedNomenclatureCode.identificationTypeCode" -> Seq(""),
-        "goodsIdentification.taricCode.id" -> Seq(""),
-        "goodsIdentification.taricCode.identificationTypeCode" -> Seq(""),
-        "goodsIdentification.taricAdditionalCode.id" -> Seq(""),
-        "goodsIdentification.taricAdditionalCode.identificationTypeCode" -> Seq(""),
-        "goodsIdentification.nationalAdditionalCode.id" -> Seq(""),
-        "goodsIdentification.nationalAdditionalCode.identificationTypeCode" -> Seq("")
-      ) ++ declarationTypeFormData
+      val formData: Map[String, Seq[String]] = declarationTypeFormData
 
       when(mockDeclarationService.submit(any(), any[DeclarationViewModel])(any()))
         .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
