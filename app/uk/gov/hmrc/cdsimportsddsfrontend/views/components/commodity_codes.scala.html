@@ -1,0 +1,44 @@
+@*
+ * Copyright 2019 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
+@import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
+@import uk.gov.hmrc.cdsimportsddsfrontend.views.html.components.inputs._
+
+@(form: Form[DeclarationViewModel])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+
+<div id="commodity-codes-header">
+<table class="govuk-table">
+    <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">@input_text(form(s"goodsIdentification.combinedNomenclatureCode.id"), "declare.goodsIdentification.combinedNomenclatureCode.id")</td>
+            <td class="govuk-table__cell">@input_text(form(s"goodsIdentification.combinedNomenclatureCode.identificationTypeCode"), "declare.goodsIdentification.combinedNomenclatureCode.identificationTypeCode")</td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">@input_text(form(s"goodsIdentification.taricCode.id"), "declare.goodsIdentification.taricCode.id")</td>
+            <td class="govuk-table__cell">@input_text(form(s"goodsIdentification.taricCode.identificationTypeCode"), "declare.goodsIdentification.taricCode.identificationTypeCode")</td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">@input_text(form(s"goodsIdentification.taricAdditionalCode.id"), "declare.goodsIdentification.taricAdditionalCode.id")</td>
+            <td class="govuk-table__cell">@input_text(form(s"goodsIdentification.taricAdditionalCode.identificationTypeCode"), "declare.goodsIdentification.taricAdditionalCode.identificationTypeCode")</td>
+        </tr>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">@input_text(form(s"goodsIdentification.nationalAdditionalCode.id"), "declare.goodsIdentification.nationalAdditionalCode.id")</td>
+            <td class="govuk-table__cell">@input_text(form(s"goodsIdentification.nationalAdditionalCode.identificationTypeCode"), "declare.goodsIdentification.nationalAdditionalCode.identificationTypeCode")</td>
+        </tr>
+    </tbody>
+</table>
+</div>

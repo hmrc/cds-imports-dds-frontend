@@ -23,13 +23,13 @@ import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.AddressXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.BorderTransportMeansXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ClassificationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ConsignmentXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DestinationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ExportCountryXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsMeasureXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.PackagingXmlWriter._
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsMeasureXmlWriter._
-
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances._
 
@@ -55,7 +55,7 @@ class DeclarationXml {
         <TypeCode>{dec.declarationType.declarationType + dec.declarationType.additionalDeclarationType}</TypeCode>
         <GoodsItemQuantity>{dec.declarationType.totalNumberOfItems}</GoodsItemQuantity>
         {maybeElement("TotalGrossMassMeasure", dec.totalGrossMassMeasure)}
-        <TotalPackageQuantity>55</TotalPackageQuantity>
+        <TotalPackageQuantity>1</TotalPackageQuantity>
         <AdditionalDocument>
         {maybeElement("CategoryCode", dec.documentationType.additionalPayment(0).additionalDocPaymentCategory)}
         {maybeElement("ID", dec.documentationType.additionalPayment(0).additionalDocPaymentID)}
@@ -83,15 +83,8 @@ class DeclarationXml {
             {dec.documentationType.additionalDocument.flatMap(_.toXml)}
             {dec.documentationType.itemAdditionalInformation.map(additionalInformation)}
             <Commodity>
-              {maybeElement("Description", dec.commodity.flatMap(a => a.description))}
-              <Classification>
-                <ID>76071111</ID>
-                <IdentificationTypeCode>TSP</IdentificationTypeCode>
-              </Classification>
-              <Classification>
-                <ID>10</ID>
-                <IdentificationTypeCode>TRC</IdentificationTypeCode>
-              </Classification>
+              {maybeElement("Description", dec.commodity.flatMap(_.description))}
+              {dec.commodity.map(_.classification.flatMap(_.toXml)).getOrElse(NodeSeq.Empty)}
               {maybeDutyTaxFee(dec)}
               {dec.commodity.flatMap(c => c.goodsMeasure).flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
               {maybeInvoiceLine(dec)}
@@ -122,7 +115,7 @@ class DeclarationXml {
     </md:MetaData>
   }
 
-  private def maybeDutyTaxFee(declaration: Declaration): NodeSeq = {
+  private[this] def maybeDutyTaxFee(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.dutyRegimeCode.exists(_.nonEmpty) ||
         declaration.valuationInformationAndTaxes.paymentMethodCode.exists(_.nonEmpty)) {
       <DutyTaxFee>
@@ -139,7 +132,7 @@ class DeclarationXml {
     }
   }
 
-  private def maybeTradeTerms(declaration: Declaration): NodeSeq = {
+  private[this] def maybeTradeTerms(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.conditionCode.exists(_.nonEmpty) ||
         declaration.valuationInformationAndTaxes.locationID.exists(_.nonEmpty) ||
         declaration.valuationInformationAndTaxes.locationName.exists(_.nonEmpty)) {
@@ -154,7 +147,7 @@ class DeclarationXml {
 
   }
 
-  private def maybeValuationAdjustment(declaration: Declaration): NodeSeq = {
+  private[this] def maybeValuationAdjustment(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.additionCode.exists(_.nonEmpty)) {
       <ValuationAdjustment>
         {maybeElement("AdditionCode", declaration.valuationInformationAndTaxes.additionCode)}
@@ -164,7 +157,7 @@ class DeclarationXml {
     }
   }
 
-  private def maybeElement(elementName: String, maybeElementValue: Option[String]): NodeSeq = {
+  private[this] def maybeElement(elementName: String, maybeElementValue: Option[String]): NodeSeq = {
     maybeElementValue match {
       case Some(value) if value.nonEmpty =>
         Elem.apply(null, elementName, scala.xml.Null, scala.xml.TopScope, true, Text(value)) //scalastyle:ignore
@@ -172,7 +165,7 @@ class DeclarationXml {
     }
   }
 
-  private def maybeInvoiceLine(declaration: Declaration): NodeSeq = {
+  private[this] def maybeInvoiceLine(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.currencyID.exists(_.nonEmpty) ||
        declaration.valuationInformationAndTaxes.itemChargeAmount.exists(_.nonEmpty)) {
       val currencyId = declaration.valuationInformationAndTaxes.currencyID.getOrElse("GBP").toUpperCase()
@@ -185,7 +178,7 @@ class DeclarationXml {
     }
   }
 
-  private def maybeCurrencyExchange(declaration: Declaration): NodeSeq = {
+  private[this] def maybeCurrencyExchange(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.rateNumeric.exists(_.nonEmpty)) {
       <CurrencyExchange>
         {maybeElement("RateNumeric", declaration.valuationInformationAndTaxes.rateNumeric)}
@@ -195,7 +188,7 @@ class DeclarationXml {
     }
   }
 
-  private def maybeCustomsValuation(declaration: Declaration): NodeSeq = {
+  private[this] def maybeCustomsValuation(declaration: Declaration): NodeSeq = {
     if (declaration.valuationInformationAndTaxes.customsValuationMethodCode.exists(_.nonEmpty) ||
         declaration.valuationInformationAndTaxes.chargeDeduction.isDefined) {
       <CustomsValuation>
@@ -207,7 +200,7 @@ class DeclarationXml {
     }
   }
 
-  def maybeParty(tagName: String, party: Option[Party]): NodeSeq = {
+  private[this] def maybeParty(tagName: String, party: Option[Party]): NodeSeq = {
     party match {
       case Some(party) =>
         val childNodes =
@@ -220,7 +213,7 @@ class DeclarationXml {
     }
   }
 
-  def maybePhoneNumber(party: Party): NodeSeq = {
+  private[this] def maybePhoneNumber(party: Party): NodeSeq = {
     party.phoneNumber match {
       case Some(phoneNumber) =>
         <Communication>
@@ -230,7 +223,7 @@ class DeclarationXml {
     }
   }
 
-  def additionalInformation(additionalInformation: AdditionalInformation): NodeSeq = {
+  private[this] def additionalInformation(additionalInformation: AdditionalInformation): NodeSeq = {
     additionalInformation match {
       case AdditionalInformation(None, None) => NodeSeq.Empty
       case _ =>
@@ -256,7 +249,7 @@ object DeclarationXml {
       .replaceAll(" {2}", "&nbsp;&nbsp;")
   }
 
-  def goodDeclaration():Elem = {
+  def goodDeclaration(): Elem = {
     val referenceId = UUID.randomUUID().toString.replaceAll("-","").take(10)
 
     <md:MetaData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:md="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2" xmlns:clm63055="urn:un:unece:uncefact:codelist:standard:UNECE:AgencyIdentificationCode:D12B" xmlns:ds="urn:wco:datamodel:WCO:MetaData_DS-DMS:2" xsi:schemaLocation="urn:wco:datamodel:WCO:DocumentMetaData-DMS:2 ../DocumentMetaData_2_DMS.xsd " xmlns="urn:wco:datamodel:WCO:DEC-DMS:2">
@@ -273,7 +266,7 @@ object DeclarationXml {
         <FunctionalReferenceID>R251_TC14_129</FunctionalReferenceID>
         <TypeCode>IMZ</TypeCode>
         <GoodsItemQuantity>1</GoodsItemQuantity>
-        <TotalPackageQuantity>55</TotalPackageQuantity>
+        <TotalPackageQuantity>1</TotalPackageQuantity>
         <AdditionalDocument>
           <CategoryCode>1</CategoryCode>
           <ID>1909241</ID>
