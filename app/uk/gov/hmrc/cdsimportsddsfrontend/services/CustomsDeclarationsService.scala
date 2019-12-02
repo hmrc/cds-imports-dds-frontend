@@ -38,7 +38,7 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml:
   val log = Logger(this.getClass)
 
   def submit(eori: Eori, declarationViewModel: DeclarationViewModel)(implicit hc: HeaderCarrier): Future[DeclarationServiceResponse] = {
-    val declaration: Declaration = declarationViewModel.toDeclaration()
+    val declaration: Declaration = declarationViewModel.toDeclaration
     val xml = declarationXml.fromImportDeclaration(declaration)
     submit(eori, xml)
   }

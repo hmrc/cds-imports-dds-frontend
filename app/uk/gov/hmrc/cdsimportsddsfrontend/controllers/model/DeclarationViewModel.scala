@@ -27,26 +27,29 @@ case class DeclarationViewModel(
                                  goodsIdentification: GoodsIdentificationViewModel = GoodsIdentificationViewModel(),
                                  transportInformationViewModel: TransportInformationViewModel = TransportInformationViewModel()
                       ) {
-  def toDeclaration(): Declaration = {
+
+  def toDeclaration: Declaration = {
     val consignment: Consignment = {
       val goodsLocation = whenAndWhereViewModel.goodsLocation
-      Consignment(transportInformationViewModel.container,
-        Some(transportInformationViewModel.toArrivalTransportMeans()),
-        goodsLocation)
+      Consignment(
+          transportInformationViewModel.container,
+          Some(transportInformationViewModel.toArrivalTransportMeans),
+          goodsLocation,
+          whenAndWhereViewModel.placeOfLoading.map(LoadingLocation))
     }
 
     Declaration(declarationType = declarationType,
       documentationType = documentationType,
       parties = parties,
       valuationInformationAndTaxes = valuationInformationAndTaxesViewModel.toValuationInformationAndTaxes,
-      whenAndWhere = whenAndWhereViewModel.toWhenAndWhere(),
+      whenAndWhere = whenAndWhereViewModel.toWhenAndWhere,
       totalGrossMassMeasure = goodsIdentification.grossMass,
       commodity = Some(Commodity(
         goodsMeasure = Some(goodsIdentification.toGoodsMeasure),
         classification = goodsIdentification.toClassification(),
         description = goodsIdentification.description)),
       packaging = Some(goodsIdentification.toPackaging),
-      borderTransportMeans = Some(transportInformationViewModel.toBorderTransportMeans()),
+      borderTransportMeans = Some(transportInformationViewModel.toBorderTransportMeans),
       consignment = Some(consignment),
       headerCustomsValuation = Some(valuationInformationAndTaxesViewModel.toHeaderCustomsValuation),
       itemCustomsValuation = Some(valuationInformationAndTaxesViewModel.toItemCustomsValuation)

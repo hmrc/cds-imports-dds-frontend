@@ -32,7 +32,7 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
                                                 currencyAmount = CurrencyAmount(currency = "GBP", amount = "65"))))
       )
 
-      val declaration = viewModel.toDeclaration()
+      val declaration = viewModel.toDeclaration
 
       declaration.whenAndWhere shouldBe WhenAndWhere()
 
@@ -43,10 +43,18 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
 
       declaration.packaging shouldBe Some(Packaging(Some("BF"), Some("1"), Some("TSP not required")))
 
-      declaration.borderTransportMeans shouldBe Some(BorderTransportMeans(Some("US"), Some("1")))
+      declaration.borderTransportMeans shouldBe Some(BorderTransportMeans(Some("US"), Some("4")))
 
-      declaration.consignment shouldBe Some(Consignment(Some("0"), Some(ArrivalTransportMeans(Some("10"), Some("1023465738"))),
-        Some(GoodsLocation(Some("FXTFXTFXT"), Some("A"), Some(Address(None, None, Some("GB"), None, Some("U")))))))
+      declaration.consignment shouldBe Some(Consignment(
+          Some("0"),
+          Some(ArrivalTransportMeans(Some("10"), Some("1023465738"))),
+          Some(GoodsLocation(Some("FXTFXTFXT"),
+            Some("A"),
+            Some(Address(None, None, Some("GB"),
+              None, Some("U"))))),
+          Some(LoadingLocation("JFK"))
+        )
+      )
 
       declaration.headerCustomsValuation shouldBe Some(HeaderCustomsValuation(
         chargeDeduction = Some(ChargeDeduction(typeCode = "header type", currencyAmount = CurrencyAmount(currency = "XYZ", amount = "87")))

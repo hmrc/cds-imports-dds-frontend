@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.model
 
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ChargeDeduction, HeaderCustomsValuation, ItemCustomsValuation, ValuationInformationAndTaxes}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ChargeDeduction, CurrencyAmount, HeaderCustomsValuation, ItemCustomsValuation, ValuationInformationAndTaxes}
 
 case class ValuationInformationAndTaxesViewModel(
                                                   conditionCode: Option[String] = Some("CFR"),
@@ -30,8 +30,9 @@ case class ValuationInformationAndTaxesViewModel(
                                                   rateNumeric: Option[String] = Some("1.27"),
                                                   customsValuationMethodCode: Option[String] = Some("1"),
                                                   dutyRegimeCode: Option[String] = Some("100"),
-                                                  headerChargeDeduction: Option[ChargeDeduction] = None
-                                                ) {
+                                                  headerChargeDeduction: Option[ChargeDeduction] = Some(
+                                                    ChargeDeduction(typeCode = "AS", currencyAmount =
+                                                      CurrencyAmount(currency = "GBP", "100")))) {
 
   def toValuationInformationAndTaxes: ValuationInformationAndTaxes = {
     ValuationInformationAndTaxes(

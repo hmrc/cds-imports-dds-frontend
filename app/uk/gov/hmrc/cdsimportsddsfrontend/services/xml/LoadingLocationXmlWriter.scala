@@ -14,9 +14,18 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.domain
+package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
-case class Consignment(containerCode: Option[String],
-                       arrivalTransportMeans: Option[ArrivalTransportMeans],
-                       goodsLocation: Option[GoodsLocation],
-                       loadingLocation: Option[LoadingLocation])
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.LoadingLocation
+
+import scala.xml.{Elem, Node}
+
+object LoadingLocationXmlWriter {
+
+  implicit val loadingLocationXmlWriter: XmlWriter[LoadingLocation] = new XmlWriter[LoadingLocation] {
+    override def toXml(value: LoadingLocation): Option[Elem] = {
+      val id: Node = element("ID", value.id)
+      Some(<LoadingLocation>{id}</LoadingLocation>)
+    }
+  }
+}
