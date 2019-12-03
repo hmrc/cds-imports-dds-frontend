@@ -62,7 +62,7 @@ class CustomsDeclarationsServiceSpec extends WordSpec
 
       when[Future[CustomsDeclarationsResponse]](mockHttp.POSTString(any(),any(),any())(any(), any(), any())).thenReturn(Future.successful(decApiResponse))
 
-      when(mockDeclarationXml.fromImportDeclaration(meq(declarationViewModel.toDeclaration()))).thenReturn(<DeclaringMyStuff/>)
+      when(mockDeclarationXml.fromImportDeclaration(meq(declarationViewModel.toDeclaration))).thenReturn(<DeclaringMyStuff/>)
 
       val response: DeclarationServiceResponse = await(customsDeclarationsService.submit(testEori, declarationViewModel))
 

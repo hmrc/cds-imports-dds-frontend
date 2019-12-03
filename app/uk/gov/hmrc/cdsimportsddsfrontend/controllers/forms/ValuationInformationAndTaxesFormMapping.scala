@@ -19,22 +19,23 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 import play.api.data.Forms.{mapping, optional, text}
 import play.api.data.Mapping
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.ChargeDeductionFormMapping.chargeDeductionMapping
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.ValuationInformationAndTaxes
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.ValuationInformationAndTaxesViewModel
 
 object ValuationInformationAndTaxesFormMapping  {
 
-  val valuationInformationAndTaxes: (String, Mapping[ValuationInformationAndTaxes]) = "valuationInformationAndTaxes" -> mapping(
+  val valuationInformationAndTaxes: (String, Mapping[ValuationInformationAndTaxesViewModel]) = "valuationInformationAndTaxes" -> mapping(
     "conditionCode" -> optional(text), // Declaration/GoodsShipment/TradeTerms/ConditionCode
     "locationID" -> optional(text), // Declaration/GoodsShipment/TradeTerms/LocationID
     "locationName" -> optional(text), // Declaration/GoodsShipment/TradeTerms/LocationName
     "paymentMethodCode" -> optional(text), // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/Commodity/DutyTaxFee/Payment/MethodCode
-    "chargeDeduction" -> optional(chargeDeductionMapping),
+    "itemChargeDeduction" -> optional(chargeDeductionMapping),
     "additionCode" -> optional(text), // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/ValuationAdjustment/AdditionCode
     "itemChargeAmount" -> optional(text), // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/Commodity/InvoiceLine/ItemChargeAmount
     "currencyID" -> optional(text), // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/Commodity/InvoiceLine/ItemChargeAmount@currencyID
     "rateNumeric" -> optional(text), // Declaration/CurrencyExchange/RateNumeric
     "customsValuationMethodCode" -> optional(text), // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/CustomsValuation/MethodCode
-    "dutyRegimeCode" -> optional(text) // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/Commodity/DutyTaxFee/DutyRegimeCode
-  )(ValuationInformationAndTaxes.apply)(ValuationInformationAndTaxes.unapply)
+    "dutyRegimeCode" -> optional(text), // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/Commodity/DutyTaxFee/DutyRegimeCode,
+    "headerChargeDeduction" -> optional(chargeDeductionMapping)
+  )(ValuationInformationAndTaxesViewModel.apply)(ValuationInformationAndTaxesViewModel.unapply)
 
 }

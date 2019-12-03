@@ -28,7 +28,7 @@ trait XmlWriter[A] {
     maybeElementValue.filter(_.nonEmpty).map(value => element(elementName, value, attribute))
   }
 
-  private def element(elementName: String, elementValue: String, attribute: Option[Attribute] ): Node = {
+  protected def element(elementName: String, elementValue: String, attribute: Option[Attribute] = None ): Node = {
 
     val attributes: MetaData = attribute match {
       case Some(attrValue) => attrValue

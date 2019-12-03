@@ -26,5 +26,7 @@ case class Declaration(
                         totalGrossMassMeasure: Option[String] = None,
                         packaging: Option[Packaging] = None,
                         borderTransportMeans: Option[BorderTransportMeans] = None,
-                        consignment: Option[Consignment] = None
+                        consignment: Option[Consignment] = None,
+                        headerCustomsValuation: Option[HeaderCustomsValuation] = None,
+                        itemCustomsValuation: Option[ItemCustomsValuation] = None
                       )

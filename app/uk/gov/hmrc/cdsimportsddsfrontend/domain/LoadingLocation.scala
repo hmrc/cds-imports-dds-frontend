@@ -16,7 +16,4 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class Consignment(containerCode: Option[String],
-                       arrivalTransportMeans: Option[ArrivalTransportMeans],
-                       goodsLocation: Option[GoodsLocation],
-                       loadingLocation: Option[LoadingLocation])
+case class LoadingLocation(id: String)

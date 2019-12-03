@@ -89,9 +89,12 @@ declare.valuationInformationAndTaxes.locationID=4.1 UN/LOCODE code
 declare.valuationInformationAndTaxes.locationName=4.1 Country code + Location Name
 declare.valuationInformationAndTaxes.paymentMethodCode=4.8 Method of Payment
 declare.valuationInformationAndTaxes.chargeDeduction=4.9 Additions & Deductions
-declare.valuationInformationAndTaxes.chargeDeduction.amount=4.9 Amount
-declare.valuationInformationAndTaxes.chargeDeduction.currency=4.9 Currency
-declare.valuationInformationAndTaxes.chargeDeduction.typeCode=4.9 Type
+declare.valuationInformationAndTaxes.headerChargeDeduction.amount=4.9 Amount - header
+declare.valuationInformationAndTaxes.headerChargeDeduction.currency=4.9 Currency - header
+declare.valuationInformationAndTaxes.headerChargeDeduction.typeCode=4.9 Type - header
+declare.valuationInformationAndTaxes.itemChargeDeduction.amount=4.9 Amount - item
+declare.valuationInformationAndTaxes.itemChargeDeduction.currency=4.9 Currency - item
+declare.valuationInformationAndTaxes.itemChargeDeduction.typeCode=4.9 Type - item
 declare.valuationInformationAndTaxes.additionCode=4.13 Valuation Indicators
 declare.valuationInformationAndTaxes.itemChargeAmount=4.14 Item Price/Amount
 declare.valuationInformationAndTaxes.currencyID=4.14 Item Price/Currency Unit
@@ -108,6 +111,7 @@ declare.whenAndWhere.goodsLocation.name=5.23 Goods Location - Name
 declare.whenAndWhere.goodsLocation.typeCode=5.23 Goods Location - Type
 declare.whenAndWhere.goodsLocation.address.countryCode=5.23 Goods Location - Country Code
 declare.whenAndWhere.goodsLocation.address.typeCode=5.23 Goods Location - Address Type
+declare.whenAndWhere.placeOfLoading=5.21 Place of loading - airport code
 
 # Section 6
 declare.goodsIdentification.netMass=6.1 Net mass

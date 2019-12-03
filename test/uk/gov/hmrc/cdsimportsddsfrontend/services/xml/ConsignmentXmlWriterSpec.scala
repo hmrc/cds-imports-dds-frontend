@@ -17,7 +17,7 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
 import org.scalatest.{Matchers, OptionValues, WordSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Address, ArrivalTransportMeans, Consignment, GoodsLocation}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Address, ArrivalTransportMeans, Consignment, GoodsLocation, LoadingLocation}
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ConsignmentXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 
@@ -30,13 +30,16 @@ class ConsignmentXmlWriterSpec extends WordSpec with Matchers with OptionValues 
       "all values are present" in {
         val consignment = Consignment(containerCode = Some("0"),
           arrivalTransportMeans = Some(ArrivalTransportMeans(identificationTypeCode = Some("10"), id = Some("1"))),
-          goodsLocation = Some(GoodsLocation(name = Some("FXFXT"), typeCode = Some("A"), address = Some(Address(None, None, Some("GB"), None, Some("U"))))))
+          goodsLocation = Some(GoodsLocation(name = Some("FXFXT"), typeCode = Some("A"), address = Some(Address(None, None, Some("GB"), None, Some("U"))))),
+          loadingLocation = Some(LoadingLocation("LGW"))
+        )
 
         val expectedXml = Utility.trim({
           <Consignment>
             <ContainerCode>0</ContainerCode>
             <ArrivalTransportMeans><ID>1</ID><IdentificationTypeCode>10</IdentificationTypeCode></ArrivalTransportMeans>
             <GoodsLocation><Name>FXFXT</Name><TypeCode>A</TypeCode><Address><TypeCode>U</TypeCode><CountryCode>GB</CountryCode></Address></GoodsLocation>
+            <LoadingLocation><ID>LGW</ID></LoadingLocation>
           </Consignment>
         })
 
@@ -44,7 +47,7 @@ class ConsignmentXmlWriterSpec extends WordSpec with Matchers with OptionValues 
       }
 
       "container code is present" in {
-        val consignment = Consignment(containerCode = Some("0"), arrivalTransportMeans = None, goodsLocation = None)
+        val consignment = Consignment(containerCode = Some("0"), arrivalTransportMeans = None, goodsLocation = None, loadingLocation = None)
         val expectedXml = <Consignment><ContainerCode>0</ContainerCode></Consignment>
 
         consignment.toXml shouldBe Some(expectedXml)
@@ -53,7 +56,8 @@ class ConsignmentXmlWriterSpec extends WordSpec with Matchers with OptionValues 
       "arrival transport means is present" in {
         val consignment = Consignment(containerCode = None,
           arrivalTransportMeans = Some(ArrivalTransportMeans(identificationTypeCode = Some("10"), id = Some("1"))),
-          goodsLocation = None)
+          goodsLocation = None,
+          loadingLocation = None)
 
         val expectedXml = Utility.trim({
           <Consignment>
@@ -67,11 +71,36 @@ class ConsignmentXmlWriterSpec extends WordSpec with Matchers with OptionValues 
       "goods location is present" in {
         val consignment = Consignment(containerCode = None,
           arrivalTransportMeans = None,
-          goodsLocation = Some(GoodsLocation(name = Some("FXFXT"), typeCode = Some("A"), address = Some(Address(None, None, Some("GB"), None, Some("U"))))))
+          goodsLocation = Some(GoodsLocation(name = Some("FXFXT"), typeCode = Some("A"), address = Some(Address(None, None, Some("GB"), None, Some("U"))))),
+          loadingLocation = None)
 
         val expectedXml = Utility.trim({
           <Consignment>
-            <GoodsLocation><Name>FXFXT</Name><TypeCode>A</TypeCode><Address><TypeCode>U</TypeCode><CountryCode>GB</CountryCode></Address></GoodsLocation>
+            <GoodsLocation>
+              <Name>FXFXT</Name>
+              <TypeCode>A</TypeCode>
+              <Address>
+                <TypeCode>U</TypeCode>
+                <CountryCode>GB</CountryCode>
+              </Address>
+            </GoodsLocation>
+          </Consignment>
+        })
+
+        consignment.toXml shouldBe Some(expectedXml)
+      }
+
+      "loading location is present" in {
+        val consignment = Consignment(
+          containerCode = None,
+          arrivalTransportMeans = None,
+          goodsLocation = None,
+          loadingLocation = Some(LoadingLocation("LGW"))
+        )
+
+        val expectedXml = Utility.trim({
+          <Consignment>
+            <LoadingLocation><ID>LGW</ID></LoadingLocation>
           </Consignment>
         })
 
@@ -81,7 +110,7 @@ class ConsignmentXmlWriterSpec extends WordSpec with Matchers with OptionValues 
 
     "not generate the Consignment XML element" when {
       "none of the child values are present" in {
-        val consignment = Consignment(None, None, None)
+        val consignment = Consignment(None, None, None, None)
         consignment.toXml shouldBe None
       }
     }

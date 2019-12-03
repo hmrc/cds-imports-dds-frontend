@@ -51,6 +51,7 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.typeCode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.countryCode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.typeCode")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.placeOfLoading")
       }
     }
   }
@@ -66,7 +67,8 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         "whenAndWhere.goodsLocation.name" -> Seq("goods location name"),
         "whenAndWhere.goodsLocation.typeCode" -> Seq("goods location type"),
         "whenAndWhere.goodsLocation.address.countryCode" -> Seq("goods location country code"),
-        "whenAndWhere.goodsLocation.address.typeCode" -> Seq("goods location type code")
+        "whenAndWhere.goodsLocation.address.typeCode" -> Seq("goods location type code"),
+        "whenAndWhere.placeOfLoading" -> Seq("an airport")
       ) ++ declarationTypeFormData
 
       val captor: ArgumentCaptor[DeclarationViewModel] = ArgumentCaptor.forClass(classOf[DeclarationViewModel])
@@ -82,7 +84,8 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
           Some(ExportCountry(id = Some("id"))),
           Some(Origin(countryCode = Some("origin countryCode"), typeCode = Some("typeCode"))),
           Some(GoodsLocation(name = Some("goods location name"), typeCode = Some("goods location type"),
-            address = Some(Address(None, None, Some("goods location country code"), None, Some("goods location type code")))))
+            address = Some(Address(None, None, Some("goods location country code"), None, Some("goods location type code"))))),
+          placeOfLoading = Some("an airport")
         )
       }
     }

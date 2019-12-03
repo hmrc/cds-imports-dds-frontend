@@ -30,6 +30,10 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ExportCountryXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsMeasureXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.PackagingXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsMeasureXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.HeaderCustomsValuationXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ItemCustomsValuationXmlWriter._
+
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances._
 
@@ -76,6 +80,7 @@ class DeclarationXml {
           <TransactionNatureCode>1</TransactionNatureCode>
           {maybeParty("Buyer", dec.parties.buyer)}
           {dec.consignment.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
+          {dec.headerCustomsValuation.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
           {dec.whenAndWhere.destination.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
           {dec.whenAndWhere.exportCountry.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
           <GovernmentAgencyGoodsItem>
@@ -89,7 +94,7 @@ class DeclarationXml {
               {dec.commodity.flatMap(c => c.goodsMeasure).flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
               {maybeInvoiceLine(dec)}
             </Commodity>
-            {maybeCustomsValuation(dec)}
+            {dec.itemCustomsValuation.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
             {dec.parties.domesticDutyTaxParties.flatMap(_.toXml)}
             <GovernmentProcedure>
               <CurrentCode>{dec.declarationType.requestedProcedureCode}</CurrentCode>
@@ -183,18 +188,6 @@ class DeclarationXml {
       <CurrencyExchange>
         {maybeElement("RateNumeric", declaration.valuationInformationAndTaxes.rateNumeric)}
       </CurrencyExchange>
-    } else {
-      NodeSeq.Empty
-    }
-  }
-
-  private[this] def maybeCustomsValuation(declaration: Declaration): NodeSeq = {
-    if (declaration.valuationInformationAndTaxes.customsValuationMethodCode.exists(_.nonEmpty) ||
-        declaration.valuationInformationAndTaxes.chargeDeduction.isDefined) {
-      <CustomsValuation>
-        {maybeElement("MethodCode", declaration.valuationInformationAndTaxes.customsValuationMethodCode)}
-        {declaration.valuationInformationAndTaxes.chargeDeduction.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
-      </CustomsValuation>
     } else {
       NodeSeq.Empty
     }

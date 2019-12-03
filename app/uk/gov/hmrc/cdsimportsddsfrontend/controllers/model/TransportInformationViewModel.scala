@@ -19,15 +19,16 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers.model
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ArrivalTransportMeans, BorderTransportMeans}
 
 case class TransportInformationViewModel(container: Option[String] = Some("0"),
-                                         modeOfTransportCode: Option[String] = Some("1"),
+                                         modeOfTransportCode: Option[String] = Some("4"),
                                          arrivalTransportIdType: Option[String] = Some("10"),
                                          arrivalTransportId: Option[String] = Some("1023465738"),
                                          nationalityOfMeansOfTransportAtBorder: Option[String] = Some("US")) {
-  def toBorderTransportMeans(): BorderTransportMeans = {
+
+  def toBorderTransportMeans: BorderTransportMeans = {
     BorderTransportMeans(nationalityOfMeansOfTransportAtBorder, modeOfTransportCode)
   }
 
-  def toArrivalTransportMeans(): ArrivalTransportMeans = {
+  def toArrivalTransportMeans: ArrivalTransportMeans = {
     ArrivalTransportMeans(arrivalTransportIdType, arrivalTransportId)
   }
 }

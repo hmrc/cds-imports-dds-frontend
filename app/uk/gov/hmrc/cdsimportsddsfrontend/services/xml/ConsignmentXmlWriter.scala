@@ -20,6 +20,7 @@ import cats.implicits._
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Consignment
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ArrivalTransportMeansXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsLocationXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.LoadingLocationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 
 import scala.xml.{Elem, Node}
@@ -31,8 +32,9 @@ object ConsignmentXmlWriter {
       val containerCode: Option[Node] = maybeElement("ContainerCode", value.containerCode)
       val arrivalTransportMeans: Option[Node] = value.arrivalTransportMeans.flatMap(_.toXml)
       val goodLocation: Option[Node] = value.goodsLocation.flatMap(_.toXml)
+      val loadingLocation: Option[Node] = value.loadingLocation.flatMap(_.toXml)
 
-      val nodes: List[Node] = List(containerCode, arrivalTransportMeans, goodLocation).flattenOption
+      val nodes: List[Node] = List(containerCode, arrivalTransportMeans, goodLocation, loadingLocation).flattenOption
 
       Option(nodes).filter(_.nonEmpty).map {
         nonEmptyChildNodes => <Consignment>{nonEmptyChildNodes}</Consignment>

@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
-import play.api.data.Forms.{mapping, optional}
+import play.api.data.Forms.{mapping, optional, text}
 import play.api.data.Mapping
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DestinationFormMapping.destination
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.ExportCountryFormMapping.exportCountry
@@ -30,6 +30,7 @@ object WhenAndWhereFormMapping  {
     "destination" -> optional(destination),
     "exportCountry" -> optional(exportCountry),
     "origin" -> optional(origin),
-    "goodsLocation" -> optional(goodsLocation)
+    "goodsLocation" -> optional(goodsLocation),
+    "placeOfLoading" -> optional(text)
   )(WhenAndWhereViewModel.apply)(WhenAndWhereViewModel.unapply)
 }
