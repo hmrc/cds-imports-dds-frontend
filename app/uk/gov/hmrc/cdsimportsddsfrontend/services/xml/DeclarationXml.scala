@@ -54,22 +54,22 @@ class DeclarationXml {
           <p1:DateTimeString formatCode="304">20191101010000+01</p1:DateTimeString>
         </AcceptanceDateTime>
         <FunctionCode>9</FunctionCode>
-        <FunctionalReferenceID>{dec.documentationType.localReferenceNumber.getOrElse("")}</FunctionalReferenceID>
+        <FunctionalReferenceID>{dec.documentationAndReferences.localReferenceNumber.getOrElse("")}</FunctionalReferenceID>
         <TypeCode>{dec.declarationType.declarationType + dec.declarationType.additionalDeclarationType}</TypeCode>
         <GoodsItemQuantity>{dec.declarationType.totalNumberOfItems}</GoodsItemQuantity>
         {maybeElement("TotalGrossMassMeasure", dec.totalGrossMassMeasure)}
         <TotalPackageQuantity>1</TotalPackageQuantity>
         <AdditionalDocument>
-        {maybeElement("CategoryCode", dec.documentationType.additionalPayment(0).additionalDocPaymentCategory)}
-        {maybeElement("ID", dec.documentationType.additionalPayment(0).additionalDocPaymentID)}
-        {maybeElement("TypeCode", dec.documentationType.additionalPayment(0).additionalDocPaymentType)}
+        {maybeElement("CategoryCode", dec.documentationAndReferences.additionalPayment(0).additionalDocPaymentCategory)}
+        {maybeElement("ID", dec.documentationAndReferences.additionalPayment(0).additionalDocPaymentID)}
+        {maybeElement("TypeCode", dec.documentationAndReferences.additionalPayment(0).additionalDocPaymentType)}
         </AdditionalDocument>
         <AdditionalDocument>
-          {maybeElement("CategoryCode", dec.documentationType.additionalPayment(1).additionalDocPaymentCategory)}
-          {maybeElement("ID", dec.documentationType.additionalPayment(1).additionalDocPaymentID)}
-          {maybeElement("TypeCode", dec.documentationType.additionalPayment(1).additionalDocPaymentType)}
+          {maybeElement("CategoryCode", dec.documentationAndReferences.additionalPayment(1).additionalDocPaymentCategory)}
+          {maybeElement("ID", dec.documentationAndReferences.additionalPayment(1).additionalDocPaymentID)}
+          {maybeElement("TypeCode", dec.documentationAndReferences.additionalPayment(1).additionalDocPaymentType)}
         </AdditionalDocument>
-        {additionalInformation(dec.documentationType.headerAdditionalInformation)}
+        {additionalInformation(dec.documentationAndReferences.headerAdditionalInformation)}
         {dec.parties.authorisationHolders.map(_.toXml)}
         {dec.borderTransportMeans.toXml}
         {maybeCurrencyExchange(dec)}
@@ -84,8 +84,8 @@ class DeclarationXml {
           {dec.whenAndWhere.exportCountry.toXml}
           <GovernmentAgencyGoodsItem>
             <SequenceNumeric>{dec.declarationType.goodsItemNumber}</SequenceNumeric>
-            {dec.documentationType.additionalDocument.map(_.toXml)}
-            {dec.documentationType.itemAdditionalInformation.map(additionalInformation)}
+            {dec.documentationAndReferences.additionalDocument.map(_.toXml)}
+            {dec.documentationAndReferences.itemAdditionalInformation.map(additionalInformation)}
             <Commodity>
               {maybeElement("Description", dec.commodity.flatMap(_.description))}
               {dec.commodity.map(_.classification.map(_.toXml)).getOrElse(NodeSeq.Empty)}
@@ -104,11 +104,11 @@ class DeclarationXml {
             </GovernmentProcedure>
             {dec.whenAndWhere.origin.toXml}
             {dec.packaging.toXml}
-            {dec.documentationType.itemPreviousDocument.map(_.toXml)}
+            {dec.documentationAndReferences.itemPreviousDocuments.map(_.toXml)}
             {maybeValuationAdjustment(dec)}
           </GovernmentAgencyGoodsItem>
           {maybeParty("Importer", dec.parties.importer)}
-          {dec.documentationType.headerPreviousDocument.map(_.toXml)}
+          {dec.documentationAndReferences.headerPreviousDocuments.map(_.toXml)}
           {maybeParty("Seller", dec.parties.seller)}
           {maybeTradeTerms(dec)}
           <UCR>

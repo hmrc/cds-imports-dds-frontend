@@ -79,8 +79,8 @@ object XmlWriterInstances {
     }
   }
 
-  implicit val additionalDocumentWriter: XmlWriter[AdditionalDocumentType] = new XmlWriter[AdditionalDocumentType] {
-    override def toXmlOption(value: AdditionalDocumentType ): Option[Elem] = {
+  implicit val additionalDocumentWriter: XmlWriter[AdditionalDocument] = new XmlWriter[AdditionalDocument] {
+    override def toXmlOption(value: AdditionalDocument ): Option[Elem] = {
       val categoryCode: Option[Node] = maybeElement("CategoryCode", value.categoryCode)
       val id = maybeElement("ID", value.id)
       val name = maybeElement("Name", value.name)

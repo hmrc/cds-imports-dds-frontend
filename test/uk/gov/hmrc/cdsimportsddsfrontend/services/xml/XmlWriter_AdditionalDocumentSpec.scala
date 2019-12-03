@@ -17,13 +17,13 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
 import org.scalatest.{Matchers, OptionValues, WordSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.AdditionalDocumentType
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.AdditionalDocument
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances.additionalDocumentWriter
 
 class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with OptionValues {
 
-  val additionalDocumentAll = AdditionalDocumentType(
+  val additionalDocumentAll = AdditionalDocument(
     categoryCode = Some("category_1"),
     typeCode = Some("typeCode_1"),
     id = Some("id_1"),
@@ -43,7 +43,7 @@ class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with Optio
     }
 
     "not return an AdditionalDocument node when all fields are not present" in {
-      val additionalDocumentEmpty = AdditionalDocumentType(
+      val additionalDocumentEmpty = AdditionalDocument(
       categoryCode = None,
       typeCode = None,
       id = None,

@@ -73,22 +73,22 @@ class DeclarationControllerSpec extends CdsImportsSpec
     "show the expected header previous document form fields" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[0].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[0].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[0].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[0].lineNumeric")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[1].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[1].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[1].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[1].lineNumeric")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[2].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[2].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[2].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[2].lineNumeric")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[3].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[3].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[3].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[3].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[0].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[0].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[0].id")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[0].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[1].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[1].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[1].id")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[1].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[2].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[2].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[2].id")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[2].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[3].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[3].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[3].id")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[3].lineNumeric")
       }
     }
 
@@ -96,89 +96,89 @@ class DeclarationControllerSpec extends CdsImportsSpec
     "show the expected item previous document form fields" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[0].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[0].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[0].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[0].lineNumeric")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[1].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[1].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[1].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[1].lineNumeric")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[2].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[2].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[2].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[2].lineNumeric")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[3].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[3].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[3].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[3].lineNumeric")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[4].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[4].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[4].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[4].lineNumeric")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[5].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[5].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[5].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[5].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[0].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[0].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[0].id")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[0].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[1].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[1].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[1].id")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[1].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[2].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[2].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[2].id")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[2].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[3].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[3].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[3].id")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[3].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[4].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[4].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[4].id")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[4].lineNumeric")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[5].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[5].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[5].id")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[5].lineNumeric")
       }
     }
 
     "show the expected additional information form fields" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
-        body should include element withName("input").withAttrValue("name", "documentationType.header.additionalInformation.code")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.additionalInformation.description")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[0].code")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[0].description")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[1].code")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[1].description")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[2].code")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[2].description")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[3].code")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[3].description")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[4].code")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[4].description")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[5].code")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.additionalInformation[5].description")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.additionalInformation.code")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.additionalInformation.description")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.additionalInformation[0].code")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.additionalInformation[0].description")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.additionalInformation[1].code")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.additionalInformation[1].description")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.additionalInformation[2].code")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.additionalInformation[2].description")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.additionalInformation[3].code")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.additionalInformation[3].description")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.additionalInformation[4].code")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.additionalInformation[4].description")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.additionalInformation[5].code")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.additionalInformation[5].description")
       }
     }
 
     "show the expected additional document form fields" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[0].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[0].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[0].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[0].lpco")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[0].name")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[1].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[1].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[1].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[1].lpco")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[1].name")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[2].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[2].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[2].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[2].lpco")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[2].name")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[3].categoryCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[3].typeCode")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[3].id")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[3].lpco")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalDocument[3].name")
-        body should include element withName("input").withAttrValue("name", "documentationType.localReferenceNumber")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[0].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[0].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[0].id")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[0].lpco")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[0].name")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[1].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[1].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[1].id")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[1].lpco")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[1].name")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[2].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[2].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[2].id")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[2].lpco")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[2].name")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[3].categoryCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[3].typeCode")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[3].id")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[3].lpco")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalDocument[3].name")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.localReferenceNumber")
       }
     }
 
     "show the expected additional payment form fields" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalPayment[0].additionalDocPaymentID")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalPayment[0].additionalDocPaymentCategory")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalPayment[0].additionalDocPaymentType")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalPayment[1].additionalDocPaymentID")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalPayment[1].additionalDocPaymentCategory")
-        body should include element withName("input").withAttrValue("name", "documentationType.additionalPayment[1].additionalDocPaymentType")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalPayment[0].additionalDocPaymentID")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalPayment[0].additionalDocPaymentCategory")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalPayment[0].additionalDocPaymentType")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalPayment[1].additionalDocPaymentID")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalPayment[1].additionalDocPaymentCategory")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.additionalPayment[1].additionalDocPaymentType")
       }
     }
 
@@ -198,35 +198,35 @@ class DeclarationControllerSpec extends CdsImportsSpec
     "show the item previous document expected field labels" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_0_categoryCode").withValue("Category")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_0_id").withValue("Identifier")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_0_typeCode").withValue("Type")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_0_lineNumeric").withValue("Reference")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_0_categoryCode").withValue("Category")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_0_id").withValue("Identifier")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_0_typeCode").withValue("Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_0_lineNumeric").withValue("Reference")
 
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_1_categoryCode").withValue("Category")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_1_id").withValue("Identifier")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_1_typeCode").withValue("Type")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_1_lineNumeric").withValue("Reference")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_1_categoryCode").withValue("Category")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_1_id").withValue("Identifier")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_1_typeCode").withValue("Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_1_lineNumeric").withValue("Reference")
 
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_2_categoryCode").withValue("Category")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_2_id").withValue("Identifier")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_2_typeCode").withValue("Type")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_2_lineNumeric").withValue("Reference")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_2_categoryCode").withValue("Category")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_2_id").withValue("Identifier")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_2_typeCode").withValue("Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_2_lineNumeric").withValue("Reference")
 
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_3_categoryCode").withValue("Category")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_3_id").withValue("Identifier")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_3_typeCode").withValue("Type")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_3_lineNumeric").withValue("Reference")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_3_categoryCode").withValue("Category")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_3_id").withValue("Identifier")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_3_typeCode").withValue("Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_3_lineNumeric").withValue("Reference")
 
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_4_categoryCode").withValue("Category")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_4_id").withValue("Identifier")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_4_typeCode").withValue("Type")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_4_lineNumeric").withValue("Reference")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_4_categoryCode").withValue("Category")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_4_id").withValue("Identifier")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_4_typeCode").withValue("Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_4_lineNumeric").withValue("Reference")
 
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_5_categoryCode").withValue("Category")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_5_id").withValue("Identifier")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_5_typeCode").withValue("Type")
-        body should include element withClass("govuk-label").withAttrValue("for", "documentationType_item_previousDocument_5_lineNumeric").withValue("Reference")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_5_categoryCode").withValue("Category")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_5_id").withValue("Identifier")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_5_typeCode").withValue("Type")
+        body should include element withClass("govuk-label").withAttrValue("for", "documentationAndReferences_item_previousDocument_5_lineNumeric").withValue("Reference")
       }
     }
 
@@ -246,60 +246,60 @@ class DeclarationControllerSpec extends CdsImportsSpec
     "show the expected pre-populated header previous document field values" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[0].categoryCode").withAttrValue("value", "Y")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[0].id").withAttrValue("value", "20191101")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[0].typeCode").withAttrValue("value", "CLE")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[0].lineNumeric").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[0].categoryCode").withAttrValue("value", "Y")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[0].id").withAttrValue("value", "20191101")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[0].typeCode").withAttrValue("value", "CLE")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[0].lineNumeric").withAttrValue("value", "1")
 
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[1].categoryCode").withAttrValue("value", "Y")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[1].id").withAttrValue("value", "9GB201909014000")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[1].typeCode").withAttrValue("value", "DCR")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[1].lineNumeric").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[1].categoryCode").withAttrValue("value", "Y")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[1].id").withAttrValue("value", "9GB201909014000")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[1].typeCode").withAttrValue("value", "DCR")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[1].lineNumeric").withAttrValue("value", "1")
 
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[2].categoryCode").withAttrValue("value", "Y")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[2].id").withAttrValue("value", "20191101")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[2].typeCode").withAttrValue("value", "CLE")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[2].lineNumeric").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[2].categoryCode").withAttrValue("value", "Y")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[2].id").withAttrValue("value", "20191101")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[2].typeCode").withAttrValue("value", "CLE")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[2].lineNumeric").withAttrValue("value", "1")
 
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[3].categoryCode").withAttrValue("value", "Y")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[3].id").withAttrValue("value", "9GB201909014000")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[3].typeCode").withAttrValue("value", "DCR")
-        body should include element withName("input").withAttrValue("name", "documentationType.header.previousDocument[3].lineNumeric").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[3].categoryCode").withAttrValue("value", "Y")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[3].id").withAttrValue("value", "9GB201909014000")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[3].typeCode").withAttrValue("value", "DCR")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.header.previousDocument[3].lineNumeric").withAttrValue("value", "1")
       }
     }
 
     "show the expected pre-populated item previous document field values" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[0].categoryCode").withAttrValue("value", "Y")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[0].id").withAttrValue("value", "20191101")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[0].typeCode").withAttrValue("value", "CLE")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[0].lineNumeric").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[0].categoryCode").withAttrValue("value", "Y")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[0].id").withAttrValue("value", "20191101")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[0].typeCode").withAttrValue("value", "CLE")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[0].lineNumeric").withAttrValue("value", "1")
 
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[1].categoryCode").withAttrValue("value", "Y")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[1].id").withAttrValue("value", "9GB201909014000")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[1].typeCode").withAttrValue("value", "DCR")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[1].lineNumeric").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[1].categoryCode").withAttrValue("value", "Y")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[1].id").withAttrValue("value", "9GB201909014000")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[1].typeCode").withAttrValue("value", "DCR")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[1].lineNumeric").withAttrValue("value", "1")
 
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[2].categoryCode").withAttrValue("value", "Z")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[2].id").withAttrValue("value", "20191103")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[2].typeCode").withAttrValue("value", "ZZZ")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[2].lineNumeric").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[2].categoryCode").withAttrValue("value", "Z")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[2].id").withAttrValue("value", "20191103")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[2].typeCode").withAttrValue("value", "ZZZ")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[2].lineNumeric").withAttrValue("value", "1")
 
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[3].categoryCode").withAttrValue("value", "Z")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[3].id").withAttrValue("value", "9GB201909014002")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[3].typeCode").withAttrValue("value", "235")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[3].lineNumeric").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[3].categoryCode").withAttrValue("value", "Z")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[3].id").withAttrValue("value", "9GB201909014002")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[3].typeCode").withAttrValue("value", "235")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[3].lineNumeric").withAttrValue("value", "1")
 
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[4].categoryCode").withAttrValue("value", "Z")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[4].id").withAttrValue("value", "9GB201909014003")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[4].typeCode").withAttrValue("value", "ZZZ")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[4].lineNumeric").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[4].categoryCode").withAttrValue("value", "Z")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[4].id").withAttrValue("value", "9GB201909014003")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[4].typeCode").withAttrValue("value", "ZZZ")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[4].lineNumeric").withAttrValue("value", "1")
 
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[5].categoryCode").withAttrValue("value", "Z")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[5].id").withAttrValue("value", "9GB201909014004")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[5].typeCode").withAttrValue("value", "270")
-        body should include element withName("input").withAttrValue("name", "documentationType.item.previousDocument[5].lineNumeric").withAttrValue("value", "1")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[5].categoryCode").withAttrValue("value", "Z")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[5].id").withAttrValue("value", "9GB201909014004")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[5].typeCode").withAttrValue("value", "270")
+        body should include element withName("input").withAttrValue("name", "documentationAndReferences.item.previousDocument[5].lineNumeric").withAttrValue("value", "1")
       }
     }
   }
@@ -391,60 +391,60 @@ class DeclarationControllerSpec extends CdsImportsSpec
         status(response) mustBe Status.OK
 
         val actualDeclaration = captor.getValue
-        actualDeclaration.documentationType.headerAdditionalInformation.code mustBe (Some("additionalInfoCode"))
-        actualDeclaration.documentationType.headerAdditionalInformation.description mustBe (Some("additionalInfoDescription"))
-        actualDeclaration.documentationType.itemAdditionalInformation(0).code mustBe (Some("itemAdditionalInfoCode 1"))
-        actualDeclaration.documentationType.itemAdditionalInformation(0).description mustBe (Some("itemAdditionalInfoDescription 1"))
-        actualDeclaration.documentationType.itemAdditionalInformation(1).code mustBe (Some("itemAdditionalInfoCode 2"))
-        actualDeclaration.documentationType.itemAdditionalInformation(1).description mustBe (Some("itemAdditionalInfoDescription 2"))
-        actualDeclaration.documentationType.itemAdditionalInformation(2).code mustBe (Some("itemAdditionalInfoCode 3"))
-        actualDeclaration.documentationType.itemAdditionalInformation(2).description mustBe (Some("itemAdditionalInfoDescription 3"))
-        actualDeclaration.documentationType.itemAdditionalInformation(3).code mustBe (Some("itemAdditionalInfoCode 4"))
-        actualDeclaration.documentationType.itemAdditionalInformation(3).description mustBe (Some("itemAdditionalInfoDescription 4"))
-        actualDeclaration.documentationType.itemAdditionalInformation(4).code mustBe (Some("itemAdditionalInfoCode 5"))
-        actualDeclaration.documentationType.itemAdditionalInformation(4).description mustBe (Some("itemAdditionalInfoDescription 5"))
-        actualDeclaration.documentationType.itemAdditionalInformation(5).code mustBe (Some("itemAdditionalInfoCode 6"))
-        actualDeclaration.documentationType.itemAdditionalInformation(5).description mustBe (Some("itemAdditionalInfoDescription 6"))
-        actualDeclaration.documentationType.headerPreviousDocument(0).categoryCode mustBe Some("header_categoryCode_1")
-        actualDeclaration.documentationType.headerPreviousDocument(0).id mustBe Some("header_id_1")
-        actualDeclaration.documentationType.headerPreviousDocument(0).typeCode mustBe Some("header_typeCode_1")
-        actualDeclaration.documentationType.headerPreviousDocument(0).lineNumeric mustBe Some("header_lineNumeric_1")
-        actualDeclaration.documentationType.headerPreviousDocument(1).categoryCode mustBe Some("header_categoryCode_2")
-        actualDeclaration.documentationType.headerPreviousDocument(1).id mustBe Some("header_id_2")
-        actualDeclaration.documentationType.headerPreviousDocument(1).typeCode mustBe Some("header_typeCode_2")
-        actualDeclaration.documentationType.headerPreviousDocument(1).lineNumeric mustBe Some("header_lineNumeric_2")
-        actualDeclaration.documentationType.headerPreviousDocument(2).categoryCode mustBe Some("header_categoryCode_3")
-        actualDeclaration.documentationType.headerPreviousDocument(2).id mustBe Some("header_id_3")
-        actualDeclaration.documentationType.headerPreviousDocument(2).typeCode mustBe Some("header_typeCode_3")
-        actualDeclaration.documentationType.headerPreviousDocument(2).lineNumeric mustBe Some("header_lineNumeric_3")
-        actualDeclaration.documentationType.headerPreviousDocument(3).categoryCode mustBe Some("header_categoryCode_4")
-        actualDeclaration.documentationType.headerPreviousDocument(3).id mustBe Some("header_id_4")
-        actualDeclaration.documentationType.headerPreviousDocument(3).typeCode mustBe Some("header_typeCode_4")
-        actualDeclaration.documentationType.headerPreviousDocument(3).lineNumeric mustBe Some("header_lineNumeric_4")
-        actualDeclaration.documentationType.itemPreviousDocument(0).categoryCode mustBe Some("item_categoryCode_1")
-        actualDeclaration.documentationType.itemPreviousDocument(0).id mustBe Some("item_id_1")
-        actualDeclaration.documentationType.itemPreviousDocument(0).typeCode mustBe Some("item_typeCode_1")
-        actualDeclaration.documentationType.itemPreviousDocument(0).lineNumeric mustBe Some("item_lineNumeric_1")
-        actualDeclaration.documentationType.itemPreviousDocument(1).categoryCode mustBe Some("item_categoryCode_2")
-        actualDeclaration.documentationType.itemPreviousDocument(1).id mustBe Some("item_id_2")
-        actualDeclaration.documentationType.itemPreviousDocument(1).typeCode mustBe Some("item_typeCode_2")
-        actualDeclaration.documentationType.itemPreviousDocument(1).lineNumeric mustBe Some("item_lineNumeric_2")
-        actualDeclaration.documentationType.itemPreviousDocument(2).categoryCode mustBe Some("item_categoryCode_3")
-        actualDeclaration.documentationType.itemPreviousDocument(2).id mustBe Some("item_id_3")
-        actualDeclaration.documentationType.itemPreviousDocument(2).typeCode mustBe Some("item_typeCode_3")
-        actualDeclaration.documentationType.itemPreviousDocument(2).lineNumeric mustBe Some("item_lineNumeric_3")
-        actualDeclaration.documentationType.itemPreviousDocument(3).categoryCode mustBe Some("item_categoryCode_4")
-        actualDeclaration.documentationType.itemPreviousDocument(3).id mustBe Some("item_id_4")
-        actualDeclaration.documentationType.itemPreviousDocument(3).typeCode mustBe Some("item_typeCode_4")
-        actualDeclaration.documentationType.itemPreviousDocument(3).lineNumeric mustBe Some("item_lineNumeric_4")
-        actualDeclaration.documentationType.itemPreviousDocument(4).categoryCode mustBe Some("item_categoryCode_5")
-        actualDeclaration.documentationType.itemPreviousDocument(4).id mustBe Some("item_id_5")
-        actualDeclaration.documentationType.itemPreviousDocument(4).typeCode mustBe Some("item_typeCode_5")
-        actualDeclaration.documentationType.itemPreviousDocument(4).lineNumeric mustBe Some("item_lineNumeric_5")
-        actualDeclaration.documentationType.itemPreviousDocument(5).categoryCode mustBe Some("item_categoryCode_6")
-        actualDeclaration.documentationType.itemPreviousDocument(5).id mustBe Some("item_id_6")
-        actualDeclaration.documentationType.itemPreviousDocument(5).typeCode mustBe Some("item_typeCode_6")
-        actualDeclaration.documentationType.itemPreviousDocument(5).lineNumeric mustBe Some("item_lineNumeric_6")
+        actualDeclaration.documentationAndReferences.headerAdditionalInformation.code mustBe (Some("additionalInfoCode"))
+        actualDeclaration.documentationAndReferences.headerAdditionalInformation.description mustBe (Some("additionalInfoDescription"))
+        actualDeclaration.documentationAndReferences.itemAdditionalInformation(0).code mustBe (Some("itemAdditionalInfoCode 1"))
+        actualDeclaration.documentationAndReferences.itemAdditionalInformation(0).description mustBe (Some("itemAdditionalInfoDescription 1"))
+        actualDeclaration.documentationAndReferences.itemAdditionalInformation(1).code mustBe (Some("itemAdditionalInfoCode 2"))
+        actualDeclaration.documentationAndReferences.itemAdditionalInformation(1).description mustBe (Some("itemAdditionalInfoDescription 2"))
+        actualDeclaration.documentationAndReferences.itemAdditionalInformation(2).code mustBe (Some("itemAdditionalInfoCode 3"))
+        actualDeclaration.documentationAndReferences.itemAdditionalInformation(2).description mustBe (Some("itemAdditionalInfoDescription 3"))
+        actualDeclaration.documentationAndReferences.itemAdditionalInformation(3).code mustBe (Some("itemAdditionalInfoCode 4"))
+        actualDeclaration.documentationAndReferences.itemAdditionalInformation(3).description mustBe (Some("itemAdditionalInfoDescription 4"))
+        actualDeclaration.documentationAndReferences.itemAdditionalInformation(4).code mustBe (Some("itemAdditionalInfoCode 5"))
+        actualDeclaration.documentationAndReferences.itemAdditionalInformation(4).description mustBe (Some("itemAdditionalInfoDescription 5"))
+        actualDeclaration.documentationAndReferences.itemAdditionalInformation(5).code mustBe (Some("itemAdditionalInfoCode 6"))
+        actualDeclaration.documentationAndReferences.itemAdditionalInformation(5).description mustBe (Some("itemAdditionalInfoDescription 6"))
+        actualDeclaration.documentationAndReferences.headerPreviousDocuments(0).categoryCode mustBe Some("header_categoryCode_1")
+        actualDeclaration.documentationAndReferences.headerPreviousDocuments(0).id mustBe Some("header_id_1")
+        actualDeclaration.documentationAndReferences.headerPreviousDocuments(0).typeCode mustBe Some("header_typeCode_1")
+        actualDeclaration.documentationAndReferences.headerPreviousDocuments(0).lineNumeric mustBe Some("header_lineNumeric_1")
+        actualDeclaration.documentationAndReferences.headerPreviousDocuments(1).categoryCode mustBe Some("header_categoryCode_2")
+        actualDeclaration.documentationAndReferences.headerPreviousDocuments(1).id mustBe Some("header_id_2")
+        actualDeclaration.documentationAndReferences.headerPreviousDocuments(1).typeCode mustBe Some("header_typeCode_2")
+        actualDeclaration.documentationAndReferences.headerPreviousDocuments(1).lineNumeric mustBe Some("header_lineNumeric_2")
+        actualDeclaration.documentationAndReferences.headerPreviousDocuments(2).categoryCode mustBe Some("header_categoryCode_3")
+        actualDeclaration.documentationAndReferences.headerPreviousDocuments(2).id mustBe Some("header_id_3")
+        actualDeclaration.documentationAndReferences.headerPreviousDocuments(2).typeCode mustBe Some("header_typeCode_3")
+        actualDeclaration.documentationAndReferences.headerPreviousDocuments(2).lineNumeric mustBe Some("header_lineNumeric_3")
+        actualDeclaration.documentationAndReferences.headerPreviousDocuments(3).categoryCode mustBe Some("header_categoryCode_4")
+        actualDeclaration.documentationAndReferences.headerPreviousDocuments(3).id mustBe Some("header_id_4")
+        actualDeclaration.documentationAndReferences.headerPreviousDocuments(3).typeCode mustBe Some("header_typeCode_4")
+        actualDeclaration.documentationAndReferences.headerPreviousDocuments(3).lineNumeric mustBe Some("header_lineNumeric_4")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(0).categoryCode mustBe Some("item_categoryCode_1")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(0).id mustBe Some("item_id_1")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(0).typeCode mustBe Some("item_typeCode_1")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(0).lineNumeric mustBe Some("item_lineNumeric_1")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(1).categoryCode mustBe Some("item_categoryCode_2")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(1).id mustBe Some("item_id_2")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(1).typeCode mustBe Some("item_typeCode_2")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(1).lineNumeric mustBe Some("item_lineNumeric_2")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(2).categoryCode mustBe Some("item_categoryCode_3")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(2).id mustBe Some("item_id_3")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(2).typeCode mustBe Some("item_typeCode_3")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(2).lineNumeric mustBe Some("item_lineNumeric_3")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(3).categoryCode mustBe Some("item_categoryCode_4")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(3).id mustBe Some("item_id_4")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(3).typeCode mustBe Some("item_typeCode_4")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(3).lineNumeric mustBe Some("item_lineNumeric_4")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(4).categoryCode mustBe Some("item_categoryCode_5")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(4).id mustBe Some("item_id_5")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(4).typeCode mustBe Some("item_typeCode_5")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(4).lineNumeric mustBe Some("item_lineNumeric_5")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(5).categoryCode mustBe Some("item_categoryCode_6")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(5).id mustBe Some("item_id_6")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(5).typeCode mustBe Some("item_typeCode_6")
+        actualDeclaration.documentationAndReferences.itemPreviousDocuments(5).lineNumeric mustBe Some("item_lineNumeric_6")
       }
     }
 
@@ -632,10 +632,10 @@ object DeclarationControllerSpec {
 
   private def previousDocumentFormDataRow(level: String, index: Int) = {
     Map(
-      s"documentationType.${level}.previousDocument[$index].categoryCode" -> Seq(s"${level}_categoryCode_${index+1}"),
-      s"documentationType.${level}.previousDocument[$index].typeCode" -> Seq(s"${level}_typeCode_${index+1}"),
-      s"documentationType.${level}.previousDocument[$index].id" -> Seq(s"${level}_id_${index+1}"),
-      s"documentationType.${level}.previousDocument[$index].lineNumeric" -> Seq(s"${level}_lineNumeric_${index+1}"))
+      s"documentationAndReferences.${level}.previousDocument[$index].categoryCode" -> Seq(s"${level}_categoryCode_${index+1}"),
+      s"documentationAndReferences.${level}.previousDocument[$index].typeCode" -> Seq(s"${level}_typeCode_${index+1}"),
+      s"documentationAndReferences.${level}.previousDocument[$index].id" -> Seq(s"${level}_id_${index+1}"),
+      s"documentationAndReferences.${level}.previousDocument[$index].lineNumeric" -> Seq(s"${level}_lineNumeric_${index+1}"))
   }
 
   val previousDocumentHeaderFormData: Map[String, Seq[String]] =
@@ -645,31 +645,31 @@ object DeclarationControllerSpec {
     (0 to 5).flatMap(i => previousDocumentFormDataRow("item", i)).toMap
 
   val documentationFormData = Map(
-    "documentationType.header.additionalInformation.code" -> Seq("additionalInfoCode"),
-    "documentationType.header.additionalInformation.description" -> Seq("additionalInfoDescription"),
+    "documentationAndReferences.header.additionalInformation.code" -> Seq("additionalInfoCode"),
+    "documentationAndReferences.header.additionalInformation.description" -> Seq("additionalInfoDescription"),
 
-    "documentationType.item.additionalInformation[0].code" -> Seq("itemAdditionalInfoCode 1"),
-    "documentationType.item.additionalInformation[0].description" -> Seq("itemAdditionalInfoDescription 1"),
-    "documentationType.item.additionalInformation[1].code" -> Seq("itemAdditionalInfoCode 2"),
-    "documentationType.item.additionalInformation[1].description" -> Seq("itemAdditionalInfoDescription 2"),
-    "documentationType.item.additionalInformation[2].code" -> Seq("itemAdditionalInfoCode 3"),
-    "documentationType.item.additionalInformation[2].description" -> Seq("itemAdditionalInfoDescription 3"),
-    "documentationType.item.additionalInformation[3].code" -> Seq("itemAdditionalInfoCode 4"),
-    "documentationType.item.additionalInformation[3].description" -> Seq("itemAdditionalInfoDescription 4"),
-    "documentationType.item.additionalInformation[4].code" -> Seq("itemAdditionalInfoCode 5"),
-    "documentationType.item.additionalInformation[4].description" -> Seq("itemAdditionalInfoDescription 5"),
-    "documentationType.item.additionalInformation[5].code" -> Seq("itemAdditionalInfoCode 6"),
-    "documentationType.item.additionalInformation[5].description" -> Seq("itemAdditionalInfoDescription 6"),
+    "documentationAndReferences.item.additionalInformation[0].code" -> Seq("itemAdditionalInfoCode 1"),
+    "documentationAndReferences.item.additionalInformation[0].description" -> Seq("itemAdditionalInfoDescription 1"),
+    "documentationAndReferences.item.additionalInformation[1].code" -> Seq("itemAdditionalInfoCode 2"),
+    "documentationAndReferences.item.additionalInformation[1].description" -> Seq("itemAdditionalInfoDescription 2"),
+    "documentationAndReferences.item.additionalInformation[2].code" -> Seq("itemAdditionalInfoCode 3"),
+    "documentationAndReferences.item.additionalInformation[2].description" -> Seq("itemAdditionalInfoDescription 3"),
+    "documentationAndReferences.item.additionalInformation[3].code" -> Seq("itemAdditionalInfoCode 4"),
+    "documentationAndReferences.item.additionalInformation[3].description" -> Seq("itemAdditionalInfoDescription 4"),
+    "documentationAndReferences.item.additionalInformation[4].code" -> Seq("itemAdditionalInfoCode 5"),
+    "documentationAndReferences.item.additionalInformation[4].description" -> Seq("itemAdditionalInfoDescription 5"),
+    "documentationAndReferences.item.additionalInformation[5].code" -> Seq("itemAdditionalInfoCode 6"),
+    "documentationAndReferences.item.additionalInformation[5].description" -> Seq("itemAdditionalInfoDescription 6"),
 
-    "documentationType.localReferenceNumber" -> Seq("localRef"),
+    "documentationAndReferences.localReferenceNumber" -> Seq("localRef"),
 
-    "documentationType.additionalPayment[0].additionalDocPaymentID" -> Seq("123456"),
-    "documentationType.additionalPayment[0].additionalDocPaymentCategory" -> Seq("1"),
-    "documentationType.additionalPayment[0].additionalDocPaymentType" -> Seq("DAN"),
+    "documentationAndReferences.additionalPayment[0].additionalDocPaymentID" -> Seq("123456"),
+    "documentationAndReferences.additionalPayment[0].additionalDocPaymentCategory" -> Seq("1"),
+    "documentationAndReferences.additionalPayment[0].additionalDocPaymentType" -> Seq("DAN"),
 
-    "documentationType.additionalPayment[1].additionalDocPaymentID" -> Seq("123456"),
-    "documentationType.additionalPayment[1].additionalDocPaymentCategory" -> Seq("1"),
-    "documentationType.additionalPayment[1].additionalDocPaymentType" -> Seq("DAN")
+    "documentationAndReferences.additionalPayment[1].additionalDocPaymentID" -> Seq("123456"),
+    "documentationAndReferences.additionalPayment[1].additionalDocPaymentCategory" -> Seq("1"),
+    "documentationAndReferences.additionalPayment[1].additionalDocPaymentType" -> Seq("DAN")
   )
 
 }

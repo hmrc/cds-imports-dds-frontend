@@ -33,10 +33,10 @@
             <td colspan="4">@messages("declare.document", count + 1)</td>
         </tr>
         <tr class="govuk-table__row">
-            <td class="govuk-table__cell">@input_text(form(s"documentationType.header.previousDocument[$count].categoryCode"), "declare.previousDocCategory")</td>
-            <td class="govuk-table__cell">@input_text(form(s"documentationType.header.previousDocument[$count].id"), "declare.previousDocGoodsItemId")</td>
-            <td class="govuk-table__cell">@input_text(form(s"documentationType.header.previousDocument[$count].typeCode"), "declare.previousDocType")</td>
-            <td class="govuk-table__cell">@input_text(form(s"documentationType.header.previousDocument[$count].lineNumeric"), "declare.previousDocReference")</td>
+            <td class="govuk-table__cell">@input_text(form(s"documentationAndReferences.header.previousDocument[$count].categoryCode"), "declare.previousDocCategory")</td>
+            <td class="govuk-table__cell">@input_text(form(s"documentationAndReferences.header.previousDocument[$count].id"), "declare.previousDocGoodsItemId")</td>
+            <td class="govuk-table__cell">@input_text(form(s"documentationAndReferences.header.previousDocument[$count].typeCode"), "declare.previousDocType")</td>
+            <td class="govuk-table__cell">@input_text(form(s"documentationAndReferences.header.previousDocument[$count].lineNumeric"), "declare.previousDocReference")</td>
         </tr>
     }
     </tbody>
@@ -56,36 +56,36 @@
     <td colspan="4">@messages("declare.document", count + 1)</td>
    </tr>
    <tr class="govuk-table__row">
-    <td class="govuk-table__cell">@input_text(form(s"documentationType.item.previousDocument[$count].categoryCode"), "declare.previousDocCategory")</td>
-    <td class="govuk-table__cell">@input_text(form(s"documentationType.item.previousDocument[$count].id"), "declare.previousDocGoodsItemId")</td>
-    <td class="govuk-table__cell">@input_text(form(s"documentationType.item.previousDocument[$count].typeCode"), "declare.previousDocType")</td>
-    <td class="govuk-table__cell">@input_text(form(s"documentationType.item.previousDocument[$count].lineNumeric"), "declare.previousDocReference")</td>
+    <td class="govuk-table__cell">@input_text(form(s"documentationAndReferences.item.previousDocument[$count].categoryCode"), "declare.previousDocCategory")</td>
+    <td class="govuk-table__cell">@input_text(form(s"documentationAndReferences.item.previousDocument[$count].id"), "declare.previousDocGoodsItemId")</td>
+    <td class="govuk-table__cell">@input_text(form(s"documentationAndReferences.item.previousDocument[$count].typeCode"), "declare.previousDocType")</td>
+    <td class="govuk-table__cell">@input_text(form(s"documentationAndReferences.item.previousDocument[$count].lineNumeric"), "declare.previousDocReference")</td>
    </tr>
  }
  </tbody>
 </table>
 </div>
 
-@input_text(form("documentationType.header.additionalInformation.code" ), "declare.header.additionalInformation.code" )
-@input_text(form("documentationType.header.additionalInformation.description" ), "declare.header.additionalInformation.description")
+@input_text(form("documentationAndReferences.header.additionalInformation.code" ), "declare.header.additionalInformation.code" )
+@input_text(form("documentationAndReferences.header.additionalInformation.description" ), "declare.header.additionalInformation.description")
 
 @for(i <- 0 to 5) {
-   @input_text(form(s"documentationType.item.additionalInformation[$i].code"), "declare.item.additionalInformation.code", Seq(i+1))
-   @input_text(form(s"documentationType.item.additionalInformation[$i].description"), "declare.item.additionalInformation.description", Seq(i+1))
+   @input_text(form(s"documentationAndReferences.item.additionalInformation[$i].code"), "declare.item.additionalInformation.code", Seq(i+1))
+   @input_text(form(s"documentationAndReferences.item.additionalInformation[$i].description"), "declare.item.additionalInformation.description", Seq(i+1))
 }
 
 @for(count <- 0 to 5) {
-  @input_text(form(s"documentationType.additionalDocument[$count].categoryCode"), "declare.additionalDocCategoryCode", Seq(count + 1))
-  @input_text(form(s"documentationType.additionalDocument[$count].typeCode"), "declare.additionalDocTypeCode", Seq(count + 1))
-  @input_text(form(s"documentationType.additionalDocument[$count].id"), "declare.additionalDocId", Seq(count + 1))
-  @input_text(form(s"documentationType.additionalDocument[$count].lpco"), "declare.additionalDocLPCO", Seq(count + 1))
-  @input_text(form(s"documentationType.additionalDocument[$count].name"), "declare.additionalDocName", Seq(count + 1))
+  @input_text(form(s"documentationAndReferences.additionalDocument[$count].categoryCode"), "declare.additionalDocCategoryCode", Seq(count + 1))
+  @input_text(form(s"documentationAndReferences.additionalDocument[$count].typeCode"), "declare.additionalDocTypeCode", Seq(count + 1))
+  @input_text(form(s"documentationAndReferences.additionalDocument[$count].id"), "declare.additionalDocId", Seq(count + 1))
+  @input_text(form(s"documentationAndReferences.additionalDocument[$count].lpco"), "declare.additionalDocLPCO", Seq(count + 1))
+  @input_text(form(s"documentationAndReferences.additionalDocument[$count].name"), "declare.additionalDocName", Seq(count + 1))
 }
 
-@input_text(form("documentationType.localReferenceNumber" ), "declare.localReferenceNumber" )
+@input_text(form("documentationAndReferences.localReferenceNumber" ), "declare.localReferenceNumber" )
 
 @for(count <- 0 to 1) {
-  @input_text(form(s"documentationType.additionalPayment[$count].additionalDocPaymentID"), "declare.additionalDocPaymentID", Seq(count + 1))
-  @input_text(form(s"documentationType.additionalPayment[$count].additionalDocPaymentCategory"), "declare.additionalDocPaymentCategory", Seq(count + 1))
-  @input_text(form(s"documentationType.additionalPayment[$count].additionalDocPaymentType"), "declare.additionalDocPaymentType", Seq(count + 1))
+  @input_text(form(s"documentationAndReferences.additionalPayment[$count].additionalDocPaymentID"), "declare.additionalDocPaymentID", Seq(count + 1))
+  @input_text(form(s"documentationAndReferences.additionalPayment[$count].additionalDocPaymentCategory"), "declare.additionalDocPaymentCategory", Seq(count + 1))
+  @input_text(form(s"documentationAndReferences.additionalPayment[$count].additionalDocPaymentType"), "declare.additionalDocPaymentType", Seq(count + 1))
 }

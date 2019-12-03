@@ -18,7 +18,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class Declaration(
                         declarationType: DeclarationType = DeclarationType(),
-                        documentationType: DocumentationType = DocumentationType(),
+                        documentationAndReferences: DocumentationAndReferences = DocumentationAndReferences(),
                         parties: DeclarationParties = DeclarationParties(),
                         valuationInformationAndTaxes: ValuationInformationAndTaxes = ValuationInformationAndTaxes(),
                         whenAndWhere: WhenAndWhere = WhenAndWhere(),

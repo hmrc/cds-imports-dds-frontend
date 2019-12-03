@@ -20,7 +20,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
 case class DeclarationViewModel(
                                  declarationType: DeclarationType = DeclarationType(),
-                                 documentationType: DocumentationType = DocumentationType(),
+                                 documentationAndReferences: DocumentationAndReferences = DocumentationAndReferences(),
                                  parties: DeclarationParties = DeclarationParties(),
                                  valuationInformationAndTaxesViewModel: ValuationInformationAndTaxesViewModel = ValuationInformationAndTaxesViewModel(),
                                  whenAndWhereViewModel: WhenAndWhereViewModel = WhenAndWhereViewModel(),
@@ -39,7 +39,7 @@ case class DeclarationViewModel(
     }
 
     Declaration(declarationType = declarationType,
-      documentationType = documentationType,
+      documentationAndReferences = documentationAndReferences,
       parties = parties,
       valuationInformationAndTaxes = valuationInformationAndTaxesViewModel.toValuationInformationAndTaxes,
       whenAndWhere = whenAndWhereViewModel.toWhenAndWhere,

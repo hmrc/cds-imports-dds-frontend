@@ -18,7 +18,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 import java.util.UUID
 
-case class AdditionalDocumentType(
+case class AdditionalDocument(
   categoryCode: Option[String],
   typeCode: Option[String],
   id: Option[String],
@@ -37,18 +37,18 @@ case class AdditionalInformation(
   description: Option[String]
 )
 
-case class DocumentationType(
-  headerPreviousDocument: Seq[PreviousDocument],
-  itemPreviousDocument: Seq[PreviousDocument],
-  headerAdditionalInformation: AdditionalInformation,
-  itemAdditionalInformation: Seq[AdditionalInformation],
-  additionalDocument: Seq[AdditionalDocumentType],
-  localReferenceNumber: Option[String],
-  additionalPayment: Seq[AdditionalPaymentType]
+case class DocumentationAndReferences(
+                              headerPreviousDocuments: Seq[PreviousDocument],
+                              itemPreviousDocuments: Seq[PreviousDocument],
+                              headerAdditionalInformation: AdditionalInformation,
+                              itemAdditionalInformation: Seq[AdditionalInformation],
+                              additionalDocument: Seq[AdditionalDocument],
+                              localReferenceNumber: Option[String],
+                              additionalPayment: Seq[AdditionalPaymentType]
 )
 
-object DocumentationType {
-  def apply(): DocumentationType = DocumentationType(
+object DocumentationAndReferences {
+  def apply(): DocumentationAndReferences = DocumentationAndReferences(
     Seq(
       PreviousDocument(Some("Y"),Some("20191101"), Some("CLE"),Some("1")),
       PreviousDocument(Some("Y"),Some("9GB201909014000"), Some("DCR"),Some("1")),
@@ -66,12 +66,12 @@ object DocumentationType {
     AdditionalInformation(Some("TSP01"), Some("TSP")),
     Nil,
     Seq(
-      AdditionalDocumentType(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), Some("DocumentName1")),
-      AdditionalDocumentType(Some("C"), Some("514"), Some("GBEIR201909014000"), None, None),
-      AdditionalDocumentType(Some("C"), Some("506"), Some("GBDPO1909241"), None, None),
-      AdditionalDocumentType(Some("N"), Some("935"), Some("12345/30.07.2019"), Some("AC"), None),
-      AdditionalDocumentType(Some("N"), Some("935"), Some("12345/30.08.2019"), Some("AC"), None),
-      AdditionalDocumentType(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), None)
+      AdditionalDocument(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), Some("DocumentName1")),
+      AdditionalDocument(Some("C"), Some("514"), Some("GBEIR201909014000"), None, None),
+      AdditionalDocument(Some("C"), Some("506"), Some("GBDPO1909241"), None, None),
+      AdditionalDocument(Some("N"), Some("935"), Some("12345/30.07.2019"), Some("AC"), None),
+      AdditionalDocument(Some("N"), Some("935"), Some("12345/30.08.2019"), Some("AC"), None),
+      AdditionalDocument(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), None)
     ),
     Some(UUID.randomUUID().toString.replaceAll("-","").take(20)),
     Seq(
