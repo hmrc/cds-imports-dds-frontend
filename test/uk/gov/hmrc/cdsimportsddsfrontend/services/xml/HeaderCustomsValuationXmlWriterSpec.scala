@@ -43,14 +43,14 @@ class HeaderCustomsValuationXmlWriterSpec extends WordSpec with Matchers with Op
           </CustomsValuation>
         })
 
-        headerCustomsValuation.toXml.map(Utility.trim(_)) shouldBe Some(expectedXml)
+        headerCustomsValuation.toXmlOption.map(Utility.trim(_)) shouldBe Some(expectedXml)
       }
     }
 
     "not generate the HeaderCustomsValuation XML element" when {
       "non of the child values are present" in {
         val headerCustomsValuation = HeaderCustomsValuation(chargeDeduction = None)
-        headerCustomsValuation.toXml shouldBe None
+        headerCustomsValuation.toXmlOption shouldBe None
       }
     }
 

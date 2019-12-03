@@ -26,8 +26,8 @@ import scala.xml.{Elem, Node}
 object HeaderCustomsValuationXmlWriter {
 
   implicit val headerCustomsValuationXmlWriter: XmlWriter[HeaderCustomsValuation] = new XmlWriter[HeaderCustomsValuation] {
-    override def toXml(value: HeaderCustomsValuation): Option[Elem] = {
-      val chargeDeduction: Option[Node] = value.chargeDeduction.flatMap(_.toXml)
+    override def toXmlOption(value: HeaderCustomsValuation): Option[Elem] = {
+      val chargeDeduction: Option[Node] = value.chargeDeduction.flatMap(_.toXmlOption)
 
       val nodes: List[Node] = List(chargeDeduction).flattenOption
       Option(nodes).filter(_.nonEmpty).map(nonEmptyChildNodes => <CustomsValuation>{nonEmptyChildNodes}</CustomsValuation>)

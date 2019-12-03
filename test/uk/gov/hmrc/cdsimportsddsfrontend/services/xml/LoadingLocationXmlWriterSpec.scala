@@ -29,7 +29,7 @@ class LoadingLocationXmlWriterSpec extends WordSpec with Matchers with OptionVal
 
         val loadingLocation = LoadingLocation("LHR")
         val expectedXml =  <LoadingLocation><ID>LHR</ID></LoadingLocation>
-        loadingLocation.toXml shouldBe Some(expectedXml)
+        loadingLocation.toXmlOption shouldBe Some(expectedXml)
       }
     }
   }

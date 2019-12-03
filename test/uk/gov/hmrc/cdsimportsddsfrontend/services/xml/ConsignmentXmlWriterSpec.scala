@@ -87,7 +87,7 @@ class ConsignmentXmlWriterSpec extends WordSpec with Matchers with OptionValues 
           </Consignment>
         })
 
-        consignment.toXml shouldBe Some(expectedXml)
+        consignment.toXmlOption shouldBe Some(expectedXml)
       }
 
       "loading location is present" in {
