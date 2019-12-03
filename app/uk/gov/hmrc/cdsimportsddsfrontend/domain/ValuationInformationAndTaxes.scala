@@ -20,10 +20,8 @@ case class ValuationInformationAndTaxes(
                                          conditionCode: Option[String] = Some("CFR"),
                                          locationID: Option[String] = Some("GBDVR"),
                                          locationName: Option[String] = Some(""),
-                                         paymentMethodCode: Option[String] = Some("E"),
                                          additionCode: Option[String] = Some("0000"),
                                          itemChargeAmount: Option[String] = Some("100"),
                                          currencyID: Option[String] = Some("GBP"),
-                                         rateNumeric: Option[String] = Some("1.27"),
-                                         dutyRegimeCode: Option[String] = Some("100")
+                                         rateNumeric: Option[String] = Some("1.27")
                                        )

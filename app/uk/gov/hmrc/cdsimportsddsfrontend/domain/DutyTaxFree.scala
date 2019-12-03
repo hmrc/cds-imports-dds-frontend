@@ -16,5 +16,6 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class DutyTaxFree(quotaOrderId: Option[String])
-
+case class DutyTaxFree(dutyRegimeCode: Option[String],
+                       quotaOrderId: Option[String],
+                       payment: Option[Payment])

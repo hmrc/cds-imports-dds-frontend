@@ -27,7 +27,7 @@ class DeclarationXml_GoodsMeasureSpec extends WordSpec with MustMatchers {
     "be populated in the XML at item level" when {
       "the NetNetWeightMeasure is present in the data" in {
         val declaration = Declaration(
-          commodity = Some(Commodity(description = None, classification = Seq.empty, goodsMeasure = Some(GoodsMeasure(netNetWeightMeasure = Some("123"), tariffQuantity = Some("345"), grossMassMeasure = Some("678")))))
+          commodity = Some(Commodity(description = None, classification = Seq.empty, goodsMeasure = Some(GoodsMeasure(netNetWeightMeasure = Some("123"), tariffQuantity = Some("345"), grossMassMeasure = Some("678"))), dutyTaxFree = None))
         )
 
         val xml: Elem = DeclarationXml().fromImportDeclaration(declaration)
@@ -38,7 +38,7 @@ class DeclarationXml_GoodsMeasureSpec extends WordSpec with MustMatchers {
 
       "the GrossMassMeasure is present in the data" in {
         val declaration = Declaration(
-          commodity = Some(Commodity(description = None, classification = Seq.empty, goodsMeasure = Some(GoodsMeasure(netNetWeightMeasure = Some("123"), tariffQuantity = Some("345"), grossMassMeasure = Some("678")))))
+          commodity = Some(Commodity(description = None, classification = Seq.empty, goodsMeasure = Some(GoodsMeasure(netNetWeightMeasure = Some("123"), tariffQuantity = Some("345"), grossMassMeasure = Some("678"))), dutyTaxFree = None))
         )
 
         val xml: Elem = DeclarationXml().fromImportDeclaration(declaration)
@@ -48,7 +48,7 @@ class DeclarationXml_GoodsMeasureSpec extends WordSpec with MustMatchers {
 
       "the TariffQuantity is present in the data" in {
         val declaration = Declaration(
-          commodity = Some(Commodity(description = None, classification = Seq.empty, goodsMeasure = Some(GoodsMeasure(netNetWeightMeasure = Some("123"), tariffQuantity = Some("345"), grossMassMeasure = Some("678")))))
+          commodity = Some(Commodity(description = None, classification = Seq.empty, goodsMeasure = Some(GoodsMeasure(netNetWeightMeasure = Some("123"), tariffQuantity = Some("345"), grossMassMeasure = Some("678"))), dutyTaxFree = None))
         )
 
         val xml: Elem = DeclarationXml().fromImportDeclaration(declaration)
@@ -59,7 +59,7 @@ class DeclarationXml_GoodsMeasureSpec extends WordSpec with MustMatchers {
     "be omitted from XML" when {
       "the no GoodsMeasure data exists" in {
         val declaration = Declaration(
-          commodity = Some(Commodity(description = None, classification = Seq.empty, goodsMeasure = None))
+          commodity = Some(Commodity(description = None, classification = Seq.empty, goodsMeasure = None, dutyTaxFree = None))
         )
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)

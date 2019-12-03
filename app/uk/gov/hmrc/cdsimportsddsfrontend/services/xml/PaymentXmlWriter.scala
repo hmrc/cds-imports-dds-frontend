@@ -14,9 +14,18 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.domain
+package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
-case class Commodity(description: Option[String],
-                     classification: Seq[Classification],
-                     goodsMeasure: Option[GoodsMeasure],
-                     dutyTaxFree: Option[DutyTaxFree])
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.Payment
+
+import scala.xml.{Elem, Node}
+
+object PaymentXmlWriter {
+
+  implicit val paymentXmlWriter: XmlWriter[Payment] = new XmlWriter[Payment] {
+    override def toXml(value: Payment): Option[Elem] = {
+      val methodCode: Node = element("MethodCode", value.methodCode)
+      Some(<Payment>{methodCode}</Payment>)
+    }
+  }
+}

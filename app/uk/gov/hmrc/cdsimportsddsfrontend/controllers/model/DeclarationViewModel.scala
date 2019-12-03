@@ -46,7 +46,8 @@ case class DeclarationViewModel(
       commodity = Some(Commodity(
         goodsMeasure = Some(goodsIdentification.toGoodsMeasure),
         classification = goodsIdentification.toClassification(),
-        description = goodsIdentification.description)),
+        description = goodsIdentification.description,
+        dutyTaxFree = None)),
       packaging = Some(goodsIdentification.toPackaging),
       borderTransportMeans = Some(transportInformationViewModel.toBorderTransportMeans),
       consignment = Some(consignment),

@@ -17,7 +17,7 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
 import org.scalatest.{MustMatchers, WordSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ChargeDeduction, CurrencyAmount, Declaration, HeaderCustomsValuation, ItemCustomsValuation, ValuationInformationAndTaxes}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
 import scala.xml.Elem
 
@@ -50,8 +50,6 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
       (goodsShipment \ "CustomsValuation" \ "ChargeDeduction" \ "ChargesTypeCode").head.text mustBe "BAR"
 
       val item = xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"
-      (item \ "Commodity" \ "DutyTaxFee" \ "DutyRegimeCode").head.text mustBe "100"
-      (item \ "Commodity" \ "DutyTaxFee" \ "Payment" \ "MethodCode").head.text mustBe "E"
       (item \ "ValuationAdjustment" \ "AdditionCode").head.text mustBe "0000"
       (item \ "Commodity" \ "InvoiceLine" \ "ItemChargeAmount").head.text mustBe "100"
       (item \ "Commodity" \ "InvoiceLine" \ "ItemChargeAmount" \ "@currencyID").head.text mustBe "GBP"
@@ -59,19 +57,6 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
       (item \ "CustomsValuation" \ "ChargeDeduction" \ "OtherChargeDeductionAmount").head.text mustBe "9001"
       (item \ "CustomsValuation" \ "ChargeDeduction" \ "OtherChargeDeductionAmount" \ "@currencyID").head.text mustBe "HUF"
       (item \ "CustomsValuation" \ "ChargeDeduction" \ "ChargesTypeCode").head.text mustBe "FOO"
-      (item \ "Commodity" \ "DutyTaxFee" \ "DutyRegimeCode").head.text mustBe "100"
-    }
-
-    "omit DutyTaxFee element when dutyRegimeCode and paymentMethodCode are both empty" in {
-      val declaration = Declaration(valuationInformationAndTaxes = ValuationInformationAndTaxes(dutyRegimeCode = None, paymentMethodCode = None))
-      val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
-      (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "DutyTaxFee").length mustBe 0
-    }
-
-    "omit Payment element when paymentMethodCode is empty" in {
-      val declaration = Declaration(valuationInformationAndTaxes = ValuationInformationAndTaxes(paymentMethodCode = None))
-      val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
-      (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "DutyTaxFee" \ "Payment").length mustBe 0
     }
 
     "omit TradeTerm element when conditionCode, locationID and locationName are all empty" in {
