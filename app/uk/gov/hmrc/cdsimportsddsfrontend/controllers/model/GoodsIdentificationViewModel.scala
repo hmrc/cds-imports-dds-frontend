@@ -19,14 +19,14 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers.model
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Classification, GoodsMeasure, Packaging}
 
 case class GoodsIdentificationViewModel(
-                                         netMass: Option[String] = Some("100"),
+                                         netMass: Option[String] = Some("50"),
                                          supplementaryUnits: Option[String] = Some("100"),
-                                         grossMass: Option[String] = Some("105"),
+                                         grossMass: Option[String] = Some("60"),
                                          description: Option[String] = Some("TSP no description required"),
                                          typeOfPackages: Option[String] = Some("BF"),
                                          numberOfPackages: Option[String] = Some("1"),
                                          shippingMarks: Option[String] = Some("TSP not required"),
-                                         combinedNomenclatureCodeId: Option[String] = Some("18061015"),
+                                         combinedNomenclatureCodeId: Option[String] = Some("76071111"),
                                          combinedNomenclatureCodeIdentificationType: Option[String] = Some("TSP"),
                                          taricCodeId: Option[String] = Some("10"),
                                          taricCodeIdentificationType: Option[String] = Some("TRC"),
