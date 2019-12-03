@@ -27,9 +27,9 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
     "be populated in the XML at header level" when {
       "the destination country code is present in the data" in {
         val declaration = Declaration(
-          whenAndWhere = WhenAndWhere(
-            destination = Some(Destination(countryCode = Some("FR")))
-          )
+          goodsShipment = GoodsShipment(destination = Some(Destination(countryCode = Some("FR"))),
+                                        exportCountry = None,
+                                        governmentAgencyGoodsItem = None)
         )
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -38,9 +38,10 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
 
       "the export country is present in the data" in {
         val declaration = Declaration(
-          whenAndWhere = WhenAndWhere(
-            exportCountry = Some(ExportCountry(id = Some("NE")))
-          )
+          goodsShipment = GoodsShipment(
+            destination = None,
+            exportCountry = Some(ExportCountry(id = Some("NE"))),
+            governmentAgencyGoodsItem = None)
         )
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -49,8 +50,10 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
 
       "the origin is present in the data" in {
         val declaration = Declaration(
-          whenAndWhere = WhenAndWhere(
-            origin = Some(Origin(countryCode = Some("DL"), typeCode = Some("99")))
+          goodsShipment = GoodsShipment(
+            destination = None,
+            exportCountry = None,
+            governmentAgencyGoodsItem = Some(GovernmentAgencyGoodsItem(origin = Some(Origin(countryCode = Some("DL"), typeCode = Some("99")))))
           )
         )
 
@@ -63,9 +66,7 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
     "be omitted from XML" when {
       "the destination country data is missing" in {
         val declaration = Declaration(
-          whenAndWhere = WhenAndWhere(
-            destination = Some(Destination(countryCode = None))
-          )
+          goodsShipment = GoodsShipment(destination = None, exportCountry = None, governmentAgencyGoodsItem = None)
         )
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -74,9 +75,10 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
 
       "the export country data is missing" in {
         val declaration = Declaration(
-          whenAndWhere = WhenAndWhere(
-            exportCountry = Some(ExportCountry(id = None))
-          )
+          goodsShipment = GoodsShipment(
+            destination = None,
+            exportCountry = Some(ExportCountry(id = None)),
+            governmentAgencyGoodsItem = None)
         )
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -85,8 +87,10 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
 
       "the origin data is missing" in {
         val declaration = Declaration(
-          whenAndWhere = WhenAndWhere(
-            origin = None
+          goodsShipment = GoodsShipment(
+            destination = None,
+            exportCountry = None,
+            governmentAgencyGoodsItem = Some(GovernmentAgencyGoodsItem(origin = None))
           )
         )
 
