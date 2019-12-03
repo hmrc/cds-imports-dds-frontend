@@ -28,6 +28,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ConsignmentXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DestinationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ExportCountryXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsMeasureXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ObligationGuaranteeXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.PackagingXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.HeaderCustomsValuationXmlWriter._
@@ -115,8 +116,9 @@ class DeclarationXml {
             <TraderAssignedReferenceID>1-12345</TraderAssignedReferenceID>
           </UCR>
         </GoodsShipment>
+        {dec.obligationGuarantee.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
       </Declaration>
-    </md:MetaData>
+   </md:MetaData>
   }
 
   private[this] def maybeDutyTaxFee(declaration: Declaration): NodeSeq = {

@@ -30,5 +30,6 @@ case class Declaration(
                         itemCustomsValuation: Option[ItemCustomsValuation] = None,
                         goodsShipment: GoodsShipment = GoodsShipment(destination = None,
                                                                      exportCountry = None,
-                                                                     governmentAgencyGoodsItem = None)
+                                                                     governmentAgencyGoodsItem = None),
+                        obligationGuarantee: Option[ObligationGuarantee] = None
                       )
