@@ -29,25 +29,25 @@ class GoodsMeasureXmlWriterSpec extends WordSpec with Matchers with OptionValues
 
         val actual = GoodsMeasure(netNetWeightMeasure = Some("101"), tariffQuantity = Some("99"), grossMassMeasure = Some("88"))
         val expectedXml =  <GoodsMeasure><GrossMassMeasure unitCode="KGM">88</GrossMassMeasure><NetNetWeightMeasure unitCode="KGM">101</NetNetWeightMeasure><TariffQuantity>99</TariffQuantity></GoodsMeasure>
-        actual.toXml shouldBe Some(expectedXml)
+        actual.toXmlOption shouldBe Some(expectedXml)
       }
 
       "gross mass measure is present" in {
         val actual = GoodsMeasure(grossMassMeasure = Some("88"))
         val expectedXml =  <GoodsMeasure><GrossMassMeasure unitCode="KGM">88</GrossMassMeasure></GoodsMeasure>
-        actual.toXml shouldBe Some(expectedXml)
+        actual.toXmlOption shouldBe Some(expectedXml)
       }
 
       "net net weight measure is present" in {
         val actual = GoodsMeasure(netNetWeightMeasure = Some("102"))
         val expectedXml =  <GoodsMeasure><NetNetWeightMeasure unitCode="KGM">102</NetNetWeightMeasure></GoodsMeasure>
-        actual.toXml shouldBe Some(expectedXml)
+        actual.toXmlOption shouldBe Some(expectedXml)
       }
 
       "tariff quantity is present" in {
         val actual = GoodsMeasure(tariffQuantity = Some("11"))
         val expectedXml =  <GoodsMeasure><TariffQuantity>11</TariffQuantity></GoodsMeasure>
-        actual.toXml shouldBe Some(expectedXml)
+        actual.toXmlOption shouldBe Some(expectedXml)
       }
 
     }
@@ -55,7 +55,7 @@ class GoodsMeasureXmlWriterSpec extends WordSpec with Matchers with OptionValues
     "not generate the GoodsMeasure XML element" when {
       "non of the child values are present" in {
         val goodsMeasure = GoodsMeasure()
-        goodsMeasure.toXml shouldBe None
+        goodsMeasure.toXmlOption shouldBe None
       }
     }
   }

@@ -28,26 +28,26 @@ class BorderTransportMeansXmlWriterSpec extends WordSpec with Matchers with Opti
       "all values are present" in {
         val borderTransportMeans = BorderTransportMeans(registrationNationalityCode = Some("FR"), modeCode = Some("1"))
         val expectedXml = <BorderTransportMeans><RegistrationNationalityCode>FR</RegistrationNationalityCode><ModeCode>1</ModeCode></BorderTransportMeans>
-        borderTransportMeans.toXml shouldBe Some(expectedXml)
+        borderTransportMeans.toXmlOption shouldBe Some(expectedXml)
       }
 
       "registrationNationalityCode is present" in {
         val borderTransportMeans = BorderTransportMeans(registrationNationalityCode = Some("FR"), modeCode = None)
         val expectedXml = <BorderTransportMeans><RegistrationNationalityCode>FR</RegistrationNationalityCode></BorderTransportMeans>
-        borderTransportMeans.toXml shouldBe Some(expectedXml)
+        borderTransportMeans.toXmlOption shouldBe Some(expectedXml)
       }
 
       "modeCode is present" in {
         val borderTransportMeans = BorderTransportMeans(registrationNationalityCode = None, modeCode = Some("1"))
         val expectedXml = <BorderTransportMeans><ModeCode>1</ModeCode></BorderTransportMeans>
-        borderTransportMeans.toXml shouldBe Some(expectedXml)
+        borderTransportMeans.toXmlOption shouldBe Some(expectedXml)
       }
     }
 
     "not generate the BorderTransportMeans XML element" when {
       "none of the child values are present" in {
         val borderTransportMeans = BorderTransportMeans(None, None)
-        borderTransportMeans.toXml shouldBe None
+        borderTransportMeans.toXmlOption shouldBe None
       }
     }
   }

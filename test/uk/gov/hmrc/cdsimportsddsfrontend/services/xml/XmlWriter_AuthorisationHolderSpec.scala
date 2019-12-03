@@ -33,13 +33,13 @@ class XmlWriter_AuthorisationHolderSpec extends WordSpec with Matchers with Opti
       "all parameters are Some" in {
           val expectedResultAll =
             <AuthorisationHolder><ID>id_1</ID><CategoryCode>category_1</CategoryCode></AuthorisationHolder>
-        authorisationHolderAll.toXml shouldBe (Some(expectedResultAll))
+        authorisationHolderAll.toXmlOption shouldBe (Some(expectedResultAll))
       }
     }
 
     "return no AuthorisationHolder node when all fields are None" in {
       val authorisationHolderEmpty = AuthorisationHolder(None, None)
-      authorisationHolderEmpty.toXml shouldBe None
+      authorisationHolderEmpty.toXmlOption shouldBe None
     }
 
     List(Some(""), None) foreach { emptyValue =>
@@ -47,7 +47,7 @@ class XmlWriter_AuthorisationHolderSpec extends WordSpec with Matchers with Opti
         val authorisationHolderWithoutId = authorisationHolderAll.copy(identifier = emptyValue)
         val expectedResultWithoutId =
           <AuthorisationHolder><CategoryCode>category_1</CategoryCode></AuthorisationHolder>
-        authorisationHolderWithoutId.toXml shouldBe Some(expectedResultWithoutId)
+        authorisationHolderWithoutId.toXmlOption shouldBe Some(expectedResultWithoutId)
       }
     }
 
@@ -56,7 +56,7 @@ class XmlWriter_AuthorisationHolderSpec extends WordSpec with Matchers with Opti
         val authorisationHolderWithoutCategoryCode = authorisationHolderAll.copy(categoryCode = emptyValue)
         val expectedResultWithoutCategoryCode =
           <AuthorisationHolder><ID>id_1</ID></AuthorisationHolder>
-        authorisationHolderWithoutCategoryCode.toXml shouldBe Some(expectedResultWithoutCategoryCode)
+        authorisationHolderWithoutCategoryCode.toXmlOption shouldBe Some(expectedResultWithoutCategoryCode)
       }
     }
 

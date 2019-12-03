@@ -43,14 +43,14 @@ class ConsignmentXmlWriterSpec extends WordSpec with Matchers with OptionValues 
           </Consignment>
         })
 
-        consignment.toXml shouldBe Some(expectedXml)
+        consignment.toXmlOption shouldBe Some(expectedXml)
       }
 
       "container code is present" in {
         val consignment = Consignment(containerCode = Some("0"), arrivalTransportMeans = None, goodsLocation = None, loadingLocation = None)
         val expectedXml = <Consignment><ContainerCode>0</ContainerCode></Consignment>
 
-        consignment.toXml shouldBe Some(expectedXml)
+        consignment.toXmlOption shouldBe Some(expectedXml)
       }
 
       "arrival transport means is present" in {
@@ -65,7 +65,7 @@ class ConsignmentXmlWriterSpec extends WordSpec with Matchers with OptionValues 
           </Consignment>
         })
 
-        consignment.toXml shouldBe Some(expectedXml)
+        consignment.toXmlOption shouldBe Some(expectedXml)
       }
 
       "goods location is present" in {
@@ -104,14 +104,14 @@ class ConsignmentXmlWriterSpec extends WordSpec with Matchers with OptionValues 
           </Consignment>
         })
 
-        consignment.toXml shouldBe Some(expectedXml)
+        consignment.toXmlOption shouldBe Some(expectedXml)
       }
     }
 
     "not generate the Consignment XML element" when {
       "none of the child values are present" in {
         val consignment = Consignment(None, None, None, None)
-        consignment.toXml shouldBe None
+        consignment.toXmlOption shouldBe None
       }
     }
   }

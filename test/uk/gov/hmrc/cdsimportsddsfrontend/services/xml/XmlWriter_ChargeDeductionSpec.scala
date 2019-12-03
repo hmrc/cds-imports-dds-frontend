@@ -32,7 +32,7 @@ class XmlWriter_ChargeDeductionSpec extends WordSpec with Matchers with OptionVa
           <ChargesTypeCode>FOO</ChargesTypeCode>
           <OtherChargeDeductionAmount currencyID="SEK">10203</OtherChargeDeductionAmount>
         </ChargeDeduction>
-      chargeDeduction.toXml shouldBe (Some(expectedXml))
+      chargeDeduction.toXmlOption shouldBe (Some(expectedXml))
     }
 
   }

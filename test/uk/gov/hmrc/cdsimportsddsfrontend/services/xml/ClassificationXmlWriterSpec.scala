@@ -28,26 +28,26 @@ class ClassificationXmlWriterSpec extends WordSpec with Matchers with OptionValu
       "all values are present" in {
         val classification = Classification(id = Some("76071111"), identificationTypeCode = Some("TSP"))
         val expectedXml = <Classification><ID>76071111</ID><IdentificationTypeCode>TSP</IdentificationTypeCode></Classification>
-        classification.toXml shouldBe Some(expectedXml)
+        classification.toXmlOption shouldBe Some(expectedXml)
       }
 
       "id is present" in {
         val classification = Classification(id = Some("76071111"), identificationTypeCode = None)
         val expectedXml = <Classification><ID>76071111</ID></Classification>
-        classification.toXml shouldBe Some(expectedXml)
+        classification.toXmlOption shouldBe Some(expectedXml)
       }
 
       "identificationTypeCode is present" in {
         val classification = Classification(id = None, identificationTypeCode = Some("TSP"))
         val expectedXml = <Classification><IdentificationTypeCode>TSP</IdentificationTypeCode></Classification>
-        classification.toXml shouldBe Some(expectedXml)
+        classification.toXmlOption shouldBe Some(expectedXml)
       }
     }
 
     "not generate the Classification XML element" when {
       "none of the child values are present" in {
         val classification = Classification(None, None)
-        classification.toXml shouldBe None
+        classification.toXmlOption shouldBe None
       }
     }
   }

@@ -24,7 +24,7 @@ import scala.xml.{Elem, Node}
 object AddressXmlWriter {
 
   implicit val addressXmlWriter: XmlWriter[Address] = new XmlWriter[Address] {
-    override def toXml(value: Address): Option[Elem] = {
+    override def toXmlOption(value: Address): Option[Elem] = {
       val typeCode = maybeElement("TypeCode", value.typeCode)
       val cityName = maybeElement("CityName", value.city)
       val countryCode = maybeElement("CountryCode", value.countryCode)

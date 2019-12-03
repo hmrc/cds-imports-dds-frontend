@@ -24,7 +24,7 @@ import scala.xml.{Elem, Node}
 object ArrivalTransportMeansXmlWriter {
 
   implicit val arrivalTransportMeansXmlWriter: XmlWriter[ArrivalTransportMeans] = new XmlWriter[ArrivalTransportMeans] {
-    override def toXml(value: ArrivalTransportMeans): Option[Elem] = {
+    override def toXmlOption(value: ArrivalTransportMeans): Option[Elem] = {
       val id: Option[Node] = maybeElement("ID", value.id)
       val identificationTypeCode: Option[Node] = maybeElement("IdentificationTypeCode", value.identificationTypeCode)
 

@@ -28,32 +28,32 @@ class GoodsLocationXmlWriterSpec extends WordSpec with Matchers with OptionValue
       "all values are present" in {
         val goodsLocation = GoodsLocation(name = Some("FXFXT"), typeCode = Some("A"), address = Some(Address(None, None, Some("GB"), None, Some("U"))))
         val expectedXml = <GoodsLocation><Name>FXFXT</Name><TypeCode>A</TypeCode><Address><TypeCode>U</TypeCode><CountryCode>GB</CountryCode></Address></GoodsLocation>
-        goodsLocation.toXml shouldBe Some(expectedXml)
+        goodsLocation.toXmlOption shouldBe Some(expectedXml)
       }
 
       "name is present" in {
         val goodsLocation = GoodsLocation(name = Some("FXFXT"), typeCode = None, address = None)
         val expectedXml = <GoodsLocation><Name>FXFXT</Name></GoodsLocation>
-        goodsLocation.toXml shouldBe Some(expectedXml)
+        goodsLocation.toXmlOption shouldBe Some(expectedXml)
       }
 
       "type code is present" in {
         val goodsLocation = GoodsLocation(name = None, typeCode = Some("A"), address = None)
         val expectedXml = <GoodsLocation><TypeCode>A</TypeCode></GoodsLocation>
-        goodsLocation.toXml shouldBe Some(expectedXml)
+        goodsLocation.toXmlOption shouldBe Some(expectedXml)
       }
 
       "address is present" in {
         val goodsLocation = GoodsLocation(name = None, typeCode = None, address = Some(Address(None, None, Some("GB"), None, Some("U"))))
         val expectedXml = <GoodsLocation><Address><TypeCode>U</TypeCode><CountryCode>GB</CountryCode></Address></GoodsLocation>
-        goodsLocation.toXml shouldBe Some(expectedXml)
+        goodsLocation.toXmlOption shouldBe Some(expectedXml)
       }
     }
 
     "not generate the Goods Location XML element" when {
       "none of the child values are present" in {
         val goodsLocation = GoodsLocation(name = None, typeCode = None, address = None)
-        goodsLocation.toXml shouldBe None
+        goodsLocation.toXmlOption shouldBe None
       }
     }
   }

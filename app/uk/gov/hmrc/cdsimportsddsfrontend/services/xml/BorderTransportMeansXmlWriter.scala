@@ -24,7 +24,7 @@ import scala.xml.{Elem, Node}
 object BorderTransportMeansXmlWriter {
 
   implicit val borderTransportMeansXmlWriter: XmlWriter[BorderTransportMeans] = new XmlWriter[BorderTransportMeans] {
-    override def toXml(value: BorderTransportMeans): Option[Elem] = {
+    override def toXmlOption(value: BorderTransportMeans): Option[Elem] = {
       val registrationNationalityCode: Option[Node] = maybeElement("RegistrationNationalityCode", value.registrationNationalityCode)
       val modeCode: Option[Node] = maybeElement("ModeCode", value.modeCode)
 

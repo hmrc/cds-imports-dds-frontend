@@ -23,7 +23,7 @@ import scala.xml.{Elem, Node}
 object PackagingXmlWriter {
 
   implicit val packagingXmlWriter: XmlWriter[Packaging] = new XmlWriter[Packaging] {
-    override def toXml(value: Packaging): Option[Elem] = {
+    override def toXmlOption(value: Packaging): Option[Elem] = {
       val sequenceNumeric = Some(<SequenceNumeric>1</SequenceNumeric>)
       val marksNumberId = maybeElement("MarksNumbersID", value.marksNumberId)
       val quantityQuantity = maybeElement("QuantityQuantity", value.quantityQuantity)

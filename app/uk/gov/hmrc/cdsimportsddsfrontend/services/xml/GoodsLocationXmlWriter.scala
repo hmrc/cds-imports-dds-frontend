@@ -26,10 +26,10 @@ import scala.xml.{Elem, Node}
 object GoodsLocationXmlWriter {
 
   implicit val goodsLocationXmlWriter: XmlWriter[GoodsLocation] = new XmlWriter[GoodsLocation] {
-    override def toXml(value: GoodsLocation): Option[Elem] = {
+    override def toXmlOption(value: GoodsLocation): Option[Elem] = {
       val name: Option[Node] = maybeElement("Name", value.name)
       val typeCode: Option[Node] = maybeElement("TypeCode", value.typeCode)
-      val address: Option[Node] = value.address.flatMap(_.toXml)
+      val address: Option[Node] = value.address.flatMap(_.toXmlOption)
 
       val nodes: List[Node] = List(name, typeCode, address).flattenOption
 

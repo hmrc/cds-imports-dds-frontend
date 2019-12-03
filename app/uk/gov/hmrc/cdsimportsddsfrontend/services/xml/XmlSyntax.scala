@@ -16,11 +16,22 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
-import scala.xml.Elem
+import scala.xml.{Elem, NodeSeq}
 
 object XmlSyntax {
 
   implicit class XmlWriterOps[A](value: A) {
-    def toXml(implicit writer: XmlWriter[A]): Option[Elem] = writer.toXml(value)
+    def toXml(implicit writer: XmlWriter[A]): NodeSeq = writer.toXml(value)
+    def toXmlOption(implicit writer: XmlWriter[A]): Option[Elem] = writer.toXmlOption(value)
   }
+
+  implicit class OptionXmlWriterOps[A](value: Option[A]) {
+    def toXml(implicit writer: XmlWriter[A]): NodeSeq = {
+      value match {
+        case Some(thing) => thing.toXml
+        case None => NodeSeq.Empty
+      }
+    }
+  }
+
 }

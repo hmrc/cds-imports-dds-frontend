@@ -33,13 +33,13 @@ class XmlWriter_DomesticDutyTaxPartySpec extends WordSpec with Matchers with Opt
       "all parameters are Some" in {
           val expectedResultAll =
             <DomesticDutyTaxParty><ID>id_1</ID><RoleCode>role_1</RoleCode></DomesticDutyTaxParty>
-        domesticDutyTaxPartyAll.toXml shouldBe (Some(expectedResultAll))
+        domesticDutyTaxPartyAll.toXmlOption shouldBe (Some(expectedResultAll))
       }
     }
 
     "return no DomesticDutyTaxParty node when all fields are None" in {
       val domesticDutyTaxPartyEmpty = DomesticDutyTaxParty(None, None)
-      domesticDutyTaxPartyEmpty.toXml shouldBe None
+      domesticDutyTaxPartyEmpty.toXmlOption shouldBe None
     }
 
     List(Some(""), None) foreach { emptyValue =>
@@ -47,7 +47,7 @@ class XmlWriter_DomesticDutyTaxPartySpec extends WordSpec with Matchers with Opt
         val domesticDutyTaxPartyWithoutId = domesticDutyTaxPartyAll.copy(identifier = emptyValue)
         val expectedResultWithoutId =
           <DomesticDutyTaxParty><RoleCode>role_1</RoleCode></DomesticDutyTaxParty>
-        domesticDutyTaxPartyWithoutId.toXml shouldBe Some(expectedResultWithoutId)
+        domesticDutyTaxPartyWithoutId.toXmlOption shouldBe Some(expectedResultWithoutId)
       }
     }
 
@@ -56,7 +56,7 @@ class XmlWriter_DomesticDutyTaxPartySpec extends WordSpec with Matchers with Opt
         val domesticDutyTaxPartyWithoutRoleCode = domesticDutyTaxPartyAll.copy(roleCode = emptyValue)
         val expectedResultWithoutRoleCode =
           <DomesticDutyTaxParty><ID>id_1</ID></DomesticDutyTaxParty>
-        domesticDutyTaxPartyWithoutRoleCode.toXml shouldBe Some(expectedResultWithoutRoleCode)
+        domesticDutyTaxPartyWithoutRoleCode.toXmlOption shouldBe Some(expectedResultWithoutRoleCode)
       }
     }
 

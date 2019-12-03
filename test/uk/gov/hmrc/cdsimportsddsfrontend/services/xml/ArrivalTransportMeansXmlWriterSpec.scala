@@ -28,19 +28,19 @@ class ArrivalTransportMeansXmlWriterSpec extends WordSpec with Matchers with Opt
       "all values are present" in {
         val arrivalTransportMeans = ArrivalTransportMeans(identificationTypeCode = Some("10"), id = Some("1"))
         val expectedXml = <ArrivalTransportMeans><ID>1</ID><IdentificationTypeCode>10</IdentificationTypeCode></ArrivalTransportMeans>
-        arrivalTransportMeans.toXml shouldBe Some(expectedXml)
+        arrivalTransportMeans.toXmlOption shouldBe Some(expectedXml)
       }
 
       "identificationTypeCode is present" in {
         val arrivalTransportMeans = ArrivalTransportMeans(identificationTypeCode = Some("10"), id = None)
         val expectedXml = <ArrivalTransportMeans><IdentificationTypeCode>10</IdentificationTypeCode></ArrivalTransportMeans>
-        arrivalTransportMeans.toXml shouldBe Some(expectedXml)
+        arrivalTransportMeans.toXmlOption shouldBe Some(expectedXml)
       }
 
       "id is present" in {
         val arrivalTransportMeans = ArrivalTransportMeans(identificationTypeCode = None, id = Some("1"))
         val expectedXml = <ArrivalTransportMeans><ID>1</ID></ArrivalTransportMeans>
-        arrivalTransportMeans.toXml shouldBe Some(expectedXml)
+        arrivalTransportMeans.toXmlOption shouldBe Some(expectedXml)
       }
     }
 
@@ -48,7 +48,7 @@ class ArrivalTransportMeansXmlWriterSpec extends WordSpec with Matchers with Opt
       "none of the child values are present" in {
         val arrivalTransportMeans = ArrivalTransportMeans(None, None)
         val expectedXml = <ArrivalTransportMeans><IdentificationTypeCode>10</IdentificationTypeCode><ID>1</ID></ArrivalTransportMeans>
-        arrivalTransportMeans.toXml shouldBe None
+        arrivalTransportMeans.toXmlOption shouldBe None
       }
     }
   }
