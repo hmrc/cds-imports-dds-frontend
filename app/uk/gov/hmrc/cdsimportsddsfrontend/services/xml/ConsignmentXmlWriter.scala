@@ -28,11 +28,11 @@ import scala.xml.{Elem, Node}
 object ConsignmentXmlWriter {
 
   implicit val consignmentXmlWriter: XmlWriter[Consignment] = new XmlWriter[Consignment] {
-    override def toXml(value: Consignment): Option[Elem] = {
+    override def toXmlOption(value: Consignment): Option[Elem] = {
       val containerCode: Option[Node] = maybeElement("ContainerCode", value.containerCode)
-      val arrivalTransportMeans: Option[Node] = value.arrivalTransportMeans.flatMap(_.toXml)
-      val goodLocation: Option[Node] = value.goodsLocation.flatMap(_.toXml)
-      val loadingLocation: Option[Node] = value.loadingLocation.flatMap(_.toXml)
+      val loadingLocation: Option[Node] = value.loadingLocation.flatMap(_.toXmlOption)
+      val arrivalTransportMeans: Option[Node] = value.arrivalTransportMeans.flatMap(_.toXmlOption)
+      val goodLocation: Option[Node] = value.goodsLocation.flatMap(_.toXmlOption)
 
       val nodes: List[Node] = List(containerCode, arrivalTransportMeans, goodLocation, loadingLocation).flattenOption
 

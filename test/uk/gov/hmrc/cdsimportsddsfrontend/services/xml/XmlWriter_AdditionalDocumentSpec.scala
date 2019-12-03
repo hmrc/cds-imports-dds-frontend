@@ -38,7 +38,7 @@ class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with Optio
       "all parameters are Some and not empty spaces" in {
         val expectedResultAll = Some(<AdditionalDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><Name>name_1</Name><TypeCode>typeCode_1</TypeCode><LPCOExemptionCode>lpco_1</LPCOExemptionCode></AdditionalDocument>)
 
-        additionalDocumentAll.toXml shouldBe expectedResultAll
+        additionalDocumentAll.toXmlOption shouldBe expectedResultAll
       }
     }
 
@@ -51,21 +51,21 @@ class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with Optio
       name = None
       )
 
-      additionalDocumentEmpty.toXml shouldBe None
+      additionalDocumentEmpty.toXmlOption shouldBe None
     }
 
     "not return an element for a field which has an empty string" in {
       val additionalDocumentWithEmptyString = additionalDocumentAll.copy(typeCode = Some(""))
       val expectedResultWithEmptyString = Some(<AdditionalDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><Name>name_1</Name><LPCOExemptionCode>lpco_1</LPCOExemptionCode></AdditionalDocument>)
 
-      additionalDocumentWithEmptyString.toXml shouldBe expectedResultWithEmptyString
+      additionalDocumentWithEmptyString.toXmlOption shouldBe expectedResultWithEmptyString
     }
 
     "return elements only for fields containing some text" in {
       val additionalDocumentMixed = additionalDocumentAll.copy(categoryCode = Some(""), lpco = Some(""))
       val expectedResultMixed = Some(<AdditionalDocument><ID>id_1</ID><Name>name_1</Name><TypeCode>typeCode_1</TypeCode></AdditionalDocument>)
 
-      additionalDocumentMixed.toXml shouldBe expectedResultMixed
+      additionalDocumentMixed.toXmlOption shouldBe expectedResultMixed
     }
 
     emptyFields foreach { value =>
@@ -74,7 +74,7 @@ class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with Optio
         val expectedResultWithoutCategoryCode =
           Some(<AdditionalDocument><ID>id_1</ID><Name>name_1</Name><TypeCode>typeCode_1</TypeCode><LPCOExemptionCode>lpco_1</LPCOExemptionCode></AdditionalDocument>)
 
-        additionalDocumentWithoutCategoryCode.toXml shouldBe expectedResultWithoutCategoryCode
+        additionalDocumentWithoutCategoryCode.toXmlOption shouldBe expectedResultWithoutCategoryCode
       }
     }
 
@@ -83,7 +83,7 @@ class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with Optio
         val additionalDocumentWithoutId = additionalDocumentAll.copy(id = value)
         val expectedResultWithoutId =Some(<AdditionalDocument><CategoryCode>category_1</CategoryCode><Name>name_1</Name><TypeCode>typeCode_1</TypeCode><LPCOExemptionCode>lpco_1</LPCOExemptionCode></AdditionalDocument>)
 
-        additionalDocumentWithoutId.toXml shouldBe expectedResultWithoutId
+        additionalDocumentWithoutId.toXmlOption shouldBe expectedResultWithoutId
       }
     }
 
@@ -92,7 +92,7 @@ class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with Optio
         val additionalDocumentWithoutTypeCode = additionalDocumentAll.copy(typeCode = value)
         val expectedResultWithoutTypeCode =Some(<AdditionalDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><Name>name_1</Name><LPCOExemptionCode>lpco_1</LPCOExemptionCode></AdditionalDocument>)
 
-        additionalDocumentWithoutTypeCode.toXml shouldBe expectedResultWithoutTypeCode
+        additionalDocumentWithoutTypeCode.toXmlOption shouldBe expectedResultWithoutTypeCode
       }
     }
 
@@ -101,7 +101,7 @@ class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with Optio
         val additionalDocumentWithoutLpco = additionalDocumentAll.copy(lpco = value)
         val expectedResultWithoutLpco =Some(<AdditionalDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><Name>name_1</Name><TypeCode>typeCode_1</TypeCode></AdditionalDocument>)
 
-        additionalDocumentWithoutLpco.toXml shouldBe expectedResultWithoutLpco
+        additionalDocumentWithoutLpco.toXmlOption shouldBe expectedResultWithoutLpco
       }
     }
 
@@ -110,7 +110,7 @@ class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with Optio
         val additionalDocumentWithoutName = additionalDocumentAll.copy(name = value)
         val expectedResultWithoutName =Some(<AdditionalDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><TypeCode>typeCode_1</TypeCode><LPCOExemptionCode>lpco_1</LPCOExemptionCode></AdditionalDocument>)
 
-        additionalDocumentWithoutName.toXml shouldBe expectedResultWithoutName
+        additionalDocumentWithoutName.toXmlOption shouldBe expectedResultWithoutName
       }
     }
   }

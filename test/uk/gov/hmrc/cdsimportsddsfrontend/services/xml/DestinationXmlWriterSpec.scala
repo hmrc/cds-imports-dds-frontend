@@ -29,14 +29,14 @@ class DestinationXmlWriterSpec extends WordSpec with Matchers with OptionValues 
 
         val destination = Destination(countryCode = Some("GB"))
         val expectedXml =  <Destination><CountryCode>GB</CountryCode></Destination>
-        destination.toXml shouldBe Some(expectedXml)
+        destination.toXmlOption shouldBe Some(expectedXml)
       }
     }
 
     "not generate the Destination XML element" when {
       "the ID value is not present" in {
         val destination = Destination(countryCode = None)
-        destination.toXml shouldBe None
+        destination.toXmlOption shouldBe None
       }
     }
   }

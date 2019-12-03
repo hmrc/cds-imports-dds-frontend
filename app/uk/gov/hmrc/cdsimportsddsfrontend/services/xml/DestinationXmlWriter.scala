@@ -24,7 +24,7 @@ import scala.xml.{Elem, Node}
 object DestinationXmlWriter {
 
   implicit val destinationXmlWriter: XmlWriter[Destination] = new XmlWriter[Destination] {
-    override def toXml(value: Destination): Option[Elem] = {
+    override def toXmlOption(value: Destination): Option[Elem] = {
       val id: Option[Node] = maybeElement("CountryCode", value.countryCode)
 
       val nodes: List[Node] = List(id).flattenOption

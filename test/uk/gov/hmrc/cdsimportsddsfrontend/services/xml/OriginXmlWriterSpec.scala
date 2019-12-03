@@ -29,26 +29,26 @@ class OriginXmlWriterSpec extends WordSpec with Matchers with OptionValues {
 
         val origin = Origin(countryCode = Some("GB"), typeCode = Some("99"))
         val expectedXml =  <Origin><CountryCode>GB</CountryCode><TypeCode>99</TypeCode></Origin>
-        origin.toXml shouldBe Some(expectedXml)
+        origin.toXmlOption shouldBe Some(expectedXml)
       }
 
       "country code is present" in {
         val origin = Origin(countryCode = Some("GB"), typeCode = None)
         val expectedXml =  <Origin><CountryCode>GB</CountryCode></Origin>
-        origin.toXml shouldBe Some(expectedXml)
+        origin.toXmlOption shouldBe Some(expectedXml)
       }
 
       "type code is present" in {
         val origin = Origin(countryCode = None, typeCode = Some("99"))
         val expectedXml =  <Origin><TypeCode>99</TypeCode></Origin>
-        origin.toXml shouldBe Some(expectedXml)
+        origin.toXmlOption shouldBe Some(expectedXml)
       }
     }
 
     "not generate the Origin XML element" when {
       "non of the child values are present" in {
         val origin = Origin(countryCode = None, typeCode = None)
-        origin.toXml shouldBe None
+        origin.toXmlOption shouldBe None
       }
     }
   }

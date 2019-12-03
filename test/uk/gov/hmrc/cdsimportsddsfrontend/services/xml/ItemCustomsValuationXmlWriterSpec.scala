@@ -45,14 +45,14 @@ class ItemCustomsValuationXmlWriterSpec extends WordSpec with Matchers with Opti
           </CustomsValuation>
         })
 
-        itemCustomsValuation.toXml.map(Utility.trim(_)) shouldBe Some(expectedXml)
+        itemCustomsValuation.toXmlOption.map(Utility.trim(_)) shouldBe Some(expectedXml)
       }
     }
 
     "not generate the ItemCustomsValuation XML element" when {
       "non of the child values are present" in {
         val itemCustomsValuation = ItemCustomsValuation(methodCode =  None, chargeDeduction = None)
-        itemCustomsValuation.toXml shouldBe None
+        itemCustomsValuation.toXmlOption shouldBe None
       }
     }
 

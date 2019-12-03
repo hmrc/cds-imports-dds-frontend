@@ -35,7 +35,7 @@ class XmlWriter_PreviousDocumentSpec extends WordSpec with Matchers with OptionV
       "all parameters are Some" in {
           val expectedResultAll =
             <PreviousDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><TypeCode>typeclass_1</TypeCode><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
-        previousDocumentAll.toXml shouldBe (Some(expectedResultAll))
+        previousDocumentAll.toXmlOption shouldBe (Some(expectedResultAll))
       }
     }
 
@@ -46,21 +46,21 @@ class XmlWriter_PreviousDocumentSpec extends WordSpec with Matchers with OptionV
         typeCode = None,
         lineNumeric = None
       )
-      previousDocumentEmpty.toXml shouldBe None
+      previousDocumentEmpty.toXmlOption shouldBe None
     }
 
     "return no element for a field which has an empty string" in {
       val previousDocumentWithEmptyString = previousDocumentAll.copy(typeCode = Some(""))
       val expectedResultWithEmptyString =
         <PreviousDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
-      previousDocumentWithEmptyString.toXml shouldBe Some(expectedResultWithEmptyString)
+      previousDocumentWithEmptyString.toXmlOption shouldBe Some(expectedResultWithEmptyString)
     }
 
     "return elements only for fields containing some text" in {
       val previousDocumentMixed = previousDocumentAll.copy(categoryCode = None, lineNumeric = Some(""))
       val expectedResultMixed =
         <PreviousDocument><ID>id_1</ID><TypeCode>typeclass_1</TypeCode></PreviousDocument>
-      previousDocumentMixed.toXml shouldBe Some(expectedResultMixed)
+      previousDocumentMixed.toXmlOption shouldBe Some(expectedResultMixed)
     }
 
     List(Some(""), None) foreach { value =>
@@ -68,7 +68,7 @@ class XmlWriter_PreviousDocumentSpec extends WordSpec with Matchers with OptionV
         val previousDocumentWithoutCategoryCode = previousDocumentAll.copy(categoryCode = value)
         val expectedResultWithoutCategoryCode =
           <PreviousDocument><ID>id_1</ID><TypeCode>typeclass_1</TypeCode><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
-        previousDocumentWithoutCategoryCode.toXml shouldBe Some(expectedResultWithoutCategoryCode)
+        previousDocumentWithoutCategoryCode.toXmlOption shouldBe Some(expectedResultWithoutCategoryCode)
       }
     }
 
@@ -77,7 +77,7 @@ class XmlWriter_PreviousDocumentSpec extends WordSpec with Matchers with OptionV
         val previousDocumentWithoutId = previousDocumentAll.copy(id = value)
         val expectedResultWithoutId =
           <PreviousDocument><CategoryCode>category_1</CategoryCode><TypeCode>typeclass_1</TypeCode><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
-        previousDocumentWithoutId.toXml shouldBe Some(expectedResultWithoutId)
+        previousDocumentWithoutId.toXmlOption shouldBe Some(expectedResultWithoutId)
       }
     }
 
@@ -86,7 +86,7 @@ class XmlWriter_PreviousDocumentSpec extends WordSpec with Matchers with OptionV
         val previousDocumentWithoutTypeCode = previousDocumentAll.copy(typeCode = value)
         val expectedResultWithoutTypeCode =
           <PreviousDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><LineNumeric>linenumeric_1</LineNumeric></PreviousDocument>
-        previousDocumentWithoutTypeCode.toXml shouldBe Some(expectedResultWithoutTypeCode)
+        previousDocumentWithoutTypeCode.toXmlOption shouldBe Some(expectedResultWithoutTypeCode)
       }
     }
 
@@ -95,7 +95,7 @@ class XmlWriter_PreviousDocumentSpec extends WordSpec with Matchers with OptionV
         val previousDocumentWithoutLineNumeric = previousDocumentAll.copy(lineNumeric = value)
         val expectedResultWithoutLineNumeric =
           <PreviousDocument><CategoryCode>category_1</CategoryCode><ID>id_1</ID><TypeCode>typeclass_1</TypeCode></PreviousDocument>
-        previousDocumentWithoutLineNumeric.toXml shouldBe Some(expectedResultWithoutLineNumeric)
+        previousDocumentWithoutLineNumeric.toXmlOption shouldBe Some(expectedResultWithoutLineNumeric)
       }
     }
 

@@ -24,7 +24,7 @@ import scala.xml.{Elem, Node}
 object ClassificationXmlWriter {
 
   implicit val classificationXmlWriter: XmlWriter[Classification] = new XmlWriter[Classification] {
-    override def toXml(value: Classification): Option[Elem] = {
+    override def toXmlOption(value: Classification): Option[Elem] = {
       val id: Option[Node] = maybeElement("ID", value.id)
       val identificationTypeCode: Option[Node] = maybeElement("IdentificationTypeCode", value.identificationTypeCode)
 

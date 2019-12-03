@@ -23,7 +23,7 @@ import scala.xml.{Elem, Node}
 object LoadingLocationXmlWriter {
 
   implicit val loadingLocationXmlWriter: XmlWriter[LoadingLocation] = new XmlWriter[LoadingLocation] {
-    override def toXml(value: LoadingLocation): Option[Elem] = {
+    override def toXmlOption(value: LoadingLocation): Option[Elem] = {
       val id: Node = element("ID", value.id)
       Some(<LoadingLocation>{id}</LoadingLocation>)
     }

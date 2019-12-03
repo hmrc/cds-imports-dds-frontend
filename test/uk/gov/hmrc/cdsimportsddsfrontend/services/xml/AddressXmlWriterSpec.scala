@@ -28,44 +28,44 @@ class AddressXmlWriterSpec extends WordSpec with Matchers with OptionValues {
       "all values are present" in {
         val address = Address(streetAndNumber= Some("StreetNumber"), city = Some("Paris"), countryCode = Some("FR"), postcode = Some("75018"), typeCode = Some("U"))
         val expectedXml = <Address><TypeCode>U</TypeCode><CityName>Paris</CityName><CountryCode>FR</CountryCode><Line>StreetNumber</Line><PostcodeID>75018</PostcodeID></Address>
-        address.toXml shouldBe Some(expectedXml)
+        address.toXmlOption shouldBe Some(expectedXml)
       }
 
       "streetAndNumber is present" in {
         val address = Address(streetAndNumber= Some("StreetNumber"), city = None, countryCode = None, postcode = None, typeCode = None)
         val expectedXml = <Address><Line>StreetNumber</Line></Address>
-        address.toXml shouldBe Some(expectedXml)
+        address.toXmlOption shouldBe Some(expectedXml)
       }
 
       "city is present" in {
         val address = Address(streetAndNumber= None, city = Some("Paris"), countryCode = None, postcode = None, typeCode = None)
         val expectedXml = <Address><CityName>Paris</CityName></Address>
-        address.toXml shouldBe Some(expectedXml)
+        address.toXmlOption shouldBe Some(expectedXml)
       }
 
       "country code is present" in {
         val address = Address(streetAndNumber= None, city = None, countryCode = Some("GB"), postcode = None, typeCode = None)
         val expectedXml = <Address><CountryCode>GB</CountryCode></Address>
-        address.toXml shouldBe Some(expectedXml)
+        address.toXmlOption shouldBe Some(expectedXml)
       }
 
       "post code is present" in {
         val address = Address(streetAndNumber= None, city = None, countryCode = None, postcode = Some("75018"), typeCode = None)
         val expectedXml = <Address><PostcodeID>75018</PostcodeID></Address>
-        address.toXml shouldBe Some(expectedXml)
+        address.toXmlOption shouldBe Some(expectedXml)
       }
 
       "type code is present" in {
         val address = Address(streetAndNumber= None, city = None, countryCode = None, postcode = None, typeCode = Some("U"))
         val expectedXml = <Address><TypeCode>U</TypeCode></Address>
-        address.toXml shouldBe Some(expectedXml)
+        address.toXmlOption shouldBe Some(expectedXml)
       }
     }
 
     "not generate the Address XML element" when {
       "none of the child values are present" in {
         val address = Address(streetAndNumber= None, city = None, countryCode = None, postcode = None, typeCode = None)
-        address.toXml shouldBe None
+        address.toXmlOption shouldBe None
       }
     }
   }

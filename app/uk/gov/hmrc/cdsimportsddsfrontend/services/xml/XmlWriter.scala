@@ -19,10 +19,15 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 import cats.implicits._
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
-import scala.xml.{Attribute, Elem, MetaData, Node, Text}
+import scala.xml.{Attribute, Elem, MetaData, Node, NodeSeq, Text}
 
 trait XmlWriter[A] {
-  def toXml(value: A): Option[Elem]
+
+  def toXml(value: A): NodeSeq = {
+    toXmlOption(value).getOrElse(NodeSeq.Empty)
+  }
+
+  def toXmlOption(value: A): Option[Elem]
 
   protected def maybeElement(elementName: String, maybeElementValue: Option[String], attribute: Option[Attribute] = None): Option[Node] = {
     maybeElementValue.filter(_.nonEmpty).map(value => element(elementName, value, attribute))
@@ -43,7 +48,7 @@ trait XmlWriter[A] {
 object XmlWriterInstances {
 
   implicit val previousDocumentWriter: XmlWriter[PreviousDocument] = new XmlWriter[PreviousDocument] {
-    override def toXml(value: PreviousDocument): Option[Elem] = {
+    override def toXmlOption(value: PreviousDocument): Option[Elem] = {
       val categoryCode: Option[Node] = maybeElement("CategoryCode", value.categoryCode)
       val id = maybeElement("ID", value.id)
       val typeCode = maybeElement("TypeCode", value.typeCode)
@@ -55,7 +60,7 @@ object XmlWriterInstances {
   }
 
   implicit val authorisationHolderWriter: XmlWriter[AuthorisationHolder] = new XmlWriter[AuthorisationHolder] {
-    override def toXml(value: AuthorisationHolder): Option[Elem] = {
+    override def toXmlOption(value: AuthorisationHolder): Option[Elem] = {
       val id = maybeElement("ID", value.identifier)
       val categoryCode = maybeElement("CategoryCode", value.categoryCode)
       val childNodes: List[Node] = List(id, categoryCode).flattenOption
@@ -65,7 +70,7 @@ object XmlWriterInstances {
   }
 
   implicit val domesticDutyTaxPartyWriter: XmlWriter[DomesticDutyTaxParty] = new XmlWriter[DomesticDutyTaxParty] {
-    override def toXml(value: DomesticDutyTaxParty): Option[Elem] = {
+    override def toXmlOption(value: DomesticDutyTaxParty): Option[Elem] = {
       val id = maybeElement("ID", value.identifier)
       val roleCode = maybeElement("RoleCode", value.roleCode)
       val childNodes: List[Node] = List(id, roleCode).flattenOption
@@ -75,7 +80,7 @@ object XmlWriterInstances {
   }
 
   implicit val additionalDocumentWriter: XmlWriter[AdditionalDocumentType] = new XmlWriter[AdditionalDocumentType] {
-    override def toXml( value: AdditionalDocumentType ): Option[Elem] = {
+    override def toXmlOption(value: AdditionalDocumentType ): Option[Elem] = {
       val categoryCode: Option[Node] = maybeElement("CategoryCode", value.categoryCode)
       val id = maybeElement("ID", value.id)
       val name = maybeElement("Name", value.name)
@@ -88,7 +93,7 @@ object XmlWriterInstances {
   }
 
   implicit val chargeDeductionWriter: XmlWriter[ChargeDeduction] = new XmlWriter[ChargeDeduction] {
-    override def toXml(value: ChargeDeduction): Option[Elem] = {
+    override def toXmlOption(value: ChargeDeduction): Option[Elem] = {
       Some(
         <ChargeDeduction>
           <ChargesTypeCode>{value.typeCode}</ChargesTypeCode>

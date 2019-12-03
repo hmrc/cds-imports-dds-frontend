@@ -30,7 +30,6 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ExportCountryXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsMeasureXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.PackagingXmlWriter._
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsMeasureXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.HeaderCustomsValuationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ItemCustomsValuationXmlWriter._
 
@@ -71,31 +70,31 @@ class DeclarationXml {
           {maybeElement("TypeCode", dec.documentationType.additionalPayment(1).additionalDocPaymentType)}
         </AdditionalDocument>
         {additionalInformation(dec.documentationType.headerAdditionalInformation)}
-        {dec.parties.authorisationHolders.flatMap(_.toXml)}
-        {dec.borderTransportMeans.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
+        {dec.parties.authorisationHolders.map(_.toXml)}
+        {dec.borderTransportMeans.toXml}
         {maybeCurrencyExchange(dec)}
         {maybeParty("Declarant", dec.parties.declarant)}
         {maybeParty("Exporter", dec.parties.exporter)}
         <GoodsShipment>
           <TransactionNatureCode>1</TransactionNatureCode>
           {maybeParty("Buyer", dec.parties.buyer)}
-          {dec.consignment.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
-          {dec.headerCustomsValuation.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
-          {dec.whenAndWhere.destination.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
-          {dec.whenAndWhere.exportCountry.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
+          {dec.consignment.toXml}
+          {dec.headerCustomsValuation.toXml}
+          {dec.whenAndWhere.destination.toXml}
+          {dec.whenAndWhere.exportCountry.toXml}
           <GovernmentAgencyGoodsItem>
             <SequenceNumeric>{dec.declarationType.goodsItemNumber}</SequenceNumeric>
-            {dec.documentationType.additionalDocument.flatMap(_.toXml)}
+            {dec.documentationType.additionalDocument.map(_.toXml)}
             {dec.documentationType.itemAdditionalInformation.map(additionalInformation)}
             <Commodity>
               {maybeElement("Description", dec.commodity.flatMap(_.description))}
-              {dec.commodity.map(_.classification.flatMap(_.toXml)).getOrElse(NodeSeq.Empty)}
+              {dec.commodity.map(_.classification.map(_.toXml)).getOrElse(NodeSeq.Empty)}
               {maybeDutyTaxFee(dec)}
-              {dec.commodity.flatMap(c => c.goodsMeasure).flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
+              {dec.commodity.flatMap(c => c.goodsMeasure).flatMap(_.toXmlOption).getOrElse(NodeSeq.Empty)}
               {maybeInvoiceLine(dec)}
             </Commodity>
-            {dec.itemCustomsValuation.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
-            {dec.parties.domesticDutyTaxParties.flatMap(_.toXml)}
+            {dec.itemCustomsValuation.toXml}
+            {dec.parties.domesticDutyTaxParties.map(_.toXml)}
             <GovernmentProcedure>
               <CurrentCode>{dec.declarationType.requestedProcedureCode}</CurrentCode>
               <PreviousCode>{dec.declarationType.previousProcedureCode}</PreviousCode>
@@ -103,13 +102,13 @@ class DeclarationXml {
             <GovernmentProcedure>
               <CurrentCode>{dec.declarationType.additionalProcedureCode}</CurrentCode>
             </GovernmentProcedure>
-            {dec.whenAndWhere.origin.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
-            {dec.packaging.flatMap(_.toXml).getOrElse(NodeSeq.Empty)}
-            {dec.documentationType.itemPreviousDocument.flatMap(_.toXml)}
+            {dec.whenAndWhere.origin.toXml}
+            {dec.packaging.toXml}
+            {dec.documentationType.itemPreviousDocument.map(_.toXml)}
             {maybeValuationAdjustment(dec)}
           </GovernmentAgencyGoodsItem>
           {maybeParty("Importer", dec.parties.importer)}
-          {dec.documentationType.headerPreviousDocument.flatMap(_.toXml)}
+          {dec.documentationType.headerPreviousDocument.map(_.toXml)}
           {maybeParty("Seller", dec.parties.seller)}
           {maybeTradeTerms(dec)}
           <UCR>
@@ -199,7 +198,7 @@ class DeclarationXml {
         val childNodes =
           maybeElement("Name", party.name) ++
           maybeElement("ID", party.identifier) ++
-          party.address.flatMap(_.toXml).getOrElse(NodeSeq.Empty) ++
+          party.address.flatMap(_.toXmlOption).getOrElse(NodeSeq.Empty) ++
           maybePhoneNumber(party)
         Elem.apply(null, tagName, scala.xml.Null, scala.xml.TopScope, true, childNodes :_*) // scalastyle:ignore
       case None => NodeSeq.Empty
