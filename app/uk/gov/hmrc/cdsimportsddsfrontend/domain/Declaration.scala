@@ -21,12 +21,14 @@ case class Declaration(
                         documentationAndReferences: DocumentationAndReferences = DocumentationAndReferences(),
                         parties: DeclarationParties = DeclarationParties(),
                         valuationInformationAndTaxes: ValuationInformationAndTaxes = ValuationInformationAndTaxes(),
-                        whenAndWhere: WhenAndWhere = WhenAndWhere(),
                         commodity: Option[Commodity] = None,
                         totalGrossMassMeasure: Option[String] = None,
                         packaging: Option[Packaging] = None,
                         borderTransportMeans: Option[BorderTransportMeans] = None,
                         consignment: Option[Consignment] = None,
                         headerCustomsValuation: Option[HeaderCustomsValuation] = None,
-                        itemCustomsValuation: Option[ItemCustomsValuation] = None
+                        itemCustomsValuation: Option[ItemCustomsValuation] = None,
+                        goodsShipment: GoodsShipment = GoodsShipment(destination = None,
+                                                                     exportCountry = None,
+                                                                     governmentAgencyGoodsItem = None)
                       )

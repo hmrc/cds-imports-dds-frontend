@@ -80,8 +80,8 @@ class DeclarationXml {
           {maybeParty("Buyer", dec.parties.buyer)}
           {dec.consignment.toXml}
           {dec.headerCustomsValuation.toXml}
-          {dec.whenAndWhere.destination.toXml}
-          {dec.whenAndWhere.exportCountry.toXml}
+          {dec.goodsShipment.destination.toXml}
+          {dec.goodsShipment.exportCountry.toXml}
           <GovernmentAgencyGoodsItem>
             <SequenceNumeric>{dec.declarationType.goodsItemNumber}</SequenceNumeric>
             {dec.documentationAndReferences.additionalDocument.map(_.toXml)}
@@ -102,7 +102,7 @@ class DeclarationXml {
             <GovernmentProcedure>
               <CurrentCode>{dec.declarationType.additionalProcedureCode}</CurrentCode>
             </GovernmentProcedure>
-            {dec.whenAndWhere.origin.toXml}
+            {dec.goodsShipment.governmentAgencyGoodsItem.flatMap(g => g.origin).flatMap(o => o.toXmlOption).getOrElse(NodeSeq.Empty)}
             {dec.packaging.toXml}
             {dec.documentationAndReferences.itemPreviousDocuments.map(_.toXml)}
             {maybeValuationAdjustment(dec)}

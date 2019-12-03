@@ -42,7 +42,6 @@ case class DeclarationViewModel(
       documentationAndReferences = documentationAndReferences,
       parties = parties,
       valuationInformationAndTaxes = valuationInformationAndTaxesViewModel.toValuationInformationAndTaxes,
-      whenAndWhere = whenAndWhereViewModel.toWhenAndWhere,
       totalGrossMassMeasure = goodsIdentification.grossMass,
       commodity = Some(Commodity(
         goodsMeasure = Some(goodsIdentification.toGoodsMeasure),
@@ -52,7 +51,11 @@ case class DeclarationViewModel(
       borderTransportMeans = Some(transportInformationViewModel.toBorderTransportMeans),
       consignment = Some(consignment),
       headerCustomsValuation = Some(valuationInformationAndTaxesViewModel.toHeaderCustomsValuation),
-      itemCustomsValuation = Some(valuationInformationAndTaxesViewModel.toItemCustomsValuation)
+      itemCustomsValuation = Some(valuationInformationAndTaxesViewModel.toItemCustomsValuation),
+      goodsShipment = GoodsShipment(destination = whenAndWhereViewModel.destination,
+                                    exportCountry = whenAndWhereViewModel.exportCountry,
+                                    governmentAgencyGoodsItem = Some(GovernmentAgencyGoodsItem(origin = whenAndWhereViewModel.origin))
+      )
     )
   }
 }

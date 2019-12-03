@@ -34,8 +34,6 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
 
       val declaration = viewModel.toDeclaration
 
-      declaration.whenAndWhere shouldBe WhenAndWhere()
-
       declaration.commodity shouldBe Some(Commodity(Some("TSP no description required"),
         List(Classification(Some("76071111"), Some("TSP")), Classification(Some("10"), Some("TRC")),
           Classification(Some("1234"), Some("TRA")), Classification(Some("VATZ"), Some("GN"))),
@@ -63,6 +61,10 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
       declaration.itemCustomsValuation shouldBe Some(ItemCustomsValuation(
         chargeDeduction = Some(ChargeDeduction(typeCode = "item type", currencyAmount = CurrencyAmount(currency = "GBP", amount = "65"))),
         methodCode = Some("1")))
+
+      declaration.goodsShipment.destination shouldBe Some(Destination(countryCode = Some("GB")))
+      declaration.goodsShipment.exportCountry shouldBe Some(ExportCountry(id = Some("FR")))
+      declaration.goodsShipment.governmentAgencyGoodsItem.flatMap(g => g.origin) shouldBe Some(Origin(countryCode = Some("FR"), typeCode = Some("1")))
     }
   }
 }
