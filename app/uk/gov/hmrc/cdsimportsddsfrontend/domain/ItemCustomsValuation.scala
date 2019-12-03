@@ -18,5 +18,5 @@ package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class ItemCustomsValuation(
                                  methodCode: Option[String],
-                                 chargeDeduction: Option[ChargeDeduction] = None
+                                 chargeDeduction: Option[ChargeDeduction]
                                )

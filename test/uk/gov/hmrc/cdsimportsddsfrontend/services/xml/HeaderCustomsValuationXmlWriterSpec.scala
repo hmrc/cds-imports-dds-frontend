@@ -49,7 +49,7 @@ class HeaderCustomsValuationXmlWriterSpec extends WordSpec with Matchers with Op
 
     "not generate the HeaderCustomsValuation XML element" when {
       "non of the child values are present" in {
-        val headerCustomsValuation = HeaderCustomsValuation()
+        val headerCustomsValuation = HeaderCustomsValuation(chargeDeduction = None)
         headerCustomsValuation.toXml shouldBe None
       }
     }

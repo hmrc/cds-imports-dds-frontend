@@ -17,5 +17,5 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class HeaderCustomsValuation(
-                                 chargeDeduction: Option[ChargeDeduction] = None
+                                 chargeDeduction: Option[ChargeDeduction]
                                )
