@@ -30,38 +30,43 @@ case class DeclarationViewModel(
                       ) {
 
   def toDeclaration: Declaration = {
-    val consignment: Consignment = {
-      val goodsLocation = whenAndWhereViewModel.goodsLocation
-      Consignment(
-          transportInformationViewModel.container,
-          Some(transportInformationViewModel.toArrivalTransportMeans),
-          goodsLocation,
-          whenAndWhereViewModel.placeOfLoading.map(LoadingLocation))
-    }
-
     val dutyTaxFee = DutyTaxFee(valuationInformationAndTaxesViewModel.dutyRegimeCode,
       miscellaneousViewModel.quotaOrderNumber,
       valuationInformationAndTaxesViewModel.paymentMethodCode.map(Payment(_)))
+
+    val commodity = Some(Commodity(
+      goodsMeasure = Some(goodsIdentification.toGoodsMeasure),
+      classification = goodsIdentification.toClassification(),
+      description = goodsIdentification.description,
+      dutyTaxFee = Some(dutyTaxFee)))
+
+    val consignment: Consignment = Consignment(
+        transportInformationViewModel.container,
+        Some(transportInformationViewModel.toArrivalTransportMeans),
+        whenAndWhereViewModel.goodsLocation,
+        whenAndWhereViewModel.placeOfLoading.map(LoadingLocation))
+
+    val goodsShipment = GoodsShipment(destination = whenAndWhereViewModel.destination,
+      exportCountry = whenAndWhereViewModel.exportCountry,
+      governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
+        origin = whenAndWhereViewModel.origin,
+        sequenceNumeric = declarationType.goodsItemNumber,
+        valuationAdjustment = valuationInformationAndTaxesViewModel.additionCode.map(ValuationAdjustment)
+      )
+    )
 
     Declaration(declarationType = declarationType,
       documentationAndReferences = documentationAndReferences,
       parties = parties,
       valuationInformationAndTaxes = valuationInformationAndTaxesViewModel.toValuationInformationAndTaxes,
       totalGrossMassMeasure = goodsIdentification.grossMass,
-      commodity = Some(Commodity(
-        goodsMeasure = Some(goodsIdentification.toGoodsMeasure),
-        classification = goodsIdentification.toClassification(),
-        description = goodsIdentification.description,
-        dutyTaxFee = Some(dutyTaxFee))),
+      commodity = commodity,
       packaging = Some(goodsIdentification.toPackaging),
       borderTransportMeans = Some(transportInformationViewModel.toBorderTransportMeans),
       consignment = Some(consignment),
       headerCustomsValuation = Some(valuationInformationAndTaxesViewModel.toHeaderCustomsValuation),
       itemCustomsValuation = Some(valuationInformationAndTaxesViewModel.toItemCustomsValuation),
-      goodsShipment = GoodsShipment(destination = whenAndWhereViewModel.destination,
-                                    exportCountry = whenAndWhereViewModel.exportCountry,
-                                    governmentAgencyGoodsItem = Some(GovernmentAgencyGoodsItem(origin = whenAndWhereViewModel.origin))
-      ),
+      goodsShipment = goodsShipment,
       obligationGuarantee = Some(miscellaneousViewModel.toObligationGuarantee)
     )
   }

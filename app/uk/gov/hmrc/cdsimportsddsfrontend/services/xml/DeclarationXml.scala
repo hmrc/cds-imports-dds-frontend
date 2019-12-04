@@ -34,6 +34,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ItemCustomsValuationXmlWri
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ObligationGuaranteeXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.PackagingXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ValuationAdjustmentXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances._
 
@@ -84,7 +85,7 @@ class DeclarationXml {
           {dec.goodsShipment.destination.toXml}
           {dec.goodsShipment.exportCountry.toXml}
           <GovernmentAgencyGoodsItem>
-            <SequenceNumeric>{dec.declarationType.goodsItemNumber}</SequenceNumeric>
+            <SequenceNumeric>{dec.goodsShipment.governmentAgencyGoodsItem.sequenceNumeric}</SequenceNumeric>
             {dec.documentationAndReferences.additionalDocument.map(_.toXml)}
             {dec.documentationAndReferences.itemAdditionalInformation.map(additionalInformation)}
             <Commodity>
@@ -103,10 +104,10 @@ class DeclarationXml {
             <GovernmentProcedure>
               <CurrentCode>{dec.declarationType.additionalProcedureCode}</CurrentCode>
             </GovernmentProcedure>
-            {dec.goodsShipment.governmentAgencyGoodsItem.flatMap(g => g.origin).flatMap(o => o.toXmlOption).getOrElse(NodeSeq.Empty)}
+            {dec.goodsShipment.governmentAgencyGoodsItem.origin.toXml}
             {dec.packaging.toXml}
             {dec.documentationAndReferences.itemPreviousDocuments.map(_.toXml)}
-            {maybeValuationAdjustment(dec)}
+            {dec.goodsShipment.governmentAgencyGoodsItem.valuationAdjustment.toXml}
           </GovernmentAgencyGoodsItem>
           {maybeParty("Importer", dec.parties.importer)}
           {dec.documentationAndReferences.headerPreviousDocuments.map(_.toXml)}
@@ -118,7 +119,7 @@ class DeclarationXml {
         </GoodsShipment>
         {dec.obligationGuarantee.map(_.toXml).getOrElse(NodeSeq.Empty)}
       </Declaration>
-   </md:MetaData>
+    </md:MetaData>
   }
 
   private[this] def maybeTradeTerms(declaration: Declaration): NodeSeq = {
@@ -134,16 +135,6 @@ class DeclarationXml {
       NodeSeq.Empty
     }
 
-  }
-
-  private[this] def maybeValuationAdjustment(declaration: Declaration): NodeSeq = {
-    if (declaration.valuationInformationAndTaxes.additionCode.exists(_.nonEmpty)) {
-      <ValuationAdjustment>
-        {maybeElement("AdditionCode", declaration.valuationInformationAndTaxes.additionCode)}
-      </ValuationAdjustment>
-    } else {
-      NodeSeq.Empty
-    }
   }
 
   private[this] def maybeElement(elementName: String, maybeElementValue: Option[String]): NodeSeq = {

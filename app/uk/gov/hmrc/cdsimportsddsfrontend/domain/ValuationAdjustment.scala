@@ -16,6 +16,4 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class GoodsShipment(destination: Option[Destination],
-                         exportCountry: Option[ExportCountry],
-                         governmentAgencyGoodsItem: GovernmentAgencyGoodsItem)
+case class ValuationAdjustment(additionCode: String)
