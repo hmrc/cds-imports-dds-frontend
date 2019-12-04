@@ -49,8 +49,8 @@ class DeclarationController_miscellaneousSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "miscellaneous.grn")
         body should include element withName("input").withAttrValue("name", "miscellaneous.otherGRN")
         body should include element withName("input").withAttrValue("name", "miscellaneous.accessCode")
-        body should include element withName("input").withAttrValue("name", "miscellaneous.importDutyAndOtherCharges")
-        body should include element withName("input").withAttrValue("name", "miscellaneous.currencyCode")
+        body should include element withName("input").withAttrValue("name", "miscellaneous.importDutyAndOtherCharges.amount")
+        body should include element withName("input").withAttrValue("name", "miscellaneous.importDutyAndOtherCharges.currency")
         body should include element withName("input").withAttrValue("name", "miscellaneous.customsOffice")
       }
     }
