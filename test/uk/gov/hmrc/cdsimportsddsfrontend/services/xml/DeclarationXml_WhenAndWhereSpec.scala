@@ -29,7 +29,7 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
         val declaration = Declaration(
           goodsShipment = GoodsShipment(destination = Some(Destination(countryCode = Some("FR"))),
                                         exportCountry = None,
-                                        governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(None, "0", None))
+                                        governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq(), "0", None))
         )
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -41,7 +41,7 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
           goodsShipment = GoodsShipment(
             destination = None,
             exportCountry = Some(ExportCountry(id = Some("NE"))),
-            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(None, "0", None))
+            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq(), "0", None))
         )
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -71,7 +71,7 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
           goodsShipment = GoodsShipment(
             destination = None,
             exportCountry = None,
-            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(None, "0", None))
+            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq(), "0", None))
         )
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -83,7 +83,7 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
           goodsShipment = GoodsShipment(
             destination = None,
             exportCountry = Some(ExportCountry(id = None)),
-            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(None, "0", None))
+            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq(), "0", None))
         )
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)

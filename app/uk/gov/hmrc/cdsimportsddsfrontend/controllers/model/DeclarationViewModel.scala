@@ -49,7 +49,8 @@ case class DeclarationViewModel(
     val goodsShipment = GoodsShipment(destination = whenAndWhereViewModel.destination,
       exportCountry = whenAndWhereViewModel.exportCountry,
       governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
-        origin = whenAndWhereViewModel.origin,
+        origin = Seq(Origin(countryCode = whenAndWhereViewModel.originCountryCode,
+                            typeCode = whenAndWhereViewModel.originTypeCode)),
         sequenceNumeric = declarationType.goodsItemNumber,
         valuationAdjustment = valuationInformationAndTaxesViewModel.additionCode.map(ValuationAdjustment)
       )
@@ -66,13 +67,8 @@ case class DeclarationViewModel(
       consignment = Some(consignment),
       headerCustomsValuation = Some(valuationInformationAndTaxesViewModel.toHeaderCustomsValuation),
       itemCustomsValuation = Some(valuationInformationAndTaxesViewModel.toItemCustomsValuation),
-      goodsShipment = GoodsShipment(destination = whenAndWhereViewModel.destination,
-        exportCountry = whenAndWhereViewModel.exportCountry,
-        governmentAgencyGoodsItem =
-          Some(GovernmentAgencyGoodsItem(origin =
-            Seq(Origin(countryCode = whenAndWhereViewModel.originCountryCode,
-              typeCode = whenAndWhereViewModel.originTypeCode)))),
-            obligationGuarantee = Some(miscellaneousViewModel.toObligationGuarantee)
+      goodsShipment = goodsShipment,
+      obligationGuarantee = Some(miscellaneousViewModel.toObligationGuarantee)
     )
   }
 }

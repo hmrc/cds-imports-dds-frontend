@@ -104,7 +104,7 @@ class DeclarationXml {
             <GovernmentProcedure>
               <CurrentCode>{dec.declarationType.additionalProcedureCode}</CurrentCode>
             </GovernmentProcedure>
-            {dec.goodsShipment.governmentAgencyGoodsItem.origin.toXml}
+            {dec.goodsShipment.governmentAgencyGoodsItem.origin.map(_.toXml)}
             {dec.packaging.toXml}
             {dec.documentationAndReferences.itemPreviousDocuments.map(_.toXml)}
             {dec.goodsShipment.governmentAgencyGoodsItem.valuationAdjustment.toXml}

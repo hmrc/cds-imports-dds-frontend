@@ -31,10 +31,9 @@ case class Declaration(
                         goodsShipment: GoodsShipment = GoodsShipment(destination = None,
                                                                      exportCountry = None,
                                                                      governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
-                                                                       origin = None,
+                                                                       origin = Seq(),
                                                                        sequenceNumeric = "1",
                                                                        valuationAdjustment = None
-                                                                     )
-                        ),
+                                                                     )),
                         obligationGuarantee: Option[ObligationGuarantee] = None
                       )
