@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class Commodity(description: Option[String],
-                     classification: Seq[Classification],
-                     goodsMeasure: Option[GoodsMeasure],
-                     dutyTaxFee: Option[DutyTaxFee])
+case class DutyTaxFee(dutyRegimeCode: Option[String],
+                       quotaOrderId: Option[String],
+                       payment: Option[Payment])

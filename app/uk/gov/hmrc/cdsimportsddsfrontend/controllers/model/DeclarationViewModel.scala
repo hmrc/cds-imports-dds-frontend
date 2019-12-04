@@ -25,7 +25,8 @@ case class DeclarationViewModel(
                                  valuationInformationAndTaxesViewModel: ValuationInformationAndTaxesViewModel = ValuationInformationAndTaxesViewModel(),
                                  whenAndWhereViewModel: WhenAndWhereViewModel = WhenAndWhereViewModel(),
                                  goodsIdentification: GoodsIdentificationViewModel = GoodsIdentificationViewModel(),
-                                 transportInformationViewModel: TransportInformationViewModel = TransportInformationViewModel()
+                                 transportInformationViewModel: TransportInformationViewModel = TransportInformationViewModel(),
+                                 miscellaneousViewModel: MiscellaneousViewModel = MiscellaneousViewModel()
                       ) {
 
   def toDeclaration: Declaration = {
@@ -38,6 +39,10 @@ case class DeclarationViewModel(
           whenAndWhereViewModel.placeOfLoading.map(LoadingLocation))
     }
 
+    val dutyTaxFee = DutyTaxFee(valuationInformationAndTaxesViewModel.dutyRegimeCode,
+      miscellaneousViewModel.quotaOrderNumber,
+      valuationInformationAndTaxesViewModel.paymentMethodCode.map(Payment(_)))
+
     Declaration(declarationType = declarationType,
       documentationAndReferences = documentationAndReferences,
       parties = parties,
@@ -46,7 +51,8 @@ case class DeclarationViewModel(
       commodity = Some(Commodity(
         goodsMeasure = Some(goodsIdentification.toGoodsMeasure),
         classification = goodsIdentification.toClassification(),
-        description = goodsIdentification.description)),
+        description = goodsIdentification.description,
+        dutyTaxFee = Some(dutyTaxFee))),
       packaging = Some(goodsIdentification.toPackaging),
       borderTransportMeans = Some(transportInformationViewModel.toBorderTransportMeans),
       consignment = Some(consignment),
@@ -55,7 +61,8 @@ case class DeclarationViewModel(
       goodsShipment = GoodsShipment(destination = whenAndWhereViewModel.destination,
                                     exportCountry = whenAndWhereViewModel.exportCountry,
                                     governmentAgencyGoodsItem = Some(GovernmentAgencyGoodsItem(origin = whenAndWhereViewModel.origin))
-      )
+      ),
+      obligationGuarantee = Some(miscellaneousViewModel.toObligationGuarantee)
     )
   }
 }

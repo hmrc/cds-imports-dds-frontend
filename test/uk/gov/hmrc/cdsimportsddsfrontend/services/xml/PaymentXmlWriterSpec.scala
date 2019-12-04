@@ -17,19 +17,18 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
 import org.scalatest.{Matchers, WordSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.LoadingLocation
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.LoadingLocationXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.Payment
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.PaymentXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 
-class LoadingLocationXmlWriterSpec extends WordSpec with Matchers {
+class PaymentXmlWriterSpec extends WordSpec with Matchers {
 
-  "LoadingLocation XML writer" should {
-    "generate the LoadingLocation XML element" when {
-      "the ID value is present" in {
-
-        val loadingLocation = LoadingLocation("LHR")
-        val expectedXml =  <LoadingLocation><ID>LHR</ID></LoadingLocation>
-        loadingLocation.toXmlOption shouldBe Some(expectedXml)
+  "Payment XML writer" should {
+    "generate the Payment XML element" when {
+      "the methodCode value is present" in {
+        val payment = Payment("E")
+        val expectedXml = <Payment><MethodCode>E</MethodCode></Payment>
+        payment.toXmlOption shouldBe Some(expectedXml)
       }
     }
   }

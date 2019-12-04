@@ -16,21 +16,16 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
-import org.scalatest.{Matchers, WordSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.LoadingLocation
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.LoadingLocationXmlWriter._
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.Payment
 
-class LoadingLocationXmlWriterSpec extends WordSpec with Matchers {
+import scala.xml.{Elem, Node}
 
-  "LoadingLocation XML writer" should {
-    "generate the LoadingLocation XML element" when {
-      "the ID value is present" in {
+object PaymentXmlWriter {
 
-        val loadingLocation = LoadingLocation("LHR")
-        val expectedXml =  <LoadingLocation><ID>LHR</ID></LoadingLocation>
-        loadingLocation.toXmlOption shouldBe Some(expectedXml)
-      }
+  implicit val paymentXmlWriter: XmlWriter[Payment] = new XmlWriter[Payment] {
+    override def toXmlOption(value: Payment): Option[Elem] = {
+      val methodCode: Node = element("MethodCode", value.methodCode)
+      Some(<Payment>{methodCode}</Payment>)
     }
   }
 }

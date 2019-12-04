@@ -26,13 +26,14 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.BorderTransportMeansXmlWri
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ClassificationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ConsignmentXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DestinationXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DutyTaxFeeXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ExportCountryXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsMeasureXmlWriter._
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.PackagingXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.HeaderCustomsValuationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ItemCustomsValuationXmlWriter._
-
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ObligationGuaranteeXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.PackagingXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances._
 
@@ -89,7 +90,7 @@ class DeclarationXml {
             <Commodity>
               {maybeElement("Description", dec.commodity.flatMap(_.description))}
               {dec.commodity.map(_.classification.map(_.toXml)).getOrElse(NodeSeq.Empty)}
-              {maybeDutyTaxFee(dec)}
+              {dec.commodity.flatMap(_.dutyTaxFee).map(_.toXml).getOrElse(NodeSeq.Empty)}
               {dec.commodity.flatMap(c => c.goodsMeasure).flatMap(_.toXmlOption).getOrElse(NodeSeq.Empty)}
               {maybeInvoiceLine(dec)}
             </Commodity>
@@ -115,25 +116,9 @@ class DeclarationXml {
             <TraderAssignedReferenceID>1-12345</TraderAssignedReferenceID>
           </UCR>
         </GoodsShipment>
+        {dec.obligationGuarantee.map(_.toXml).getOrElse(NodeSeq.Empty)}
       </Declaration>
-    </md:MetaData>
-  }
-
-  private[this] def maybeDutyTaxFee(declaration: Declaration): NodeSeq = {
-    if (declaration.valuationInformationAndTaxes.dutyRegimeCode.exists(_.nonEmpty) ||
-        declaration.valuationInformationAndTaxes.paymentMethodCode.exists(_.nonEmpty)) {
-      <DutyTaxFee>
-        {maybeElement("DutyRegimeCode", declaration.valuationInformationAndTaxes.dutyRegimeCode)}
-        {if (declaration.valuationInformationAndTaxes.paymentMethodCode.exists(_.nonEmpty)) {
-            <Payment>
-              {maybeElement("MethodCode", declaration.valuationInformationAndTaxes.paymentMethodCode)}
-            </Payment>
-          }
-        }
-      </DutyTaxFee>
-    } else {
-      NodeSeq.Empty
-    }
+   </md:MetaData>
   }
 
   private[this] def maybeTradeTerms(declaration: Declaration): NodeSeq = {

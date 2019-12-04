@@ -16,7 +16,11 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class Commodity(description: Option[String],
-                     classification: Seq[Classification],
-                     goodsMeasure: Option[GoodsMeasure],
-                     dutyTaxFee: Option[DutyTaxFee])
+case class ObligationGuarantee(
+                         amountAmount: Option[CurrencyAmount],
+                         id: Option[String],
+                         referenceId: Option[String],
+                         securityDetailsCode: Option[String],
+                         accessCode: Option[String],
+                         guaranteeOffice: Option[String]
+                         )
