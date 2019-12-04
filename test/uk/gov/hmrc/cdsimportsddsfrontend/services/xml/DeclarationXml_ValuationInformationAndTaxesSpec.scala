@@ -35,7 +35,8 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
         )),
         headerCustomsValuation = Some(HeaderCustomsValuation(
           Some(ChargeDeduction("BAR", CurrencyAmount("CHF", "675"))))
-        )
+        ),
+        goodsShipment = GoodsShipment(None, None, GovernmentAgencyGoodsItem(None, "untested", Some(ValuationAdjustment("0000"))))
       )
 
       val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -66,7 +67,7 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
     }
 
     "omit ValuationAdjustment element when additionCode is empty" in {
-      val declaration = Declaration(valuationInformationAndTaxes = ValuationInformationAndTaxes(additionCode=None))
+      val declaration = Declaration()
       val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
       (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "ValuationAdjustment" \ "AdditionCode").length mustBe 0
     }

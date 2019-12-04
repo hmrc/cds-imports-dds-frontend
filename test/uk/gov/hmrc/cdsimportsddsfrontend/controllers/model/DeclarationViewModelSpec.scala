@@ -23,13 +23,17 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
 
   "DeclarationViewModel" should {
     "convert to Declaration" in {
-      val viewModel = DeclarationViewModel(valuationInformationAndTaxesViewModel =
-        ValuationInformationAndTaxesViewModel(
+      val viewModel = DeclarationViewModel(
+        declarationType = DeclarationType(
+          "untested", "untested", "77", "untested", "untested", "untested", "untested"
+        ),
+        valuationInformationAndTaxesViewModel = ValuationInformationAndTaxesViewModel(
           customsValuationMethodCode = Some("1"),
           headerChargeDeduction = Some(ChargeDeduction(typeCode = "header type",
                                                 currencyAmount = CurrencyAmount(currency = "XYZ", amount = "87"))),
           itemChargeDeduction = Some(ChargeDeduction(typeCode = "item type",
-                                                currencyAmount = CurrencyAmount(currency = "GBP", amount = "65"))))
+                                                currencyAmount = CurrencyAmount(currency = "GBP", amount = "65"))),
+          additionCode = Some("7890"))
       )
 
       val declaration = viewModel.toDeclaration
@@ -65,7 +69,12 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
 
       declaration.goodsShipment.destination shouldBe Some(Destination(countryCode = Some("GB")))
       declaration.goodsShipment.exportCountry shouldBe Some(ExportCountry(id = Some("FR")))
-      declaration.goodsShipment.governmentAgencyGoodsItem.flatMap(g => g.origin) shouldBe Some(Origin(countryCode = Some("FR"), typeCode = Some("1")))
+
+      declaration.goodsShipment.governmentAgencyGoodsItem shouldBe GovernmentAgencyGoodsItem(
+        origin = Some(Origin(countryCode = Some("FR"), typeCode = Some("1"))),
+        sequenceNumeric = "77",
+        valuationAdjustment = Some(ValuationAdjustment(additionCode = "7890"))
+      )
 
       declaration.obligationGuarantee shouldBe Some(ObligationGuarantee(None, None, None, Some("0"), None, None))
     }

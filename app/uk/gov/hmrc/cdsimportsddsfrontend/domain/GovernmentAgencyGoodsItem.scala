@@ -16,4 +16,8 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class GovernmentAgencyGoodsItem(origin: Option[Origin])
+case class GovernmentAgencyGoodsItem(
+                                      origin: Option[Origin],
+                                      sequenceNumeric: String,
+                                      valuationAdjustment: Option[ValuationAdjustment] = None
+                                    )

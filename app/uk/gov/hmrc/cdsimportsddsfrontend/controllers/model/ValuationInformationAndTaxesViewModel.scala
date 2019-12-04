@@ -39,7 +39,6 @@ case class ValuationInformationAndTaxesViewModel(
       conditionCode = conditionCode,
       locationID = locationID,
       locationName = locationName,
-      additionCode = additionCode,
       itemChargeAmount = itemChargeAmount,
       currencyID = currencyID,
       rateNumeric = rateNumeric

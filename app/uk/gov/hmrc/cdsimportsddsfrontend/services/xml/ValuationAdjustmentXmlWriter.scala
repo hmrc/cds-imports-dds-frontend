@@ -14,8 +14,18 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.domain
+package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
-case class GoodsShipment(destination: Option[Destination],
-                         exportCountry: Option[ExportCountry],
-                         governmentAgencyGoodsItem: GovernmentAgencyGoodsItem)
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.ValuationAdjustment
+
+import scala.xml.{Elem, Node}
+
+object ValuationAdjustmentXmlWriter {
+
+  implicit val valuationAdjustmentXmlWriter: XmlWriter[ValuationAdjustment] = new XmlWriter[ValuationAdjustment] {
+    override def toXmlOption(value: ValuationAdjustment): Option[Elem] = {
+      val additionCode: Node = element("AdditionCode", value.additionCode)
+      Some(<ValuationAdjustment>{additionCode}</ValuationAdjustment>)
+    }
+  }
+}
