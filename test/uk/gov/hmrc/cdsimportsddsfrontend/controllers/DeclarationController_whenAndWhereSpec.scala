@@ -45,8 +45,8 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         status(response) mustBe Status.OK
         body should include element withName("input").withAttrValue("name", "whenAndWhere.destination.countryCode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.exportCountry.id")
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.origin.countryCode")
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.origin.typeCode")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.originCountryCode")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.originTypeCode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.name")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.typeCode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.countryCode")
@@ -62,8 +62,8 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
       val formData: Map[String, Seq[String]] = Map(
         "whenAndWhere.destination.countryCode" -> Seq("destination countryCode"),
         "whenAndWhere.exportCountry.id" -> Seq("id"),
-        "whenAndWhere.origin.countryCode" -> Seq("origin countryCode"),
-        "whenAndWhere.origin.typeCode" -> Seq("typeCode"),
+        "whenAndWhere.originCountryCode" -> Seq("origin countryCode"),
+        "whenAndWhere.originTypeCode" -> Seq("typeCode"),
         "whenAndWhere.goodsLocation.name" -> Seq("goods location name"),
         "whenAndWhere.goodsLocation.typeCode" -> Seq("goods location type"),
         "whenAndWhere.goodsLocation.address.countryCode" -> Seq("goods location country code"),
@@ -82,10 +82,11 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         actualDeclaration.whenAndWhereViewModel mustBe WhenAndWhereViewModel(
           Some(Destination(Some("destination countryCode"))),
           Some(ExportCountry(id = Some("id"))),
-          Some(Origin(countryCode = Some("origin countryCode"), typeCode = Some("typeCode"))),
+          Some("origin countryCode"),
+          Some("typeCode"),
           Some(GoodsLocation(name = Some("goods location name"), typeCode = Some("goods location type"),
             address = Some(Address(None, None, Some("goods location country code"), None, Some("goods location type code"))))),
-          placeOfLoading = Some("an airport")
+          Some("an airport")
         )
       }
     }

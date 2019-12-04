@@ -66,8 +66,13 @@ case class DeclarationViewModel(
       consignment = Some(consignment),
       headerCustomsValuation = Some(valuationInformationAndTaxesViewModel.toHeaderCustomsValuation),
       itemCustomsValuation = Some(valuationInformationAndTaxesViewModel.toItemCustomsValuation),
-      goodsShipment = goodsShipment,
-      obligationGuarantee = Some(miscellaneousViewModel.toObligationGuarantee)
+      goodsShipment = GoodsShipment(destination = whenAndWhereViewModel.destination,
+        exportCountry = whenAndWhereViewModel.exportCountry,
+        governmentAgencyGoodsItem =
+          Some(GovernmentAgencyGoodsItem(origin =
+            Some(Origin(countryCode = whenAndWhereViewModel.originCountryCode,
+              typeCode = whenAndWhereViewModel.originTypeCode)))),
+            obligationGuarantee = Some(miscellaneousViewModel.toObligationGuarantee)
     )
   }
 }
