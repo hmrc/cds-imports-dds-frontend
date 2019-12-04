@@ -70,7 +70,7 @@ case class DeclarationViewModel(
         exportCountry = whenAndWhereViewModel.exportCountry,
         governmentAgencyGoodsItem =
           Some(GovernmentAgencyGoodsItem(origin =
-            Some(Origin(countryCode = whenAndWhereViewModel.originCountryCode,
+            Seq(Origin(countryCode = whenAndWhereViewModel.originCountryCode,
               typeCode = whenAndWhereViewModel.originTypeCode)))),
             obligationGuarantee = Some(miscellaneousViewModel.toObligationGuarantee)
     )

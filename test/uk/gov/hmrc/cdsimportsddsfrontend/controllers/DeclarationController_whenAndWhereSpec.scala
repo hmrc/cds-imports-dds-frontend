@@ -84,6 +84,8 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
           Some(ExportCountry(id = Some("id"))),
           Some("origin countryCode"),
           Some("typeCode"),
+          None,
+          None,
           Some(GoodsLocation(name = Some("goods location name"), typeCode = Some("goods location type"),
             address = Some(Address(None, None, Some("goods location country code"), None, Some("goods location type code"))))),
           Some("an airport")

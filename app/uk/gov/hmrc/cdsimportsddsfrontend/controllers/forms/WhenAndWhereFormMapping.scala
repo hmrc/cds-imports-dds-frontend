@@ -30,6 +30,8 @@ object WhenAndWhereFormMapping  {
     "exportCountry" -> optional(exportCountry),
     "originCountryCode" -> optional(text),
     "originTypeCode" -> optional(text),
+    "preferentialOriginCountryCode" -> optional(text),
+    "preferentialOriginTypeCode" -> optional(text),
     "goodsLocation" -> optional(goodsLocation),
     "placeOfLoading" -> optional(text)
   )(WhenAndWhereViewModel.apply)(WhenAndWhereViewModel.unapply)

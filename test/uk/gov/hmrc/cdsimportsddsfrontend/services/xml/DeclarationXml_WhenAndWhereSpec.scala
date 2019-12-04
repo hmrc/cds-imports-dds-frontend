@@ -54,7 +54,7 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
             destination = None,
             exportCountry = None,
             governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
-              origin = Some(Origin(countryCode = Some("DL"), typeCode = Some("99"))),
+              origin = Seq(Origin(countryCode = Some("DL"), typeCode = Some("99"))),
               sequenceNumeric = "1")
           )
         )
@@ -95,7 +95,7 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
           goodsShipment = GoodsShipment(
             destination = None,
             exportCountry = None,
-            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(origin = None, sequenceNumeric = "1")
+            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(origin = Seq(), sequenceNumeric = "1")
           )
         )
 

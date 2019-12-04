@@ -70,6 +70,8 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
       declaration.goodsShipment.destination shouldBe Some(Destination(countryCode = Some("GB")))
       declaration.goodsShipment.exportCountry shouldBe Some(ExportCountry(id = Some("FR")))
 
+      // declaration.goodsShipment.governmentAgencyGoodsItem.map(g => g.origin) shouldBe Some(Seq(Origin(countryCode = Some("FR"), typeCode = Some("1"))))
+
       declaration.goodsShipment.governmentAgencyGoodsItem shouldBe GovernmentAgencyGoodsItem(
         origin = Some(Origin(countryCode = Some("FR"), typeCode = Some("1"))),
         sequenceNumeric = "77",
