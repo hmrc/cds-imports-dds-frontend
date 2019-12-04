@@ -90,7 +90,7 @@ class DeclarationXml {
             <Commodity>
               {maybeElement("Description", dec.commodity.flatMap(_.description))}
               {dec.commodity.map(_.classification.map(_.toXml)).getOrElse(NodeSeq.Empty)}
-              {dec.commodity.flatMap(_.dutyTaxFree).map(_.toXml).getOrElse(NodeSeq.Empty)}
+              {dec.commodity.flatMap(_.dutyTaxFee).map(_.toXml).getOrElse(NodeSeq.Empty)}
               {dec.commodity.flatMap(c => c.goodsMeasure).flatMap(_.toXmlOption).getOrElse(NodeSeq.Empty)}
               {maybeInvoiceLine(dec)}
             </Commodity>

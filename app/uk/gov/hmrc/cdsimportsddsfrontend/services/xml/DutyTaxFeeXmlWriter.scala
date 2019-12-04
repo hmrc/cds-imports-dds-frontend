@@ -24,7 +24,7 @@ import scala.xml.{Elem, Node, NodeSeq}
 
 object DutyTaxFeeXmlWriter {
 
-  implicit val dutyTaxFreeXmlWriter: XmlWriter[DutyTaxFee] = new XmlWriter[DutyTaxFee] {
+  implicit val dutyTaxFeeXmlWriter: XmlWriter[DutyTaxFee] = new XmlWriter[DutyTaxFee] {
     override def toXmlOption(value: DutyTaxFee): Option[Elem] = {
       val dutyRegimeCode: Option[Node] = maybeElement("DutyRegimeCode", value.dutyRegimeCode)
       val quotaOrderId: Option[Node] = maybeElement("QuotaOrderId", value.quotaOrderId)

@@ -28,7 +28,7 @@ class DutyTaxFeeXmlWriterSpec extends WordSpec with Matchers {
   "DutyTaxFee XML writer" should {
     "generate the DutyTaxFee XML element" when {
       "all values are present" in {
-        val dutyTaxFree = DutyTaxFee(dutyRegimeCode = Some("100"), quotaOrderId = Some("123"), payment = Some(Payment("E")))
+        val dutyTaxFee = DutyTaxFee(dutyRegimeCode = Some("100"), quotaOrderId = Some("123"), payment = Some(Payment("E")))
         val expectedXml = Utility.trim(
           <DutyTaxFee>
             <DutyRegimeCode>100</DutyRegimeCode>
@@ -38,32 +38,32 @@ class DutyTaxFeeXmlWriterSpec extends WordSpec with Matchers {
             </Payment>
           </DutyTaxFee>
         )
-        dutyTaxFree.toXmlOption shouldBe Some(expectedXml)
+        dutyTaxFee.toXmlOption shouldBe Some(expectedXml)
       }
 
       "dutyRegimeCode is present" in {
-        val dutyTaxFree = DutyTaxFee(dutyRegimeCode = Some("100"), quotaOrderId = None, payment = None)
+        val dutyTaxFee = DutyTaxFee(dutyRegimeCode = Some("100"), quotaOrderId = None, payment = None)
         val expectedXml = <DutyTaxFee><DutyRegimeCode>100</DutyRegimeCode></DutyTaxFee>
-        dutyTaxFree.toXmlOption shouldBe Some(expectedXml)
+        dutyTaxFee.toXmlOption shouldBe Some(expectedXml)
       }
 
       "quotaOrderId is present" in {
-        val dutyTaxFree = DutyTaxFee(dutyRegimeCode = None, quotaOrderId = Some("123"), payment = None)
+        val dutyTaxFee = DutyTaxFee(dutyRegimeCode = None, quotaOrderId = Some("123"), payment = None)
         val expectedXml = <DutyTaxFee><QuotaOrderId>123</QuotaOrderId></DutyTaxFee>
-        dutyTaxFree.toXmlOption shouldBe Some(expectedXml)
+        dutyTaxFee.toXmlOption shouldBe Some(expectedXml)
       }
 
       "payment is present" in {
-        val dutyTaxFree = DutyTaxFee(dutyRegimeCode = None, quotaOrderId = None, payment = Some(Payment("E")))
+        val dutyTaxFee = DutyTaxFee(dutyRegimeCode = None, quotaOrderId = None, payment = Some(Payment("E")))
         val expectedXml = <DutyTaxFee><Payment><MethodCode>E</MethodCode></Payment></DutyTaxFee>
-        dutyTaxFree.toXmlOption shouldBe Some(expectedXml)
+        dutyTaxFee.toXmlOption shouldBe Some(expectedXml)
       }
     }
 
     "not generate the DutyTaxFee XML element" when {
       "none of the child values are present" in {
-        val dutyTaxFree = DutyTaxFee(None, None, None)
-        dutyTaxFree.toXmlOption shouldBe None
+        val dutyTaxFee = DutyTaxFee(None, None, None)
+        dutyTaxFee.toXmlOption shouldBe None
       }
     }
   }
