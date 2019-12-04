@@ -64,7 +64,7 @@ class DeclarationController_miscellaneousSpec extends CdsImportsSpec
         "miscellaneous.otherGRN" -> Seq("789"),
         "miscellaneous.accessCode" -> Seq("2468"),
         "miscellaneous.importDutyAndOtherCharges.currency" -> Seq("GBP"),
-        "miscellaneous.importDutyAndOtherCharges.amount" -> Seq("123"),
+        "miscellaneous.importDutyAndOtherCharges.amount" -> Seq("12345"),
         "miscellaneous.customsOffice" -> Seq("Shipley")
       ) ++ declarationTypeFormData
 
