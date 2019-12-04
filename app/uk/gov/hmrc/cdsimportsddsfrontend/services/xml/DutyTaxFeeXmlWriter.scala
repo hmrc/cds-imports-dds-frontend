@@ -16,23 +16,23 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.DutyTaxFree
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.DutyTaxFee
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.PaymentXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 
 import scala.xml.{Elem, Node, NodeSeq}
 
-object DutyTaxFreeXmlWriter {
+object DutyTaxFeeXmlWriter {
 
-  implicit val dutyTaxFreeXmlWriter: XmlWriter[DutyTaxFree] = new XmlWriter[DutyTaxFree] {
-    override def toXmlOption(value: DutyTaxFree): Option[Elem] = {
+  implicit val dutyTaxFreeXmlWriter: XmlWriter[DutyTaxFee] = new XmlWriter[DutyTaxFee] {
+    override def toXmlOption(value: DutyTaxFee): Option[Elem] = {
       val dutyRegimeCode: Option[Node] = maybeElement("DutyRegimeCode", value.dutyRegimeCode)
       val quotaOrderId: Option[Node] = maybeElement("QuotaOrderId", value.quotaOrderId)
       val payment: Option[Node] = value.payment.flatMap(_.toXmlOption)
 
       List[Option[NodeSeq]](dutyRegimeCode, quotaOrderId, payment).flatten
         .reduceOption((a, b) => a ++ b)
-        .map(elem => <DutyTaxFree>{elem}</DutyTaxFree>)
+        .map(elem => <DutyTaxFee>{elem}</DutyTaxFee>)
     }
   }
 }

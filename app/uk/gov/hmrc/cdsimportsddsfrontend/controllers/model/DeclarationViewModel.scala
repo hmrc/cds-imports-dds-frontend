@@ -39,7 +39,7 @@ case class DeclarationViewModel(
           whenAndWhereViewModel.placeOfLoading.map(LoadingLocation))
     }
 
-    val dutyTaxFree = DutyTaxFree(valuationInformationAndTaxesViewModel.dutyRegimeCode,
+    val dutyTaxFree = DutyTaxFee(valuationInformationAndTaxesViewModel.dutyRegimeCode,
       miscellaneousViewModel.quotaOrderNumber,
       valuationInformationAndTaxesViewModel.paymentMethodCode.map(Payment(_)))
 

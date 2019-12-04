@@ -26,7 +26,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.BorderTransportMeansXmlWri
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ClassificationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ConsignmentXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DestinationXmlWriter._
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DutyTaxFreeXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DutyTaxFeeXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ExportCountryXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsMeasureXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.HeaderCustomsValuationXmlWriter._
