@@ -39,6 +39,10 @@ case class DeclarationViewModel(
           whenAndWhereViewModel.placeOfLoading.map(LoadingLocation))
     }
 
+    val dutyTaxFree = DutyTaxFree(valuationInformationAndTaxesViewModel.dutyRegimeCode,
+      miscellaneousViewModel.quotaOrderNumber,
+      valuationInformationAndTaxesViewModel.paymentMethodCode.map(Payment(_)))
+
     Declaration(declarationType = declarationType,
       documentationAndReferences = documentationAndReferences,
       parties = parties,
@@ -48,7 +52,7 @@ case class DeclarationViewModel(
         goodsMeasure = Some(goodsIdentification.toGoodsMeasure),
         classification = goodsIdentification.toClassification(),
         description = goodsIdentification.description,
-        dutyTaxFree = None)),
+        dutyTaxFree = Some(dutyTaxFree))),
       packaging = Some(goodsIdentification.toPackaging),
       borderTransportMeans = Some(transportInformationViewModel.toBorderTransportMeans),
       consignment = Some(consignment),

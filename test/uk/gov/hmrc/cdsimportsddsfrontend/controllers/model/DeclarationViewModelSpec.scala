@@ -38,7 +38,7 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
         List(Classification(Some("76071111"), Some("TSP")), Classification(Some("10"), Some("TRC")),
           Classification(Some("1234"), Some("TRA")), Classification(Some("VATZ"), Some("GN"))),
         Some(GoodsMeasure(Some("50"), Some("100"), Some("60"))),
-        Some(DutyTaxFree(Some("100"), Some("123"), Some(Payment("E"))))))
+        Some(DutyTaxFree(Some("100"), None, Some(Payment("E"))))))
 
       declaration.packaging shouldBe Some(Packaging(Some("BF"), Some("1"), Some("TSP not required")))
 
@@ -66,6 +66,8 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
       declaration.goodsShipment.destination shouldBe Some(Destination(countryCode = Some("GB")))
       declaration.goodsShipment.exportCountry shouldBe Some(ExportCountry(id = Some("FR")))
       declaration.goodsShipment.governmentAgencyGoodsItem.flatMap(g => g.origin) shouldBe Some(Origin(countryCode = Some("FR"), typeCode = Some("1")))
+
+      declaration.obligationGuarantee shouldBe Some(ObligationGuarantee(None, None, None, Some("0"), None, None))
     }
   }
 }
