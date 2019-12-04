@@ -23,7 +23,7 @@ import scala.xml.{Elem, Node}
 object PaymentXmlWriter {
 
   implicit val paymentXmlWriter: XmlWriter[Payment] = new XmlWriter[Payment] {
-    override def toXml(value: Payment): Option[Elem] = {
+    override def toXmlOption(value: Payment): Option[Elem] = {
       val methodCode: Node = element("MethodCode", value.methodCode)
       Some(<Payment>{methodCode}</Payment>)
     }

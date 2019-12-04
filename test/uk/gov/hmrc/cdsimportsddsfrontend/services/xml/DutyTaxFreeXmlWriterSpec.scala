@@ -16,14 +16,14 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
-import org.scalatest.{Matchers, OptionValues, WordSpec}
+import org.scalatest.{Matchers, WordSpec}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.{DutyTaxFree, Payment}
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DutyTaxFreeXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 
 import scala.xml.Utility
 
-class DutyTaxFreeXmlWriterSpec extends WordSpec with Matchers with OptionValues {
+class DutyTaxFreeXmlWriterSpec extends WordSpec with Matchers {
 
   "DutyTaxFree XML writer" should {
     "generate the DutyTaxFree XML element" when {
@@ -38,32 +38,32 @@ class DutyTaxFreeXmlWriterSpec extends WordSpec with Matchers with OptionValues 
             </Payment>
           </DutyTaxFree>
         )
-        dutyTaxFree.toXml shouldBe Some(expectedXml)
+        dutyTaxFree.toXmlOption shouldBe Some(expectedXml)
       }
 
       "dutyRegimeCode is present" in {
         val dutyTaxFree = DutyTaxFree(dutyRegimeCode = Some("100"), quotaOrderId = None, payment = None)
         val expectedXml = <DutyTaxFree><DutyRegimeCode>100</DutyRegimeCode></DutyTaxFree>
-        dutyTaxFree.toXml shouldBe Some(expectedXml)
+        dutyTaxFree.toXmlOption shouldBe Some(expectedXml)
       }
 
       "quotaOrderId is present" in {
         val dutyTaxFree = DutyTaxFree(dutyRegimeCode = None, quotaOrderId = Some("123"), payment = None)
         val expectedXml = <DutyTaxFree><QuotaOrderId>123</QuotaOrderId></DutyTaxFree>
-        dutyTaxFree.toXml shouldBe Some(expectedXml)
+        dutyTaxFree.toXmlOption shouldBe Some(expectedXml)
       }
 
       "payment is present" in {
         val dutyTaxFree = DutyTaxFree(dutyRegimeCode = None, quotaOrderId = None, payment = Some(Payment("E")))
         val expectedXml = <DutyTaxFree><Payment><MethodCode>E</MethodCode></Payment></DutyTaxFree>
-        dutyTaxFree.toXml shouldBe Some(expectedXml)
+        dutyTaxFree.toXmlOption shouldBe Some(expectedXml)
       }
     }
 
     "not generate the DutyTaxFree XML element" when {
       "none of the child values are present" in {
         val dutyTaxFree = DutyTaxFree(None, None, None)
-        dutyTaxFree.toXml shouldBe None
+        dutyTaxFree.toXmlOption shouldBe None
       }
     }
   }

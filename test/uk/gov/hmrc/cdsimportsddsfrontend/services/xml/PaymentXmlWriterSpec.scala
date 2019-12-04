@@ -26,10 +26,9 @@ class PaymentXmlWriterSpec extends WordSpec with Matchers {
   "Payment XML writer" should {
     "generate the Payment XML element" when {
       "the methodCode value is present" in {
-
         val payment = Payment("E")
         val expectedXml = <Payment><MethodCode>E</MethodCode></Payment>
-        payment.toXml shouldBe Some(expectedXml)
+        payment.toXmlOption shouldBe Some(expectedXml)
       }
     }
   }

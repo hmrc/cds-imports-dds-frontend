@@ -25,10 +25,10 @@ import scala.xml.{Elem, Node, NodeSeq}
 object DutyTaxFreeXmlWriter {
 
   implicit val dutyTaxFreeXmlWriter: XmlWriter[DutyTaxFree] = new XmlWriter[DutyTaxFree] {
-    override def toXml(value: DutyTaxFree): Option[Elem] = {
+    override def toXmlOption(value: DutyTaxFree): Option[Elem] = {
       val dutyRegimeCode: Option[Node] = maybeElement("DutyRegimeCode", value.dutyRegimeCode)
       val quotaOrderId: Option[Node] = maybeElement("QuotaOrderId", value.quotaOrderId)
-      val payment: Option[Node] = value.payment.flatMap(_.toXml)
+      val payment: Option[Node] = value.payment.flatMap(_.toXmlOption)
 
       List[Option[NodeSeq]](dutyRegimeCode, quotaOrderId, payment).flatten
         .reduceOption((a, b) => a ++ b)
