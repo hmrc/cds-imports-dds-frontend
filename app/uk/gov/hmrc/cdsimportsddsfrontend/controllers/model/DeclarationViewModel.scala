@@ -25,7 +25,8 @@ case class DeclarationViewModel(
                                  valuationInformationAndTaxesViewModel: ValuationInformationAndTaxesViewModel = ValuationInformationAndTaxesViewModel(),
                                  whenAndWhereViewModel: WhenAndWhereViewModel = WhenAndWhereViewModel(),
                                  goodsIdentification: GoodsIdentificationViewModel = GoodsIdentificationViewModel(),
-                                 transportInformationViewModel: TransportInformationViewModel = TransportInformationViewModel()
+                                 transportInformationViewModel: TransportInformationViewModel = TransportInformationViewModel(),
+                                 miscellaneousViewModel: MiscellaneousViewModel = MiscellaneousViewModel()
                       ) {
 
   def toDeclaration: Declaration = {
@@ -56,7 +57,8 @@ case class DeclarationViewModel(
       goodsShipment = GoodsShipment(destination = whenAndWhereViewModel.destination,
                                     exportCountry = whenAndWhereViewModel.exportCountry,
                                     governmentAgencyGoodsItem = Some(GovernmentAgencyGoodsItem(origin = whenAndWhereViewModel.origin))
-      )
+      ),
+      obligationGuarantee = Some(miscellaneousViewModel.toObligationGuarantee)
     )
   }
 }

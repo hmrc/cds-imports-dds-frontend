@@ -1,0 +1,30 @@
+@*
+ * Copyright 2019 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
+@import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
+@import uk.gov.hmrc.cdsimportsddsfrontend.views.html.components.inputs.input_text
+
+
+@(form: Form[DeclarationViewModel])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
+
+@input_text(form("miscellaneous.guaranteeType"), "declare.miscellaneous.guaranteeType")
+@input_text(form("miscellaneous.grn"), "declare.miscellaneous.guaranteeReference.grn")
+@input_text(form("miscellaneous.otherGRN"), "declare.miscellaneous.guaranteeReference.otherGRN")
+@input_text(form("miscellaneous.accessCode"), "declare.miscellaneous.guaranteeReference.accessCode")
+@input_text(form("miscellaneous.importDutyAndOtherCharges"), "declare.miscellaneous.guaranteeReference.amount")
+@input_text(form("miscellaneous.currencyCode"), "declare.miscellaneous.guaranteeReference.currencyCode")
+@input_text(form("miscellaneous.customsOffice"), "declare.miscellaneous.guaranteeReference.office")

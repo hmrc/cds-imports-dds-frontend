@@ -16,15 +16,14 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.model
 
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.ObligationGuarantee
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{CurrencyAmount, ObligationGuarantee}
 
 case class MiscellaneousViewModel(
                                    guaranteeType: Option[String] = None,
                                    grn : Option[String] = None,
                                    otherGRN: Option[String] = None,
                                    accessCode: Option[String] = None,
-                                   importDutyAndOtherCharges: Option[String] = None,
-                                   currencyCode: Option[String] = None,
+                                   importDutyAndOtherCharges: Option[CurrencyAmount] = None,
                                    customsOffice: Option[String] = None
                                  ) {
 

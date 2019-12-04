@@ -19,18 +19,15 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 import play.api.data.Forms.{mapping, optional, text}
 import play.api.data.Mapping
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.MiscellaneousViewModel
-//import uk.gov.hmrc.cdsimportsddsfrontend.domain
-
-//val goodsIdentification: (String, Mapping[GoodsIdentificationViewModel]) = "goodsIdentification" -> mapping(
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.CurrencyAmountFormMapping.currencyAmountMapping
 
 object MiscellaneousFormMapping {
-  val miscellaneous: Mapping[MiscellaneousViewModel] = mapping(
+  val miscellaneous: (String, Mapping[MiscellaneousViewModel]) = "miscellaneous" -> mapping(
     "guaranteeType" -> optional(text),
     "grn" -> optional(text),
     "otherGRN" -> optional(text),
     "accessCode" -> optional(text),
-    "importDutyAndOtherCharges" -> optional(text),
-    "currencyCode" -> optional(text),
+    "importDutyAndOtherCharges" -> optional(currencyAmountMapping),
     "customsOffice" -> optional(text)
   )(MiscellaneousViewModel.apply)(MiscellaneousViewModel.unapply)
 }

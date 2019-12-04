@@ -25,6 +25,8 @@ import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.PartiesFormMapping.pa
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.TransportInformationFormMapping.transportInformation
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.ValuationInformationAndTaxesFormMapping.valuationInformationAndTaxes
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.WhenAndWhereFormMapping.whenAndWhere
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.MiscellaneousFormMapping.miscellaneous
+
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
 
 object DeclarationForm extends FormValidators {
@@ -37,7 +39,8 @@ object DeclarationForm extends FormValidators {
       valuationInformationAndTaxes,
       whenAndWhere,
       goodsIdentification,
-      transportInformation
+      transportInformation,
+      miscellaneous
     )(DeclarationViewModel.apply)(DeclarationViewModel.unapply)
   )
 }

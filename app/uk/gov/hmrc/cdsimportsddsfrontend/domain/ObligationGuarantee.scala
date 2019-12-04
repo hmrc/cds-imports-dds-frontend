@@ -16,10 +16,8 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class GuaranteeOffice(id: Option[String])
-
 case class ObligationGuarantee(
-                         amountAmount: Option[String],
+                         amountAmount: Option[CurrencyAmount],
                          id: Option[String],
                          referenceId: Option[String],
                          securityDetailsCode: Option[String],

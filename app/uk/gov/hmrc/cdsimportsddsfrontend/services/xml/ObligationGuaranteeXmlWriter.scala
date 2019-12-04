@@ -18,24 +18,31 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
 import cats.implicits._
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.ObligationGuarantee
-import scala.xml.{Elem, Node}
+
+import scala.xml.{Attribute, Elem, Node}
 
 object ObligationGuaranteeXmlWriter {
 
   implicit val obligationGuaranteeXmlWriter: XmlWriter[ObligationGuarantee] = new XmlWriter[ObligationGuarantee] {
     override def toXml(value: ObligationGuarantee): Option[Elem] = {
-      val amountAmount: Option[Node] = maybeElement("AmountAmount", value.amountAmount)
-      val id: Option[Node] = maybeElement("ID", value.id)
-      val referenceId: Option[Node] = maybeElement("ReferenceID", value.referenceId)
-      val securityDetailsCode: Option[Node] = maybeElement("SecurityDetailsCode", value.securityDetailsCode)
-      val accessCode: Option[Node] = maybeElement("AccessCode", value.accessCode)
-      val guaranteeOffice: Option[Node] = maybeElement("GuaranteeOffice", value.guaranteeOffice)
 
-      val nodes: List[Node] = List(amountAmount, id, referenceId, securityDetailsCode, accessCode, guaranteeOffice).flattenOption
+      val currencyAttr = Attribute.apply(pre = "", key = "currencyID", value= value.amountAmount.fold("")(_.currency), scala.xml.Null)
+      val amountAmount = maybeElement("AmountAmount", value.amountAmount.map(_.amount), Some(currencyAttr))
+      val id = maybeElement("ID", value.id)
+      val referenceId = maybeElement("ReferenceID", value.referenceId)
+      val securityDetailsCode = maybeElement("SecurityDetailsCode", value.securityDetailsCode)
+      val accessCode = maybeElement("AccessCode", value.accessCode)
+      val guaranteeOfficeID = maybeElement("ID", Some(""), None)
+      val guaranteeOffice = value.guaranteeOffice match {
+        case Some(officeId) => Some(<GuaranteeOffice ><ID>{officeId}</ID></GuaranteeOffice>)
+        case _ => None
+      }
+      val nodes = List(amountAmount, id, referenceId, securityDetailsCode, accessCode, guaranteeOffice).flattenOption
 
       Option(nodes).filter(_.nonEmpty).map {
         nonEmptyChildNodes => <ObligationGuarantee>{nonEmptyChildNodes}</ObligationGuarantee>
       }
+
     }
   }
 }

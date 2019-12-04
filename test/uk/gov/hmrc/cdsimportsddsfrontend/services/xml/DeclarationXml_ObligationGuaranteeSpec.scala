@@ -30,10 +30,11 @@ class DeclarationXml_ObligationGuaranteeSpec extends WordSpec with MustMatchers 
     "be in the generated XML" when {
       "the amountAmount is present in the data" in {
         val declaration = Declaration(
-          obligationGuarantee = Some(ObligationGuarantee(Some("1"), None, None, None, None, None))
+          obligationGuarantee = Some(ObligationGuarantee(Some(CurrencyAmount("GBP", "1")), None, None, None, None, None))
         )
         val xml: Elem = DeclarationXml().fromImportDeclaration(declaration)
         (xml \ "Declaration" \ "ObligationGuarantee" \ "AmountAmount").text mustBe "1"
+        (xml \ "Declaration" \ "ObligationGuarantee" \ "AmountAmount" \ "@currencyID").head.text mustBe "GBP"
       }
 
       "the id is present in the data" in {
@@ -78,15 +79,16 @@ class DeclarationXml_ObligationGuaranteeSpec extends WordSpec with MustMatchers 
 
       "the amountAmount, id, referenceId, securityDetailsCode, accessCode, and guaranteeOffice are present in the data" in {
         val declaration = Declaration(
-          obligationGuarantee = Some(ObligationGuarantee(Some("1"), Some("2"), Some("3"), Some("4"), Some("5"), Some("6")))
+          obligationGuarantee = Some(ObligationGuarantee(Some(CurrencyAmount("EUR", "11")), Some("12"), Some("13"), Some("14"), Some("15"), Some("Shipley")))
         )
         val xml: Elem = DeclarationXml().fromImportDeclaration(declaration)
-        (xml \ "Declaration" \ "ObligationGuarantee" \ "AmountAmount").text mustBe "1"
-        (xml \ "Declaration" \ "ObligationGuarantee" \ "ID").text mustBe "2"
-        (xml \ "Declaration" \ "ObligationGuarantee" \ "ReferenceID").text mustBe "3"
-        (xml \ "Declaration" \ "ObligationGuarantee" \ "SecurityDetailsCode").text mustBe "4"
-        (xml \ "Declaration" \ "ObligationGuarantee" \ "AccessCode").text mustBe "5"
-        (xml \ "Declaration" \ "ObligationGuarantee" \ "GuaranteeOffice").text mustBe "6"
+        (xml \ "Declaration" \ "ObligationGuarantee" \ "AmountAmount").text mustBe "11"
+        (xml \ "Declaration" \ "ObligationGuarantee" \ "AmountAmount" \ "@currencyID").head.text mustBe "EUR"
+        (xml \ "Declaration" \ "ObligationGuarantee" \ "ID").text mustBe "12"
+        (xml \ "Declaration" \ "ObligationGuarantee" \ "ReferenceID").text mustBe "13"
+        (xml \ "Declaration" \ "ObligationGuarantee" \ "SecurityDetailsCode").text mustBe "14"
+        (xml \ "Declaration" \ "ObligationGuarantee" \ "AccessCode").text mustBe "15"
+        (xml \ "Declaration" \ "ObligationGuarantee" \ "GuaranteeOffice").text mustBe "Shipley"
       }
     }
 
@@ -100,15 +102,13 @@ class DeclarationXml_ObligationGuaranteeSpec extends WordSpec with MustMatchers 
         (xml \ "Declaration" \ "ObligationGuarantee").length mustBe 0
       }
 
-      "be omitted from the XML" when {
-        "the ObligationGuarantee data itself does not exist" in {
+      "the ObligationGuarantee data itself does not exist" in {
           val declaration = Declaration(
             obligationGuarantee = None
           )
 
           val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
           (xml \ "Declaration" \ "ObligationGuarantee").length mustBe 0
-        }
       }
     }
   }
