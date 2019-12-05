@@ -49,7 +49,10 @@ case class DeclarationViewModel(
     val goodsShipment = GoodsShipment(destination = whenAndWhereViewModel.destination,
       exportCountry = whenAndWhereViewModel.exportCountry,
       governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
-        origin = whenAndWhereViewModel.origin,
+        origin = Seq(Origin(countryCode = whenAndWhereViewModel.originCountryCode,
+                            typeCode = whenAndWhereViewModel.originTypeCode),
+                     Origin(countryCode = whenAndWhereViewModel.preferentialOriginCountryCode,
+                            typeCode = whenAndWhereViewModel.preferentialOriginTypeCode)),
         sequenceNumeric = declarationType.goodsItemNumber,
         valuationAdjustment = valuationInformationAndTaxesViewModel.additionCode.map(ValuationAdjustment)
       )
