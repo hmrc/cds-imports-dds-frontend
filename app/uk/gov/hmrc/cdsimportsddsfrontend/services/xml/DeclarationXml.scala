@@ -61,16 +61,13 @@ class DeclarationXml {
         <GoodsItemQuantity>{dec.declarationType.totalNumberOfItems}</GoodsItemQuantity>
         {maybeElement("TotalGrossMassMeasure", dec.totalGrossMassMeasure)}
         <TotalPackageQuantity>1</TotalPackageQuantity>
-        <AdditionalDocument>
-        {maybeElement("CategoryCode", dec.documentationAndReferences.additionalPayment(0).additionalDocPaymentCategory)}
-        {maybeElement("ID", dec.documentationAndReferences.additionalPayment(0).additionalDocPaymentID)}
-        {maybeElement("TypeCode", dec.documentationAndReferences.additionalPayment(0).additionalDocPaymentType)}
-        </AdditionalDocument>
-        <AdditionalDocument>
-          {maybeElement("CategoryCode", dec.documentationAndReferences.additionalPayment(1).additionalDocPaymentCategory)}
-          {maybeElement("ID", dec.documentationAndReferences.additionalPayment(1).additionalDocPaymentID)}
-          {maybeElement("TypeCode", dec.documentationAndReferences.additionalPayment(1).additionalDocPaymentType)}
-        </AdditionalDocument>
+        {dec.documentationAndReferences.additionalPayments.map(additionalPayment =>
+          <AdditionalDocument>
+          {maybeElement("CategoryCode", additionalPayment.additionalDocPaymentCategory)}
+          {maybeElement("ID", additionalPayment.additionalDocPaymentID)}
+          {maybeElement("TypeCode", additionalPayment.additionalDocPaymentType)}
+          </AdditionalDocument>
+        )}
         {additionalInformation(dec.documentationAndReferences.headerAdditionalInformation)}
         {dec.parties.authorisationHolders.map(_.toXml)}
         {dec.borderTransportMeans.toXml}
@@ -87,7 +84,7 @@ class DeclarationXml {
             <SequenceNumeric>{dec.goodsShipment.governmentAgencyGoodsItem.sequenceNumeric}</SequenceNumeric>
             {dec.goodsShipment.governmentAgencyGoodsItem.statisticalValue.toXml(statisticalValueAmountWriter)}
             {maybeElement("TransactionNatureCode", dec.goodsShipment.governmentAgencyGoodsItem.transactionNatureCode)}
-            {dec.documentationAndReferences.additionalDocument.map(_.toXml)}
+            {dec.documentationAndReferences.additionalDocuments.map(_.toXml)}
             {dec.documentationAndReferences.itemAdditionalInformation.map(additionalInformation)}
             <Commodity>
               {maybeElement("Description", dec.commodity.flatMap(_.description))}
