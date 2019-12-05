@@ -57,7 +57,8 @@ case class DeclarationViewModel(
       statisticalValue = miscellaneousViewModel.statisticalValue
     )
 
-    val goodsShipment = GoodsShipment(destination = whenAndWhereViewModel.destination,
+    val goodsShipment = GoodsShipment(consignment = Some(consignment),
+      destination = whenAndWhereViewModel.destination,
       exportCountry = whenAndWhereViewModel.exportCountry,
       governmentAgencyGoodsItem = governmentAgencyGoodsItem
     )
@@ -70,7 +71,6 @@ case class DeclarationViewModel(
       commodity = commodity,
       packaging = Some(goodsIdentification.toPackaging),
       borderTransportMeans = Some(transportInformationViewModel.toBorderTransportMeans),
-      consignment = Some(consignment),
       headerCustomsValuation = Some(valuationInformationAndTaxesViewModel.toHeaderCustomsValuation),
       itemCustomsValuation = Some(valuationInformationAndTaxesViewModel.toItemCustomsValuation),
       goodsShipment = goodsShipment,

@@ -36,6 +36,7 @@ class DeclarationXml_GovernmentAgencyGoodsItemSpec extends WordSpec with MustMat
 
         val declaration = Declaration(
           goodsShipment = GoodsShipment(
+            consignment = None,
             destination = None,
             exportCountry = None,
             governmentAgencyGoodsItem = governmentAgencyGoodsItem
@@ -63,6 +64,7 @@ class DeclarationXml_GovernmentAgencyGoodsItemSpec extends WordSpec with MustMat
 
         val declaration = Declaration(
           goodsShipment = GoodsShipment(
+            consignment = None,
             destination = None,
             exportCountry = None,
             governmentAgencyGoodsItem = governmentAgencyGoodsItem

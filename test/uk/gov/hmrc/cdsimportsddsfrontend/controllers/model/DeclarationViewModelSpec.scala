@@ -55,7 +55,7 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
 
       declaration.borderTransportMeans shouldBe Some(BorderTransportMeans(Some("US"), Some("4")))
 
-      declaration.consignment shouldBe Some(Consignment(
+      declaration.goodsShipment.consignment shouldBe Some(Consignment(
           Some("0"),
           Some(ArrivalTransportMeans(Some("10"), Some("1023465738"))),
           Some(GoodsLocation(Some("FXTFXTFXT"),

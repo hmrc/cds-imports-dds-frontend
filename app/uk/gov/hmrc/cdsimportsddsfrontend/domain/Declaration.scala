@@ -25,10 +25,10 @@ case class Declaration(
                         totalGrossMassMeasure: Option[String] = None,
                         packaging: Option[Packaging] = None,
                         borderTransportMeans: Option[BorderTransportMeans] = None,
-                        consignment: Option[Consignment] = None,
                         headerCustomsValuation: Option[HeaderCustomsValuation] = None,
                         itemCustomsValuation: Option[ItemCustomsValuation] = None,
-                        goodsShipment: GoodsShipment = GoodsShipment(destination = None,
+                        goodsShipment: GoodsShipment = GoodsShipment(consignment = None,
+                                                                     destination = None,
                                                                      exportCountry = None,
                                                                      governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
                                                                        origin = Seq(),

@@ -26,10 +26,18 @@ class DeclarationXml_ConsignmentSpec extends WordSpec with MustMatchers {
   "Consignment data" should {
     "be populated in the XML" when {
       "the consignment is present in the declaration data" in {
-        val declaration = Declaration(consignment = Some(Consignment(containerCode = Some("0"),
+        val someConsignment = Some(Consignment(
+          containerCode = Some("0"),
           arrivalTransportMeans = Some(ArrivalTransportMeans(Some("10"), Some("1023465738"))),
           goodsLocation = Some(GoodsLocation(Some("FXTFXTFXT"), Some("A"), Some(Address()))),
-          loadingLocation = Some(LoadingLocation("GAT")))))
+          loadingLocation = Some(LoadingLocation("GAT"))
+        ))
+
+        val declaration = Declaration(goodsShipment = GoodsShipment(
+          consignment = someConsignment,
+          destination = None,
+          exportCountry = None,
+          governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(sequenceNumeric = "0", origin = None)))
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
@@ -46,7 +54,11 @@ class DeclarationXml_ConsignmentSpec extends WordSpec with MustMatchers {
 
     "be omitted from XML" when {
       "the consignment is not  present in the declaration data" in {
-        val declaration = Declaration(consignment = None)
+        val declaration = Declaration(goodsShipment = GoodsShipment(
+          consignment = None,
+          destination = None,
+          exportCountry = None,
+          governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(sequenceNumeric = "0", origin = None)))
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
         (xml \ "Declaration" \ "GoodsShipment" \ "Consignment").length mustBe 0

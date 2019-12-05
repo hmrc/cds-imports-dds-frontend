@@ -79,7 +79,7 @@ class DeclarationXml {
         {maybeParty("Exporter", dec.parties.exporter)}
         <GoodsShipment>
           {maybeParty("Buyer", dec.parties.buyer)}
-          {dec.consignment.toXml}
+          {dec.goodsShipment.consignment.toXml}
           {dec.headerCustomsValuation.toXml}
           {dec.goodsShipment.destination.toXml}
           {dec.goodsShipment.exportCountry.toXml}
