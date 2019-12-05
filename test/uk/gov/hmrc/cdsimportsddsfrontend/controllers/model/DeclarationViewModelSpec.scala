@@ -80,7 +80,7 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
         valuationAdjustment = Some(ValuationAdjustment(additionCode = "7890"))
       )
 
-      declaration.obligationGuarantee shouldBe Some(ObligationGuarantee(None, None, None, Some("0"), None, None))
+      declaration.obligationGuarantee shouldBe Some(ObligationGuarantee(None, None, None, None, None, None))
     }
   }
 }
