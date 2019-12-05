@@ -30,7 +30,8 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
           goodsShipment = GoodsShipment(consignment = None,
                                         destination = Some(Destination(countryCode = Some("FR"))),
                                         exportCountry = None,
-                                        governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq(), "0", None))
+                                        governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq(), "0", None),
+                                        tradeTerms = None)
         )
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -43,7 +44,9 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
             consignment = None,
             destination = None,
             exportCountry = Some(ExportCountry(id = Some("NE"))),
-            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq(), "0", None))
+            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq(), "0", None),
+            tradeTerms = None
+          )
         )
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -63,7 +66,8 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
               origin = Seq(
                 Origin(countryCode = Some("DL"), typeCode = Some("99")),
                 Origin(countryCode = Some("GB"), typeCode = Some("33"))),
-              sequenceNumeric = "1")
+              sequenceNumeric = "1"),
+            tradeTerms = None
           )
         )
 
@@ -80,7 +84,8 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
             consignment = None,
             destination = None,
             exportCountry = None,
-            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq(), "0", None))
+            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq(), "0", None),
+            tradeTerms = None)
         )
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -93,7 +98,8 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
             consignment = None,
             destination = None,
             exportCountry = Some(ExportCountry(id = None)),
-            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq(), "0", None))
+            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq(), "0", None),
+            tradeTerms = None)
         )
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -106,8 +112,8 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
             consignment = None,
             destination = None,
             exportCountry = None,
-            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(origin = Seq(), sequenceNumeric = "1")
-          )
+            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(origin = Seq(), sequenceNumeric = "1"),
+            tradeTerms = None)
         )
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)

@@ -19,4 +19,5 @@ package uk.gov.hmrc.cdsimportsddsfrontend.domain
 case class GoodsShipment(consignment: Option[Consignment],
                          destination: Option[Destination],
                          exportCountry: Option[ExportCountry],
-                         governmentAgencyGoodsItem: GovernmentAgencyGoodsItem)
+                         governmentAgencyGoodsItem: GovernmentAgencyGoodsItem,
+                         tradeTerms: Option[TradeTerms])

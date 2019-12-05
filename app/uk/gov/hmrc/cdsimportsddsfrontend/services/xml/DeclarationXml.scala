@@ -33,6 +33,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.HeaderCustomsValuationXmlW
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ItemCustomsValuationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ObligationGuaranteeXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.TradeTermsXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.PackagingXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ValuationAdjustmentXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
@@ -90,7 +91,7 @@ class DeclarationXml {
               {maybeElement("Description", dec.commodity.flatMap(_.description))}
               {dec.commodity.map(_.classification.map(_.toXml)).getOrElse(NodeSeq.Empty)}
               {dec.commodity.flatMap(_.dutyTaxFee).map(_.toXml).getOrElse(NodeSeq.Empty)}
-              {dec.commodity.flatMap(c => c.goodsMeasure).flatMap(_.toXmlOption).getOrElse(NodeSeq.Empty)}
+              {dec.commodity.flatMap(_.goodsMeasure).flatMap(_.toXmlOption).getOrElse(NodeSeq.Empty)}
               {maybeInvoiceLine(dec)}
             </Commodity>
             {dec.itemCustomsValuation.toXml}
@@ -110,7 +111,7 @@ class DeclarationXml {
           {maybeParty("Importer", dec.parties.importer)}
           {dec.documentationAndReferences.headerPreviousDocuments.map(_.toXml)}
           {maybeParty("Seller", dec.parties.seller)}
-          {maybeTradeTerms(dec)}
+          {dec.goodsShipment.tradeTerms.map(_.toXml).getOrElse(NodeSeq.Empty)}
           <UCR>
             <TraderAssignedReferenceID>1-12345</TraderAssignedReferenceID>
           </UCR>
@@ -118,20 +119,6 @@ class DeclarationXml {
         {dec.obligationGuarantee.toXml}
       </Declaration>
     </md:MetaData>
-  }
-
-  private[this] def maybeTradeTerms(declaration: Declaration): NodeSeq = {
-    if (declaration.valuationInformationAndTaxes.conditionCode.exists(_.nonEmpty) ||
-        declaration.valuationInformationAndTaxes.locationID.exists(_.nonEmpty) ||
-        declaration.valuationInformationAndTaxes.locationName.exists(_.nonEmpty)) {
-        <TradeTerms>
-          {maybeElement("ConditionCode", declaration.valuationInformationAndTaxes.conditionCode)}
-          {maybeElement("LocationID", declaration.valuationInformationAndTaxes.locationID)}
-          {maybeElement("LocationName", declaration.valuationInformationAndTaxes.locationName)}
-        </TradeTerms>
-    } else {
-      NodeSeq.Empty
-    }
   }
 
   private[this] def maybeElement(elementName: String, maybeElementValue: Option[String], attribute: Option[Attribute] = None): NodeSeq = {
