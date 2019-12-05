@@ -33,7 +33,7 @@ case class Declaration(
                                                                      governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
                                                                        origin = Seq(),
                                                                        sequenceNumeric = "1",
-                                                                       valuationAdjustment = None
-                                                                     )),
+                                                                       valuationAdjustment = None),
+                                                                     tradeTerms = None),
                         obligationGuarantee: Option[ObligationGuarantee] = None
                       )

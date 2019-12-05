@@ -26,9 +26,6 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
   "ValuationInformationAndTaxes data" should {
     "be populated in the XML" in {
       val declaration = Declaration(
-        valuationInformationAndTaxes = ValuationInformationAndTaxes(
-          locationName = Some("Some location name")
-        ),
         itemCustomsValuation = Some(ItemCustomsValuation(
           methodCode = Some("1"),
           chargeDeduction = Some(ChargeDeduction("FOO", CurrencyAmount("HUF", "9001")))
@@ -36,7 +33,11 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
         headerCustomsValuation = Some(HeaderCustomsValuation(
           Some(ChargeDeduction("BAR", CurrencyAmount("CHF", "675"))))
         ),
-        goodsShipment = GoodsShipment(None, None, None, GovernmentAgencyGoodsItem(Seq(), "untested", Some(ValuationAdjustment("0000"))))
+        goodsShipment = GoodsShipment(None, None, None, GovernmentAgencyGoodsItem(Seq(), "untested", Some(ValuationAdjustment("0000"))),
+          Some(TradeTerms(conditionCode = Some("CFR"),
+            locationID = Some("GBDVR"),
+            locationName = Some("Some location name")))
+        )
       )
 
       val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -61,7 +62,7 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
     }
 
     "omit TradeTerm element when conditionCode, locationID and locationName are all empty" in {
-      val declaration = Declaration(valuationInformationAndTaxes = ValuationInformationAndTaxes(conditionCode = None, locationID = None, locationName = None))
+      val declaration = Declaration()
       val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
       (xml \ "Declaration" \ "GoodsShipment" \ "TradeTerms").length mustBe 0
     }

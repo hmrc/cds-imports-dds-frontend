@@ -60,7 +60,12 @@ case class DeclarationViewModel(
     val goodsShipment = GoodsShipment(consignment = Some(consignment),
       destination = whenAndWhereViewModel.destination,
       exportCountry = whenAndWhereViewModel.exportCountry,
-      governmentAgencyGoodsItem = governmentAgencyGoodsItem
+      governmentAgencyGoodsItem = governmentAgencyGoodsItem,
+      tradeTerms = Some(TradeTerms(
+        valuationInformationAndTaxesViewModel.conditionCode,
+        valuationInformationAndTaxesViewModel.locationID,
+        valuationInformationAndTaxesViewModel.locationName
+      ))
     )
 
     Declaration(declarationType = declarationType,

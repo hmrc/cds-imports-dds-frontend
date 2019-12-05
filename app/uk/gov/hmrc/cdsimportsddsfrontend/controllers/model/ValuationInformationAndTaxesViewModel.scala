@@ -36,9 +36,6 @@ case class ValuationInformationAndTaxesViewModel(
 
   def toValuationInformationAndTaxes: ValuationInformationAndTaxes = {
     ValuationInformationAndTaxes(
-      conditionCode = conditionCode,
-      locationID = locationID,
-      locationName = locationName,
       itemChargeAmount = itemChargeAmount,
       currencyID = currencyID,
       rateNumeric = rateNumeric
