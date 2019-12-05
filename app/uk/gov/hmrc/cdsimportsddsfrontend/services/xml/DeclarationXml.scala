@@ -111,7 +111,7 @@ class DeclarationXml {
           {maybeParty("Importer", dec.parties.importer)}
           {dec.documentationAndReferences.headerPreviousDocuments.map(_.toXml)}
           {maybeParty("Seller", dec.parties.seller)}
-          {dec.goodsShipment.tradeTerms.map(_.toXml).getOrElse(NodeSeq.Empty)}
+          {dec.goodsShipment.tradeTerms.toXml}
           <UCR>
             <TraderAssignedReferenceID>1-12345</TraderAssignedReferenceID>
           </UCR>
