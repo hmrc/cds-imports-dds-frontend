@@ -38,7 +38,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ValuationAdjustmentXmlWrit
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances._
 
-import scala.xml.{Elem, NodeSeq, PrettyPrinter, Text}
+import scala.xml.{Attribute, Elem, MetaData, NodeSeq, PrettyPrinter, Text}
 
 @Singleton
 class DeclarationXml {
@@ -61,16 +61,13 @@ class DeclarationXml {
         <GoodsItemQuantity>{dec.declarationType.totalNumberOfItems}</GoodsItemQuantity>
         {maybeElement("TotalGrossMassMeasure", dec.totalGrossMassMeasure)}
         <TotalPackageQuantity>1</TotalPackageQuantity>
-        <AdditionalDocument>
-        {maybeElement("CategoryCode", dec.documentationAndReferences.additionalPayment(0).additionalDocPaymentCategory)}
-        {maybeElement("ID", dec.documentationAndReferences.additionalPayment(0).additionalDocPaymentID)}
-        {maybeElement("TypeCode", dec.documentationAndReferences.additionalPayment(0).additionalDocPaymentType)}
-        </AdditionalDocument>
-        <AdditionalDocument>
-          {maybeElement("CategoryCode", dec.documentationAndReferences.additionalPayment(1).additionalDocPaymentCategory)}
-          {maybeElement("ID", dec.documentationAndReferences.additionalPayment(1).additionalDocPaymentID)}
-          {maybeElement("TypeCode", dec.documentationAndReferences.additionalPayment(1).additionalDocPaymentType)}
-        </AdditionalDocument>
+        {dec.documentationAndReferences.additionalPayments.map(additionalPayment =>
+          <AdditionalDocument>
+          {maybeElement("CategoryCode", additionalPayment.additionalDocPaymentCategory)}
+          {maybeElement("ID", additionalPayment.additionalDocPaymentID)}
+          {maybeElement("TypeCode", additionalPayment.additionalDocPaymentType)}
+          </AdditionalDocument>
+        )}
         {additionalInformation(dec.documentationAndReferences.headerAdditionalInformation)}
         {dec.parties.authorisationHolders.map(_.toXml)}
         {dec.borderTransportMeans.toXml}
@@ -78,15 +75,16 @@ class DeclarationXml {
         {maybeParty("Declarant", dec.parties.declarant)}
         {maybeParty("Exporter", dec.parties.exporter)}
         <GoodsShipment>
-          <TransactionNatureCode>1</TransactionNatureCode>
           {maybeParty("Buyer", dec.parties.buyer)}
-          {dec.consignment.toXml}
+          {dec.goodsShipment.consignment.toXml}
           {dec.headerCustomsValuation.toXml}
           {dec.goodsShipment.destination.toXml}
           {dec.goodsShipment.exportCountry.toXml}
           <GovernmentAgencyGoodsItem>
             <SequenceNumeric>{dec.goodsShipment.governmentAgencyGoodsItem.sequenceNumeric}</SequenceNumeric>
-            {dec.documentationAndReferences.additionalDocument.map(_.toXml)}
+            {dec.goodsShipment.governmentAgencyGoodsItem.statisticalValue.toXml(statisticalValueAmountWriter)}
+            {maybeElement("TransactionNatureCode", dec.goodsShipment.governmentAgencyGoodsItem.transactionNatureCode)}
+            {dec.documentationAndReferences.additionalDocuments.map(_.toXml)}
             {dec.documentationAndReferences.itemAdditionalInformation.map(additionalInformation)}
             <Commodity>
               {maybeElement("Description", dec.commodity.flatMap(_.description))}
@@ -117,7 +115,7 @@ class DeclarationXml {
             <TraderAssignedReferenceID>1-12345</TraderAssignedReferenceID>
           </UCR>
         </GoodsShipment>
-        {dec.obligationGuarantee.map(_.toXml).getOrElse(NodeSeq.Empty)}
+        {dec.obligationGuarantee.toXml}
       </Declaration>
     </md:MetaData>
   }
@@ -134,13 +132,13 @@ class DeclarationXml {
     } else {
       NodeSeq.Empty
     }
-
   }
 
-  private[this] def maybeElement(elementName: String, maybeElementValue: Option[String]): NodeSeq = {
+  private[this] def maybeElement(elementName: String, maybeElementValue: Option[String], attribute: Option[Attribute] = None): NodeSeq = {
     maybeElementValue match {
       case Some(value) if value.nonEmpty =>
-        Elem.apply(null, elementName, scala.xml.Null, scala.xml.TopScope, true, Text(value)) //scalastyle:ignore
+        val attributes: MetaData = attribute.getOrElse(scala.xml.Null)
+        Elem.apply(null, elementName, attributes, scala.xml.TopScope, true, Text(value)) //scalastyle:ignore
       case _ => NodeSeq.Empty
     }
   }

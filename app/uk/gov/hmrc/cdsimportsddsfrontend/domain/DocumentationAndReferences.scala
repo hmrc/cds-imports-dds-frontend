@@ -38,13 +38,13 @@ case class AdditionalInformation(
 )
 
 case class DocumentationAndReferences(
-                              headerPreviousDocuments: Seq[PreviousDocument],
-                              itemPreviousDocuments: Seq[PreviousDocument],
-                              headerAdditionalInformation: AdditionalInformation,
-                              itemAdditionalInformation: Seq[AdditionalInformation],
-                              additionalDocument: Seq[AdditionalDocument],
-                              localReferenceNumber: Option[String],
-                              additionalPayment: Seq[AdditionalPaymentType]
+                                       headerPreviousDocuments: Seq[PreviousDocument],
+                                       itemPreviousDocuments: Seq[PreviousDocument],
+                                       headerAdditionalInformation: AdditionalInformation,
+                                       itemAdditionalInformation: Seq[AdditionalInformation],
+                                       additionalDocuments: Seq[AdditionalDocument],
+                                       localReferenceNumber: Option[String],
+                                       additionalPayments: Seq[AdditionalPaymentType]
 )
 
 object DocumentationAndReferences {

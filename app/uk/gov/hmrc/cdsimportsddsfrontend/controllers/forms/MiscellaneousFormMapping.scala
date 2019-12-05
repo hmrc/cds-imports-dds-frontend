@@ -29,6 +29,8 @@ object MiscellaneousFormMapping {
     "otherGRN" -> optional(text),
     "accessCode" -> optional(text),
     "importDutyAndOtherCharges" -> optional(currencyAmountMapping),
-    "customsOffice" -> optional(text)
+    "customsOffice" -> optional(text),
+    "natureOfTransaction" -> optional(text),
+    "statisticalValue" -> optional(currencyAmountMapping)
   )(MiscellaneousViewModel.apply)(MiscellaneousViewModel.unapply)
 }

@@ -140,7 +140,6 @@ declare.transportInformation.transportId=7.9 ID of means of transport on arrival
 declare.transportInformation.transportIdentificationType=7.9 Transport ID type
 declare.transportInformation.registrationNationalityCode=7.15 Nationality of means of transport at border
 
-
 # Section 8
 declare.miscellaneous.quotaOrderNumber=8.1 Quota order number
 declare.miscellaneous.guaranteeType=8.2 Guarantee Type
@@ -150,7 +149,9 @@ declare.miscellaneous.guaranteeReference.accessCode=8.3 Guarantee Reference - Ac
 declare.miscellaneous.guaranteeReference.amount=8.3 Guarantee Reference - Amount of import duty and other charges
 declare.miscellaneous.guaranteeReference.currencyCode=8.3 Guarantee Reference - Currency Code
 declare.miscellaneous.guaranteeReference.office=8.3 Guarantee Reference - Customs office of guarantee 
-
+declare.miscellaneous.natureOfTransaction=8.5 Nature of transaction
+declare.miscellaneous.statisticalValue.amount=8.6 Statistical value - amount
+declare.miscellaneous.statisticalValue.currency=8.6 Statistical value - currency
 
 # Raw XML declaration form
 declaration.xml=Declaration XML
