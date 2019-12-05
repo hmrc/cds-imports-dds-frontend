@@ -24,7 +24,9 @@ case class MiscellaneousViewModel(quotaOrderNumber: Option[String] = None,
                                    otherGRN: Option[String] = None,
                                    accessCode: Option[String] = None,
                                    importDutyAndOtherCharges: Option[CurrencyAmount] = None,
-                                   customsOffice: Option[String] = None
+                                   customsOffice: Option[String] = None,
+                                   natureOfTransaction: Option[String] = Some("1"),
+                                   statisticalValue: Option[CurrencyAmount] = Some(CurrencyAmount("GBP", "100"))
                                  ) {
 
   def toObligationGuarantee: ObligationGuarantee = ObligationGuarantee(

@@ -33,7 +33,7 @@ trait XmlWriter[A] {
     maybeElementValue.filter(_.nonEmpty).map(value => element(elementName, value, attribute))
   }
 
-  protected def element(elementName: String, elementValue: String, attribute: Option[Attribute] = None ): Node = {
+  protected def element(elementName: String, elementValue: String, attribute: Option[Attribute] = None ): Elem = {
 
     val attributes: MetaData = attribute match {
       case Some(attrValue) => attrValue
@@ -102,5 +102,14 @@ object XmlWriterInstances {
       )
     }
   }
+
+  def currencyAmountWriterFor(elementName: String): XmlWriter[CurrencyAmount] = new XmlWriter[CurrencyAmount] {
+    override def toXmlOption(value: CurrencyAmount): Option[Elem] = {
+      val currencyAttr = Option(Attribute(pre = "", key = "currencyID", value = value.currency, scala.xml.Null))
+      Option(element(elementName, value.amount, currencyAttr))
+    }
+  }
+
+  implicit val statisticalValueAmountWriter: XmlWriter[CurrencyAmount] = currencyAmountWriterFor("StatisticalValueAmount")
 
 }

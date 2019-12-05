@@ -52,6 +52,9 @@ class DeclarationController_miscellaneousSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "miscellaneous.importDutyAndOtherCharges.amount")
         body should include element withName("input").withAttrValue("name", "miscellaneous.importDutyAndOtherCharges.currency")
         body should include element withName("input").withAttrValue("name", "miscellaneous.customsOffice")
+        body should include element withName("input").withAttrValue("name", "miscellaneous.natureOfTransaction")
+        body should include element withName("input").withAttrValue("name", "miscellaneous.statisticalValue.amount")
+        body should include element withName("input").withAttrValue("name", "miscellaneous.statisticalValue.currency")
       }
     }
   }
@@ -67,7 +70,10 @@ class DeclarationController_miscellaneousSpec extends CdsImportsSpec
         "miscellaneous.accessCode" -> Seq("2468"),
         "miscellaneous.importDutyAndOtherCharges.currency" -> Seq("GBP"),
         "miscellaneous.importDutyAndOtherCharges.amount" -> Seq("12345"),
-        "miscellaneous.customsOffice" -> Seq("Shipley")
+        "miscellaneous.customsOffice" -> Seq("Shipley"),
+        "miscellaneous.natureOfTransaction" -> Seq("4"),
+        "miscellaneous.statisticalValue.amount" -> Seq("9876"),
+        "miscellaneous.statisticalValue.currency" -> Seq("JPY")
       ) ++ declarationTypeFormData
 
       val captor: ArgumentCaptor[DeclarationViewModel] = ArgumentCaptor.forClass(classOf[DeclarationViewModel])
@@ -80,7 +86,7 @@ class DeclarationController_miscellaneousSpec extends CdsImportsSpec
         private val actualDeclaration = captor.getValue
         actualDeclaration.miscellaneousViewModel mustBe
           MiscellaneousViewModel(None, Some("123"), Some("456"), Some("789"), Some("2468"),
-            Some(CurrencyAmount("GBP", "12345")), Some("Shipley"))
+            Some(CurrencyAmount("GBP", "12345")), Some("Shipley"), Some("4"), Some(CurrencyAmount("JPY", "9876")))
       }
     }
 

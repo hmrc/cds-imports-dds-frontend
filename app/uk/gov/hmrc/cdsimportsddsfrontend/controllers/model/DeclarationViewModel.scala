@@ -32,7 +32,7 @@ case class DeclarationViewModel(
   def toDeclaration: Declaration = {
     val dutyTaxFee = DutyTaxFee(valuationInformationAndTaxesViewModel.dutyRegimeCode,
       miscellaneousViewModel.quotaOrderNumber,
-      valuationInformationAndTaxesViewModel.paymentMethodCode.map(Payment(_)))
+      valuationInformationAndTaxesViewModel.paymentMethodCode.map(Payment))
 
     val commodity = Some(Commodity(
       goodsMeasure = Some(goodsIdentification.toGoodsMeasure),
@@ -46,16 +46,20 @@ case class DeclarationViewModel(
         whenAndWhereViewModel.goodsLocation,
         whenAndWhereViewModel.placeOfLoading.map(LoadingLocation))
 
+    val governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
+      origin = Seq(Origin(countryCode = whenAndWhereViewModel.originCountryCode,
+                          typeCode = whenAndWhereViewModel.originTypeCode),
+                   Origin(countryCode = whenAndWhereViewModel.preferentialOriginCountryCode,
+                          typeCode = whenAndWhereViewModel.preferentialOriginTypeCode)),
+      sequenceNumeric = declarationType.goodsItemNumber,
+      valuationAdjustment = valuationInformationAndTaxesViewModel.additionCode.map(ValuationAdjustment),
+      transactionNatureCode = miscellaneousViewModel.natureOfTransaction,
+      statisticalValue = miscellaneousViewModel.statisticalValue
+    )
+
     val goodsShipment = GoodsShipment(destination = whenAndWhereViewModel.destination,
       exportCountry = whenAndWhereViewModel.exportCountry,
-      governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
-        origin = Seq(Origin(countryCode = whenAndWhereViewModel.originCountryCode,
-                            typeCode = whenAndWhereViewModel.originTypeCode),
-                     Origin(countryCode = whenAndWhereViewModel.preferentialOriginCountryCode,
-                            typeCode = whenAndWhereViewModel.preferentialOriginTypeCode)),
-        sequenceNumeric = declarationType.goodsItemNumber,
-        valuationAdjustment = valuationInformationAndTaxesViewModel.additionCode.map(ValuationAdjustment)
-      )
+      governmentAgencyGoodsItem = governmentAgencyGoodsItem
     )
 
     Declaration(declarationType = declarationType,

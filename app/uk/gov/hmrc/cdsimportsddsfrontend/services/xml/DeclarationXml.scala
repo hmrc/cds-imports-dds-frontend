@@ -38,7 +38,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ValuationAdjustmentXmlWrit
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances._
 
-import scala.xml.{Elem, NodeSeq, PrettyPrinter, Text}
+import scala.xml.{Attribute, Elem, MetaData, NodeSeq, PrettyPrinter, Text}
 
 @Singleton
 class DeclarationXml {
@@ -78,7 +78,6 @@ class DeclarationXml {
         {maybeParty("Declarant", dec.parties.declarant)}
         {maybeParty("Exporter", dec.parties.exporter)}
         <GoodsShipment>
-          <TransactionNatureCode>1</TransactionNatureCode>
           {maybeParty("Buyer", dec.parties.buyer)}
           {dec.consignment.toXml}
           {dec.headerCustomsValuation.toXml}
@@ -86,6 +85,8 @@ class DeclarationXml {
           {dec.goodsShipment.exportCountry.toXml}
           <GovernmentAgencyGoodsItem>
             <SequenceNumeric>{dec.goodsShipment.governmentAgencyGoodsItem.sequenceNumeric}</SequenceNumeric>
+            {dec.goodsShipment.governmentAgencyGoodsItem.statisticalValue.toXml(statisticalValueAmountWriter)}
+            {maybeElement("TransactionNatureCode", dec.goodsShipment.governmentAgencyGoodsItem.transactionNatureCode)}
             {dec.documentationAndReferences.additionalDocument.map(_.toXml)}
             {dec.documentationAndReferences.itemAdditionalInformation.map(additionalInformation)}
             <Commodity>
@@ -117,7 +118,7 @@ class DeclarationXml {
             <TraderAssignedReferenceID>1-12345</TraderAssignedReferenceID>
           </UCR>
         </GoodsShipment>
-        {dec.obligationGuarantee.map(_.toXml).getOrElse(NodeSeq.Empty)}
+        {dec.obligationGuarantee.toXml}
       </Declaration>
     </md:MetaData>
   }
@@ -134,13 +135,13 @@ class DeclarationXml {
     } else {
       NodeSeq.Empty
     }
-
   }
 
-  private[this] def maybeElement(elementName: String, maybeElementValue: Option[String]): NodeSeq = {
+  private[this] def maybeElement(elementName: String, maybeElementValue: Option[String], attribute: Option[Attribute] = None): NodeSeq = {
     maybeElementValue match {
       case Some(value) if value.nonEmpty =>
-        Elem.apply(null, elementName, scala.xml.Null, scala.xml.TopScope, true, Text(value)) //scalastyle:ignore
+        val attributes: MetaData = attribute.getOrElse(scala.xml.Null)
+        Elem.apply(null, elementName, attributes, scala.xml.TopScope, true, Text(value)) //scalastyle:ignore
       case _ => NodeSeq.Empty
     }
   }

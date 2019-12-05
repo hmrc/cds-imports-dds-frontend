@@ -36,7 +36,11 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
           additionCode = Some("7890")),
         whenAndWhereViewModel = WhenAndWhereViewModel(
             preferentialOriginCountryCode = Some("GB"),
-            preferentialOriginTypeCode = Some("2"))
+            preferentialOriginTypeCode = Some("2")),
+        miscellaneousViewModel = MiscellaneousViewModel(
+          natureOfTransaction = Some("3"),
+          statisticalValue = Some(CurrencyAmount("DKK", "8080"))
+        )
       )
 
       val declaration = viewModel.toDeclaration
@@ -77,7 +81,9 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
         origin = Seq(Origin(countryCode = Some("FR"), typeCode = Some("1")),
                      Origin(countryCode = Some("GB"), typeCode = Some("2"))),
         sequenceNumeric = "77",
-        valuationAdjustment = Some(ValuationAdjustment(additionCode = "7890"))
+        valuationAdjustment = Some(ValuationAdjustment(additionCode = "7890")),
+        transactionNatureCode = Some("3"),
+        statisticalValue = Some(CurrencyAmount("DKK", "8080"))
       )
 
       declaration.obligationGuarantee shouldBe Some(ObligationGuarantee(None, None, None, None, None, None))

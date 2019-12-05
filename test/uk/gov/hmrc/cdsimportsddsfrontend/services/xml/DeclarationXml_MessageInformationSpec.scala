@@ -29,7 +29,6 @@ class DeclarationXml_MessageInformationSpec extends WordSpec with MustMatchers {
 
       val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
       (xmlElement \ "Declaration" \ "TypeCode").head.text mustBe "IMZ"
-      (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "SequenceNumeric").head.text mustBe "1"
       (xmlElement \ "Declaration" \ "GoodsItemQuantity").head.text mustBe "1"
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "GovernmentProcedure" \ "CurrentCode").map(_.text) mustBe List("40","000")
       (xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "GovernmentProcedure" \ "PreviousCode").map(_.text) mustBe List("00")
