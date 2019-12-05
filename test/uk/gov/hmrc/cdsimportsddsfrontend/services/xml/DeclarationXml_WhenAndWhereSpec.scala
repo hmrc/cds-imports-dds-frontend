@@ -48,20 +48,25 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
         (xml \ "Declaration" \ "GoodsShipment" \ "ExportCountry" \ "ID").head.text mustBe "NE"
       }
 
+    }
+
+    "be populated in the XML at item level" when {
       "the origin is present in the data" in {
         val declaration = Declaration(
           goodsShipment = GoodsShipment(
             destination = None,
             exportCountry = None,
             governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
-              origin = Seq(Origin(countryCode = Some("DL"), typeCode = Some("99"))),
+              origin = Seq(
+                Origin(countryCode = Some("DL"), typeCode = Some("99")),
+                Origin(countryCode = Some("GB"), typeCode = Some("33"))),
               sequenceNumeric = "1")
           )
         )
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
-        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Origin" \ "CountryCode").head.text mustBe "DL"
-        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Origin" \ "TypeCode").head.text mustBe "99"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Origin" \ "CountryCode").toList.map(_.text) mustBe Seq("DL", "GB")
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Origin" \ "TypeCode").toList.map(_.text) mustBe Seq("99", "33")
       }
     }
 

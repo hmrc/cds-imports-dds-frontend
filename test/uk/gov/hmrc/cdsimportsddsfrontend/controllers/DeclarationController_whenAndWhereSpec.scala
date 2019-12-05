@@ -47,6 +47,8 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "whenAndWhere.exportCountry.id")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.originCountryCode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.originTypeCode")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.preferentialOriginCountryCode")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.preferentialOriginTypeCode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.name")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.typeCode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.countryCode")
@@ -63,7 +65,9 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         "whenAndWhere.destination.countryCode" -> Seq("destination countryCode"),
         "whenAndWhere.exportCountry.id" -> Seq("id"),
         "whenAndWhere.originCountryCode" -> Seq("origin countryCode"),
-        "whenAndWhere.originTypeCode" -> Seq("typeCode"),
+        "whenAndWhere.originTypeCode" -> Seq("origin typeCode"),
+        "whenAndWhere.preferentialOriginCountryCode" -> Seq("preferential origin countryCode"),
+        "whenAndWhere.preferentialOriginTypeCode" -> Seq("preferential origin typeCode"),
         "whenAndWhere.goodsLocation.name" -> Seq("goods location name"),
         "whenAndWhere.goodsLocation.typeCode" -> Seq("goods location type"),
         "whenAndWhere.goodsLocation.address.countryCode" -> Seq("goods location country code"),
@@ -83,9 +87,9 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
           Some(Destination(Some("destination countryCode"))),
           Some(ExportCountry(id = Some("id"))),
           Some("origin countryCode"),
-          Some("typeCode"),
-          None,
-          None,
+          Some("origin typeCode"),
+          Some("preferential origin countryCode"),
+          Some("preferential origin typeCode"),
           Some(GoodsLocation(name = Some("goods location name"), typeCode = Some("goods location type"),
             address = Some(Address(None, None, Some("goods location country code"), None, Some("goods location type code"))))),
           Some("an airport")
@@ -94,12 +98,7 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
     }
 
     "succeed when all optional fields are empty" in signedInScenario { user =>
-      val formData: Map[String, Seq[String]] = Map(
-        "whenAndWhere.destination.countryCode" -> Seq(""),
-        "whenAndWhere.exportCountry.id" -> Seq(""),
-        "whenAndWhere.origin.countryCode" -> Seq(""),
-        "whenAndWhere.origin.typeCode" -> Seq("")
-      ) ++ declarationTypeFormData
+      val formData: Map[String, Seq[String]] = declarationTypeFormData
 
       when(mockDeclarationService.submit(any(), any[DeclarationViewModel])(any()))
         .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))

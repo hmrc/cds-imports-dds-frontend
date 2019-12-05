@@ -33,7 +33,10 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
                                                 currencyAmount = CurrencyAmount(currency = "XYZ", amount = "87"))),
           itemChargeDeduction = Some(ChargeDeduction(typeCode = "item type",
                                                 currencyAmount = CurrencyAmount(currency = "GBP", amount = "65"))),
-          additionCode = Some("7890"))
+          additionCode = Some("7890")),
+        whenAndWhereViewModel = WhenAndWhereViewModel(
+            preferentialOriginCountryCode = Some("GB"),
+            preferentialOriginTypeCode = Some("2"))
       )
 
       val declaration = viewModel.toDeclaration
@@ -71,7 +74,8 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
       declaration.goodsShipment.exportCountry shouldBe Some(ExportCountry(id = Some("FR")))
 
       declaration.goodsShipment.governmentAgencyGoodsItem shouldBe GovernmentAgencyGoodsItem(
-        origin = Seq(Origin(countryCode = Some("FR"), typeCode = Some("1"))),
+        origin = Seq(Origin(countryCode = Some("FR"), typeCode = Some("1")),
+                     Origin(countryCode = Some("GB"), typeCode = Some("2"))),
         sequenceNumeric = "77",
         valuationAdjustment = Some(ValuationAdjustment(additionCode = "7890"))
       )

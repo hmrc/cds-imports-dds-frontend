@@ -50,7 +50,9 @@ case class DeclarationViewModel(
       exportCountry = whenAndWhereViewModel.exportCountry,
       governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
         origin = Seq(Origin(countryCode = whenAndWhereViewModel.originCountryCode,
-                            typeCode = whenAndWhereViewModel.originTypeCode)),
+                            typeCode = whenAndWhereViewModel.originTypeCode),
+                     Origin(countryCode = whenAndWhereViewModel.preferentialOriginCountryCode,
+                            typeCode = whenAndWhereViewModel.preferentialOriginTypeCode)),
         sequenceNumeric = declarationType.goodsItemNumber,
         valuationAdjustment = valuationInformationAndTaxesViewModel.additionCode.map(ValuationAdjustment)
       )
