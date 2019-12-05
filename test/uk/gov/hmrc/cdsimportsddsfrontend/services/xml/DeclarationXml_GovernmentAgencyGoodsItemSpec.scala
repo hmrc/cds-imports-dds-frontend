@@ -39,7 +39,8 @@ class DeclarationXml_GovernmentAgencyGoodsItemSpec extends WordSpec with MustMat
             consignment = None,
             destination = None,
             exportCountry = None,
-            governmentAgencyGoodsItem = governmentAgencyGoodsItem
+            governmentAgencyGoodsItem = governmentAgencyGoodsItem,
+            tradeTerms = None
           )
         )
 
@@ -67,7 +68,8 @@ class DeclarationXml_GovernmentAgencyGoodsItemSpec extends WordSpec with MustMat
             consignment = None,
             destination = None,
             exportCountry = None,
-            governmentAgencyGoodsItem = governmentAgencyGoodsItem
+            governmentAgencyGoodsItem = governmentAgencyGoodsItem,
+            tradeTerms = None
           )
         )
 
