@@ -37,7 +37,7 @@ class DeclarationXml_ConsignmentSpec extends WordSpec with MustMatchers {
           consignment = someConsignment,
           destination = None,
           exportCountry = None,
-          governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(sequenceNumeric = "0", origin = None)))
+          governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(sequenceNumeric = "0", origin = Seq())))
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
@@ -58,7 +58,7 @@ class DeclarationXml_ConsignmentSpec extends WordSpec with MustMatchers {
           consignment = None,
           destination = None,
           exportCountry = None,
-          governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(sequenceNumeric = "0", origin = None)))
+          governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(sequenceNumeric = "0", origin = Seq())))
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
 
         (xml \ "Declaration" \ "GoodsShipment" \ "Consignment").length mustBe 0

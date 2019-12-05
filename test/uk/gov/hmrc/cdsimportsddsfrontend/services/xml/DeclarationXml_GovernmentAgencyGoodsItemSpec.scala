@@ -27,7 +27,7 @@ class DeclarationXml_GovernmentAgencyGoodsItemSpec extends WordSpec with MustMat
     "be populated in the XML" when {
       "the item level data is present in the Declaration" in {
         val governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
-          origin = None,
+          origin = Seq(),
           sequenceNumeric = "3",
           valuationAdjustment = None,
           transactionNatureCode = Some("2"),
@@ -55,7 +55,7 @@ class DeclarationXml_GovernmentAgencyGoodsItemSpec extends WordSpec with MustMat
     "be omitted from XML" when {
       "the item level data is not present in the Declaration" in {
         val governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
-          origin = None,
+          origin = Seq(),
           sequenceNumeric = "3",
           valuationAdjustment = None,
           transactionNatureCode = None,
