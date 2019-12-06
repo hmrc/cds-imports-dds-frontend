@@ -38,7 +38,7 @@ case class DeclarationViewModel(
       classification = goodsIdentification.toClassification(),
       description = goodsIdentification.description,
       dutyTaxFee = Some(dutyTaxFee),
-      invoiceLine = Some(InvoiceLine(valuationInformationAndTaxesViewModel.itemChargeAmount))))
+      invoiceLine = Some(valuationInformationAndTaxesViewModel.toInvoiceLine)))
 
     val consignment: Consignment = Consignment(
         transportInformationViewModel.container,
@@ -71,7 +71,7 @@ case class DeclarationViewModel(
     Declaration(declarationType = declarationType,
       documentationAndReferences = documentationAndReferences,
       parties = parties,
-      valuationInformationAndTaxes = valuationInformationAndTaxesViewModel.toValuationInformationAndTaxes,
+      currencyExchange = Some(valuationInformationAndTaxesViewModel.toCurrencyExchange),
       totalGrossMassMeasure = goodsIdentification.grossMass,
       commodity = commodity,
       packaging = Some(goodsIdentification.toPackaging),

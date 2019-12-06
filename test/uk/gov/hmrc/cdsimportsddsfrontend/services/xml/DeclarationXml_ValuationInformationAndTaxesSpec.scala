@@ -37,7 +37,8 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
           Some(TradeTerms(conditionCode = Some("CFR"),
             locationID = Some("GBDVR"),
             locationName = Some("Some location name")))
-        )
+        ),
+        currencyExchange = Some(CurrencyExchange(Some("1.27")))
       )
 
       val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
@@ -72,13 +73,13 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
     }
 
     "omit CurrencyExchange element when rateNumeric is empty" in {
-      val declaration = Declaration(valuationInformationAndTaxes = ValuationInformationAndTaxes(rateNumeric=None))
+      val declaration = Declaration()
       val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
       (xml \ "Declaration" \ "CurrencyExchange").length mustBe 0
     }
 
     "omit CustomsValuation element when customsValuationMethodCode and chargeDeduction are empty" in {
-      val declaration = Declaration(valuationInformationAndTaxes = ValuationInformationAndTaxes())
+      val declaration = Declaration()
       val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
       (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "CustomsValuation").length mustBe 0
     }

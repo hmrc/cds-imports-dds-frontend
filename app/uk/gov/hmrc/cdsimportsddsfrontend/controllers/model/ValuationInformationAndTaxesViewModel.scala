@@ -33,12 +33,6 @@ case class ValuationInformationAndTaxesViewModel(
                                                     ChargeDeduction(typeCode = "AS", currencyAmount =
                                                       CurrencyAmount(currency = "GBP", "100")))) {
 
-  def toValuationInformationAndTaxes: ValuationInformationAndTaxes = {
-    ValuationInformationAndTaxes(
-      rateNumeric = rateNumeric
-    )
-  }
-
   def toItemCustomsValuation: ItemCustomsValuation = {
     ItemCustomsValuation(
       methodCode = customsValuationMethodCode,
@@ -54,5 +48,9 @@ case class ValuationInformationAndTaxesViewModel(
 
   def toInvoiceLine: InvoiceLine = {
     InvoiceLine(itemChargeAmount)
+  }
+
+  def toCurrencyExchange: CurrencyExchange = {
+    CurrencyExchange(rateNumeric)
   }
 }

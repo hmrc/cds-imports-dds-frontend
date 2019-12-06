@@ -25,6 +25,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.AddressXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.BorderTransportMeansXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ClassificationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ConsignmentXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.CurrencyExchangeXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DestinationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DutyTaxFeeXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ExportCountryXmlWriter._
@@ -73,7 +74,7 @@ class DeclarationXml {
         {additionalInformation(dec.documentationAndReferences.headerAdditionalInformation)}
         {dec.parties.authorisationHolders.map(_.toXml)}
         {dec.borderTransportMeans.toXml}
-        {maybeCurrencyExchange(dec)}
+        {dec.currencyExchange.map(_.toXml).getOrElse(NodeSeq.Empty)}
         {maybeParty("Declarant", dec.parties.declarant)}
         {maybeParty("Exporter", dec.parties.exporter)}
         <GoodsShipment>
@@ -128,16 +129,6 @@ class DeclarationXml {
         val attributes: MetaData = attribute.getOrElse(scala.xml.Null)
         Elem.apply(null, elementName, attributes, scala.xml.TopScope, true, Text(value)) //scalastyle:ignore
       case _ => NodeSeq.Empty
-    }
-  }
-
-  private[this] def maybeCurrencyExchange(declaration: Declaration): NodeSeq = {
-    if (declaration.valuationInformationAndTaxes.rateNumeric.exists(_.nonEmpty)) {
-      <CurrencyExchange>
-        {maybeElement("RateNumeric", declaration.valuationInformationAndTaxes.rateNumeric)}
-      </CurrencyExchange>
-    } else {
-      NodeSeq.Empty
     }
   }
 

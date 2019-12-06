@@ -17,19 +17,18 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
 import cats.implicits._
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.InvoiceLine
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances.itemChargeAmountWriter
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.CurrencyExchange
 
 import scala.xml.{Elem, Node}
 
-object InvoiceLineXmlWriter {
+object CurrencyExchangeXmlWriter {
 
-  implicit val invoiceLineXmlWriter: XmlWriter[InvoiceLine] = new XmlWriter[InvoiceLine] {
-    override def toXmlOption(value: InvoiceLine): Option[Elem] = {
-      val itemChargeAmount = value.itemChargeAmount.flatMap(itemChargeAmountWriter.toXmlOption)
+  implicit val currencyExchangeXmlWriter: XmlWriter[CurrencyExchange] = new XmlWriter[CurrencyExchange] {
+    override def toXmlOption(value: CurrencyExchange): Option[Elem] = {
+      val rateNumeric: Option[Node] = maybeElement("RateNumeric", value.rateNumeric)
 
-      val nodes: List[Node] = List(itemChargeAmount).flattenOption
-      Option(nodes).filter(_.nonEmpty).map(nonEmptyChildNodes => <InvoiceLine>{nonEmptyChildNodes}</InvoiceLine>)
+      val nodes: List[Node] = List(rateNumeric).flattenOption
+      Option(nodes).filter(_.nonEmpty).map(nonEmptyChildNodes => <CurrencyExchange>{nonEmptyChildNodes}</CurrencyExchange>)
     }
   }
 }

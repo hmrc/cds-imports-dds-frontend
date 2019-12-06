@@ -16,4 +16,4 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class ValuationInformationAndTaxes(rateNumeric: Option[String] = Some("1.27"))
+case class CurrencyExchange(rateNumeric: Option[String])
