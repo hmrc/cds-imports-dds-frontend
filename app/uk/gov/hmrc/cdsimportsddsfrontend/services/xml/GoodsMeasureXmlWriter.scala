@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
-import cats.implicits._
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.GoodsMeasure
 
 import scala.xml.{Attribute, Elem, Node}
@@ -31,7 +30,7 @@ object GoodsMeasureXmlWriter {
       val netNetWeightMeasure: Option[Node] = maybeElement("NetNetWeightMeasure", value.netNetWeightMeasure, Some(attr))
       val tariffQuantity: Option[Node] = maybeElement("TariffQuantity", value.tariffQuantity)
 
-      val nodes = List(grossMassMeasure, netNetWeightMeasure, tariffQuantity).flattenOption
+      val nodes = List(grossMassMeasure, netNetWeightMeasure, tariffQuantity).flatten
       Option(nodes).filter(_.nonEmpty).map(nonEmptyChildNodes => <GoodsMeasure>{nonEmptyChildNodes}</GoodsMeasure>)
     }
   }
