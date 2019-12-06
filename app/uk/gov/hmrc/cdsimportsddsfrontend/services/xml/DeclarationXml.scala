@@ -74,7 +74,7 @@ class DeclarationXml {
         {additionalInformation(dec.documentationAndReferences.headerAdditionalInformation)}
         {dec.parties.authorisationHolders.map(_.toXml)}
         {dec.borderTransportMeans.toXml}
-        {dec.currencyExchange.map(_.toXml).getOrElse(NodeSeq.Empty)}
+        {dec.currencyExchange.toXml}
         {maybeParty("Declarant", dec.parties.declarant)}
         {maybeParty("Exporter", dec.parties.exporter)}
         <GoodsShipment>

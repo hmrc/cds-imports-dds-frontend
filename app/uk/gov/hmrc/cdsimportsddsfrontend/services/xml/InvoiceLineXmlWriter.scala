@@ -26,10 +26,8 @@ object InvoiceLineXmlWriter {
 
   implicit val invoiceLineXmlWriter: XmlWriter[InvoiceLine] = new XmlWriter[InvoiceLine] {
     override def toXmlOption(value: InvoiceLine): Option[Elem] = {
-      val itemChargeAmount = value.itemChargeAmount.flatMap(itemChargeAmountWriter.toXmlOption)
-
-      val nodes: List[Node] = List(itemChargeAmount).flattenOption
-      Option(nodes).filter(_.nonEmpty).map(nonEmptyChildNodes => <InvoiceLine>{nonEmptyChildNodes}</InvoiceLine>)
+      val itemChargeAmount: Option[Elem] = value.itemChargeAmount.flatMap(itemChargeAmountWriter.toXmlOption)
+      itemChargeAmount.map(elem => <InvoiceLine>{elem}</InvoiceLine>)
     }
   }
 }

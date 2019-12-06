@@ -26,9 +26,7 @@ object CurrencyExchangeXmlWriter {
   implicit val currencyExchangeXmlWriter: XmlWriter[CurrencyExchange] = new XmlWriter[CurrencyExchange] {
     override def toXmlOption(value: CurrencyExchange): Option[Elem] = {
       val rateNumeric: Option[Node] = maybeElement("RateNumeric", value.rateNumeric)
-
-      val nodes: List[Node] = List(rateNumeric).flattenOption
-      Option(nodes).filter(_.nonEmpty).map(nonEmptyChildNodes => <CurrencyExchange>{nonEmptyChildNodes}</CurrencyExchange>)
+      rateNumeric.map(elem => <CurrencyExchange>{elem}</CurrencyExchange>)
     }
   }
 }
