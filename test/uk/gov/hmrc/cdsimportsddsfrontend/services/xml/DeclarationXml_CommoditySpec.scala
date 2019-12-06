@@ -33,7 +33,7 @@ class DeclarationXml_CommoditySpec extends WordSpec with MustMatchers {
             goodsMeasure = Some(GoodsMeasure(netNetWeightMeasure = Some("123"), tariffQuantity = Some("345"), grossMassMeasure = Some("678"))),
             dutyTaxFee = Some(DutyTaxFee(dutyRegimeCode = Some("100"), payment = Some(Payment("E")))),
               invoiceLine = Some(InvoiceLine(Some(CurrencyAmount("EUR", "67"))))
-        )
+        )))
 
         val xml: Elem = DeclarationXml().fromImportDeclaration(declaration)
 
