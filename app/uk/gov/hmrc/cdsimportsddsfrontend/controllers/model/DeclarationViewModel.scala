@@ -31,7 +31,6 @@ case class DeclarationViewModel(
 
   def toDeclaration: Declaration = {
     val dutyTaxFee = DutyTaxFee(valuationInformationAndTaxesViewModel.dutyRegimeCode,
-      miscellaneousViewModel.quotaOrderNumber,
       valuationInformationAndTaxesViewModel.paymentMethodCode.map(Payment))
 
     val commodity = Some(Commodity(
