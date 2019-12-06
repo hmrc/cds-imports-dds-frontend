@@ -141,7 +141,6 @@ declare.transportInformation.transportIdentificationType=7.9 Transport ID type
 declare.transportInformation.registrationNationalityCode=7.15 Nationality of means of transport at border
 
 # Section 8
-declare.miscellaneous.quotaOrderNumber=8.1 Quota order number
 declare.miscellaneous.guaranteeType=8.2 Guarantee Type
 declare.miscellaneous.guaranteeReference.grn=8.3 Guarantee Reference - GRN
 declare.miscellaneous.guaranteeReference.otherGRN=8.3 Guarantee Reference - Other Guarantee Reference

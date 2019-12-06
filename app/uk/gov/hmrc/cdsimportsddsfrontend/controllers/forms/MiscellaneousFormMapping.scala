@@ -23,7 +23,6 @@ import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.MiscellaneousViewMode
 
 object MiscellaneousFormMapping {
   val miscellaneous: (String, Mapping[MiscellaneousViewModel]) = "miscellaneous" -> mapping(
-    "quotaOrderNumber" -> optional(text),
     "guaranteeType" -> optional(text),
     "grn" -> optional(text),
     "otherGRN" -> optional(text),

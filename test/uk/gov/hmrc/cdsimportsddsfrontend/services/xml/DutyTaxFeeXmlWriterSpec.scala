@@ -28,11 +28,10 @@ class DutyTaxFeeXmlWriterSpec extends WordSpec with Matchers {
   "DutyTaxFee XML writer" should {
     "generate the DutyTaxFee XML element" when {
       "all values are present" in {
-        val dutyTaxFee = DutyTaxFee(dutyRegimeCode = Some("100"), quotaOrderId = Some("123"), payment = Some(Payment("E")))
+        val dutyTaxFee = DutyTaxFee(dutyRegimeCode = Some("100"), payment = Some(Payment("E")))
         val expectedXml = Utility.trim(
           <DutyTaxFee>
             <DutyRegimeCode>100</DutyRegimeCode>
-            <QuotaOrderId>123</QuotaOrderId>
             <Payment>
               <MethodCode>E</MethodCode>
             </Payment>
@@ -42,19 +41,13 @@ class DutyTaxFeeXmlWriterSpec extends WordSpec with Matchers {
       }
 
       "dutyRegimeCode is present" in {
-        val dutyTaxFee = DutyTaxFee(dutyRegimeCode = Some("100"), quotaOrderId = None, payment = None)
+        val dutyTaxFee = DutyTaxFee(dutyRegimeCode = Some("100"), payment = None)
         val expectedXml = <DutyTaxFee><DutyRegimeCode>100</DutyRegimeCode></DutyTaxFee>
         dutyTaxFee.toXmlOption shouldBe Some(expectedXml)
       }
 
-      "quotaOrderId is present" in {
-        val dutyTaxFee = DutyTaxFee(dutyRegimeCode = None, quotaOrderId = Some("123"), payment = None)
-        val expectedXml = <DutyTaxFee><QuotaOrderId>123</QuotaOrderId></DutyTaxFee>
-        dutyTaxFee.toXmlOption shouldBe Some(expectedXml)
-      }
-
       "payment is present" in {
-        val dutyTaxFee = DutyTaxFee(dutyRegimeCode = None, quotaOrderId = None, payment = Some(Payment("E")))
+        val dutyTaxFee = DutyTaxFee(dutyRegimeCode = None, payment = Some(Payment("E")))
         val expectedXml = <DutyTaxFee><Payment><MethodCode>E</MethodCode></Payment></DutyTaxFee>
         dutyTaxFee.toXmlOption shouldBe Some(expectedXml)
       }
@@ -62,7 +55,7 @@ class DutyTaxFeeXmlWriterSpec extends WordSpec with Matchers {
 
     "not generate the DutyTaxFee XML element" when {
       "none of the child values are present" in {
-        val dutyTaxFee = DutyTaxFee(None, None, None)
+        val dutyTaxFee = DutyTaxFee(None, None)
         dutyTaxFee.toXmlOption shouldBe None
       }
     }

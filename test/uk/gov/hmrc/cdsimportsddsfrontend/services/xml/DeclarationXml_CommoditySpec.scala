@@ -31,7 +31,7 @@ class DeclarationXml_CommoditySpec extends WordSpec with MustMatchers {
             classification = Seq(Classification(Some("id1"), Some("identificationTypeCode1")),
               Classification(Some("id2"), Some("identificationTypeCode2"))),
             goodsMeasure = Some(GoodsMeasure(netNetWeightMeasure = Some("123"), tariffQuantity = Some("345"), grossMassMeasure = Some("678"))),
-            dutyTaxFee = Some(DutyTaxFee(dutyRegimeCode = Some("100"), quotaOrderId = Some("123") , payment = Some(Payment("E"))))))
+            dutyTaxFee = Some(DutyTaxFee(dutyRegimeCode = Some("100"), payment = Some(Payment("E"))))))
         )
 
         val xml: Elem = DeclarationXml().fromImportDeclaration(declaration)
@@ -42,7 +42,6 @@ class DeclarationXml_CommoditySpec extends WordSpec with MustMatchers {
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"\ "Commodity" \ "Classification" \ "IdentificationTypeCode").head.text mustBe "identificationTypeCode1"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"\ "Commodity" \ "Classification" \ "IdentificationTypeCode").tail.text mustBe "identificationTypeCode2"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"\ "Commodity" \ "DutyTaxFee" \ "DutyRegimeCode").head.text mustBe "100"
-        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"\ "Commodity" \ "DutyTaxFee" \ "QuotaOrderId").head.text mustBe "123"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"\ "Commodity" \ "DutyTaxFee" \ "Payment" \ "MethodCode").head.text mustBe "E"
       }
     }
@@ -56,7 +55,6 @@ class DeclarationXml_CommoditySpec extends WordSpec with MustMatchers {
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "Classification" \ "ID").length mustBe 0
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "Classification" \ "IdentificationTypeCode").length mustBe 0
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "DutyTaxFee" \ "DutyRegimeCode").length mustBe 0
-        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "DutyTaxFee" \ "QuotaOrderId").length mustBe 0
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "DutyTaxFee" \ "Payment" \ "MethodCode").length mustBe 0
       }
     }
