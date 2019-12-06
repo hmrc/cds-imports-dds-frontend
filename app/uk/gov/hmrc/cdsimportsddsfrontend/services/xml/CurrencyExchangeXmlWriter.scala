@@ -14,10 +14,19 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.domain
+package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
-case class Commodity(description: Option[String],
-                     classification: Seq[Classification],
-                     goodsMeasure: Option[GoodsMeasure],
-                     dutyTaxFee: Option[DutyTaxFee],
-                     invoiceLine: Option[InvoiceLine])
+import cats.implicits._
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.CurrencyExchange
+
+import scala.xml.{Elem, Node}
+
+object CurrencyExchangeXmlWriter {
+
+  implicit val currencyExchangeXmlWriter: XmlWriter[CurrencyExchange] = new XmlWriter[CurrencyExchange] {
+    override def toXmlOption(value: CurrencyExchange): Option[Elem] = {
+      val rateNumeric: Option[Node] = maybeElement("RateNumeric", value.rateNumeric)
+      rateNumeric.map(elem => <CurrencyExchange>{elem}</CurrencyExchange>)
+    }
+  }
+}

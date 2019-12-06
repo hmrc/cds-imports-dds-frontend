@@ -20,7 +20,7 @@ case class Declaration(
                         declarationType: DeclarationType = DeclarationType(),
                         documentationAndReferences: DocumentationAndReferences = DocumentationAndReferences(),
                         parties: DeclarationParties = DeclarationParties(),
-                        valuationInformationAndTaxes: ValuationInformationAndTaxes = ValuationInformationAndTaxes(),
+                        currencyExchange: Option[CurrencyExchange] = None,
                         commodity: Option[Commodity] = None,
                         totalGrossMassMeasure: Option[String] = None,
                         packaging: Option[Packaging] = None,

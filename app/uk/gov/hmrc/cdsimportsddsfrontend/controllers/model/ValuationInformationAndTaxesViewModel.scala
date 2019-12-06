@@ -25,22 +25,13 @@ case class ValuationInformationAndTaxesViewModel(
                                                   paymentMethodCode: Option[String] = Some("E"),
                                                   itemChargeDeduction: Option[ChargeDeduction] = None,
                                                   additionCode: Option[String] = Some("0000"),
-                                                  itemChargeAmount: Option[String] = Some("100"),
-                                                  currencyID: Option[String] = Some("GBP"),
+                                                  itemChargeAmount: Option[CurrencyAmount] = Some(CurrencyAmount("GBP", "100")),
                                                   rateNumeric: Option[String] = Some("1.27"),
                                                   customsValuationMethodCode: Option[String] = Some("1"),
                                                   dutyRegimeCode: Option[String] = Some("100"),
                                                   headerChargeDeduction: Option[ChargeDeduction] = Some(
                                                     ChargeDeduction(typeCode = "AS", currencyAmount =
                                                       CurrencyAmount(currency = "GBP", "100")))) {
-
-  def toValuationInformationAndTaxes: ValuationInformationAndTaxes = {
-    ValuationInformationAndTaxes(
-      itemChargeAmount = itemChargeAmount,
-      currencyID = currencyID,
-      rateNumeric = rateNumeric
-    )
-  }
 
   def toItemCustomsValuation: ItemCustomsValuation = {
     ItemCustomsValuation(
@@ -55,4 +46,11 @@ case class ValuationInformationAndTaxesViewModel(
     )
   }
 
+  def toInvoiceLine: InvoiceLine = {
+    InvoiceLine(itemChargeAmount)
+  }
+
+  def toCurrencyExchange: CurrencyExchange = {
+    CurrencyExchange(rateNumeric)
+  }
 }
