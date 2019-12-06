@@ -31,7 +31,8 @@ class DeclarationXml_CommoditySpec extends WordSpec with MustMatchers {
             classification = Seq(Classification(Some("id1"), Some("identificationTypeCode1")),
               Classification(Some("id2"), Some("identificationTypeCode2"))),
             goodsMeasure = Some(GoodsMeasure(netNetWeightMeasure = Some("123"), tariffQuantity = Some("345"), grossMassMeasure = Some("678"))),
-            dutyTaxFee = Some(DutyTaxFee(dutyRegimeCode = Some("100"), payment = Some(Payment("E"))))))
+            dutyTaxFee = Some(DutyTaxFee(dutyRegimeCode = Some("100"), payment = Some(Payment("E")))),
+              invoiceLine = Some(InvoiceLine(Some(CurrencyAmount("EUR", "67"))))
         )
 
         val xml: Elem = DeclarationXml().fromImportDeclaration(declaration)
@@ -43,12 +44,14 @@ class DeclarationXml_CommoditySpec extends WordSpec with MustMatchers {
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"\ "Commodity" \ "Classification" \ "IdentificationTypeCode").tail.text mustBe "identificationTypeCode2"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"\ "Commodity" \ "DutyTaxFee" \ "DutyRegimeCode").head.text mustBe "100"
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"\ "Commodity" \ "DutyTaxFee" \ "Payment" \ "MethodCode").head.text mustBe "E"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "InvoiceLine" \ "ItemChargeAmount").head.text mustBe "67"
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "InvoiceLine" \ "ItemChargeAmount" \ "@currencyID").head.text mustBe "EUR"
       }
     }
 
     "be omitted from XML" when {
       "the no description of goods data exists" in {
-        val declaration = Declaration(commodity = Some(Commodity(None, Seq.empty, None, None)))
+        val declaration = Declaration(commodity = Some(Commodity(None, Seq.empty, None, None, None)))
 
         val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "Description").length mustBe 0
@@ -56,6 +59,7 @@ class DeclarationXml_CommoditySpec extends WordSpec with MustMatchers {
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "Classification" \ "IdentificationTypeCode").length mustBe 0
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "DutyTaxFee" \ "DutyRegimeCode").length mustBe 0
         (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "DutyTaxFee" \ "Payment" \ "MethodCode").length mustBe 0
+        (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "InvoiceLine").length mustBe 0
       }
     }
   }

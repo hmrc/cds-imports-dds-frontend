@@ -112,4 +112,5 @@ object XmlWriterInstances {
 
   implicit val statisticalValueAmountWriter: XmlWriter[CurrencyAmount] = currencyAmountWriterFor("StatisticalValueAmount")
 
+  implicit val itemChargeAmountWriter: XmlWriter[CurrencyAmount] = currencyAmountWriterFor("ItemChargeAmount")
 }

@@ -53,8 +53,6 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
 
       val item = xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"
       (item \ "ValuationAdjustment" \ "AdditionCode").head.text mustBe "0000"
-      (item \ "Commodity" \ "InvoiceLine" \ "ItemChargeAmount").head.text mustBe "100"
-      (item \ "Commodity" \ "InvoiceLine" \ "ItemChargeAmount" \ "@currencyID").head.text mustBe "GBP"
       (item \ "CustomsValuation" \ "MethodCode").head.text mustBe "1"
       (item \ "CustomsValuation" \ "ChargeDeduction" \ "OtherChargeDeductionAmount").head.text mustBe "9001"
       (item \ "CustomsValuation" \ "ChargeDeduction" \ "OtherChargeDeductionAmount" \ "@currencyID").head.text mustBe "HUF"
@@ -71,12 +69,6 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
       val declaration = Declaration()
       val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
       (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "ValuationAdjustment" \ "AdditionCode").length mustBe 0
-    }
-
-    "omit InvoiceLine element when currencyID and itemChargeAmount are both empty" in {
-      val declaration = Declaration(valuationInformationAndTaxes = ValuationInformationAndTaxes(currencyID=None, itemChargeAmount=None))
-      val xml: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
-      (xml \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem" \ "Commodity" \ "InvoiceLine").length mustBe 0
     }
 
     "omit CurrencyExchange element when rateNumeric is empty" in {

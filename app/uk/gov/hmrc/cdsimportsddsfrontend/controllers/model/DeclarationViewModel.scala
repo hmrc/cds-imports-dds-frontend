@@ -37,7 +37,8 @@ case class DeclarationViewModel(
       goodsMeasure = Some(goodsIdentification.toGoodsMeasure),
       classification = goodsIdentification.toClassification(),
       description = goodsIdentification.description,
-      dutyTaxFee = Some(dutyTaxFee)))
+      dutyTaxFee = Some(dutyTaxFee),
+      invoiceLine = Some(InvoiceLine(valuationInformationAndTaxesViewModel.itemChargeAmount))))
 
     val consignment: Consignment = Consignment(
         transportInformationViewModel.container,

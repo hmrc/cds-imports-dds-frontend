@@ -51,8 +51,8 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.currency")
         body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.itemChargeDeduction.typeCode")
         body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.additionCode")
-        body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.itemChargeAmount")
-        body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.currencyID")
+        body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.itemChargeAmount.amount")
+        body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.itemChargeAmount.currency")
         body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.rateNumeric")
         body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.customsValuationMethodCode")
         body should include element withName("input").withAttrValue("name", "valuationInformationAndTaxes.dutyRegimeCode")
@@ -75,8 +75,8 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         "valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.currency" -> Seq("itemChargeDeduction_currencyAmount_currency"),
         "valuationInformationAndTaxes.itemChargeDeduction.typeCode" -> Seq("itemChargeDeduction_typeCode"),
         "valuationInformationAndTaxes.additionCode" -> Seq("additionCode"),
-        "valuationInformationAndTaxes.itemChargeAmount" -> Seq("itemChargeAmount"),
-        "valuationInformationAndTaxes.currencyID" -> Seq("currencyID"),
+        "valuationInformationAndTaxes.itemChargeAmount.amount" -> Seq("itemChargeAmount"),
+        "valuationInformationAndTaxes.itemChargeAmount.currency" -> Seq("currencyID"),
         "valuationInformationAndTaxes.rateNumeric" -> Seq("rateNumeric"),
         "valuationInformationAndTaxes.customsValuationMethodCode" -> Seq("customsValuationMethodCode"),
         "valuationInformationAndTaxes.dutyRegimeCode" -> Seq("dutyRegimeCode"),
@@ -98,7 +98,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
             Some("conditionCode"), Some("locationID"), Some("locationName"), Some("paymentMethodCode"),
             Some(ChargeDeduction("itemChargeDeduction_typeCode",
               CurrencyAmount("itemChargeDeduction_currencyAmount_currency", "itemChargeDeduction_currencyAmount_amount"))),
-            Some("additionCode"), Some("itemChargeAmount"), Some("currencyID"), Some("rateNumeric"),
+            Some("additionCode"), Some(CurrencyAmount("currencyID", "itemChargeAmount")), Some("rateNumeric"),
             Some("customsValuationMethodCode"), Some("dutyRegimeCode"),
             Some(ChargeDeduction("headerChargeDeduction_typeCode",
               CurrencyAmount("headerChargeDeduction_currencyAmount_currency", "headerChargeDeduction_currencyAmount_amount")))

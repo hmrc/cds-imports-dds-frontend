@@ -30,6 +30,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DutyTaxFeeXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ExportCountryXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsMeasureXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.HeaderCustomsValuationXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.InvoiceLineXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ItemCustomsValuationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ObligationGuaranteeXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
@@ -92,7 +93,7 @@ class DeclarationXml {
               {dec.commodity.map(_.classification.map(_.toXml)).getOrElse(NodeSeq.Empty)}
               {dec.commodity.flatMap(_.dutyTaxFee).map(_.toXml).getOrElse(NodeSeq.Empty)}
               {dec.commodity.flatMap(_.goodsMeasure).flatMap(_.toXmlOption).getOrElse(NodeSeq.Empty)}
-              {maybeInvoiceLine(dec)}
+              {dec.commodity.map(_.invoiceLine).map(_.toXml).getOrElse((NodeSeq.Empty))}
             </Commodity>
             {dec.itemCustomsValuation.toXml}
             {dec.parties.domesticDutyTaxParties.map(_.toXml)}
@@ -127,19 +128,6 @@ class DeclarationXml {
         val attributes: MetaData = attribute.getOrElse(scala.xml.Null)
         Elem.apply(null, elementName, attributes, scala.xml.TopScope, true, Text(value)) //scalastyle:ignore
       case _ => NodeSeq.Empty
-    }
-  }
-
-  private[this] def maybeInvoiceLine(declaration: Declaration): NodeSeq = {
-    if (declaration.valuationInformationAndTaxes.currencyID.exists(_.nonEmpty) ||
-       declaration.valuationInformationAndTaxes.itemChargeAmount.exists(_.nonEmpty)) {
-      val currencyId = declaration.valuationInformationAndTaxes.currencyID.getOrElse("GBP").toUpperCase()
-      val itemChargeAmount = declaration.valuationInformationAndTaxes.itemChargeAmount.getOrElse("")
-      <InvoiceLine>
-        <ItemChargeAmount currencyID={currencyId}>{itemChargeAmount}</ItemChargeAmount>
-      </InvoiceLine>
-    } else {
-      NodeSeq.Empty
     }
   }
 
