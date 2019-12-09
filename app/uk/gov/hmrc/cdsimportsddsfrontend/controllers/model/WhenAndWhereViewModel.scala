@@ -20,7 +20,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
 case class WhenAndWhereViewModel(
                         destination: Option[Destination] = Some(Destination()),
-                        exportCountry: Option[ExportCountry] = Some(ExportCountry()),
+                        exportCountry: Option[String] = Some("FR"),
                         originCountryCode: Option[String] = Some("FR"),
                         originTypeCode: Option[String] = Some("1"),
                         preferentialOriginCountryCode: Option[String] = None,

@@ -63,7 +63,7 @@ case class DeclarationViewModel(
 
   lazy val goodsShipment = GoodsShipment(consignment = Some(consignment),
     destination = whenAndWhereViewModel.destination,
-    exportCountry = whenAndWhereViewModel.exportCountry,
+    exportCountry = whenAndWhereViewModel.exportCountry.map(ExportCountry),
     governmentAgencyGoodsItem = governmentAgencyGoodsItem,
     tradeTerms = Some(TradeTerms(
       valuationInformationAndTaxesViewModel.conditionCode,

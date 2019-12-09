@@ -37,6 +37,7 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
           itemChargeAmount = Some(CurrencyAmount("EUR", "45"))
         ),
         whenAndWhereViewModel = WhenAndWhereViewModel(
+          exportCountry = Some("DE"),
           preferentialOriginCountryCode = Some("GB"),
           preferentialOriginTypeCode = Some("2"),
           goodsLocationName = Some("FOO"),
@@ -84,7 +85,7 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
         methodCode = Some("1")))
 
       declaration.goodsShipment.destination shouldBe Some(Destination(countryCode = Some("GB")))
-      declaration.goodsShipment.exportCountry shouldBe Some(ExportCountry(id = Some("FR")))
+      declaration.goodsShipment.exportCountry shouldBe Some(ExportCountry("DE"))
 
       declaration.goodsShipment.governmentAgencyGoodsItem shouldBe GovernmentAgencyGoodsItem(
         origin = Seq(Origin(countryCode = Some("FR"), typeCode = Some("1")),

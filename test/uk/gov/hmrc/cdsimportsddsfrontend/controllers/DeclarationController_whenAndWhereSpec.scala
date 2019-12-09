@@ -44,7 +44,7 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
       new GetScenario() {
         status(response) mustBe Status.OK
         body should include element withName("input").withAttrValue("name", "whenAndWhere.destination.countryCode")
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.exportCountry.id")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.exportCountry")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.originCountryCode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.originTypeCode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.preferentialOriginCountryCode")
@@ -66,7 +66,7 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
     "post the expected data to the declaration service" in signedInScenario { user =>
       val formData: Map[String, Seq[String]] = Map(
         "whenAndWhere.destination.countryCode" -> Seq("destination countryCode"),
-        "whenAndWhere.exportCountry.id" -> Seq("id"),
+        "whenAndWhere.exportCountry" -> Seq("id"),
         "whenAndWhere.originCountryCode" -> Seq("origin countryCode"),
         "whenAndWhere.originTypeCode" -> Seq("origin typeCode"),
         "whenAndWhere.preferentialOriginCountryCode" -> Seq("preferential origin countryCode"),
@@ -91,7 +91,7 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         private val actualDeclaration = captor.getValue
         actualDeclaration.whenAndWhereViewModel mustBe WhenAndWhereViewModel(
           Some(Destination(Some("destination countryCode"))),
-          Some(ExportCountry(id = Some("id"))),
+          Some("id"),
           Some("origin countryCode"),
           Some("origin typeCode"),
           Some("preferential origin countryCode"),

@@ -22,7 +22,7 @@
 @(form: Form[DeclarationViewModel])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @input_text(form("whenAndWhere.destination.countryCode"), "declare.whenAndWhere.destination.countryCode")
-@input_text(form("whenAndWhere.exportCountry.id"), "declare.whenAndWhere.exportCountry.id")
+@input_text(form("whenAndWhere.exportCountry"), "declare.whenAndWhere.exportCountry")
 @input_text(form("whenAndWhere.originCountryCode"), "declare.whenAndWhere.origin.countryCode")
 @input_text(form("whenAndWhere.originTypeCode"), "declare.whenAndWhere.origin.typeCode")
 @input_text(form("whenAndWhere.preferentialOriginCountryCode"), "declare.whenAndWhere.preferential.origin.countryCode")

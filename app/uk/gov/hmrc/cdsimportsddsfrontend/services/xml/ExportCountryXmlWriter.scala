@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
-import cats.implicits._
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.ExportCountry
 
 import scala.xml.{Elem, Node}
@@ -25,10 +24,8 @@ object ExportCountryXmlWriter {
 
   implicit val exportCountryXmlWriter: XmlWriter[ExportCountry] = new XmlWriter[ExportCountry] {
     override def toXmlOption(value: ExportCountry): Option[Elem] = {
-      val id: Option[Node] = maybeElement("ID", value.id)
-
-      val nodes: List[Node] = List(id).flattenOption
-      Option(nodes).filter(_.nonEmpty).map(nonEmptyChildNodes => <ExportCountry>{nonEmptyChildNodes}</ExportCountry>)
+      val id: Node = element("ID", value.id)
+      Option(<ExportCountry>{id}</ExportCountry>)
     }
   }
 }
