@@ -63,7 +63,7 @@ class DeclarationController_miscellaneousSpec extends CdsImportsSpec
 
     "post the expected data to the declaration service" in signedInScenario { user =>
       val formData: Map[String, Seq[String]] = Map(
-        "miscellaneous.quotaOrderNumber" -> Seq.empty[String],
+        "miscellaneous.quotaOrderNumber" -> Seq("321"),
         "miscellaneous.guaranteeType" -> Seq("123"),
         "miscellaneous.grn" -> Seq("456"),
         "miscellaneous.otherGRN" -> Seq("789"),
@@ -85,7 +85,7 @@ class DeclarationController_miscellaneousSpec extends CdsImportsSpec
 
         private val actualDeclaration = captor.getValue
         actualDeclaration.miscellaneousViewModel mustBe
-          MiscellaneousViewModel(None, Some("123"), Some("456"), Some("789"), Some("2468"),
+          MiscellaneousViewModel(Some("321"), Some("123"), Some("456"), Some("789"), Some("2468"),
             Some(CurrencyAmount("GBP", "12345")), Some("Shipley"), Some("4"), Some(CurrencyAmount("JPY", "9876")))
       }
     }

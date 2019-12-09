@@ -40,6 +40,7 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
             preferentialOriginCountryCode = Some("GB"),
             preferentialOriginTypeCode = Some("2")),
         miscellaneousViewModel = MiscellaneousViewModel(
+          quotaOrderNumber = Some("123"),
           natureOfTransaction = Some("3"),
           statisticalValue = Some(CurrencyAmount("DKK", "8080"))
         )
@@ -51,7 +52,7 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
         List(Classification(Some("76071111"), Some("TSP")), Classification(Some("10"), Some("TRC")),
           Classification(Some("1234"), Some("TRA")), Classification(Some("VATZ"), Some("GN"))),
         Some(GoodsMeasure(Some("50"), Some("100"), Some("60"))),
-        Some(DutyTaxFee(Some("100"), None, Some(Payment("E")))),
+        Some(DutyTaxFee(Some("100"), Some("123"), Some(Payment("E")))),
         Some(InvoiceLine(Some(CurrencyAmount("EUR", "45"))))))
 
 
