@@ -38,7 +38,10 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
         ),
         whenAndWhereViewModel = WhenAndWhereViewModel(
             preferentialOriginCountryCode = Some("GB"),
-            preferentialOriginTypeCode = Some("2")),
+            preferentialOriginTypeCode = Some("2"),
+          goodsLocation = Some(GoodsLocation(Some("FOO"), Some("A"), Some(Address(
+            Some("1 Street Lane"), Some("Cityville"), Some("US"), Some("90210")))
+          ))),
         miscellaneousViewModel = MiscellaneousViewModel(
           quotaOrderNumber = Some("123"),
           natureOfTransaction = Some("3"),
@@ -63,10 +66,9 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
       declaration.goodsShipment.consignment shouldBe Some(Consignment(
           Some("0"),
           Some(ArrivalTransportMeans(Some("10"), Some("1023465738"))),
-          Some(GoodsLocation(Some("FXTFXTFXT"),
+          Some(GoodsLocation(Some("FOO"),
             Some("A"),
-            Some(Address(None, None, Some("GB"),
-              None, Some("U"))))),
+            Some(Address(Some("1 Street Lane"), Some("Cityville"), Some("US"), Some("90210"), Some("U"))))),
           Some(LoadingLocation("JFK"))
         )
       )

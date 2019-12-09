@@ -51,7 +51,10 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "whenAndWhere.preferentialOriginTypeCode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.name")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.typeCode")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.streetAndNumber")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.city")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.countryCode")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.postcode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.typeCode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.placeOfLoading")
       }
@@ -70,7 +73,10 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         "whenAndWhere.preferentialOriginTypeCode" -> Seq("preferential origin typeCode"),
         "whenAndWhere.goodsLocation.name" -> Seq("goods location name"),
         "whenAndWhere.goodsLocation.typeCode" -> Seq("goods location type"),
+        "whenAndWhere.goodsLocation.address.streetAndNumber" -> Seq("goods location street & number"),
+        "whenAndWhere.goodsLocation.address.city" -> Seq("goods location city"),
         "whenAndWhere.goodsLocation.address.countryCode" -> Seq("goods location country code"),
+        "whenAndWhere.goodsLocation.address.postcode" -> Seq("goods location postcode"),
         "whenAndWhere.goodsLocation.address.typeCode" -> Seq("goods location type code"),
         "whenAndWhere.placeOfLoading" -> Seq("an airport")
       ) ++ declarationTypeFormData
@@ -91,7 +97,12 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
           Some("preferential origin countryCode"),
           Some("preferential origin typeCode"),
           Some(GoodsLocation(name = Some("goods location name"), typeCode = Some("goods location type"),
-            address = Some(Address(None, None, Some("goods location country code"), None, Some("goods location type code"))))),
+            address = Some(Address(
+              Some("goods location street & number"),
+              Some("goods location city"),
+              Some("goods location country code"),
+              Some("goods location postcode"),
+              Some("goods location type code"))))),
           Some("an airport")
         )
       }
