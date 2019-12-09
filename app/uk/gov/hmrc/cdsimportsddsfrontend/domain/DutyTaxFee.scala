@@ -17,4 +17,5 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class DutyTaxFee(dutyRegimeCode: Option[String],
-                       payment: Option[Payment])
+                      quotaOrderId: Option[String],
+                      payment: Option[Payment])

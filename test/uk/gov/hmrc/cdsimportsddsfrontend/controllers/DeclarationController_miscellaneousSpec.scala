@@ -44,6 +44,7 @@ class DeclarationController_miscellaneousSpec extends CdsImportsSpec
     "show the expected form fields" in signedInScenario { user =>
       new GetScenario() {
         status(response) mustBe Status.OK
+        body should include element withName("input").withAttrValue("name", "miscellaneous.quotaOrderNumber")
         body should include element withName("input").withAttrValue("name", "miscellaneous.guaranteeType")
         body should include element withName("input").withAttrValue("name", "miscellaneous.grn")
         body should include element withName("input").withAttrValue("name", "miscellaneous.otherGRN")
@@ -62,7 +63,7 @@ class DeclarationController_miscellaneousSpec extends CdsImportsSpec
 
     "post the expected data to the declaration service" in signedInScenario { user =>
       val formData: Map[String, Seq[String]] = Map(
-        "miscellaneous.quotaOrderNumber" -> Seq.empty[String],
+        "miscellaneous.quotaOrderNumber" -> Seq("321"),
         "miscellaneous.guaranteeType" -> Seq("123"),
         "miscellaneous.grn" -> Seq("456"),
         "miscellaneous.otherGRN" -> Seq("789"),
@@ -84,7 +85,7 @@ class DeclarationController_miscellaneousSpec extends CdsImportsSpec
 
         private val actualDeclaration = captor.getValue
         actualDeclaration.miscellaneousViewModel mustBe
-          MiscellaneousViewModel(Some("123"), Some("456"), Some("789"), Some("2468"),
+          MiscellaneousViewModel(Some("321"), Some("123"), Some("456"), Some("789"), Some("2468"),
             Some(CurrencyAmount("GBP", "12345")), Some("Shipley"), Some("4"), Some(CurrencyAmount("JPY", "9876")))
       }
     }
