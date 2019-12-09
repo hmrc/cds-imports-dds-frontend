@@ -37,11 +37,13 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
           itemChargeAmount = Some(CurrencyAmount("EUR", "45"))
         ),
         whenAndWhereViewModel = WhenAndWhereViewModel(
-            preferentialOriginCountryCode = Some("GB"),
-            preferentialOriginTypeCode = Some("2"),
-          goodsLocation = Some(GoodsLocation(Some("FOO"), Some("A"), Some(Address(
+          preferentialOriginCountryCode = Some("GB"),
+          preferentialOriginTypeCode = Some("2"),
+          goodsLocationName = Some("FOO"),
+          goodsLocationType = Some("A"),
+          goodsLocationAddress = Some(AddressViewModel(
             Some("1 Street Lane"), Some("Cityville"), Some("US"), Some("90210"), Some("U")))
-          ))),
+          ),
         miscellaneousViewModel = MiscellaneousViewModel(
           quotaOrderNumber = Some("123"),
           natureOfTransaction = Some("3"),

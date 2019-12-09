@@ -29,46 +29,50 @@ case class DeclarationViewModel(
                                  miscellaneousViewModel: MiscellaneousViewModel = MiscellaneousViewModel()
                       ) {
 
+  lazy val dutyTaxFee = DutyTaxFee(valuationInformationAndTaxesViewModel.dutyRegimeCode,
+    miscellaneousViewModel.quotaOrderNumber,
+    valuationInformationAndTaxesViewModel.paymentMethodCode.map(Payment))
+
+  lazy val commodity = Some(Commodity(
+    goodsMeasure = Some(goodsIdentification.toGoodsMeasure),
+    classification = goodsIdentification.toClassification(),
+    description = goodsIdentification.description,
+    dutyTaxFee = Some(dutyTaxFee),
+    invoiceLine = Some(valuationInformationAndTaxesViewModel.toInvoiceLine)))
+
+  lazy val consignment: Consignment = Consignment(
+    transportInformationViewModel.container,
+    Some(transportInformationViewModel.toArrivalTransportMeans),
+    Some(GoodsLocation(
+      name = whenAndWhereViewModel.goodsLocationName,
+      typeCode = whenAndWhereViewModel.goodsLocationType,
+      address = whenAndWhereViewModel.goodsLocationAddress.map(_.toAddress)
+    )),
+    whenAndWhereViewModel.placeOfLoading.map(LoadingLocation))
+
+  lazy val governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
+    origin = Seq(Origin(countryCode = whenAndWhereViewModel.originCountryCode,
+      typeCode = whenAndWhereViewModel.originTypeCode),
+      Origin(countryCode = whenAndWhereViewModel.preferentialOriginCountryCode,
+        typeCode = whenAndWhereViewModel.preferentialOriginTypeCode)),
+    sequenceNumeric = declarationType.goodsItemNumber,
+    valuationAdjustment = valuationInformationAndTaxesViewModel.additionCode.map(ValuationAdjustment),
+    transactionNatureCode = miscellaneousViewModel.natureOfTransaction,
+    statisticalValue = miscellaneousViewModel.statisticalValue
+  )
+
+  lazy val goodsShipment = GoodsShipment(consignment = Some(consignment),
+    destination = whenAndWhereViewModel.destination,
+    exportCountry = whenAndWhereViewModel.exportCountry,
+    governmentAgencyGoodsItem = governmentAgencyGoodsItem,
+    tradeTerms = Some(TradeTerms(
+      valuationInformationAndTaxesViewModel.conditionCode,
+      valuationInformationAndTaxesViewModel.locationID,
+      valuationInformationAndTaxesViewModel.locationName
+    ))
+  )
+
   def toDeclaration: Declaration = {
-    val dutyTaxFee = DutyTaxFee(valuationInformationAndTaxesViewModel.dutyRegimeCode,
-      miscellaneousViewModel.quotaOrderNumber,
-      valuationInformationAndTaxesViewModel.paymentMethodCode.map(Payment))
-
-    val commodity = Some(Commodity(
-      goodsMeasure = Some(goodsIdentification.toGoodsMeasure),
-      classification = goodsIdentification.toClassification(),
-      description = goodsIdentification.description,
-      dutyTaxFee = Some(dutyTaxFee),
-      invoiceLine = Some(valuationInformationAndTaxesViewModel.toInvoiceLine)))
-
-    val consignment: Consignment = Consignment(
-        transportInformationViewModel.container,
-        Some(transportInformationViewModel.toArrivalTransportMeans),
-        whenAndWhereViewModel.goodsLocation,
-        whenAndWhereViewModel.placeOfLoading.map(LoadingLocation))
-
-    val governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
-      origin = Seq(Origin(countryCode = whenAndWhereViewModel.originCountryCode,
-                          typeCode = whenAndWhereViewModel.originTypeCode),
-                   Origin(countryCode = whenAndWhereViewModel.preferentialOriginCountryCode,
-                          typeCode = whenAndWhereViewModel.preferentialOriginTypeCode)),
-      sequenceNumeric = declarationType.goodsItemNumber,
-      valuationAdjustment = valuationInformationAndTaxesViewModel.additionCode.map(ValuationAdjustment),
-      transactionNatureCode = miscellaneousViewModel.natureOfTransaction,
-      statisticalValue = miscellaneousViewModel.statisticalValue
-    )
-
-    val goodsShipment = GoodsShipment(consignment = Some(consignment),
-      destination = whenAndWhereViewModel.destination,
-      exportCountry = whenAndWhereViewModel.exportCountry,
-      governmentAgencyGoodsItem = governmentAgencyGoodsItem,
-      tradeTerms = Some(TradeTerms(
-        valuationInformationAndTaxesViewModel.conditionCode,
-        valuationInformationAndTaxesViewModel.locationID,
-        valuationInformationAndTaxesViewModel.locationName
-      ))
-    )
-
     Declaration(declarationType = declarationType,
       documentationAndReferences = documentationAndReferences,
       parties = parties,

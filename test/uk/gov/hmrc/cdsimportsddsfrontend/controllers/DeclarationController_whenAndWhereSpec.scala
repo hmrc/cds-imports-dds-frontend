@@ -23,7 +23,7 @@ import org.scalatest.BeforeAndAfterEach
 import play.api.test.FutureAwaits
 import play.api.test.Helpers.status
 import play.mvc.Http.Status
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.{DeclarationViewModel, WhenAndWhereViewModel}
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.{AddressViewModel, DeclarationViewModel, WhenAndWhereViewModel}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
@@ -49,13 +49,13 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         body should include element withName("input").withAttrValue("name", "whenAndWhere.originTypeCode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.preferentialOriginCountryCode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.preferentialOriginTypeCode")
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.name")
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.typeCode")
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.streetAndNumber")
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.city")
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.countryCode")
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.postcode")
-        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocation.address.typeCode")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocationName")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocationType")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocationAddress.streetAndNumber")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocationAddress.city")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocationAddress.countryCode")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocationAddress.postcode")
+        body should include element withName("input").withAttrValue("name", "whenAndWhere.goodsLocationAddress.typeCode")
         body should include element withName("input").withAttrValue("name", "whenAndWhere.placeOfLoading")
       }
     }
@@ -71,13 +71,13 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         "whenAndWhere.originTypeCode" -> Seq("origin typeCode"),
         "whenAndWhere.preferentialOriginCountryCode" -> Seq("preferential origin countryCode"),
         "whenAndWhere.preferentialOriginTypeCode" -> Seq("preferential origin typeCode"),
-        "whenAndWhere.goodsLocation.name" -> Seq("goods location name"),
-        "whenAndWhere.goodsLocation.typeCode" -> Seq("goods location type"),
-        "whenAndWhere.goodsLocation.address.streetAndNumber" -> Seq("goods location street & number"),
-        "whenAndWhere.goodsLocation.address.city" -> Seq("goods location city"),
-        "whenAndWhere.goodsLocation.address.countryCode" -> Seq("goods location country code"),
-        "whenAndWhere.goodsLocation.address.postcode" -> Seq("goods location postcode"),
-        "whenAndWhere.goodsLocation.address.typeCode" -> Seq("goods location type code"),
+        "whenAndWhere.goodsLocationName" -> Seq("goods location name"),
+        "whenAndWhere.goodsLocationType" -> Seq("goods location type"),
+        "whenAndWhere.goodsLocationAddress.streetAndNumber" -> Seq("goods location street & number"),
+        "whenAndWhere.goodsLocationAddress.city" -> Seq("goods location city"),
+        "whenAndWhere.goodsLocationAddress.countryCode" -> Seq("goods location country code"),
+        "whenAndWhere.goodsLocationAddress.postcode" -> Seq("goods location postcode"),
+        "whenAndWhere.goodsLocationAddress.typeCode" -> Seq("goods location type code"),
         "whenAndWhere.placeOfLoading" -> Seq("an airport")
       ) ++ declarationTypeFormData
 
@@ -96,13 +96,14 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
           Some("origin typeCode"),
           Some("preferential origin countryCode"),
           Some("preferential origin typeCode"),
-          Some(GoodsLocation(name = Some("goods location name"), typeCode = Some("goods location type"),
-            address = Some(Address(
-              Some("goods location street & number"),
-              Some("goods location city"),
-              Some("goods location country code"),
-              Some("goods location postcode"),
-              Some("goods location type code"))))),
+          goodsLocationName = Some("goods location name"),
+          goodsLocationType = Some("goods location type"),
+          goodsLocationAddress = Some(AddressViewModel(
+            Some("goods location street & number"),
+            Some("goods location city"),
+            Some("goods location country code"),
+            Some("goods location postcode"),
+            Some("goods location type code"))),
           Some("an airport")
         )
       }

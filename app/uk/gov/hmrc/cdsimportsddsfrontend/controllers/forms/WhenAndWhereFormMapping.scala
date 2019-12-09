@@ -20,7 +20,7 @@ import play.api.data.Forms.{mapping, optional, text}
 import play.api.data.Mapping
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DestinationFormMapping.destination
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.ExportCountryFormMapping.exportCountry
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.GoodsLocationFormMapping.goodsLocation
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.AddressFormMapping.addressViewModelMapping
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.WhenAndWhereViewModel
 
 object WhenAndWhereFormMapping  {
@@ -32,7 +32,9 @@ object WhenAndWhereFormMapping  {
     "originTypeCode" -> optional(text),
     "preferentialOriginCountryCode" -> optional(text),
     "preferentialOriginTypeCode" -> optional(text),
-    "goodsLocation" -> optional(goodsLocation),
+    "goodsLocationName" -> optional(text),
+    "goodsLocationType" -> optional(text),
+    "goodsLocationAddress" -> optional(addressViewModelMapping),
     "placeOfLoading" -> optional(text)
   )(WhenAndWhereViewModel.apply)(WhenAndWhereViewModel.unapply)
 }

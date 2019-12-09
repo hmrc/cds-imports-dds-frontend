@@ -18,6 +18,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
 import play.api.data.Forms.{mapping, optional, text}
 import play.api.data.Mapping
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.AddressViewModel
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.Address
 
 object AddressFormMapping extends FormValidators {
@@ -29,4 +30,12 @@ object AddressFormMapping extends FormValidators {
     "typeCode" -> optional(text)
   )(Address.apply)(Address.unapply)
   val address: (String, Mapping[Address]) = "address" -> addressMapping
+
+  val addressViewModelMapping: Mapping[AddressViewModel] = mapping(
+    "streetAndNumber" -> optional(text),
+    "city" -> optional(text),
+    "countryCode" -> optional(text),
+    "postcode" -> optional(text),
+    "typeCode" -> optional(text)
+  )(AddressViewModel.apply)(AddressViewModel.unapply)
 }
