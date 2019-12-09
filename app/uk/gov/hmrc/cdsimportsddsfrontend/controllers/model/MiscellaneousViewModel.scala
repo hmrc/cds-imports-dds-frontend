@@ -18,14 +18,15 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers.model
 
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.{CurrencyAmount, ObligationGuarantee}
 
-case class MiscellaneousViewModel(guaranteeType: Option[String] = None,
-                                   grn : Option[String] = None,
-                                   otherGRN: Option[String] = None,
-                                   accessCode: Option[String] = None,
-                                   importDutyAndOtherCharges: Option[CurrencyAmount] = None,
-                                   customsOffice: Option[String] = None,
-                                   natureOfTransaction: Option[String] = Some("1"),
-                                   statisticalValue: Option[CurrencyAmount] = Some(CurrencyAmount("GBP", "100"))
+case class MiscellaneousViewModel(quotaOrderNumber: Option[String] = None,
+                                  guaranteeType: Option[String] = None,
+                                  grn: Option[String] = None,
+                                  otherGRN: Option[String] = None,
+                                  accessCode: Option[String] = None,
+                                  importDutyAndOtherCharges: Option[CurrencyAmount] = None,
+                                  customsOffice: Option[String] = None,
+                                  natureOfTransaction: Option[String] = Some("1"),
+                                  statisticalValue: Option[CurrencyAmount] = Some(CurrencyAmount("GBP", "100"))
                                  ) {
 
   def toObligationGuarantee: ObligationGuarantee = ObligationGuarantee(
