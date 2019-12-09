@@ -29,7 +29,7 @@ class DeclarationXml_ConsignmentSpec extends WordSpec with MustMatchers with App
         val someConsignment = Some(Consignment(
           containerCode = Some("0"),
           arrivalTransportMeans = Some(ArrivalTransportMeans(Some("10"), Some("1023465738"))),
-          goodsLocation = Some(GoodsLocation(Some("FXTFXTFXT"), Some("A"), Some(Address()))),
+          goodsLocation = Some(GoodsLocation(Some("FXTFXTFXT"), Some("A"), Some(Address(None, None, Some("GB"), None, None)))),
           loadingLocation = Some(LoadingLocation("GAT"))
         ))
 

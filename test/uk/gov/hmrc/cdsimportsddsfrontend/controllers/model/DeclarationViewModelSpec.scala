@@ -40,7 +40,7 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
             preferentialOriginCountryCode = Some("GB"),
             preferentialOriginTypeCode = Some("2"),
           goodsLocation = Some(GoodsLocation(Some("FOO"), Some("A"), Some(Address(
-            Some("1 Street Lane"), Some("Cityville"), Some("US"), Some("90210")))
+            Some("1 Street Lane"), Some("Cityville"), Some("US"), Some("90210"), Some("U")))
           ))),
         miscellaneousViewModel = MiscellaneousViewModel(
           quotaOrderNumber = Some("123"),
