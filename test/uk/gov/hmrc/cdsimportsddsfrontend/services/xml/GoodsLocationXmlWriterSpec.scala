@@ -21,13 +21,30 @@ import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Address, GoodsLocation}
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.GoodsLocationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 
+import scala.xml.Utility
+
 class GoodsLocationXmlWriterSpec extends WordSpec with Matchers with OptionValues {
 
   "GoodsLocation XML writer" should {
     "generate the GoodsLocation XML element" when {
       "all values are present" in {
-        val goodsLocation = GoodsLocation(name = Some("FXFXT"), typeCode = Some("A"), address = Some(Address(None, None, Some("GB"), None, Some("U"))))
-        val expectedXml = <GoodsLocation><Name>FXFXT</Name><TypeCode>A</TypeCode><Address><TypeCode>U</TypeCode><CountryCode>GB</CountryCode></Address></GoodsLocation>
+        val someAddress = Some(Address(Some("99 Imports Place"), Some("Footown"), Some("GB"), Some("F11 4BA"), Some("U")))
+        val goodsLocation = GoodsLocation(name = Some("FXFXT"), typeCode = Some("A"), address = someAddress)
+
+        val expectedXml = Utility.trim({
+          <GoodsLocation>
+            <Name>FXFXT</Name>
+            <TypeCode>A</TypeCode>
+            <Address>
+              <TypeCode>U</TypeCode>
+              <CityName>Footown</CityName>
+              <CountryCode>GB</CountryCode>
+              <Line>99 Imports Place</Line>
+              <PostcodeID>F11 4BA</PostcodeID>
+            </Address>
+          </GoodsLocation>
+        })
+
         goodsLocation.toXmlOption shouldBe Some(expectedXml)
       }
 

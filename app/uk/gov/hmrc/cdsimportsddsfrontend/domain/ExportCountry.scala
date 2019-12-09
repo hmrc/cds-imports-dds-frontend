@@ -16,4 +16,4 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class ExportCountry(id: Option[String] = Some("FR"))
+case class ExportCountry(id: String)

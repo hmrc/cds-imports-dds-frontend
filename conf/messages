@@ -104,15 +104,18 @@ declare.valuationInformationAndTaxes.dutyRegimeCode=4.17 Preference
 
 # Section 5
 declare.whenAndWhere.destination.countryCode=5.8 Destination country code
-declare.whenAndWhere.exportCountry.id=5.14 Dispatch/export country code
+declare.whenAndWhere.exportCountry=5.14 Dispatch/export country code
 declare.whenAndWhere.origin.countryCode=5.15 Origin country code
 declare.whenAndWhere.origin.typeCode=5.15 Origin country code type
 declare.whenAndWhere.preferential.origin.countryCode=5.16 Preferential origin country code
 declare.whenAndWhere.preferential.origin.typeCode=5.16 Preferential origin country code type
-declare.whenAndWhere.goodsLocation.name=5.23 Goods Location - Name
-declare.whenAndWhere.goodsLocation.typeCode=5.23 Goods Location - Type
-declare.whenAndWhere.goodsLocation.address.countryCode=5.23 Goods Location - Country Code
-declare.whenAndWhere.goodsLocation.address.typeCode=5.23 Goods Location - Address Type
+declare.whenAndWhere.goodsLocationName=5.23 Goods Location - Name
+declare.whenAndWhere.goodsLocationType=5.23 Goods Location - Type
+declare.whenAndWhere.goodsLocationAddress.streetAndNumber=5.23 Goods Location - Street and Number
+declare.whenAndWhere.goodsLocationAddress.city=5.23 Goods Location - City
+declare.whenAndWhere.goodsLocationAddress.countryCode=5.23 Goods Location - Country Code
+declare.whenAndWhere.goodsLocationAddress.postcode=5.23 Goods Location - Postcode
+declare.whenAndWhere.goodsLocationAddress.typeCode=5.23 Goods Location - Address Type
 declare.whenAndWhere.placeOfLoading=5.21 Place of loading - airport code
 
 # Section 6

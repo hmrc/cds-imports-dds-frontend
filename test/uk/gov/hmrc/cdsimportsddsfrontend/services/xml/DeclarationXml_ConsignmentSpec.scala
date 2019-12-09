@@ -16,12 +16,12 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
-import org.scalatest.{MustMatchers, WordSpec}
+import org.scalatest.{AppendedClues, MustMatchers, WordSpec}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
 import scala.xml.Elem
 
-class DeclarationXml_ConsignmentSpec extends WordSpec with MustMatchers {
+class DeclarationXml_ConsignmentSpec extends WordSpec with MustMatchers with AppendedClues {
 
   "Consignment data" should {
     "be populated in the XML" when {
@@ -29,7 +29,7 @@ class DeclarationXml_ConsignmentSpec extends WordSpec with MustMatchers {
         val someConsignment = Some(Consignment(
           containerCode = Some("0"),
           arrivalTransportMeans = Some(ArrivalTransportMeans(Some("10"), Some("1023465738"))),
-          goodsLocation = Some(GoodsLocation(Some("FXTFXTFXT"), Some("A"), Some(Address()))),
+          goodsLocation = Some(GoodsLocation(Some("FXTFXTFXT"), Some("A"), Some(Address(None, None, Some("GB"), None, None)))),
           loadingLocation = Some(LoadingLocation("GAT"))
         ))
 
@@ -47,8 +47,7 @@ class DeclarationXml_ConsignmentSpec extends WordSpec with MustMatchers {
         (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "ArrivalTransportMeans" \ "IdentificationTypeCode").head.text mustBe "10"
         (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" \ "Name").head.text mustBe "FXTFXTFXT"
         (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" \ "TypeCode").head.text mustBe "A"
-        (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" \ "Address" \ "CountryCode").head.text mustBe "FR"
-        (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" \ "Address" \ "TypeCode").head.text mustBe "U"
+        (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "GoodsLocation" \ "Address").length mustBe 1 withClue "Expected a GoodsLocation.Address"
         (xml \ "Declaration" \ "GoodsShipment" \ "Consignment" \ "LoadingLocation" \ "ID").head.text mustBe "GAT"
       }
     }
