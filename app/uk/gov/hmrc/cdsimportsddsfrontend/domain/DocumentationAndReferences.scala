@@ -39,6 +39,21 @@ case class AdditionalDocument(
   writeOff: Option[WriteOff]
 )
 
+/**
+  * This helper is only required because the AdditionalDocument domain object is being used by the form mappings in the
+  * front end but the form it is being mapped to does not contain all the required fields
+  */
+object AdditionalDocumentHelper {
+  def apply(categoryCode: Option[String],
+            typeCode: Option[String],
+            id: Option[String],
+            lpco: Option[String],
+            name: Option[String]): AdditionalDocument = AdditionalDocument(categoryCode, typeCode, id, lpco, name, None, None, None)
+
+  def unapply(arg: AdditionalDocument): Option[(Option[String], Option[String], Option[String], Option[String],
+    Option[String])] = Some((arg.categoryCode, arg.typeCode, arg.id, arg.lpco, arg.name))
+}
+
 case class AdditionalPaymentType(
   additionalDocPaymentID: Option[String],
   additionalDocPaymentCategory: Option[String],

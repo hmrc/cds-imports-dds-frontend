@@ -26,10 +26,8 @@ object AdditionalDocumentFormMapping {
     "typeCode" -> optional(text),
     "id" -> optional(text),
     "lpco" -> optional(text),
-    "name" -> optional(text),
-    "effectiveDateTime" -> optional(text),
-    "writeOff" -> optional(text)
-  )(AdditionalDocument.apply)(AdditionalDocument.unapply))
+    "name" -> optional(text)
+  )(AdditionalDocumentHelper.apply)(AdditionalDocumentHelper.unapply))
 }
 
 object AdditionalPaymentTypeFormMapping {

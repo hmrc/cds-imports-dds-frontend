@@ -28,7 +28,10 @@ class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with Optio
     typeCode = Some("typeCode_1"),
     id = Some("id_1"),
     lpco = Some("lpco_1"),
-    name = Some("name_1")
+    name = Some("name_1"),
+    submitter = None,
+    effectiveDateTime = None,
+    writeOff = None
   )
 
   val emptyFields = List(Some(""), None)
@@ -48,7 +51,10 @@ class XmlWriter_AdditionalDocumentSpec extends WordSpec with Matchers with Optio
       typeCode = None,
       id = None,
       lpco = None,
-      name = None
+      name = None,
+      submitter = None,
+      effectiveDateTime = None,
+      writeOff = None
       )
 
       additionalDocumentEmpty.toXmlOption shouldBe None
