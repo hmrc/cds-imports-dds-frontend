@@ -21,34 +21,37 @@
 
 @(form: Form[DeclarationViewModel])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
-@input_text(form("valuationInformationAndTaxes.conditionCode"), "declare.valuationInformationAndTaxes.conditionCode")
-@input_text(form("valuationInformationAndTaxes.locationID"), "declare.valuationInformationAndTaxes.locationID")
-@input_text(form("valuationInformationAndTaxes.locationName"), "declare.valuationInformationAndTaxes.locationName")
-@input_text(form("valuationInformationAndTaxes.paymentMethodCode"), "declare.valuationInformationAndTaxes.paymentMethodCode")
+<fieldset class="govuk-fieldset">
+ @form_legend("declare.section4.title")
+ @input_text(form("valuationInformationAndTaxes.conditionCode"), "declare.valuationInformationAndTaxes.conditionCode")
+ @input_text(form("valuationInformationAndTaxes.locationID"), "declare.valuationInformationAndTaxes.locationID")
+ @input_text(form("valuationInformationAndTaxes.locationName"), "declare.valuationInformationAndTaxes.locationName")
+ @input_text(form("valuationInformationAndTaxes.paymentMethodCode"), "declare.valuationInformationAndTaxes.paymentMethodCode")
 
-<table class="govuk-table">
- <thead class="govuk-table__head">
-  <tr class="govuk-table__row">
-   <th colspan="3" class="govuk-table__header">@messages("declare.valuationInformationAndTaxes.chargeDeduction")</th>
-  </tr>
- </thead>
- <tbody class="govuk-table__body">
-  <tr class="govuk-table__row">
-   <td>@input_text(form("valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.amount"), "declare.valuationInformationAndTaxes.headerChargeDeduction.amount")</td>
-   <td>@input_text(form("valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.currency"), "declare.valuationInformationAndTaxes.headerChargeDeduction.currency")</td>
-   <td>@input_text(form("valuationInformationAndTaxes.headerChargeDeduction.typeCode"), "declare.valuationInformationAndTaxes.headerChargeDeduction.typeCode")</td>
-  </tr>
-  <tr class="govuk-table__row">
-   <td>@input_text(form("valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.amount"), "declare.valuationInformationAndTaxes.itemChargeDeduction.amount")</td>
-   <td>@input_text(form("valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.currency"), "declare.valuationInformationAndTaxes.itemChargeDeduction.currency")</td>
-   <td>@input_text(form("valuationInformationAndTaxes.itemChargeDeduction.typeCode"), "declare.valuationInformationAndTaxes.itemChargeDeduction.typeCode")</td>
-  </tr>
- </tbody>
-</table>
+ <table class="govuk-table">
+  <thead class="govuk-table__head">
+   <tr class="govuk-table__row">
+    <th colspan="3" class="govuk-table__header">@messages("declare.valuationInformationAndTaxes.chargeDeduction")</th>
+   </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+   <tr class="govuk-table__row">
+    <td>@input_text(form("valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.amount"), "declare.valuationInformationAndTaxes.headerChargeDeduction.amount")</td>
+    <td>@input_text(form("valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.currency"), "declare.valuationInformationAndTaxes.headerChargeDeduction.currency")</td>
+    <td>@input_text(form("valuationInformationAndTaxes.headerChargeDeduction.typeCode"), "declare.valuationInformationAndTaxes.headerChargeDeduction.typeCode")</td>
+   </tr>
+   <tr class="govuk-table__row">
+    <td>@input_text(form("valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.amount"), "declare.valuationInformationAndTaxes.itemChargeDeduction.amount")</td>
+    <td>@input_text(form("valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.currency"), "declare.valuationInformationAndTaxes.itemChargeDeduction.currency")</td>
+    <td>@input_text(form("valuationInformationAndTaxes.itemChargeDeduction.typeCode"), "declare.valuationInformationAndTaxes.itemChargeDeduction.typeCode")</td>
+   </tr>
+  </tbody>
+ </table>
 
-@input_text(form("valuationInformationAndTaxes.additionCode"), "declare.valuationInformationAndTaxes.additionCode")
-@input_text(form("valuationInformationAndTaxes.itemChargeAmount.amount"), "declare.valuationInformationAndTaxes.itemChargeAmount")
-@input_text(form("valuationInformationAndTaxes.itemChargeAmount.currency"), "declare.valuationInformationAndTaxes.currencyID")
-@input_text(form("valuationInformationAndTaxes.rateNumeric"), "declare.valuationInformationAndTaxes.rateNumeric")
-@input_text(form("valuationInformationAndTaxes.customsValuationMethodCode"), "declare.valuationInformationAndTaxes.customsValuationMethodCode")
-@input_text(form("valuationInformationAndTaxes.dutyRegimeCode"), "declare.valuationInformationAndTaxes.dutyRegimeCode")
+ @input_text(form("valuationInformationAndTaxes.additionCode"), "declare.valuationInformationAndTaxes.additionCode")
+ @input_text(form("valuationInformationAndTaxes.itemChargeAmount.amount"), "declare.valuationInformationAndTaxes.itemChargeAmount")
+ @input_text(form("valuationInformationAndTaxes.itemChargeAmount.currency"), "declare.valuationInformationAndTaxes.currencyID")
+ @input_text(form("valuationInformationAndTaxes.rateNumeric"), "declare.valuationInformationAndTaxes.rateNumeric")
+ @input_text(form("valuationInformationAndTaxes.customsValuationMethodCode"), "declare.valuationInformationAndTaxes.customsValuationMethodCode")
+ @input_text(form("valuationInformationAndTaxes.dutyRegimeCode"), "declare.valuationInformationAndTaxes.dutyRegimeCode")
+</fieldset>
