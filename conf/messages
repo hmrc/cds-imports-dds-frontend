@@ -15,9 +15,10 @@ service-unavailable.title=Sorry, the service is unavailable
 service-unavailable.heading=Sorry, the service is unavailable
 
 # Single-page declaration form
-declare.legend=Make an import declaration
+declare.title=Make an import declaration
 
 # Section 1 - Declaration type
+declare.section1.title=Declaration Type
 declare.declarationType=1.1 Declaration Type
 declare.additionalDeclarationType=1.2 Additional Declaration Type
 declare.goodsItemNumber=1.6 Goods Item Number
@@ -27,6 +28,7 @@ declare.previousProcedureCode=1.10 Previous Procedure Code
 declare.additionalProcedureCode=1.11 Additional Procedure Code (000 or C07)
 
 # Section 2 - Documents and references
+declare.section2.title=Documents and references
 declare.document = Document {0}
 declare.previousDocuments=2.1 Previous Documents - {0} Level
 declare.previousDocCategory=Category
@@ -51,6 +53,7 @@ declare.additionalDocPaymentCategory=2.6 Deferred Payment Category {0}
 declare.additionalDocPaymentType=2.6 Deferred Payment Type {0}
 
 # Section 3 - Parties
+declare.section3.title=Parties
 declare.parties.exporter.name=3.1 Exporter - Name
 declare.parties.exporter.address.streetAndNumber=3.1 Exporter - Street and Number
 declare.parties.exporter.address.city=3.1 Exporter - City
@@ -84,6 +87,7 @@ declare.parties.domesticDutyTaxParty.identifier=3.40 VAT Number (or TSPVAT) {0}
 declare.parties.domesticDutyTaxParty.roleCode=3.40 Role Code {0}
 
 # Section 4 - Valuation Information And Taxes
+declare.section4.title=Valuation Information And Taxes
 declare.valuationInformationAndTaxes.conditionCode=4.1 INCOTERM code
 declare.valuationInformationAndTaxes.locationID=4.1 UN/LOCODE code
 declare.valuationInformationAndTaxes.locationName=4.1 Country code + Location Name
@@ -103,6 +107,7 @@ declare.valuationInformationAndTaxes.customsValuationMethodCode=4.16 Valuation M
 declare.valuationInformationAndTaxes.dutyRegimeCode=4.17 Preference
 
 # Section 5
+declare.section5.title=When and where
 declare.whenAndWhere.destination.countryCode=5.8 Destination country code
 declare.whenAndWhere.exportCountry=5.14 Dispatch/export country code
 declare.whenAndWhere.origin.countryCode=5.15 Origin country code
@@ -119,6 +124,7 @@ declare.whenAndWhere.goodsLocationAddress.typeCode=5.23 Goods Location - Address
 declare.whenAndWhere.placeOfLoading=5.21 Place of loading - airport code
 
 # Section 6
+declare.section6.title=Goods Identification
 declare.goodsIdentification.netMass=6.1 Net mass
 declare.goodsIdentification.supplementaryUnits=6.2 Supplementary units
 declare.goodsIdentification.grossMass=6.5 Gross mass
@@ -137,6 +143,7 @@ declare.goodsIdentification.nationalAdditionalCode.identificationTypeCode=6.17 N
 declare.goodsIdentification.totalpackages=6.18 Total Packages
 
 # Section 7
+declare.section7.title=Transport Information
 declare.transportInformation.container=7.2 Container
 declare.transportInformation.modeOfTransport=7.4 Mode of transport code
 declare.transportInformation.transportId=7.9 ID of means of transport on arrival
@@ -144,6 +151,7 @@ declare.transportInformation.transportIdentificationType=7.9 Transport ID type
 declare.transportInformation.registrationNationalityCode=7.15 Nationality of means of transport at border
 
 # Section 8
+declare.section8.title=Miscellaneous
 declare.miscellaneous.quotaOrderNumber=8.1 Quota order number
 declare.miscellaneous.guaranteeType=8.2 Guarantee Type
 declare.miscellaneous.guaranteeReference.grn=8.3 Guarantee Reference - GRN
