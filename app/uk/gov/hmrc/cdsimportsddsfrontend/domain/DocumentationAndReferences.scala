@@ -16,14 +16,27 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
+import java.time.LocalDateTime
 import java.util.UUID
+
+case class WriteOff(
+  quantityQuantity: Option[String],
+  unitCode: Option[String]
+)
+
+case class Submitter(
+  name: Option[String]
+)
 
 case class AdditionalDocument(
   categoryCode: Option[String],
   typeCode: Option[String],
   id: Option[String],
   lpco: Option[String],
-  name: Option[String]
+  name: Option[String],
+  submitter: Option[Submitter],
+  effectiveDateTime: Option[LocalDateTime],
+  writeOff: Option[WriteOff]
 )
 
 case class AdditionalPaymentType(
@@ -66,12 +79,12 @@ object DocumentationAndReferences {
     AdditionalInformation(Some("TSP01"), Some("TSP")),
     Nil,
     Seq(
-      AdditionalDocument(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), Some("DocumentName1")),
-      AdditionalDocument(Some("C"), Some("514"), Some("GBEIR201909014000"), None, None),
-      AdditionalDocument(Some("C"), Some("506"), Some("GBDPO1909241"), None, None),
-      AdditionalDocument(Some("N"), Some("935"), Some("12345/30.07.2019"), Some("AC"), None),
-      AdditionalDocument(Some("N"), Some("935"), Some("12345/30.08.2019"), Some("AC"), None),
-      AdditionalDocument(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), None)
+      AdditionalDocument(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), Some("DocumentName1"), None, None, None),
+      AdditionalDocument(Some("C"), Some("514"), Some("GBEIR201909014000"), None, None, None, None, None),
+      AdditionalDocument(Some("C"), Some("506"), Some("GBDPO1909241"), None, None, None, None, None),
+      AdditionalDocument(Some("N"), Some("935"), Some("12345/30.07.2019"), Some("AC"), None, None, None, None),
+      AdditionalDocument(Some("N"), Some("935"), Some("12345/30.08.2019"), Some("AC"), None, None, None, None),
+      AdditionalDocument(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), None, None, None, None)
     ),
     Some(UUID.randomUUID().toString.replaceAll("-","").take(20)),
     Seq(

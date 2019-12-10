@@ -25,7 +25,8 @@ case class MiscellaneousViewModel(guaranteeType: Option[String] = None,
                                    importDutyAndOtherCharges: Option[CurrencyAmount] = None,
                                    customsOffice: Option[String] = None,
                                    natureOfTransaction: Option[String] = Some("1"),
-                                   statisticalValue: Option[CurrencyAmount] = Some(CurrencyAmount("GBP", "100"))
+                                   statisticalValue: Option[CurrencyAmount] = Some(CurrencyAmount("GBP", "100")),
+                                   writeOffViewModel: Seq[WriteOffViewModel] = Seq.empty
                                  ) {
 
   def toObligationGuarantee: ObligationGuarantee = ObligationGuarantee(

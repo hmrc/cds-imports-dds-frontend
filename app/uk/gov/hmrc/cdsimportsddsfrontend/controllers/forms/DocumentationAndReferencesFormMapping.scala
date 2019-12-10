@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
-import play.api.data.Forms.{mapping, optional, text, seq}
+import play.api.data.Forms.{mapping, optional, seq, text}
 import play.api.data.Mapping
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
@@ -26,7 +26,9 @@ object AdditionalDocumentFormMapping {
     "typeCode" -> optional(text),
     "id" -> optional(text),
     "lpco" -> optional(text),
-    "name" -> optional(text)
+    "name" -> optional(text),
+    "effectiveDateTime" -> optional(text),
+    "writeOff" -> optional(text)
   )(AdditionalDocument.apply)(AdditionalDocument.unapply))
 }
 
@@ -56,10 +58,10 @@ object AdditionalInformationFormMapping {
 }
 
 object DocumentationAndReferencesFormMapping {
-  import AdditionalPaymentTypeFormMapping.paymentType
   import AdditionalDocumentFormMapping.additionalDocument
-  import PreviousDocumentFormMapping.previousDocument
   import AdditionalInformationFormMapping.additionalInformationMapping
+  import AdditionalPaymentTypeFormMapping.paymentType
+  import PreviousDocumentFormMapping.previousDocument
   val documentationAndReferences: (String, Mapping[DocumentationAndReferences]) = "documentationAndReferences" -> mapping(
     "header.previousDocument" -> seq(previousDocument),
     "item.previousDocument" -> seq(previousDocument),
