@@ -42,7 +42,7 @@ val compileDeps = Seq(
   "uk.gov.hmrc"             %% "bootstrap-play-26"        % "1.1.0",
   "org.scala-lang.modules"  %% "scala-xml"                % "1.2.0",
   "org.typelevel"           %% "cats-core"                % "2.0.0",
-  "uk.gov.hmrc"             %% "simple-reactivemongo"     % "7.21.0-play-26"
+  "uk.gov.hmrc"             %% "simple-reactivemongo"     % "7.20.0-play-26"
 
 )
 
