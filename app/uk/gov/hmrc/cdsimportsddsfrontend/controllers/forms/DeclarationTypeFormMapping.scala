@@ -18,11 +18,11 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
 import play.api.data.Forms.mapping
 import play.api.data.Mapping
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.DeclarationType
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.DeclarationTypeViewModel
 
 object DeclarationTypeFormMapping extends FormValidators {
 
-  val declarationType: (String, Mapping[DeclarationType]) = "declarationType" -> mapping(
+  val declarationType: (String, Mapping[DeclarationTypeViewModel]) = "declarationType" -> mapping(
     "declarationType" -> nonEmptyString,
     "additionalDeclarationType" -> nonEmptyString,
     "goodsItemNumber" -> nonEmptyString,
@@ -30,6 +30,6 @@ object DeclarationTypeFormMapping extends FormValidators {
     "requestedProcedureCode" -> nonEmptyString,
     "previousProcedureCode" -> nonEmptyString,
     "additionalProcedureCode" -> nonEmptyString
-  )(DeclarationType.apply)(DeclarationType.unapply)
+  )(DeclarationTypeViewModel.apply)(DeclarationTypeViewModel.unapply)
 }
 

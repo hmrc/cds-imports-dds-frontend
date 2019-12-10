@@ -37,7 +37,7 @@ case class AdditionalInformation(
   description: Option[String]
 )
 
-case class DocumentationAndReferences(
+case class DocumentationAndReferencesViewModel(
                                        headerPreviousDocuments: Seq[PreviousDocument],
                                        itemPreviousDocuments: Seq[PreviousDocument],
                                        headerAdditionalInformation: AdditionalInformation,
@@ -47,8 +47,8 @@ case class DocumentationAndReferences(
                                        additionalPayments: Seq[AdditionalPaymentType]
 )
 
-object DocumentationAndReferences {
-  def apply(): DocumentationAndReferences = DocumentationAndReferences(
+object DocumentationAndReferencesViewModel {
+  def apply(): DocumentationAndReferencesViewModel = DocumentationAndReferencesViewModel(
     Seq(
       PreviousDocument(Some("Y"),Some("20191101"), Some("CLE"),Some("1")),
       PreviousDocument(Some("Y"),Some("9GB201909014000"), Some("DCR"),Some("1")),

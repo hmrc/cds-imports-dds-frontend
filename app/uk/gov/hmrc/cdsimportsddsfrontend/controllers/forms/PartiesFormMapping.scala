@@ -21,10 +21,10 @@ import play.api.data.Mapping
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.PartyFormMapping.partyMapping
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.AuthorisationHolderFormMapping.authorisationHolders
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.DomesticDutyTaxPartyFormMapping.domesticDutyTaxParties
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.DeclarationParties
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.DeclarationPartiesViewModel
 
 object PartiesFormMapping {
-  val parties: (String, Mapping[DeclarationParties]) = "parties" -> mapping(
+  val parties: (String, Mapping[DeclarationPartiesViewModel]) = "parties" -> mapping(
     "declarant" -> optional(partyMapping),
     "importer" -> optional(partyMapping),
     "exporter" -> optional(partyMapping),
@@ -32,5 +32,5 @@ object PartiesFormMapping {
     "seller" -> optional(partyMapping),
     authorisationHolders,
     domesticDutyTaxParties
-  )(DeclarationParties.apply)(DeclarationParties.unapply)
+  )(DeclarationPartiesViewModel.apply)(DeclarationPartiesViewModel.unapply)
 }

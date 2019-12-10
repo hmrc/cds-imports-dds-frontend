@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class DeclarationParties(
+case class DeclarationPartiesViewModel(
                                declarant: Option[Party] = Some(Party(identifier = Some("GB201909014000"))),
                                importer: Option[Party] = Some(Party(name = Some("Foil R Us"), address = Some(Address(
                                  Some("82 Boulevard de Clichy"), Some("Paris"), Some("FR"), Some("75018"), Some("U")

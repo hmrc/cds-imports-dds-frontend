@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
-case class DeclarationType(
+case class DeclarationTypeViewModel(
                             declarationType: String,
                             additionalDeclarationType: String,
                             goodsItemNumber: String, // Declaration/GoodsShipment/GovernmentAgencyGoodsItem/SequenceNumeric = "1" // only 1 item for now
@@ -27,9 +27,9 @@ case class DeclarationType(
 
                           )
 
-object DeclarationType {
-  def apply(): DeclarationType = {
-    new DeclarationType(
+object DeclarationTypeViewModel {
+  def apply(): DeclarationTypeViewModel = {
+    new DeclarationTypeViewModel(
       "IM",
       "Z",
       "1",

@@ -19,9 +19,9 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers.model
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
 case class DeclarationViewModel(
-                                 declarationType: DeclarationType = DeclarationType(),
-                                 documentationAndReferences: DocumentationAndReferences = DocumentationAndReferences(),
-                                 parties: DeclarationParties = DeclarationParties(),
+                                 declarationType: DeclarationTypeViewModel = DeclarationTypeViewModel(),
+                                 documentationAndReferences: DocumentationAndReferencesViewModel = DocumentationAndReferencesViewModel(),
+                                 parties: DeclarationPartiesViewModel = DeclarationPartiesViewModel(),
                                  valuationInformationAndTaxesViewModel: ValuationInformationAndTaxesViewModel = ValuationInformationAndTaxesViewModel(),
                                  whenAndWhereViewModel: WhenAndWhereViewModel = WhenAndWhereViewModel(),
                                  goodsIdentification: GoodsIdentificationViewModel = GoodsIdentificationViewModel(),

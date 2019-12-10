@@ -17,9 +17,9 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class Declaration(
-                        declarationType: DeclarationType = DeclarationType(),
-                        documentationAndReferences: DocumentationAndReferences = DocumentationAndReferences(),
-                        parties: DeclarationParties = DeclarationParties(),
+                        declarationType: DeclarationTypeViewModel = DeclarationTypeViewModel(),
+                        documentationAndReferences: DocumentationAndReferencesViewModel = DocumentationAndReferencesViewModel(),
+                        parties: DeclarationPartiesViewModel = DeclarationPartiesViewModel(),
                         currencyExchange: Option[CurrencyExchange] = None,
                         commodity: Option[Commodity] = None,
                         totalGrossMassMeasure: Option[String] = None,

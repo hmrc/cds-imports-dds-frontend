@@ -24,7 +24,7 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
   "DeclarationViewModel" should {
     "convert to Declaration" in {
       val viewModel = DeclarationViewModel(
-        declarationType = DeclarationType(
+        declarationType = DeclarationTypeViewModel(
           "untested", "untested", "77", "untested", "untested", "untested", "untested"
         ),
         valuationInformationAndTaxesViewModel = ValuationInformationAndTaxesViewModel(

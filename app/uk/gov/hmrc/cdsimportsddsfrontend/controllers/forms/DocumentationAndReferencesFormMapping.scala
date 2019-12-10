@@ -60,7 +60,7 @@ object DocumentationAndReferencesFormMapping {
   import AdditionalDocumentFormMapping.additionalDocument
   import PreviousDocumentFormMapping.previousDocument
   import AdditionalInformationFormMapping.additionalInformationMapping
-  val documentationAndReferences: (String, Mapping[DocumentationAndReferences]) = "documentationAndReferences" -> mapping(
+  val documentationAndReferences: (String, Mapping[DocumentationAndReferencesViewModel]) = "documentationAndReferences" -> mapping(
     "header.previousDocument" -> seq(previousDocument),
     "item.previousDocument" -> seq(previousDocument),
     "header.additionalInformation" -> additionalInformationMapping,
@@ -68,5 +68,5 @@ object DocumentationAndReferencesFormMapping {
     additionalDocument,
     "localReferenceNumber" -> optional(text),
     paymentType
-  )(DocumentationAndReferences.apply)(DocumentationAndReferences.unapply)
+  )(DocumentationAndReferencesViewModel.apply)(DocumentationAndReferencesViewModel.unapply)
 }
