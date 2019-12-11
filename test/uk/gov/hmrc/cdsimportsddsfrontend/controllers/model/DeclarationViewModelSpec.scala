@@ -16,6 +16,8 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.model
 
+import java.util.UUID
+
 import org.scalatest.{Matchers, WordSpec}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
@@ -26,6 +28,37 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
       val viewModel = DeclarationViewModel(
         declarationType = DeclarationType(
           "untested", "untested", "77", "untested", "untested", "untested", "untested"
+        ),
+        documentationAndReferences = DocumentationAndReferencesViewModel(
+          Seq(
+            PreviousDocument(Some("Y"),Some("20191101"), Some("CLE"),Some("1")),
+            PreviousDocument(Some("Y"),Some("9GB201909014000"), Some("DCR"),Some("1")),
+            PreviousDocument(Some("Y"),Some("20191101"), Some("CLE"),Some("1")),
+            PreviousDocument(Some("Y"),Some("9GB201909014000"), Some("DCR"),Some("1"))
+          ),
+          Seq(
+            PreviousDocument(Some("Y"),Some("20191101"), Some("CLE"),Some("1")),
+            PreviousDocument(Some("Y"),Some("9GB201909014000"), Some("DCR"),Some("1")),
+            PreviousDocument(Some("Z"),Some("20191103"), Some("ZZZ"),Some("1")),
+            PreviousDocument(Some("Z"),Some("9GB201909014002"), Some("235"),Some("1")),
+            PreviousDocument(Some("Z"),Some("9GB201909014003"), Some("ZZZ"),Some("1")),
+            PreviousDocument(Some("Z"),Some("9GB201909014004"), Some("270"),Some("1"))
+          ),
+          AdditionalInformation(Some("TSP01"), Some("TSP")),
+          Nil,
+          Seq(
+            AdditionalDocumentViewModel(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), Some("DocumentName1")),
+            AdditionalDocumentViewModel(Some("C"), Some("514"), Some("GBEIR201909014000"), None, None),
+            AdditionalDocumentViewModel(Some("C"), Some("506"), Some("GBDPO1909241"), None, None),
+            AdditionalDocumentViewModel(Some("N"), Some("935"), Some("12345/30.07.2019"), Some("AC"), None),
+            AdditionalDocumentViewModel(Some("N"), Some("935"), Some("12345/30.08.2019"), Some("AC"), None),
+            AdditionalDocumentViewModel(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), None)
+          ),
+          Some(UUID.randomUUID().toString.replaceAll("-","").take(20)),
+          Seq(
+            AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN")),
+            AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN"))
+          )
         ),
         valuationInformationAndTaxesViewModel = ValuationInformationAndTaxesViewModel(
           customsValuationMethodCode = Some("1"),
@@ -41,7 +74,20 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
             preferentialOriginTypeCode = Some("2")),
         miscellaneousViewModel = MiscellaneousViewModel(
           natureOfTransaction = Some("3"),
-          statisticalValue = Some(CurrencyAmount("DKK", "8080"))
+          statisticalValue = Some(CurrencyAmount("DKK", "8080")),
+          writeOffViewModel = Seq(
+            WriteOffViewModel(
+              issuingAuthority = Some("Auth"),
+              dateOfValidity = Some("20201212000000Z"),
+              quantity = Some("1"),
+              measurementUnitAndQualifier = Some("Qualifies")
+            ),
+            WriteOffViewModel(None,None,None,None),
+            WriteOffViewModel(None,None,None,None),
+            WriteOffViewModel(None,None,None,None),
+            WriteOffViewModel(None,None,None,None),
+            WriteOffViewModel(None,None,None,None)
+          )
         )
       )
 
@@ -82,6 +128,16 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
       declaration.goodsShipment.exportCountry shouldBe Some(ExportCountry(id = Some("FR")))
 
       declaration.goodsShipment.governmentAgencyGoodsItem shouldBe GovernmentAgencyGoodsItem(
+        additionalDocuments = Seq(
+          AdditionalDocument(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), Some("DocumentName1"),
+            Some(Submitter(name = Some("Auth"))), Some("20201212000000Z"), Some(WriteOff(quantityQuantity = Some("1"),
+              unitCode = Some("Qualifies")))),
+          AdditionalDocument(Some("C"), Some("514"), Some("GBEIR201909014000"), None, None, None, None, None),
+          AdditionalDocument(Some("C"), Some("506"), Some("GBDPO1909241"), None, None, None, None, None),
+          AdditionalDocument(Some("N"), Some("935"), Some("12345/30.07.2019"), Some("AC"), None, None, None, None),
+          AdditionalDocument(Some("N"), Some("935"), Some("12345/30.08.2019"), Some("AC"), None, None, None, None),
+          AdditionalDocument(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), None, None, None, None)
+        ),
         origin = Seq(Origin(countryCode = Some("FR"), typeCode = Some("1")),
                      Origin(countryCode = Some("GB"), typeCode = Some("2"))),
         sequenceNumeric = "77",

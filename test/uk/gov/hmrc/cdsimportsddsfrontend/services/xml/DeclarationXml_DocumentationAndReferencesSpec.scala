@@ -16,8 +16,11 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
+import java.util.UUID
+
 import org.scalatest.{MustMatchers, WordSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{AdditionalInformation, Declaration, DocumentationAndReferences, PreviousDocument}
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.{AdditionalDocumentViewModel, DocumentationAndReferencesViewModel}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
 import scala.xml.Elem
 
@@ -25,7 +28,50 @@ class DeclarationXml_DocumentationAndReferencesSpec extends WordSpec with MustMa
 
   "Documentation data" should {
     "be populated in the XML" in {
-      val declaration = Declaration()
+      val declaration = Declaration().copy(
+        documentationAndReferences = DocumentationAndReferences(
+          Seq(
+            PreviousDocument(Some("Y"),Some("20191101"), Some("CLE"),Some("1")),
+            PreviousDocument(Some("Y"),Some("9GB201909014000"), Some("DCR"),Some("1")),
+            PreviousDocument(Some("Y"),Some("20191101"), Some("CLE"),Some("1")),
+            PreviousDocument(Some("Y"),Some("9GB201909014000"), Some("DCR"),Some("1"))
+          ),
+          Seq(
+            PreviousDocument(Some("Y"),Some("20191101"), Some("CLE"),Some("1")),
+            PreviousDocument(Some("Y"),Some("9GB201909014000"), Some("DCR"),Some("1")),
+            PreviousDocument(Some("Z"),Some("20191103"), Some("ZZZ"),Some("1")),
+            PreviousDocument(Some("Z"),Some("9GB201909014002"), Some("235"),Some("1")),
+            PreviousDocument(Some("Z"),Some("9GB201909014003"), Some("ZZZ"),Some("1")),
+            PreviousDocument(Some("Z"),Some("9GB201909014004"), Some("270"),Some("1"))
+          ),
+          AdditionalInformation(Some("TSP01"), Some("TSP")),
+          Nil,
+          Some(UUID.randomUUID().toString.replaceAll("-","").take(20)),
+          Seq(
+            AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN")),
+            AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN"))
+          )
+        ),
+        goodsShipment = GoodsShipment(
+          consignment = None,
+          destination = None,
+          exportCountry = None,
+          governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
+            additionalDocuments = Seq(
+              AdditionalDocument(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), Some("DocumentName1"), None, None, None),
+              AdditionalDocument(Some("C"), Some("514"), Some("GBEIR201909014000"), None, None, None, None, None),
+              AdditionalDocument(Some("C"), Some("506"), Some("GBDPO1909241"), None, None, None, None, None),
+              AdditionalDocument(Some("N"), Some("935"), Some("12345/30.07.2019"), Some("AC"), None, None, None, None),
+              AdditionalDocument(Some("N"), Some("935"), Some("12345/30.08.2019"), Some("AC"), None, None, None, None),
+              AdditionalDocument(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), None, None, None, None)
+            ),
+            origin = Seq(),
+            sequenceNumeric = "1",
+            valuationAdjustment = None
+          ),
+          tradeTerms = None
+        )
+      )
 
       val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
       val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"

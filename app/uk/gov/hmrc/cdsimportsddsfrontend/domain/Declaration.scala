@@ -17,23 +17,28 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class Declaration(
-                        declarationType: DeclarationType = DeclarationType(),
-                        documentationAndReferences: DocumentationAndReferences = DocumentationAndReferences(),
-                        parties: DeclarationParties = DeclarationParties(),
-                        currencyExchange: Option[CurrencyExchange] = None,
-                        commodity: Option[Commodity] = None,
-                        totalGrossMassMeasure: Option[String] = None,
-                        packaging: Option[Packaging] = None,
-                        borderTransportMeans: Option[BorderTransportMeans] = None,
-                        headerCustomsValuation: Option[HeaderCustomsValuation] = None,
-                        itemCustomsValuation: Option[ItemCustomsValuation] = None,
-                        goodsShipment: GoodsShipment = GoodsShipment(consignment = None,
-                                                                     destination = None,
-                                                                     exportCountry = None,
-                                                                     governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
-                                                                       origin = Seq(),
-                                                                       sequenceNumeric = "1",
-                                                                       valuationAdjustment = None),
-                                                                     tradeTerms = None),
-                        obligationGuarantee: Option[ObligationGuarantee] = None
-                      )
+  declarationType: DeclarationType = DeclarationType(),
+  documentationAndReferences: DocumentationAndReferences =
+    DocumentationAndReferences(),
+  parties: DeclarationParties = DeclarationParties(),
+  currencyExchange: Option[CurrencyExchange] = None,
+  commodity: Option[Commodity] = None,
+  totalGrossMassMeasure: Option[String] = None,
+  packaging: Option[Packaging] = None,
+  borderTransportMeans: Option[BorderTransportMeans] = None,
+  headerCustomsValuation: Option[HeaderCustomsValuation] = None,
+  itemCustomsValuation: Option[ItemCustomsValuation] = None,
+  goodsShipment: GoodsShipment = GoodsShipment(
+    consignment = None,
+    destination = None,
+    exportCountry = None,
+    governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
+      additionalDocuments = Seq.empty,
+      origin = Seq(),
+      sequenceNumeric = "1",
+      valuationAdjustment = None
+    ),
+    tradeTerms = None
+  ),
+  obligationGuarantee: Option[ObligationGuarantee] = None
+)

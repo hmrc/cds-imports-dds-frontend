@@ -18,16 +18,17 @@ package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
 import play.api.data.Forms.{mapping, optional, seq, text}
 import play.api.data.Mapping
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.{AdditionalDocumentViewModel, DocumentationAndReferencesViewModel}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
 object AdditionalDocumentFormMapping {
-  val additionalDocument: (String, Mapping[Seq[AdditionalDocument]]) = "additionalDocument" -> seq(mapping(
+  val additionalDocument: (String, Mapping[Seq[AdditionalDocumentViewModel]]) = "additionalDocument" -> seq(mapping(
     "categoryCode" -> optional(text),
     "typeCode" -> optional(text),
     "id" -> optional(text),
     "lpco" -> optional(text),
     "name" -> optional(text)
-  )(AdditionalDocumentHelper.apply)(AdditionalDocumentHelper.unapply))
+  )(AdditionalDocumentViewModel.apply)(AdditionalDocumentViewModel.unapply))
 }
 
 object AdditionalPaymentTypeFormMapping {
@@ -60,7 +61,7 @@ object DocumentationAndReferencesFormMapping {
   import AdditionalInformationFormMapping.additionalInformationMapping
   import AdditionalPaymentTypeFormMapping.paymentType
   import PreviousDocumentFormMapping.previousDocument
-  val documentationAndReferences: (String, Mapping[DocumentationAndReferences]) = "documentationAndReferences" -> mapping(
+  val documentationAndReferences: (String, Mapping[DocumentationAndReferencesViewModel]) = "documentationAndReferences" -> mapping(
     "header.previousDocument" -> seq(previousDocument),
     "item.previousDocument" -> seq(previousDocument),
     "header.additionalInformation" -> additionalInformationMapping,
@@ -68,5 +69,5 @@ object DocumentationAndReferencesFormMapping {
     additionalDocument,
     "localReferenceNumber" -> optional(text),
     paymentType
-  )(DocumentationAndReferences.apply)(DocumentationAndReferences.unapply)
+  )(DocumentationAndReferencesViewModel.apply)(DocumentationAndReferencesViewModel.unapply)
 }

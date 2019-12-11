@@ -17,9 +17,10 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.domain
 
 case class GovernmentAgencyGoodsItem(
-                                      origin: Seq[Origin],
-                                      sequenceNumeric: String,
-                                      valuationAdjustment: Option[ValuationAdjustment] = None,
-                                      transactionNatureCode: Option[String] = None,
-                                      statisticalValue: Option[CurrencyAmount] = None
-                                    )
+  additionalDocuments: Seq[AdditionalDocument],
+  origin: Seq[Origin],
+  sequenceNumeric: String,
+  valuationAdjustment: Option[ValuationAdjustment] = None,
+  transactionNatureCode: Option[String] = None,
+  statisticalValue: Option[CurrencyAmount] = None
+)

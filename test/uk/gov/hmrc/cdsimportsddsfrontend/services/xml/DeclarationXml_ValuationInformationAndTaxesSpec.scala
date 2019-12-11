@@ -33,7 +33,7 @@ class DeclarationXml_ValuationInformationAndTaxesSpec extends WordSpec with Must
         headerCustomsValuation = Some(HeaderCustomsValuation(
           Some(ChargeDeduction("BAR", CurrencyAmount("CHF", "675"))))
         ),
-        goodsShipment = GoodsShipment(None, None, None, GovernmentAgencyGoodsItem(Seq(), "untested", Some(ValuationAdjustment("0000"))),
+        goodsShipment = GoodsShipment(None, None, None, GovernmentAgencyGoodsItem(Seq.empty, Seq.empty, "untested", Some(ValuationAdjustment("0000"))),
           Some(TradeTerms(conditionCode = Some("CFR"),
             locationID = Some("GBDVR"),
             locationName = Some("Some location name")))

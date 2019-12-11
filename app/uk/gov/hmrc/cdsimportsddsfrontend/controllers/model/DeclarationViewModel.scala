@@ -20,7 +20,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
 case class DeclarationViewModel(
                                  declarationType: DeclarationType = DeclarationType(),
-                                 documentationAndReferences: DocumentationAndReferences = DocumentationAndReferences(),
+                                 documentationAndReferences: DocumentationAndReferencesViewModel = DocumentationAndReferencesViewModel(),
                                  parties: DeclarationParties = DeclarationParties(),
                                  valuationInformationAndTaxesViewModel: ValuationInformationAndTaxesViewModel = ValuationInformationAndTaxesViewModel(),
                                  whenAndWhereViewModel: WhenAndWhereViewModel = WhenAndWhereViewModel(),
@@ -47,6 +47,7 @@ case class DeclarationViewModel(
         whenAndWhereViewModel.placeOfLoading.map(LoadingLocation))
 
     val governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
+      additionalDocuments = combineAdditionalDocsAndWriteOffs(documentationAndReferences.additionalDocuments, miscellaneousViewModel.writeOffViewModel),
       origin = Seq(Origin(countryCode = whenAndWhereViewModel.originCountryCode,
                           typeCode = whenAndWhereViewModel.originTypeCode),
                    Origin(countryCode = whenAndWhereViewModel.preferentialOriginCountryCode,
@@ -69,7 +70,7 @@ case class DeclarationViewModel(
     )
 
     Declaration(declarationType = declarationType,
-      documentationAndReferences = documentationAndReferences,
+      documentationAndReferences = documentationAndReferences.toDocumentationAndReferences,
       parties = parties,
       currencyExchange = Some(valuationInformationAndTaxesViewModel.toCurrencyExchange),
       totalGrossMassMeasure = goodsIdentification.grossMass,
@@ -82,4 +83,24 @@ case class DeclarationViewModel(
       obligationGuarantee = Some(miscellaneousViewModel.toObligationGuarantee)
     )
   }
+
+  private def combineAdditionalDocsAndWriteOffs(
+     additionalDocuments: Seq[AdditionalDocumentViewModel],
+     writeOffs: Seq[WriteOffViewModel]): Seq[AdditionalDocument] = {
+    additionalDocuments.zip(writeOffs).map( docsAndWriteOffPair => toAdditionalDocument(docsAndWriteOffPair._1, docsAndWriteOffPair._2))
+  }
+
+  private def toAdditionalDocument(doc: AdditionalDocumentViewModel, writeOff: WriteOffViewModel): AdditionalDocument = AdditionalDocument(
+    categoryCode = doc.documentCode,
+    typeCode = doc.typeCode,
+    id = doc.documentIdentifier,
+    lpco = doc.documentStatus,
+    name = doc.documentStatusReason,
+    submitter = writeOff.issuingAuthority.map( issueAuth=> Submitter(name = Some(issueAuth))),
+    effectiveDateTime = writeOff.dateOfValidity,
+    writeOff = writeOff match {
+      case WriteOffViewModel( _, _, None, None) => None
+      case _ => Some(WriteOff(quantityQuantity = writeOff.quantity, unitCode = writeOff.measurementUnitAndQualifier))
+    }
+  )
 }

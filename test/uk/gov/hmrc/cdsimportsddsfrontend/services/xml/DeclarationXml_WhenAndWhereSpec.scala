@@ -30,7 +30,7 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
           goodsShipment = GoodsShipment(consignment = None,
                                         destination = Some(Destination(countryCode = Some("FR"))),
                                         exportCountry = None,
-                                        governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq(), "0", None),
+                                        governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq.empty, Seq.empty, "0", None),
                                         tradeTerms = None)
         )
 
@@ -44,7 +44,7 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
             consignment = None,
             destination = None,
             exportCountry = Some(ExportCountry(id = Some("NE"))),
-            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq(), "0", None),
+            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq.empty, Seq.empty, "0", None),
             tradeTerms = None
           )
         )
@@ -63,6 +63,7 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
             destination = None,
             exportCountry = None,
             governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
+              additionalDocuments = Seq.empty,
               origin = Seq(
                 Origin(countryCode = Some("DL"), typeCode = Some("99")),
                 Origin(countryCode = Some("GB"), typeCode = Some("33"))),
@@ -84,7 +85,7 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
             consignment = None,
             destination = None,
             exportCountry = None,
-            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq(), "0", None),
+            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq.empty, Seq.empty, "0", None),
             tradeTerms = None)
         )
 
@@ -98,7 +99,7 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
             consignment = None,
             destination = None,
             exportCountry = Some(ExportCountry(id = None)),
-            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq(), "0", None),
+            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(Seq.empty, Seq.empty, "0", None),
             tradeTerms = None)
         )
 
@@ -112,7 +113,7 @@ class DeclarationXml_WhenAndWhereSpec extends WordSpec with MustMatchers {
             consignment = None,
             destination = None,
             exportCountry = None,
-            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(origin = Seq(), sequenceNumeric = "1"),
+            governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(additionalDocuments = Seq.empty, origin = Seq.empty, sequenceNumeric = "1"),
             tradeTerms = None)
         )
 
