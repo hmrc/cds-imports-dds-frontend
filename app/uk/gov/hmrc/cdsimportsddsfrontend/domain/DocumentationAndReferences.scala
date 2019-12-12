@@ -40,18 +40,18 @@ case class AdditionalInformation(
   description: Option[String]
 )
 
-case class DocumentationAndReferencesViewModel(
+case class DocumentationAndReferences(
                                        headerPreviousDocuments: Seq[PreviousDocument],
                                        itemPreviousDocuments: Seq[PreviousDocument],
                                        headerAdditionalInformation: AdditionalInformation,
-                                       itemAdditionalInformation: Seq[AdditionalInformation],                                  
+                                       itemAdditionalInformation: Seq[AdditionalInformation],
                                        localReferenceNumber: Option[String],
                                        additionalPayments: Seq[AdditionalPaymentType]
 )
 
-object DocumentationAndReferencesViewModel {
-  def apply(): DocumentationAndReferencesViewModel =
-    new DocumentationAndReferencesViewModel(
+object DocumentationAndReferences {
+  def apply(): DocumentationAndReferences =
+    new DocumentationAndReferences(
       headerPreviousDocuments = Seq.empty,
       itemPreviousDocuments = Seq.empty,
       headerAdditionalInformation = AdditionalInformation(None, None),
