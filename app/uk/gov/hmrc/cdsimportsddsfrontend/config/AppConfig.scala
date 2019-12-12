@@ -25,7 +25,6 @@ class AppConfig @Inject()(val config: Configuration, val servicesConfig: Service
 
   private val contactBaseUrl = servicesConfig.baseUrl("contact-frontend")
 
-
   private val assetsUrl = config.get[String]("assets.url")
   private val serviceIdentifier = "MyService"
 
@@ -41,6 +40,8 @@ class AppConfig @Inject()(val config: Configuration, val servicesConfig: Service
 
   lazy val declarationsApi:CustomsDeclarationsApi = CustomsDeclarationsApi("microservice.services.customs-declarations-api", config)
 
+  lazy val cdsImportsddsBaseUrl: String = servicesConfig.baseUrl("cds-imports-dds")
+  lazy val cdsImportsddsContext: String = config.get[String]("microservice.services.cds-imports-dds.context")
 }
 
 case class CustomsDeclarationsApi(protocol: String, host: String, port: Int,
