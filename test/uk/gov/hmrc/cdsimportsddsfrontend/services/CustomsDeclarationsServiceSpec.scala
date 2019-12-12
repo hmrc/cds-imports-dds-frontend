@@ -20,12 +20,13 @@ import org.mockito.ArgumentMatchers.{any, eq => meq}
 import org.mockito.Mockito.when
 import org.scalatest.{MustMatchers, WordSpec}
 import org.scalatestplus.mockito.MockitoSugar
+import play.api.http.Status
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DeclarationXml
 import uk.gov.hmrc.cdsimportsddsfrontend.test.AppConfigReader
-import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -49,20 +50,25 @@ class CustomsDeclarationsServiceSpec extends WordSpec
     "Post a raw XML declaration to the Declaration API" in new Scenario() {
       val decApiResponse = CustomsDeclarationsResponse(200, Some("conversation id"))
       when[Future[CustomsDeclarationsResponse]](mockHttp.POSTString(any(),any(),any())(any(), any(), any())).thenReturn(Future.successful(decApiResponse))
-      val response: DeclarationServiceResponse = await(customsDeclarationsService.submit(testEori, <DeclaringMyStuff/>))
+      val response: DeclarationServiceResponse = await(customsDeclarationsService.submit(testEori, <DeclaringMyStuff/>, None))
 
       response.conversationId mustBe decApiResponse.conversationId
       response.status mustBe decApiResponse.status
       response.xml mustBe "&lt;DeclaringMyStuff/&gt;"
     }
 
-    "maps view model to declaration and post to the Declaration API" in new Scenario() {
+    "maps view model to declaration, post to the Declaration API and save the submitted declaration" in new Scenario() {
       val decApiResponse = CustomsDeclarationsResponse(200, Some("conversation id"))
       val declarationViewModel = DeclarationViewModel()
+      val lrn = declarationViewModel.documentationAndReferences.localReferenceNumber.getOrElse("")
+      val saveDecHeaders = Seq(CustomsHeaderNames.EoriIdentifier -> testEori)
 
       when[Future[CustomsDeclarationsResponse]](mockHttp.POSTString(any(),any(),any())(any(), any(), any())).thenReturn(Future.successful(decApiResponse))
 
       when(mockDeclarationXml.fromImportDeclaration(meq(declarationViewModel.toDeclaration))).thenReturn(<DeclaringMyStuff/>)
+
+      when[Future[HttpResponse]](mockHttp.POST(meq(appConfig.cdsImportsddsDeclarations), meq(lrn), meq(saveDecHeaders))
+      (any(), any(), any(), any())).thenReturn(Future.successful(HttpResponse(Status.OK)))
 
       val response: DeclarationServiceResponse = await(customsDeclarationsService.submit(testEori, declarationViewModel))
 

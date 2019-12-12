@@ -40,8 +40,9 @@ class AppConfig @Inject()(val config: Configuration, val servicesConfig: Service
 
   lazy val declarationsApi:CustomsDeclarationsApi = CustomsDeclarationsApi("microservice.services.customs-declarations-api", config)
 
-  lazy val cdsImportsddsBaseUrl: String = servicesConfig.baseUrl("cds-imports-dds")
-  lazy val cdsImportsddsContext: String = config.get[String]("microservice.services.cds-imports-dds.context")
+  private lazy val cdsImportsddsBaseUrl: String = servicesConfig.baseUrl("cds-imports-dds")
+  private lazy val cdsImportsddsContext: String = config.get[String]("microservice.services.cds-imports-dds.context")
+  lazy val cdsImportsddsDeclarations: String = s"$cdsImportsddsBaseUrl/$cdsImportsddsContext"
 }
 
 case class CustomsDeclarationsApi(protocol: String, host: String, port: Int,

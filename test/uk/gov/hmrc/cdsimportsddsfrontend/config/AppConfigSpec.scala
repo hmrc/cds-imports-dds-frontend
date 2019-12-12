@@ -21,12 +21,8 @@ import uk.gov.hmrc.cdsimportsddsfrontend.test.CdsImportsSpec
 class AppConfigSpec extends CdsImportsSpec {
 
   "AppConfig" should {
-    "have cdsImportsddsBaseUrl defined" in {
-      appConfig.cdsImportsddsBaseUrl must be("http://localhost:9759")
-    }
-
-    "have cdsImportsddsContext defined" in {
-      appConfig.cdsImportsddsContext must be("declarations")
+    "have cdsImportsddsDeclarations url defined" in {
+      appConfig.cdsImportsddsDeclarations must be("http://localhost:9759/declarations")
     }
   }
 }
