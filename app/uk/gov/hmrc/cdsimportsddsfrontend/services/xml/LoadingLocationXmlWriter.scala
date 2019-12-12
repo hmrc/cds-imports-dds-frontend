@@ -25,7 +25,7 @@ object LoadingLocationXmlWriter {
   implicit val loadingLocationXmlWriter: XmlWriter[LoadingLocation] = new XmlWriter[LoadingLocation] {
     override def toXmlOption(value: LoadingLocation): Option[Elem] = {
       val id: Node = element("ID", value.id)
-      Some(<LoadingLocation>{id}</LoadingLocation>)
+      Option(<LoadingLocation>{id}</LoadingLocation>)
     }
   }
 }

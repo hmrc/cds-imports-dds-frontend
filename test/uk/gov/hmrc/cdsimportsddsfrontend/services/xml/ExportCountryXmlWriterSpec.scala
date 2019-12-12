@@ -27,16 +27,9 @@ class ExportCountryXmlWriterSpec extends WordSpec with Matchers with OptionValue
     "generate the ExportCountry XML element" when {
       "the ID value is present" in {
 
-        val exportCountry = ExportCountry(id = Some("GB"))
+        val exportCountry = ExportCountry(id = "GB")
         val expectedXml =  <ExportCountry><ID>GB</ID></ExportCountry>
         exportCountry.toXmlOption shouldBe Some(expectedXml)
-      }
-    }
-
-    "not generate the ExportCountry XML element" when {
-      "the ID value is not present" in {
-        val exportCountry = ExportCountry(id = None)
-        exportCountry.toXmlOption shouldBe None
       }
     }
   }

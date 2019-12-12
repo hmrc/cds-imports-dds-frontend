@@ -37,20 +37,21 @@ case class AdditionalPaymentType(
 
 case class AdditionalInformation(
   code: Option[String],
-  description: Option[String])
-
-case class DocumentationAndReferences(
-  headerPreviousDocuments: Seq[PreviousDocument],
-  itemPreviousDocuments: Seq[PreviousDocument],
-  headerAdditionalInformation: AdditionalInformation,
-  itemAdditionalInformation: Seq[AdditionalInformation],
-  localReferenceNumber: Option[String],
-  additionalPayments: Seq[AdditionalPaymentType]
+  description: Option[String]
 )
 
-object DocumentationAndReferences {
-  def apply(): DocumentationAndReferences =
-    new DocumentationAndReferences(
+case class DocumentationAndReferencesViewModel(
+                                       headerPreviousDocuments: Seq[PreviousDocument],
+                                       itemPreviousDocuments: Seq[PreviousDocument],
+                                       headerAdditionalInformation: AdditionalInformation,
+                                       itemAdditionalInformation: Seq[AdditionalInformation],                                  
+                                       localReferenceNumber: Option[String],
+                                       additionalPayments: Seq[AdditionalPaymentType]
+)
+
+object DocumentationAndReferencesViewModel {
+  def apply(): DocumentationAndReferencesViewModel =
+    new DocumentationAndReferencesViewModel(
       headerPreviousDocuments = Seq.empty,
       itemPreviousDocuments = Seq.empty,
       headerAdditionalInformation = AdditionalInformation(None, None),

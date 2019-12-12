@@ -26,22 +26,19 @@
 @(form:Form[DeclarationViewModel])(implicit request: Request[_], messages: Messages, appConfig: AppConfig)
 
 @mainTemplate(pageTitle = Some(messages("service.name"))) {
-
+    <h1 class="govuk-heading-l">@messages("declare.title")</h1>
     @helper.form(action=uk.gov.hmrc.cdsimportsddsfrontend.controllers.routes.DeclarationController.submit) {
         @CSRF.formField
-        <fieldset class="govuk-fieldset">
-            @components.form_legend("declare.legend")
-            @components.error_summary(form.errors)
+        @components.error_summary(form.errors)
 
-            @components.declaration_type(form)
-            @components.documentation_type(form)
-            @components.parties(form)
-            @components.valuation_information_and_taxes(form)
-            @components.when_and_where(form)
-            @components.goods_identification(form)
-            @components.transport_information(form)
-            @components.miscellaneous(form)
-        </fieldset>
+        @components.declaration_type(form)
+        @components.documentation_type(form)
+        @components.parties(form)
+        @components.valuation_information_and_taxes(form)
+        @components.when_and_where(form)
+        @components.goods_identification(form)
+        @components.transport_information(form)
+        @components.miscellaneous(form)
 
         @govukButton(Button(content = Text(messages("action.submit"))))
     }

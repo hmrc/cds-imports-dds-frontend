@@ -1,7 +1,7 @@
+import play.core.PlayVersion.{current => currentPlayVersion}
 import uk.gov.hmrc.DefaultBuildSettings.integrationTestSettings
 import uk.gov.hmrc.SbtArtifactory
 import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin.publishingSettings
-import play.core.PlayVersion.{current => currentPlayVersion}
 
 val appName = "cds-imports-dds-frontend"
 
@@ -38,11 +38,11 @@ scalacOptions += "-Ypartial-unification"
 val compileDeps = Seq(
 
   "uk.gov.hmrc"             %% "play-frontend-govuk"      % "0.19.0-play-26",
-  "uk.gov.hmrc"             %% "play-ui"                  % "8.4.0-play-26",
+  "uk.gov.hmrc"             %% "play-ui"                  % "8.2.0-play-26",
   "uk.gov.hmrc"             %% "bootstrap-play-26"        % "1.1.0",
   "org.scala-lang.modules"  %% "scala-xml"                % "1.2.0",
   "org.typelevel"           %% "cats-core"                % "2.0.0",
-  "uk.gov.hmrc"             %% "simple-reactivemongo"     % "7.21.0-play-26"
+  "uk.gov.hmrc"             %% "simple-reactivemongo"     % "7.20.0-play-26"
 
 )
 

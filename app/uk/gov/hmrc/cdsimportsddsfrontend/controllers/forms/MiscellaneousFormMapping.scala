@@ -33,6 +33,7 @@ object WriteOffFormMapping {
 object MiscellaneousFormMapping {
   import WriteOffFormMapping.writeOffMapper
   val miscellaneous: (String, Mapping[MiscellaneousViewModel]) = "miscellaneous" -> mapping(
+    "quotaOrderNumber" -> optional(text),
     "guaranteeType" -> optional(text),
     "grn" -> optional(text),
     "otherGRN" -> optional(text),

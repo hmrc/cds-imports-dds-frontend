@@ -27,9 +27,10 @@ object DutyTaxFeeXmlWriter {
   implicit val dutyTaxFeeXmlWriter: XmlWriter[DutyTaxFee] = new XmlWriter[DutyTaxFee] {
     override def toXmlOption(value: DutyTaxFee): Option[Elem] = {
       val dutyRegimeCode: Option[Node] = maybeElement("DutyRegimeCode", value.dutyRegimeCode)
+      val quotaOrderId: Option[Node] = maybeElement("QuotaOrderID", value.quotaOrderId)
       val payment: Option[Node] = value.payment.flatMap(_.toXmlOption)
 
-      List[Option[NodeSeq]](dutyRegimeCode, payment).flatten
+      List[Option[NodeSeq]](dutyRegimeCode, quotaOrderId, payment).flatten
         .reduceOption((a, b) => a ++ b)
         .map(elem => <DutyTaxFee>{elem}</DutyTaxFee>)
     }

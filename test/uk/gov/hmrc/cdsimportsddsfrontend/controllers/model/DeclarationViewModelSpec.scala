@@ -26,7 +26,7 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
   "DeclarationViewModel" should {
     "convert to Declaration" in {
       val viewModel = DeclarationViewModel(
-        declarationType = DeclarationType(
+        declarationType = DeclarationTypeViewModel(
           "untested", "untested", "77", "untested", "untested", "untested", "untested"
         ),
         documentationAndReferences = DocumentationAndReferencesViewModel(
@@ -70,9 +70,16 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
           itemChargeAmount = Some(CurrencyAmount("EUR", "45"))
         ),
         whenAndWhereViewModel = WhenAndWhereViewModel(
-            preferentialOriginCountryCode = Some("GB"),
-            preferentialOriginTypeCode = Some("2")),
+          exportCountry = Some("DE"),
+          preferentialOriginCountryCode = Some("GB"),
+          preferentialOriginTypeCode = Some("2"),
+          goodsLocationName = Some("FOO"),
+          goodsLocationType = Some("A"),
+          goodsLocationAddress = Some(AddressViewModel(
+            Some("1 Street Lane"), Some("Cityville"), Some("US"), Some("90210"), Some("U")))
+          ),
         miscellaneousViewModel = MiscellaneousViewModel(
+          quotaOrderNumber = Some("123"),
           natureOfTransaction = Some("3"),
           statisticalValue = Some(CurrencyAmount("DKK", "8080")),
           writeOffViewModel = Seq(
@@ -97,7 +104,7 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
         List(Classification(Some("76071111"), Some("TSP")), Classification(Some("10"), Some("TRC")),
           Classification(Some("1234"), Some("TRA")), Classification(Some("VATZ"), Some("GN"))),
         Some(GoodsMeasure(Some("50"), Some("100"), Some("60"))),
-        Some(DutyTaxFee(Some("100"), Some(Payment("E")))),
+        Some(DutyTaxFee(Some("100"), Some("123"), Some(Payment("E")))),
         Some(InvoiceLine(Some(CurrencyAmount("EUR", "45"))))))
 
 
@@ -108,10 +115,9 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
       declaration.goodsShipment.consignment shouldBe Some(Consignment(
           Some("0"),
           Some(ArrivalTransportMeans(Some("10"), Some("1023465738"))),
-          Some(GoodsLocation(Some("FXTFXTFXT"),
+          Some(GoodsLocation(Some("FOO"),
             Some("A"),
-            Some(Address(None, None, Some("GB"),
-              None, Some("U"))))),
+            Some(Address(Some("1 Street Lane"), Some("Cityville"), Some("US"), Some("90210"), Some("U"))))),
           Some(LoadingLocation("JFK"))
         )
       )
@@ -125,7 +131,7 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
         methodCode = Some("1")))
 
       declaration.goodsShipment.destination shouldBe Some(Destination(countryCode = Some("GB")))
-      declaration.goodsShipment.exportCountry shouldBe Some(ExportCountry(id = Some("FR")))
+      declaration.goodsShipment.exportCountry shouldBe Some(ExportCountry("DE"))
 
       declaration.goodsShipment.governmentAgencyGoodsItem shouldBe GovernmentAgencyGoodsItem(
         additionalDocuments = Seq(
