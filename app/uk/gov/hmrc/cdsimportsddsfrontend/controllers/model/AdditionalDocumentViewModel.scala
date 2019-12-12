@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.domain
+package uk.gov.hmrc.cdsimportsddsfrontend.controllers.model
 
-case class GovernmentAgencyGoodsItem(
-  additionalDocuments: Seq[AdditionalDocument],
-  origin: Seq[Origin],
-  sequenceNumeric: String,
-  valuationAdjustment: Option[ValuationAdjustment] = None,
-  transactionNatureCode: Option[String] = None,
-  statisticalValue: Option[CurrencyAmount] = None
-)
+case class AdditionalDocumentViewModel(
+             documentCode: Option[String],
+             typeCode: Option[String],
+             documentIdentifier: Option[String],
+             documentStatus: Option[String],
+             documentStatusReason: Option[String]
+           )

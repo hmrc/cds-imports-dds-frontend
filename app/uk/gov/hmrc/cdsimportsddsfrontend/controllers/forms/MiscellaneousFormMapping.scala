@@ -16,12 +16,22 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
-import play.api.data.Forms.{mapping, optional, text}
+import play.api.data.Forms.{mapping, optional, seq, text}
 import play.api.data.Mapping
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms.CurrencyAmountFormMapping.currencyAmountMapping
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.MiscellaneousViewModel
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.{MiscellaneousViewModel, WriteOffViewModel}
+
+object WriteOffFormMapping {
+  val writeOffMapper: (String, Mapping[Seq[WriteOffViewModel]]) = "writeOff" -> seq(mapping(
+    "issuingAuthority" -> optional(text),
+    "dateOfValidity" -> optional(text),
+    "quantity" -> optional(text),
+    "measurementUnitAndQuantity" -> optional(text)
+  )(WriteOffViewModel.apply)(WriteOffViewModel.unapply))
+}
 
 object MiscellaneousFormMapping {
+  import WriteOffFormMapping.writeOffMapper
   val miscellaneous: (String, Mapping[MiscellaneousViewModel]) = "miscellaneous" -> mapping(
     "quotaOrderNumber" -> optional(text),
     "guaranteeType" -> optional(text),
@@ -31,6 +41,7 @@ object MiscellaneousFormMapping {
     "importDutyAndOtherCharges" -> optional(currencyAmountMapping),
     "customsOffice" -> optional(text),
     "natureOfTransaction" -> optional(text),
-    "statisticalValue" -> optional(currencyAmountMapping)
+    "statisticalValue" -> optional(currencyAmountMapping),
+    writeOffMapper
   )(MiscellaneousViewModel.apply)(MiscellaneousViewModel.unapply)
 }

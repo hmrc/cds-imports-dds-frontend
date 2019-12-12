@@ -51,6 +51,7 @@ case class DeclarationViewModel(
     whenAndWhereViewModel.placeOfLoading.map(LoadingLocation))
 
   lazy val governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
+    additionalDocuments = combineAdditionalDocsAndWriteOffs(documentationAndReferences.additionalDocuments, miscellaneousViewModel.writeOffViewModels),
     origin = Seq(Origin(countryCode = whenAndWhereViewModel.originCountryCode,
       typeCode = whenAndWhereViewModel.originTypeCode),
       Origin(countryCode = whenAndWhereViewModel.preferentialOriginCountryCode,
@@ -74,7 +75,7 @@ case class DeclarationViewModel(
 
   def toDeclaration: Declaration = {
     Declaration(declarationType = declarationType,
-      documentationAndReferences = documentationAndReferences,
+      documentationAndReferences = documentationAndReferences.toDocumentationAndReferences,
       parties = parties,
       currencyExchange = Some(valuationInformationAndTaxesViewModel.toCurrencyExchange),
       totalGrossMassMeasure = goodsIdentification.grossMass,
@@ -87,4 +88,26 @@ case class DeclarationViewModel(
       obligationGuarantee = Some(miscellaneousViewModel.toObligationGuarantee)
     )
   }
+
+  private def combineAdditionalDocsAndWriteOffs(
+     additionalDocuments: Seq[AdditionalDocumentViewModel],
+     writeOffs: Seq[WriteOffViewModel]): Seq[AdditionalDocument] = {
+    additionalDocuments.zip(writeOffs).map{ docAndWriteOff =>
+      val (additionalDoc, writeOff) = docAndWriteOff
+      toAdditionalDocument(additionalDoc, writeOff)}
+  }
+
+  private def toAdditionalDocument(doc: AdditionalDocumentViewModel, writeOff: WriteOffViewModel): AdditionalDocument = AdditionalDocument(
+    categoryCode = doc.documentCode,
+    typeCode = doc.typeCode,
+    id = doc.documentIdentifier,
+    lpco = doc.documentStatus,
+    name = doc.documentStatusReason,
+    submitter = writeOff.issuingAuthority.map( issueAuth=> Submitter(name = Some(issueAuth))),
+    effectiveDateTime = writeOff.dateOfValidity,
+    writeOff = writeOff match {
+      case WriteOffViewModel( _, _, None, None) => None
+      case _ => Some(WriteOff(quantityQuantity = writeOff.quantity, unitCode = writeOff.measurementUnitAndQualifier))
+    }
+  )
 }

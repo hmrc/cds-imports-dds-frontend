@@ -16,16 +16,62 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 
+import java.util.UUID
+
 import org.scalatest.{MustMatchers, WordSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{AdditionalInformation, Declaration, DocumentationAndReferencesViewModel, PreviousDocument}
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.{AdditionalDocumentViewModel, DocumentationAndReferencesViewModel}
+import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
 import scala.xml.Elem
 
-class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec with MustMatchers {
+class DeclarationXml_DocumentationAndReferencesSpec extends WordSpec with MustMatchers {
 
   "Documentation data" should {
     "be populated in the XML" in {
-      val declaration = Declaration()
+      val declaration = Declaration().copy(
+        documentationAndReferences = DocumentationAndReferences(
+          Seq(
+            PreviousDocument(Some("Y"),Some("20191101"), Some("CLE"),Some("1")),
+            PreviousDocument(Some("Y"),Some("9GB201909014000"), Some("DCR"),Some("1")),
+            PreviousDocument(Some("Y"),Some("20191101"), Some("CLE"),Some("1")),
+            PreviousDocument(Some("Y"),Some("9GB201909014000"), Some("DCR"),Some("1"))
+          ),
+          Seq(
+            PreviousDocument(Some("Y"),Some("20191101"), Some("CLE"),Some("1")),
+            PreviousDocument(Some("Y"),Some("9GB201909014000"), Some("DCR"),Some("1")),
+            PreviousDocument(Some("Z"),Some("20191103"), Some("ZZZ"),Some("1")),
+            PreviousDocument(Some("Z"),Some("9GB201909014002"), Some("235"),Some("1")),
+            PreviousDocument(Some("Z"),Some("9GB201909014003"), Some("ZZZ"),Some("1")),
+            PreviousDocument(Some("Z"),Some("9GB201909014004"), Some("270"),Some("1"))
+          ),
+          AdditionalInformation(Some("TSP01"), Some("TSP")),
+          Nil,
+          Some(UUID.randomUUID().toString.replaceAll("-","").take(20)),
+          Seq(
+            AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN")),
+            AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN"))
+          )
+        ),
+        goodsShipment = GoodsShipment(
+          consignment = None,
+          destination = None,
+          exportCountry = None,
+          governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
+            additionalDocuments = Seq(
+              AdditionalDocument(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), Some("DocumentName1"), None, None, None),
+              AdditionalDocument(Some("C"), Some("514"), Some("GBEIR201909014000"), None, None, None, None, None),
+              AdditionalDocument(Some("C"), Some("506"), Some("GBDPO1909241"), None, None, None, None, None),
+              AdditionalDocument(Some("N"), Some("935"), Some("12345/30.07.2019"), Some("AC"), None, None, None, None),
+              AdditionalDocument(Some("N"), Some("935"), Some("12345/30.08.2019"), Some("AC"), None, None, None, None),
+              AdditionalDocument(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), None, None, None, None)
+            ),
+            origin = Seq(),
+            sequenceNumeric = "1",
+            valuationAdjustment = None
+          ),
+          tradeTerms = None
+        )
+      )
 
       val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
       val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
@@ -67,7 +113,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
 
     "render a single item level additional information element" in {
       val additionalInformation = AdditionalInformation(Some("foo"), Some("bar"))
-      val documentation = DocumentationAndReferencesViewModel().copy(itemAdditionalInformation = Seq(additionalInformation))
+      val documentation = DocumentationAndReferences().copy(itemAdditionalInformation = Seq(additionalInformation))
       val declaration = Declaration().copy(documentationAndReferences = documentation)
 
       val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
@@ -86,7 +132,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
       val additionalInformation6 = AdditionalInformation(Some("foo6"), Some("bar6"))
       val tooMuchInformation = Seq(additionalInformation1, additionalInformation2, additionalInformation3, additionalInformation4, additionalInformation5, additionalInformation6)
       val documentation = DocumentationAndReferencesViewModel().copy(itemAdditionalInformation = tooMuchInformation)
-      val declaration = Declaration().copy(documentationAndReferences = documentation)
+      val declaration = Declaration().copy(documentationAndReferences = documentation.toDocumentationAndReferences)
 
       val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
 
@@ -101,7 +147,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
       val additionalInformation3 = AdditionalInformation(Some("foo3"), Some("bar3"))
       val partialInformation = Seq(additionalInformation1, additionalInformation2, additionalInformation3)
       val documentation = DocumentationAndReferencesViewModel().copy(itemAdditionalInformation = partialInformation)
-      val declaration = Declaration().copy(documentationAndReferences = documentation)
+      val declaration = Declaration().copy(documentationAndReferences = documentation.toDocumentationAndReferences)
 
       val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
 
@@ -115,7 +161,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
       val additionalInformation3 = AdditionalInformation(Some("foo3"), Some("bar3"))
       val partialInformation = Seq(additionalInformation1, additionalInformation2, additionalInformation3)
       val documentation = DocumentationAndReferencesViewModel().copy(itemAdditionalInformation = partialInformation)
-      val declaration = Declaration().copy(documentationAndReferences = documentation)
+      val declaration = Declaration().copy(documentationAndReferences = documentation.toDocumentationAndReferences)
 
       val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
 
@@ -129,7 +175,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
       val additionalInformation3 = AdditionalInformation(Some("foo3"), Some("bar3"))
       val partialInformation = Seq(additionalInformation1, additionalInformation2, additionalInformation3)
       val documentation = DocumentationAndReferencesViewModel().copy(itemAdditionalInformation = partialInformation)
-      val declaration = Declaration().copy(documentationAndReferences = documentation)
+      val declaration = Declaration().copy(documentationAndReferences = documentation.toDocumentationAndReferences)
 
       val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
 
@@ -141,7 +187,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
   "Item level Previous documents data" should {
     "omit item level previous document nodes if previous document fields are empty" in {
       val documentationEmpty = DocumentationAndReferencesViewModel().copy(itemPreviousDocuments = Seq.empty)
-      val declaration = Declaration().copy(documentationAndReferences = documentationEmpty)
+      val declaration = Declaration().copy(documentationAndReferences = documentationEmpty.toDocumentationAndReferences)
       val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
       val governmentAgencyGoodsItem = xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"
 
@@ -154,7 +200,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
 
       val documentationEmpty = DocumentationAndReferencesViewModel().copy(itemPreviousDocuments =
         Seq(previousDocumentWithNonesAndEmptyStrings))
-      val declaration = Declaration().copy(documentationAndReferences = documentationEmpty)
+      val declaration = Declaration().copy(documentationAndReferences = documentationEmpty.toDocumentationAndReferences)
       val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
       val governmentAgencyGoodsItem = xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"
 
@@ -165,7 +211,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
       val previousDocument =
         PreviousDocument(categoryCode = Some("foo"), id = Some("bar"), typeCode = Some("foo1"), lineNumeric = Some("bar1"))
       val documentation = DocumentationAndReferencesViewModel().copy(itemPreviousDocuments = Seq(previousDocument))
-      val declaration = Declaration().copy(documentationAndReferences = documentation)
+      val declaration = Declaration().copy(documentationAndReferences = documentation.toDocumentationAndReferences)
       val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
       val governmentAgencyGoodsItem = xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"
 
@@ -179,7 +225,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
       val previousDocument =
         PreviousDocument(categoryCode = None, id = Some("bar"), typeCode = Some("foo1"), lineNumeric = Some("bar1"))
       val documentation = DocumentationAndReferencesViewModel().copy(itemPreviousDocuments = Seq(previousDocument))
-      val declaration = Declaration().copy(documentationAndReferences = documentation)
+      val declaration = Declaration().copy(documentationAndReferences = documentation.toDocumentationAndReferences)
       val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
 
       val governmentAgencyGoodsItem = xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"
@@ -193,7 +239,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
       val previousDocument =
         PreviousDocument(categoryCode = Some("foo"), id = None, typeCode = Some("foo1"), lineNumeric = Some("bar1"))
       val documentation = DocumentationAndReferencesViewModel().copy(itemPreviousDocuments = Seq(previousDocument))
-      val declaration = Declaration().copy(documentationAndReferences = documentation)
+      val declaration = Declaration().copy(documentationAndReferences = documentation.toDocumentationAndReferences)
       val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
       val governmentAgencyGoodsItem = xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"
 
@@ -207,7 +253,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
       val previousDocument =
         PreviousDocument(categoryCode = Some("foo"), id = Some("bar"), typeCode = None, lineNumeric = Some("bar1"))
       val documentation = DocumentationAndReferencesViewModel().copy(itemPreviousDocuments = Seq(previousDocument))
-      val declaration = Declaration().copy(documentationAndReferences = documentation)
+      val declaration = Declaration().copy(documentationAndReferences = documentation.toDocumentationAndReferences)
       val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
       val governmentAgencyGoodsItem = xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"
       (governmentAgencyGoodsItem \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) mustBe List("foo")
@@ -220,7 +266,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
       val previousDocument =
         PreviousDocument(categoryCode = Some("foo"), id = Some("bar"), typeCode = Some("foo1"), lineNumeric = None)
       val documentation = DocumentationAndReferencesViewModel().copy(itemPreviousDocuments = Seq(previousDocument))
-      val declaration = Declaration().copy(documentationAndReferences = documentation)
+      val declaration = Declaration().copy(documentationAndReferences = documentation.toDocumentationAndReferences)
       val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
       val governmentAgencyGoodsItem = xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"
 
@@ -234,7 +280,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
       val previousDocuments = (1 to 6).map(i => PreviousDocument(
         Some(s"category_$i"),Some(s"id_$i"), Some(s"typeCode_$i"), Some(s"lineNumeric_$i"))).toSeq
       val documentation = DocumentationAndReferencesViewModel().copy(itemPreviousDocuments = previousDocuments)
-      val declaration = Declaration().copy(documentationAndReferences = documentation)
+      val declaration = Declaration().copy(documentationAndReferences = documentation.toDocumentationAndReferences)
       val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
       val governmentAgencyGoodsItem = xmlElement \ "Declaration" \ "GoodsShipment" \ "GovernmentAgencyGoodsItem"
 
@@ -255,7 +301,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
       "not be populated in the XML when previous document is empty" in {
 
         val documentationEmpty = DocumentationAndReferencesViewModel().copy(headerPreviousDocuments = Seq.empty)
-        val declaration = Declaration().copy(documentationAndReferences = documentationEmpty)
+        val declaration = Declaration().copy(documentationAndReferences = documentationEmpty.toDocumentationAndReferences)
 
         val xmlElement: Elem = (new DeclarationXml).fromImportDeclaration(declaration)
         val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
@@ -265,7 +311,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
 
       "omit header level previous document nodes if previous document fields are empty" in {
         val documentationEmpty = DocumentationAndReferencesViewModel().copy(headerPreviousDocuments = Seq.empty)
-        val declaration = Declaration().copy(documentationAndReferences = documentationEmpty)
+        val declaration = Declaration().copy(documentationAndReferences = documentationEmpty.toDocumentationAndReferences)
         val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
         val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
 
@@ -278,7 +324,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
 
         val documentationEmpty = DocumentationAndReferencesViewModel().copy(headerPreviousDocuments =
           Seq(previousDocumentWithNonesAndEmptyStrings))
-        val declaration = Declaration().copy(documentationAndReferences = documentationEmpty)
+        val declaration = Declaration().copy(documentationAndReferences = documentationEmpty.toDocumentationAndReferences)
         val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
         val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
 
@@ -289,7 +335,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
         val previousDocument =
           PreviousDocument(categoryCode = Some("foo"), id = Some("bar"), typeCode = Some("foo1"), lineNumeric = Some("bar1"))
         val documentation = DocumentationAndReferencesViewModel().copy(headerPreviousDocuments = Seq(previousDocument))
-        val declaration = Declaration().copy(documentationAndReferences = documentation)
+        val declaration = Declaration().copy(documentationAndReferences = documentation.toDocumentationAndReferences)
         val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
         val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
 
@@ -303,7 +349,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
         val previousDocument =
           PreviousDocument(categoryCode = None, id = Some("bar"), typeCode = Some("foo1"), lineNumeric = Some("bar1"))
         val documentation = DocumentationAndReferencesViewModel().copy(headerPreviousDocuments = Seq(previousDocument))
-        val declaration = Declaration().copy(documentationAndReferences = documentation)
+        val declaration = Declaration().copy(documentationAndReferences = documentation.toDocumentationAndReferences)
         val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
 
         val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
@@ -317,7 +363,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
         val previousDocument =
           PreviousDocument(categoryCode = Some("foo"), id = None, typeCode = Some("foo1"), lineNumeric = Some("bar1"))
         val documentation = DocumentationAndReferencesViewModel().copy(headerPreviousDocuments = Seq(previousDocument))
-        val declaration = Declaration().copy(documentationAndReferences = documentation)
+        val declaration = Declaration().copy(documentationAndReferences = documentation.toDocumentationAndReferences)
         val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
         val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
 
@@ -331,7 +377,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
         val previousDocument =
           PreviousDocument(categoryCode = Some("foo"), id = Some("bar"), typeCode = None, lineNumeric = Some("bar1"))
         val documentation = DocumentationAndReferencesViewModel().copy(headerPreviousDocuments = Seq(previousDocument))
-        val declaration = Declaration().copy(documentationAndReferences = documentation)
+        val declaration = Declaration().copy(documentationAndReferences = documentation.toDocumentationAndReferences)
         val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
         val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
         (goodsShipment \ "PreviousDocument" \ "CategoryCode").toList.map(_.text) mustBe List("foo")
@@ -344,7 +390,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
         val previousDocument =
           PreviousDocument(categoryCode = Some("foo"), id = Some("bar"), typeCode = Some("foo1"), lineNumeric = None)
         val documentation = DocumentationAndReferencesViewModel().copy(headerPreviousDocuments = Seq(previousDocument))
-        val declaration = Declaration().copy(documentationAndReferences = documentation)
+        val declaration = Declaration().copy(documentationAndReferences = documentation.toDocumentationAndReferences)
         val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
         val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
 
@@ -358,7 +404,7 @@ class DeclarationXml_DocumentationAndReferencesViewModelSpec extends WordSpec wi
         val previousDocuments = (1 to 4).map(i => PreviousDocument(
           Some(s"category_$i"),Some(s"id_$i"), Some(s"typeCode_$i"), Some(s"lineNumeric_$i"))).toSeq
         val documentation = DocumentationAndReferencesViewModel().copy(headerPreviousDocuments = previousDocuments)
-        val declaration = Declaration().copy(documentationAndReferences = documentation)
+        val declaration = Declaration().copy(documentationAndReferences = documentation.toDocumentationAndReferences)
         val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
         val goodsShipment = xmlElement \ "Declaration" \ "GoodsShipment"
 

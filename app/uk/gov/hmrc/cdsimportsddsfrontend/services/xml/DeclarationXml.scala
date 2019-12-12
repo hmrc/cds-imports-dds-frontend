@@ -87,7 +87,7 @@ class DeclarationXml {
             <SequenceNumeric>{dec.goodsShipment.governmentAgencyGoodsItem.sequenceNumeric}</SequenceNumeric>
             {dec.goodsShipment.governmentAgencyGoodsItem.statisticalValue.toXml(statisticalValueAmountWriter)}
             {maybeElement("TransactionNatureCode", dec.goodsShipment.governmentAgencyGoodsItem.transactionNatureCode)}
-            {dec.documentationAndReferences.additionalDocuments.map(_.toXml)}
+            {dec.goodsShipment.governmentAgencyGoodsItem.additionalDocuments.map(_.toXml)}
             {dec.documentationAndReferences.itemAdditionalInformation.map(additionalInformation)}
             <Commodity>
               {maybeElement("Description", dec.commodity.flatMap(_.description))}

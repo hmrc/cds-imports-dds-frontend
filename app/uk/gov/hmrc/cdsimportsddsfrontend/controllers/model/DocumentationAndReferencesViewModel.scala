@@ -14,38 +14,32 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.cdsimportsddsfrontend.domain
-
+package uk.gov.hmrc.cdsimportsddsfrontend.controllers.model
 import java.util.UUID
 
-case class AdditionalDocument(
-  categoryCode: Option[String],
-  typeCode: Option[String],
-  id: Option[String],
-  lpco: Option[String],
-  name: Option[String]
-)
-
-case class AdditionalPaymentType(
-  additionalDocPaymentID: Option[String],
-  additionalDocPaymentCategory: Option[String],
-  additionalDocPaymentType: Option[String]
-)
-
-case class AdditionalInformation(
-  code: Option[String],
-  description: Option[String]
-)
+import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
 case class DocumentationAndReferencesViewModel(
-                                       headerPreviousDocuments: Seq[PreviousDocument],
-                                       itemPreviousDocuments: Seq[PreviousDocument],
-                                       headerAdditionalInformation: AdditionalInformation,
-                                       itemAdditionalInformation: Seq[AdditionalInformation],
-                                       additionalDocuments: Seq[AdditionalDocument],
-                                       localReferenceNumber: Option[String],
-                                       additionalPayments: Seq[AdditionalPaymentType]
-)
+   headerPreviousDocuments: Seq[PreviousDocument],
+   itemPreviousDocuments: Seq[PreviousDocument],
+   headerAdditionalInformation: AdditionalInformation,
+   itemAdditionalInformation: Seq[AdditionalInformation],
+   additionalDocuments: Seq[AdditionalDocumentViewModel],
+   localReferenceNumber: Option[String],
+   additionalPayments: Seq[AdditionalPaymentType]
+) {
+
+  def toDocumentationAndReferences: DocumentationAndReferences = {
+    DocumentationAndReferences(
+      headerPreviousDocuments = headerPreviousDocuments,
+      itemPreviousDocuments = itemPreviousDocuments,
+      headerAdditionalInformation = headerAdditionalInformation,
+      itemAdditionalInformation = itemAdditionalInformation,
+      localReferenceNumber = localReferenceNumber,
+      additionalPayments = additionalPayments
+    )
+  }
+}
 
 object DocumentationAndReferencesViewModel {
   def apply(): DocumentationAndReferencesViewModel = DocumentationAndReferencesViewModel(
@@ -66,12 +60,12 @@ object DocumentationAndReferencesViewModel {
     AdditionalInformation(Some("TSP01"), Some("TSP")),
     Nil,
     Seq(
-      AdditionalDocument(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), Some("DocumentName1")),
-      AdditionalDocument(Some("C"), Some("514"), Some("GBEIR201909014000"), None, None),
-      AdditionalDocument(Some("C"), Some("506"), Some("GBDPO1909241"), None, None),
-      AdditionalDocument(Some("N"), Some("935"), Some("12345/30.07.2019"), Some("AC"), None),
-      AdditionalDocument(Some("N"), Some("935"), Some("12345/30.08.2019"), Some("AC"), None),
-      AdditionalDocument(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), None)
+      AdditionalDocumentViewModel(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), Some("DocumentName1")),
+      AdditionalDocumentViewModel(Some("C"), Some("514"), Some("GBEIR201909014000"), None, None),
+      AdditionalDocumentViewModel(Some("C"), Some("506"), Some("GBDPO1909241"), None, None),
+      AdditionalDocumentViewModel(Some("N"), Some("935"), Some("12345/30.07.2019"), Some("AC"), None),
+      AdditionalDocumentViewModel(Some("N"), Some("935"), Some("12345/30.08.2019"), Some("AC"), None),
+      AdditionalDocumentViewModel(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), None)
     ),
     Some(UUID.randomUUID().toString.replaceAll("-","").take(20)),
     Seq(

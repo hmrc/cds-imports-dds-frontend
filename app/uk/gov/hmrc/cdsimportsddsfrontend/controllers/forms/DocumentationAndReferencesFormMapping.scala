@@ -16,18 +16,19 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.forms
 
-import play.api.data.Forms.{mapping, optional, text, seq}
+import play.api.data.Forms.{mapping, optional, seq, text}
 import play.api.data.Mapping
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.{AdditionalDocumentViewModel, DocumentationAndReferencesViewModel}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
 object AdditionalDocumentFormMapping {
-  val additionalDocument: (String, Mapping[Seq[AdditionalDocument]]) = "additionalDocument" -> seq(mapping(
+  val additionalDocument: (String, Mapping[Seq[AdditionalDocumentViewModel]]) = "additionalDocument" -> seq(mapping(
     "categoryCode" -> optional(text),
     "typeCode" -> optional(text),
     "id" -> optional(text),
     "lpco" -> optional(text),
     "name" -> optional(text)
-  )(AdditionalDocument.apply)(AdditionalDocument.unapply))
+  )(AdditionalDocumentViewModel.apply)(AdditionalDocumentViewModel.unapply))
 }
 
 object AdditionalPaymentTypeFormMapping {
@@ -56,10 +57,10 @@ object AdditionalInformationFormMapping {
 }
 
 object DocumentationAndReferencesFormMapping {
-  import AdditionalPaymentTypeFormMapping.paymentType
   import AdditionalDocumentFormMapping.additionalDocument
-  import PreviousDocumentFormMapping.previousDocument
   import AdditionalInformationFormMapping.additionalInformationMapping
+  import AdditionalPaymentTypeFormMapping.paymentType
+  import PreviousDocumentFormMapping.previousDocument
   val documentationAndReferences: (String, Mapping[DocumentationAndReferencesViewModel]) = "documentationAndReferences" -> mapping(
     "header.previousDocument" -> seq(previousDocument),
     "item.previousDocument" -> seq(previousDocument),

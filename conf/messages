@@ -163,6 +163,11 @@ declare.miscellaneous.guaranteeReference.office=8.3 Guarantee Reference - Custom
 declare.miscellaneous.natureOfTransaction=8.5 Nature of transaction
 declare.miscellaneous.statisticalValue.amount=8.6 Statistical value - amount
 declare.miscellaneous.statisticalValue.currency=8.6 Statistical value - currency
+declare.miscellaneous.writeOff.issuingAuthority=8.7 Writing Off - Issuing Authority {0}
+declare.miscellaneous.writeOff.dateOfValidity=8.7 Writing Off - Date of Validity {0}
+declare.miscellaneous.writeOff.quantity=8.7 Writing Off - Quantity {0}
+declare.miscellaneous.writeOff.measurementUnitAndQuantity=8.7 Writing Off - Measurement Unit & Qualifier {0}
+
 
 # Raw XML declaration form
 declaration.xml=Declaration XML
