@@ -49,12 +49,12 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml:
       appConfig.declarationsApi.submitEndpoint, xml.toString(), headers = headers(eori))(responseReader, hc, executionContext)
       .map { customsDeclarationsResponse: CustomsDeclarationsResponse =>
         log.info("Response from Declaration API: " + customsDeclarationsResponse);
-        lrn.map(number => saveDeclarations(eori, number))
+        lrn.map(number => saveDeclaration(eori, number))
         DeclarationServiceResponse(DeclarationXml.prettyPrintToHtml(xml), customsDeclarationsResponse.status, customsDeclarationsResponse.conversationId)
       }
   }
 
-  def saveDeclarations(eori: Eori, lrn: String)(implicit hc: HeaderCarrier): Future[HttpResponse] = {
+  def saveDeclaration(eori: Eori, lrn: String)(implicit hc: HeaderCarrier): Future[HttpResponse] = {
     httpClient.POST(appConfig.cdsImportsddsDeclarations, lrn, Seq(CustomsHeaderNames.EoriIdentifier -> eori))
   }
 
