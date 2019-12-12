@@ -113,8 +113,8 @@ class DeclarationXml_DocumentationAndReferencesSpec extends WordSpec with MustMa
 
     "render a single item level additional information element" in {
       val additionalInformation = AdditionalInformation(Some("foo"), Some("bar"))
-      val documentation = DocumentationAndReferencesViewModel().copy(itemAdditionalInformation = Seq(additionalInformation))
-      val declaration = Declaration().copy(documentationAndReferences = documentation.toDocumentationAndReferences)
+      val documentation = DocumentationAndReferences().copy(itemAdditionalInformation = Seq(additionalInformation))
+      val declaration = Declaration().copy(documentationAndReferences = documentation)
 
       val xmlElement: Elem = DeclarationXml().fromImportDeclaration(declaration)
 
