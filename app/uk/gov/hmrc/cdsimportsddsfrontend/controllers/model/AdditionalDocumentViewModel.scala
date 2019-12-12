@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers.model
 
-//TODO: Remove as no longer refactoring out the domain model from the frontend form
 case class AdditionalDocumentViewModel(
              documentCode: Option[String],
              typeCode: Option[String],

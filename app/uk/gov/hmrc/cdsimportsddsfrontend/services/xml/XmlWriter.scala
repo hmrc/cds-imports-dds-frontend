@@ -35,7 +35,7 @@ trait XmlWriter[A] {
   }
 
   protected def element(elementName: String, elementValue: String, attribute: Option[Attribute] = None ): Elem = {
-    elementContruct(elementName, attribute, Text(elementValue))
+    elementConstruct(elementName, attribute, Text(elementValue))
   }
 
   protected def maybeDateTimeElement(elementName: String, maybeElementValue: Option[String], attribute: Option[Attribute] = None): Option[Node] = {
@@ -43,11 +43,11 @@ trait XmlWriter[A] {
       val formatAttrib = Attribute.apply(pre = "", key = "formatCode", "304", scala.xml.Null)
       val dtElement = Elem.apply("p1", "DateTimeString", formatAttrib, scala.xml.TopScope, true, Text(value))
 
-      elementContruct(elementName, attribute, dtElement)
+      elementConstruct(elementName, attribute, dtElement)
     }
   }
 
-  private def elementContruct(elementName: String, attribute: Option[Attribute], child: Node): Elem = {
+  private def elementConstruct(elementName: String, attribute: Option[Attribute], child: Node): Elem = {
     val attributes: MetaData = attribute match {
       case Some(attrValue) => attrValue
       case None  => scala.xml.Null

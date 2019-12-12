@@ -51,7 +51,7 @@ case class DeclarationViewModel(
     whenAndWhereViewModel.placeOfLoading.map(LoadingLocation))
 
   lazy val governmentAgencyGoodsItem = GovernmentAgencyGoodsItem(
-    additionalDocuments = combineAdditionalDocsAndWriteOffs(documentationAndReferences.additionalDocuments, miscellaneousViewModel.writeOffViewModel),
+    additionalDocuments = combineAdditionalDocsAndWriteOffs(documentationAndReferences.additionalDocuments, miscellaneousViewModel.writeOffViewModels),
     origin = Seq(Origin(countryCode = whenAndWhereViewModel.originCountryCode,
       typeCode = whenAndWhereViewModel.originTypeCode),
       Origin(countryCode = whenAndWhereViewModel.preferentialOriginCountryCode,
@@ -92,7 +92,9 @@ case class DeclarationViewModel(
   private def combineAdditionalDocsAndWriteOffs(
      additionalDocuments: Seq[AdditionalDocumentViewModel],
      writeOffs: Seq[WriteOffViewModel]): Seq[AdditionalDocument] = {
-    additionalDocuments.zip(writeOffs).map( docsAndWriteOffPair => toAdditionalDocument(docsAndWriteOffPair._1, docsAndWriteOffPair._2))
+    additionalDocuments.zip(writeOffs).map{ docAndWriteOff =>
+      val (additionalDoc, writeOff) = docAndWriteOff
+      toAdditionalDocument(additionalDoc, writeOff)}
   }
 
   private def toAdditionalDocument(doc: AdditionalDocumentViewModel, writeOff: WriteOffViewModel): AdditionalDocument = AdditionalDocument(

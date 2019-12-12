@@ -82,7 +82,7 @@ class DeclarationViewModelSpec extends WordSpec with Matchers {
           quotaOrderNumber = Some("123"),
           natureOfTransaction = Some("3"),
           statisticalValue = Some(CurrencyAmount("DKK", "8080")),
-          writeOffViewModel = Seq(
+          writeOffViewModels = Seq(
             WriteOffViewModel(
               issuingAuthority = Some("Auth"),
               dateOfValidity = Some("20201212000000Z"),
