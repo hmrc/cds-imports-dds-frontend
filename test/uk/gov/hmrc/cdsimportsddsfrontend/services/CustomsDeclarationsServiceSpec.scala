@@ -20,7 +20,9 @@ import org.mockito.ArgumentMatchers.{any, eq => meq}
 import org.mockito.Mockito.{times, verify, when}
 import org.scalatest.{MustMatchers, WordSpec}
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.http.Status
+import play.api.http.{ContentTypes, HeaderNames, Status}
+import play.api.libs.json.Json
+import play.api.mvc.Codec
 import play.api.test.{DefaultAwaitTimeout, FutureAwaits}
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
@@ -61,14 +63,23 @@ class CustomsDeclarationsServiceSpec extends WordSpec
       val decApiResponse = CustomsDeclarationsResponse(200, Some("conversation id"))
       val declarationViewModel = DeclarationViewModel()
       val lrn = declarationViewModel.documentationAndReferences.localReferenceNumber.getOrElse("")
-      val saveDecHeaders = Seq(CustomsHeaderNames.EoriIdentifier -> testEori)
+      val saveDecPayload = Json.parse(s"""{"lrn": "$lrn"}""")
+      val saveDecHeaders = Seq(HeaderNames.CONTENT_TYPE -> ContentTypes.JSON, CustomsHeaderNames.EoriIdentifier -> testEori)
+      val submitDecHeaders = Seq(
+        "X-Client-ID" -> appConfig.declarationsApi.clientId,
+        HeaderNames.ACCEPT -> s"application/vnd.hmrc.${appConfig.declarationsApi.apiVersion}+xml",
+        HeaderNames.CONTENT_TYPE -> ContentTypes.XML(Codec.utf_8),
+        CustomsHeaderNames.EoriIdentifier -> testEori
+      )
       val decWithLRN = <Xml><Declaration><FunctionalReferenceID>lrn</FunctionalReferenceID></Declaration></Xml>
 
-      when[Future[CustomsDeclarationsResponse]](mockHttp.POSTString(any(),any(),any())(any(), any(), any())).thenReturn(Future.successful(decApiResponse))
+      when[Future[CustomsDeclarationsResponse]](mockHttp.POSTString(meq(appConfig.declarationsApi.submitEndpoint),
+        meq(decWithLRN.toString), meq(submitDecHeaders))(any(), any(), any()))
+        .thenReturn(Future.successful(decApiResponse))
 
       when(mockDeclarationXml.fromImportDeclaration(meq(declarationViewModel.toDeclaration))).thenReturn(decWithLRN)
 
-      when[Future[HttpResponse]](mockHttp.POST(meq(appConfig.cdsImportsddsDeclarations), meq(lrn), meq(saveDecHeaders))
+      when[Future[HttpResponse]](mockHttp.POST(meq(appConfig.cdsImportsddsDeclarations), meq(saveDecPayload), meq(saveDecHeaders))
       (any(), any(), any(), any())).thenReturn(Future.successful(HttpResponse(Status.OK)))
 
       val response: DeclarationServiceResponse = await(customsDeclarationsService.submit(testEori, declarationViewModel))
