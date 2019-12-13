@@ -19,6 +19,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services
 import javax.inject.{Inject, Singleton}
 import play.api.Logger
 import play.api.http.{ContentTypes, HeaderNames}
+import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Codec
 import uk.gov.hmrc.cdsimportsddsfrontend.config.AppConfig
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
@@ -54,8 +55,9 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml:
       }
   }
 
-  def saveDeclaration(eori: Eori, lrn: String)(implicit hc: HeaderCarrier): Future[HttpResponse] = {
-    httpClient.POST(appConfig.cdsImportsddsDeclarations, lrn, Seq(CustomsHeaderNames.EoriIdentifier -> eori))
+  private def saveDeclaration(eori: Eori, lrn: String)(implicit hc: HeaderCarrier): Future[HttpResponse] = {
+    val requestPayload: JsValue = Json.parse(s"""{"lrn": "$lrn"}""")
+    httpClient.POST(appConfig.cdsImportsddsDeclarations, requestPayload, declarationsHeaders(eori))
   }
 
   private val responseReader: HttpReads[CustomsDeclarationsResponse] = new HttpReads[CustomsDeclarationsResponse] {
@@ -71,6 +73,10 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml:
     CustomsHeaderNames.EoriIdentifier -> eori
   )
 
+  private def declarationsHeaders(eori: String): Seq[(String, String)] = Seq(
+    HeaderNames.CONTENT_TYPE -> ContentTypes.JSON,
+    CustomsHeaderNames.EoriIdentifier -> eori
+  )
 }
 
 object CustomsHeaderNames {
