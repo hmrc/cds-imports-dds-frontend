@@ -53,7 +53,7 @@ class SubmitDeclarationController @Inject()(submitTemplate: submit_declaration,
       },
       validatedForm => {
         declarationStore.deleteAllNotifications()
-        declarationService.submit(request.user.eori, validatedForm.declarationXml, None)
+        declarationService.submit(request.user.eori, validatedForm.declarationXml)
           .map(declarationServiceResponse => Ok(resultTemplate(declarationServiceResponse)))
       }
     )

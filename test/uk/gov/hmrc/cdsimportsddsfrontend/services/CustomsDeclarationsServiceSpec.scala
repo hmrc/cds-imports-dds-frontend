@@ -17,7 +17,7 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.services
 
 import org.mockito.ArgumentMatchers.{any, eq => meq}
-import org.mockito.Mockito.when
+import org.mockito.Mockito.{times, verify, when}
 import org.scalatest.{MustMatchers, WordSpec}
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.http.Status
@@ -26,7 +26,7 @@ import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.DeclarationXml
 import uk.gov.hmrc.cdsimportsddsfrontend.test.AppConfigReader
-import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, InternalServerException}
 import uk.gov.hmrc.play.bootstrap.http.HttpClient
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -50,7 +50,7 @@ class CustomsDeclarationsServiceSpec extends WordSpec
     "Post a raw XML declaration to the Declaration API" in new Scenario() {
       val decApiResponse = CustomsDeclarationsResponse(200, Some("conversation id"))
       when[Future[CustomsDeclarationsResponse]](mockHttp.POSTString(any(),any(),any())(any(), any(), any())).thenReturn(Future.successful(decApiResponse))
-      val response: DeclarationServiceResponse = await(customsDeclarationsService.submit(testEori, <DeclaringMyStuff/>, None))
+      val response: DeclarationServiceResponse = await(customsDeclarationsService.submit(testEori, <DeclaringMyStuff/>))
 
       response.conversationId mustBe decApiResponse.conversationId
       response.status mustBe decApiResponse.status
@@ -62,10 +62,11 @@ class CustomsDeclarationsServiceSpec extends WordSpec
       val declarationViewModel = DeclarationViewModel()
       val lrn = declarationViewModel.documentationAndReferences.localReferenceNumber.getOrElse("")
       val saveDecHeaders = Seq(CustomsHeaderNames.EoriIdentifier -> testEori)
+      val decWithLRN = <Xml><Declaration><FunctionalReferenceID>lrn</FunctionalReferenceID></Declaration></Xml>
 
       when[Future[CustomsDeclarationsResponse]](mockHttp.POSTString(any(),any(),any())(any(), any(), any())).thenReturn(Future.successful(decApiResponse))
 
-      when(mockDeclarationXml.fromImportDeclaration(meq(declarationViewModel.toDeclaration))).thenReturn(<DeclaringMyStuff/>)
+      when(mockDeclarationXml.fromImportDeclaration(meq(declarationViewModel.toDeclaration))).thenReturn(decWithLRN)
 
       when[Future[HttpResponse]](mockHttp.POST(meq(appConfig.cdsImportsddsDeclarations), meq(lrn), meq(saveDecHeaders))
       (any(), any(), any(), any())).thenReturn(Future.successful(HttpResponse(Status.OK)))
@@ -74,7 +75,25 @@ class CustomsDeclarationsServiceSpec extends WordSpec
 
       response.conversationId mustBe decApiResponse.conversationId
       response.status mustBe decApiResponse.status
-      response.xml mustBe "&lt;DeclaringMyStuff/&gt;"
+      response.xml mustBe DeclarationXml.prettyPrintToHtml(decWithLRN)
+
+      verify(mockHttp, times(1)).POSTString(any(), any(), any())(any(), any(), any())
+      verify(mockHttp, times(1)).POST(any(), any(), any())(any(), any(), any(), any())
+    }
+
+    "not save the declaration when submission is failed" in new Scenario() {
+      val decApiResponse = CustomsDeclarationsResponse(400, Some("conversation id"))
+      val declarationViewModel = DeclarationViewModel()
+      val decWithLRN = <Xml><Declaration><FunctionalReferenceID>lrn</FunctionalReferenceID></Declaration></Xml>
+
+      when[Future[CustomsDeclarationsResponse]](mockHttp.POSTString(any(),any(),any())(any(), any(), any()))
+        .thenReturn(Future.failed(new InternalServerException("Service Unavailable")))
+
+      when(mockDeclarationXml.fromImportDeclaration(meq(declarationViewModel.toDeclaration))).thenReturn(decWithLRN)
+
+      val response = customsDeclarationsService.submit(testEori, declarationViewModel)
+
+      verify(mockHttp, times(0)).POST(any(), any(), any())(any(), any(), any(), any())
     }
   }
 }

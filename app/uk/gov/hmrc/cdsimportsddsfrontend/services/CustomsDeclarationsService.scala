@@ -40,16 +40,16 @@ class CustomsDeclarationsService @Inject()(appConfig: AppConfig, declarationXml:
   def submit(eori: Eori, declarationViewModel: DeclarationViewModel)(implicit hc: HeaderCarrier): Future[DeclarationServiceResponse] = {
     val declaration: Declaration = declarationViewModel.toDeclaration
     val xml = declarationXml.fromImportDeclaration(declaration)
-    val lrn = declarationViewModel.documentationAndReferences.localReferenceNumber
-    submit(eori, xml, lrn)
+    submit(eori, xml)
   }
 
-  def submit(eori: Eori, xml: Elem, lrn: Option[String])(implicit hc: HeaderCarrier): Future[DeclarationServiceResponse] = {
+  def submit(eori: Eori, xml: Elem)(implicit hc: HeaderCarrier): Future[DeclarationServiceResponse] = {
+    val lrnNode = (xml \ "Declaration" \ "FunctionalReferenceID").headOption
     httpClient.POSTString[CustomsDeclarationsResponse](
       appConfig.declarationsApi.submitEndpoint, xml.toString(), headers = headers(eori))(responseReader, hc, executionContext)
       .map { customsDeclarationsResponse: CustomsDeclarationsResponse =>
         log.info("Response from Declaration API: " + customsDeclarationsResponse);
-        lrn.map(number => saveDeclaration(eori, number))
+        lrnNode.map(lrn => saveDeclaration(eori, lrn.text))
         DeclarationServiceResponse(DeclarationXml.prettyPrintToHtml(xml), customsDeclarationsResponse.status, customsDeclarationsResponse.conversationId)
       }
   }

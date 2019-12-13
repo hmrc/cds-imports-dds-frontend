@@ -74,7 +74,7 @@ class SubmitDeclarationControllerSpec extends CdsImportsSpec
     "when XML is valid" should {
       "Submit to the declaration service and return a success response" in signedInScenario { user =>
         val formData = Map("declaration-data" -> Seq("<declaration/>"))
-        val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any[Elem], any())(any())).thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
+        val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any[Elem])(any())).thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
         val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
         new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
           status(response) mustBe Status.OK
@@ -84,7 +84,7 @@ class SubmitDeclarationControllerSpec extends CdsImportsSpec
 
       "Clear the declaration store" in signedInScenario { user =>
         val formData = Map("declaration-data" -> Seq("<declaration/>"))
-        val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any[Elem], any())(any())).thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
+        val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any[Elem])(any())).thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
         val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
         new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
           verify(mockDeclarationStore).deleteAllNotifications()
@@ -95,7 +95,7 @@ class SubmitDeclarationControllerSpec extends CdsImportsSpec
     "when XML is invalid" should {
       "Not submit to the declaration service, and return an error response" in signedInScenario { user =>
         val formData = Map("declaration-data" -> Seq("<declaration>"))
-        val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any[Elem], any())(any())).thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
+        val customsDeclarationsServiceMockSetup: CustomsDeclarationsService => Unit = ds => when(ds.submit(any(), any[Elem])(any())).thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
         val declarationsStoreMockSetup: DeclarationStore => Unit = ds => when(ds.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
         new PostScenario(formData, customsDeclarationsServiceMockSetup, declarationsStoreMockSetup) {
           status(response) mustBe Status.BAD_REQUEST
