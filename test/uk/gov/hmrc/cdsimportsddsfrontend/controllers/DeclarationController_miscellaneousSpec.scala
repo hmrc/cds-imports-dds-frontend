@@ -74,7 +74,7 @@ class DeclarationController_miscellaneousSpec extends CdsImportsSpec
         "miscellaneous.natureOfTransaction" -> Seq("4"),
         "miscellaneous.statisticalValue.amount" -> Seq("9876"),
         "miscellaneous.statisticalValue.currency" -> Seq("JPY")
-      ) ++ declarationTypeFormData
+      ) ++ mandatoryFormData
 
       val captor: ArgumentCaptor[DeclarationViewModel] = ArgumentCaptor.forClass(classOf[DeclarationViewModel])
       when(mockDeclarationService.submit(any(), captor.capture())(any()))
@@ -91,7 +91,7 @@ class DeclarationController_miscellaneousSpec extends CdsImportsSpec
     }
 
     "succeed when all optional fields are empty" in signedInScenario { user =>
-      val formData: Map[String, Seq[String]] = declarationTypeFormData
+      val formData: Map[String, Seq[String]] = mandatoryFormData
 
       when(mockDeclarationService.submit(any(), any[DeclarationViewModel])(any()))
         .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))

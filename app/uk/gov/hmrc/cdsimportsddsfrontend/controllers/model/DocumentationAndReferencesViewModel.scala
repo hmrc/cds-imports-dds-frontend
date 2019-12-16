@@ -25,7 +25,7 @@ case class DocumentationAndReferencesViewModel(
    headerAdditionalInformation: AdditionalInformation,
    itemAdditionalInformation: Seq[AdditionalInformation],
    additionalDocuments: Seq[AdditionalDocumentViewModel],
-   localReferenceNumber: Option[String],
+   localReferenceNumber: String,
    additionalPayments: Seq[AdditionalPaymentType]
 ) {
 
@@ -67,7 +67,7 @@ object DocumentationAndReferencesViewModel {
       AdditionalDocumentViewModel(Some("N"), Some("935"), Some("12345/30.08.2019"), Some("AC"), None),
       AdditionalDocumentViewModel(Some("N"), Some("935"), Some("12345/30.09.2019"), Some("AC"), None)
     ),
-    Some(UUID.randomUUID().toString.replaceAll("-","").take(20)),
+    UUID.randomUUID().toString.replaceAll("-","").take(20),
     Seq(
       AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN")),
       AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN"))

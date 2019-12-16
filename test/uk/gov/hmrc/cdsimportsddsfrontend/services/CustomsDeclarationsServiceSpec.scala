@@ -62,7 +62,7 @@ class CustomsDeclarationsServiceSpec extends WordSpec
     "maps view model to declaration, post to the Declaration API and save the submitted declaration" in new Scenario() {
       val decApiResponse = CustomsDeclarationsResponse(200, Some("conversation id"))
       val declarationViewModel = DeclarationViewModel()
-      val lrn = declarationViewModel.documentationAndReferences.localReferenceNumber.getOrElse("")
+      val lrn = declarationViewModel.documentationAndReferences.localReferenceNumber
       val saveDecPayload = Json.parse(s"""{"lrn": "$lrn"}""")
       val saveDecHeaders = Seq(HeaderNames.CONTENT_TYPE -> ContentTypes.JSON, CustomsHeaderNames.EoriIdentifier -> testEori)
       val submitDecHeaders = Seq(

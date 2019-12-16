@@ -23,10 +23,9 @@ import org.scalatest.BeforeAndAfterEach
 import play.api.test.FutureAwaits
 import play.api.test.Helpers.status
 import play.mvc.Http.Status
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.{DeclarationViewModel, ValuationInformationAndTaxesViewModel}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.{ChargeDeduction, CurrencyAmount}
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.ValuationInformationAndTaxesViewModel
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
 import scala.concurrent.Future
@@ -83,7 +82,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
         "valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.amount" -> Seq("headerChargeDeduction_currencyAmount_amount"),
         "valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.currency" -> Seq("headerChargeDeduction_currencyAmount_currency"),
         "valuationInformationAndTaxes.headerChargeDeduction.typeCode" -> Seq("headerChargeDeduction_typeCode")
-      ) ++ declarationTypeFormData
+      ) ++ mandatoryFormData
 
       val captor: ArgumentCaptor[DeclarationViewModel] = ArgumentCaptor.forClass(classOf[DeclarationViewModel])
       when(mockDeclarationService.submit(any(), captor.capture())(any()))
@@ -108,7 +107,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
     }
 
     "succeed when all optional fields are empty" in signedInScenario { user =>
-      val formData: Map[String, Seq[String]] = declarationTypeFormData
+      val formData: Map[String, Seq[String]] = mandatoryFormData
 
       when(mockDeclarationService.submit(any(), any[DeclarationViewModel])(any()))
         .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
@@ -123,7 +122,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
       val formData: Map[String, Seq[String]] = Map(
         "valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.amount" -> Seq("USD"),
         "valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.currency" -> Seq("999")
-      ) ++ declarationTypeFormData
+      ) ++ mandatoryFormData
 
       new PostScenario(formData) {
         status(response) mustBe Status.BAD_REQUEST
@@ -136,7 +135,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
       val formData: Map[String, Seq[String]] = Map(
         "valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.amount" -> Seq("USD"),
         "valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.currency" -> Seq("999")
-      ) ++ declarationTypeFormData
+      ) ++ mandatoryFormData
 
       new PostScenario(formData) {
         status(response) mustBe Status.BAD_REQUEST
@@ -149,7 +148,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
       val formData: Map[String, Seq[String]] = Map(
         "valuationInformationAndTaxes.itemChargeDeduction.typeCode" -> Seq("FOO"),
         "valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.amount" -> Seq("123")
-      ) ++ declarationTypeFormData
+      ) ++ mandatoryFormData
 
       new PostScenario(formData) {
         status(response) mustBe Status.BAD_REQUEST
@@ -162,7 +161,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
       val formData: Map[String, Seq[String]] = Map(
         "valuationInformationAndTaxes.headerChargeDeduction.typeCode" -> Seq("FOO"),
         "valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.amount" -> Seq("123")
-      ) ++ declarationTypeFormData
+      ) ++ mandatoryFormData
 
       new PostScenario(formData) {
         status(response) mustBe Status.BAD_REQUEST
@@ -175,7 +174,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
       val formData: Map[String, Seq[String]] = Map(
         "valuationInformationAndTaxes.itemChargeDeduction.typeCode" -> Seq("FOO"),
         "valuationInformationAndTaxes.itemChargeDeduction.currencyAmount.currency" -> Seq("USD")
-      ) ++ declarationTypeFormData
+      ) ++ mandatoryFormData
 
       new PostScenario(formData) {
         status(response) mustBe Status.BAD_REQUEST
@@ -188,7 +187,7 @@ class DeclarationController_valuationInformationAndTaxesSpec extends CdsImportsS
       val formData: Map[String, Seq[String]] = Map(
         "valuationInformationAndTaxes.headerChargeDeduction.typeCode" -> Seq("FOO"),
         "valuationInformationAndTaxes.headerChargeDeduction.currencyAmount.currency" -> Seq("USD")
-      ) ++ declarationTypeFormData
+      ) ++ mandatoryFormData
 
       new PostScenario(formData) {
         status(response) mustBe Status.BAD_REQUEST

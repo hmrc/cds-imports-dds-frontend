@@ -59,7 +59,7 @@ class DeclarationController_transportInformationSpec extends CdsImportsSpec
         "transportInformation.transportIdentificationType" -> Seq("transport identification type"),
         "transportInformation.transportId" -> Seq("transport id"),
         "transportInformation.registrationNationalityCode" -> Seq("registration nationality code")
-      ) ++ declarationTypeFormData
+      ) ++ mandatoryFormData
 
       val captor: ArgumentCaptor[DeclarationViewModel] = ArgumentCaptor.forClass(classOf[DeclarationViewModel])
       when(mockDeclarationService.submit(any(), captor.capture())(any()))
@@ -86,7 +86,7 @@ class DeclarationController_transportInformationSpec extends CdsImportsSpec
         "transportInformation.transportIdentificationType" -> Seq(""),
         "transportInformation.transportId" -> Seq(""),
         "transportInformation.registrationNationalityCode" -> Seq("")
-      ) ++ declarationTypeFormData
+      ) ++ mandatoryFormData
 
       when(mockDeclarationService.submit(any(), any[DeclarationViewModel])(any()))
         .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
