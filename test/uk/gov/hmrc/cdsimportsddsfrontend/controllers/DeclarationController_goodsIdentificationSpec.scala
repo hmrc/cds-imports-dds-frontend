@@ -82,7 +82,7 @@ class DeclarationController_goodsIdentificationSpec extends CdsImportsSpec
         "goodsIdentification.taricAdditionalCode.identificationTypeCode" -> Seq("TSP2"),
         "goodsIdentification.nationalAdditionalCode.id" -> Seq("183"),
         "goodsIdentification.nationalAdditionalCode.identificationTypeCode" -> Seq("TSP3")
-      ) ++ declarationTypeFormData
+      ) ++ mandatoryFormData
 
       val captor: ArgumentCaptor[DeclarationViewModel] = ArgumentCaptor.forClass(classOf[DeclarationViewModel])
       when(mockDeclarationService.submit(any(), captor.capture())(any()))
@@ -101,7 +101,7 @@ class DeclarationController_goodsIdentificationSpec extends CdsImportsSpec
     }
 
     "succeed when all optional fields are empty" in signedInScenario { user =>
-      val formData: Map[String, Seq[String]] = declarationTypeFormData
+      val formData: Map[String, Seq[String]] = mandatoryFormData
 
       when(mockDeclarationService.submit(any(), any[DeclarationViewModel])(any()))
         .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))

@@ -24,8 +24,8 @@ import play.api.test.FutureAwaits
 import play.api.test.Helpers.status
 import play.mvc.Http.Status
 import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DeclarationViewModel
-import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Address, AuthorisationHolder, DomesticDutyTaxParty, Party}
 import uk.gov.hmrc.cdsimportsddsfrontend.domain.response.DeclarationServiceResponse
+import uk.gov.hmrc.cdsimportsddsfrontend.domain.{Address, AuthorisationHolder, DomesticDutyTaxParty, Party}
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{CdsImportsSpec, Scenarios}
 
 import scala.concurrent.Future
@@ -366,7 +366,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
     }
 
     "post to the declaration service when all required fields are present" in signedInScenario { user =>
-      val formData = declarationTypeFormData
+      val formData = mandatoryFormData
       when(mockDeclarationService.submit(any(), any[DeclarationViewModel])(any()))
         .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
       when(mockDeclarationStore.deleteAllNotifications()(any())).thenReturn(Future.successful(true))
@@ -378,7 +378,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
     "post the expected additional information data to the declaration service" in signedInScenario { user =>
 
       val formData =
-        declarationTypeFormData ++
+        mandatoryFormData ++
         previousDocumentHeaderFormData ++
         previousDocumentItemFormData ++
         documentationFormData
@@ -449,7 +449,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
     }
 
     "post the expected Buyer to the declaration service" in signedInScenario { user =>
-      val formData = declarationTypeFormData ++ Map(
+      val formData = mandatoryFormData ++ Map(
         "parties.buyer.name" -> Seq("Foo Ltd"),
         "parties.buyer.address.streetAndNumber" -> Seq("123 Wembley Way"),
         "parties.buyer.address.city" -> Seq("London"),
@@ -476,7 +476,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
     }
 
     "post the expected Seller to the declaration service" in signedInScenario { user =>
-      val formData = declarationTypeFormData ++ Map(
+      val formData = mandatoryFormData ++ Map(
         "parties.seller.name" -> Seq("Bar Ltd"),
         "parties.seller.address.streetAndNumber" -> Seq("321 Arcade Av"),
         "parties.seller.address.city" -> Seq("Leeds"),
@@ -503,7 +503,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
     }
 
     "post the expected AuthorisationHolders to the declaration service" in signedInScenario { user =>
-      val formData = declarationTypeFormData ++ Map(
+      val formData = mandatoryFormData ++ Map(
         "parties.authorisationHolder[0].identifier" -> Seq("GB1966"),
         "parties.authorisationHolder[0].categoryCode" -> Seq("FOO"),
         "parties.authorisationHolder[1].identifier" -> Seq("GB1945"),
@@ -526,7 +526,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
     }
 
     "post the expected DomesticDutyTaxParties to the declaration service" in signedInScenario { user =>
-      val formData = declarationTypeFormData ++ Map(
+      val formData = mandatoryFormData ++ Map(
         "parties.domesticDutyTaxParty[0].identifier" -> Seq("GB1966"),
         "parties.domesticDutyTaxParty[0].roleCode" -> Seq("FOO"),
         "parties.domesticDutyTaxParty[1].identifier" -> Seq("GB1945"),
@@ -549,7 +549,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
     }
 
     "trims whitespace from buyer before binding the form" in signedInScenario { user =>
-      val formData = declarationTypeFormData ++ Map(
+      val formData = mandatoryFormData ++ Map(
         "parties.buyer.name" -> Seq("   Foo Ltd     "),
         "parties.buyer.address.streetAndNumber" -> Seq("123 Wembley Way     "),
         "parties.buyer.address.city" -> Seq("London     "),
@@ -576,7 +576,7 @@ class DeclarationControllerSpec extends CdsImportsSpec
     }
 
     "trims whitespace from seller before binding the form" in signedInScenario { user =>
-      val formData = declarationTypeFormData ++ Map(
+      val formData = mandatoryFormData ++ Map(
         "parties.seller.name" -> Seq("   Foo Ltd     "),
         "parties.seller.address.streetAndNumber" -> Seq("123 Wembley Way     "),
         "parties.seller.address.city" -> Seq("London     "),
@@ -620,14 +620,15 @@ class DeclarationControllerSpec extends CdsImportsSpec
 
 object DeclarationControllerSpec {
 
-  val declarationTypeFormData: Map[String, Seq[String]] = Map(
+  val mandatoryFormData: Map[String, Seq[String]] = Map(
     "declarationType.declarationType" -> Seq("declarationType"),
     "declarationType.additionalDeclarationType" -> Seq("additionalDeclarationType"),
     "declarationType.goodsItemNumber" -> Seq("goodsItemNumber"),
     "declarationType.totalNumberOfItems" -> Seq("totalNumberOfItems"),
     "declarationType.requestedProcedureCode" -> Seq("requestedProcedureCode"),
     "declarationType.previousProcedureCode" -> Seq("previousProcedureCode"),
-    "declarationType.additionalProcedureCode" -> Seq("additionalProcedureCode")
+    "declarationType.additionalProcedureCode" -> Seq("additionalProcedureCode"),
+    "documentationAndReferences.localReferenceNumber" -> Seq("localRef")
   )
 
   private def previousDocumentFormDataRow(level: String, index: Int) = {

@@ -35,13 +35,13 @@ import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.InvoiceLineXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ItemCustomsValuationXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ObligationGuaranteeXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.OriginXmlWriter._
-import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.TradeTermsXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.PackagingXmlWriter._
+import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.TradeTermsXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.ValuationAdjustmentXmlWriter._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlSyntax._
 import uk.gov.hmrc.cdsimportsddsfrontend.services.xml.XmlWriterInstances._
 
-import scala.xml.{Attribute, Elem, MetaData, NodeSeq, PrettyPrinter, Text}
+import scala.xml._
 
 @Singleton
 class DeclarationXml {
@@ -59,7 +59,7 @@ class DeclarationXml {
           <p1:DateTimeString formatCode="304">20191101010000+01</p1:DateTimeString>
         </AcceptanceDateTime>
         <FunctionCode>9</FunctionCode>
-        <FunctionalReferenceID>{dec.documentationAndReferences.localReferenceNumber.getOrElse("")}</FunctionalReferenceID>
+        <FunctionalReferenceID>{dec.documentationAndReferences.localReferenceNumber}</FunctionalReferenceID>
         <TypeCode>{dec.declarationType.declarationType + dec.declarationType.additionalDeclarationType}</TypeCode>
         <GoodsItemQuantity>{dec.declarationType.totalNumberOfItems}</GoodsItemQuantity>
         {maybeElement("TotalGrossMassMeasure", dec.totalGrossMassMeasure)}

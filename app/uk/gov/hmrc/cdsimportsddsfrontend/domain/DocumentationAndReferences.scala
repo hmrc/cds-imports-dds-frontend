@@ -45,7 +45,7 @@ case class DocumentationAndReferences(
                                        itemPreviousDocuments: Seq[PreviousDocument],
                                        headerAdditionalInformation: AdditionalInformation,
                                        itemAdditionalInformation: Seq[AdditionalInformation],
-                                       localReferenceNumber: Option[String],
+                                       localReferenceNumber: String,
                                        additionalPayments: Seq[AdditionalPaymentType]
 )
 
@@ -56,7 +56,7 @@ object DocumentationAndReferences {
       itemPreviousDocuments = Seq.empty,
       headerAdditionalInformation = AdditionalInformation(None, None),
       itemAdditionalInformation = Seq.empty,
-      localReferenceNumber = None,
+      localReferenceNumber = "",
       additionalPayments = Seq.empty
     )
 }

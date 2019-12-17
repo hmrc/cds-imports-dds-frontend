@@ -56,7 +56,7 @@ object AdditionalInformationFormMapping {
   val additionalInformation: (String, Mapping[AdditionalInformation]) = "additionalInformation" -> additionalInformationMapping
 }
 
-object DocumentationAndReferencesFormMapping {
+object DocumentationAndReferencesFormMapping extends FormValidators {
   import AdditionalDocumentFormMapping.additionalDocument
   import AdditionalInformationFormMapping.additionalInformationMapping
   import AdditionalPaymentTypeFormMapping.paymentType
@@ -67,7 +67,7 @@ object DocumentationAndReferencesFormMapping {
     "header.additionalInformation" -> additionalInformationMapping,
     "item.additionalInformation" -> seq(additionalInformationMapping),
     additionalDocument,
-    "localReferenceNumber" -> optional(text),
+    "localReferenceNumber" -> nonEmptyString,
     paymentType
   )(DocumentationAndReferencesViewModel.apply)(DocumentationAndReferencesViewModel.unapply)
 }

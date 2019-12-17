@@ -19,7 +19,7 @@ package uk.gov.hmrc.cdsimportsddsfrontend.services.xml
 import java.util.UUID
 
 import org.scalatest.{MustMatchers, WordSpec}
-import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.{AdditionalDocumentViewModel, DocumentationAndReferencesViewModel}
+import uk.gov.hmrc.cdsimportsddsfrontend.controllers.model.DocumentationAndReferencesViewModel
 import uk.gov.hmrc.cdsimportsddsfrontend.domain._
 
 import scala.xml.Elem
@@ -46,7 +46,7 @@ class DeclarationXml_DocumentationAndReferencesSpec extends WordSpec with MustMa
           ),
           AdditionalInformation(Some("TSP01"), Some("TSP")),
           Nil,
-          Some(UUID.randomUUID().toString.replaceAll("-","").take(20)),
+          UUID.randomUUID().toString.replaceAll("-","").take(20),
           Seq(
             AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN")),
             AdditionalPaymentType(Some("1909241"), Some("1"), Some("DAN"))
@@ -93,7 +93,7 @@ class DeclarationXml_DocumentationAndReferencesSpec extends WordSpec with MustMa
       (goodsShipment \ "PreviousDocument" \ "ID").toList.map(_.text) mustBe List("20191101", "9GB201909014000", "20191101", "9GB201909014000")
       (goodsShipment \ "PreviousDocument" \ "LineNumeric").toList.map(_.text) mustBe List("1", "1", "1", "1")
 
-      (xmlElement \ "Declaration" \ "FunctionalReferenceID").head.text mustBe declaration.documentationAndReferences.localReferenceNumber.getOrElse("#unexpected")
+      (xmlElement \ "Declaration" \ "FunctionalReferenceID").head.text mustBe declaration.documentationAndReferences.localReferenceNumber
       (xmlElement \ "Declaration" \ "AdditionalDocument" \ "ID").head.text mustBe "1909241"
       (xmlElement \ "Declaration" \ "AdditionalDocument" \ "CategoryCode").head.text mustBe "1"
       (xmlElement \ "Declaration" \ "AdditionalDocument" \ "TypeCode").head.text mustBe "DAN"

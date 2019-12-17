@@ -79,7 +79,7 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
         "whenAndWhere.goodsLocationAddress.postcode" -> Seq("goods location postcode"),
         "whenAndWhere.goodsLocationAddress.typeCode" -> Seq("goods location type code"),
         "whenAndWhere.placeOfLoading" -> Seq("an airport")
-      ) ++ declarationTypeFormData
+      ) ++ mandatoryFormData
 
       val captor: ArgumentCaptor[DeclarationViewModel] = ArgumentCaptor.forClass(classOf[DeclarationViewModel])
       when(mockDeclarationService.submit(any(), captor.capture())(any()))
@@ -110,7 +110,7 @@ class DeclarationController_whenAndWhereSpec extends CdsImportsSpec
     }
 
     "succeed when all optional fields are empty" in signedInScenario { user =>
-      val formData: Map[String, Seq[String]] = declarationTypeFormData
+      val formData: Map[String, Seq[String]] = mandatoryFormData
 
       when(mockDeclarationService.submit(any(), any[DeclarationViewModel])(any()))
         .thenReturn(Future.successful(DeclarationServiceResponse("<foo></foo>", 200, Some("Good"))))
