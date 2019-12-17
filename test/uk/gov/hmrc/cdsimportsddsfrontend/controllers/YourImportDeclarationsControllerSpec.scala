@@ -38,25 +38,25 @@ class YourImportDeclarationsControllerSpec extends CdsImportsSpec with Authentic
   override val somePath = "/customs/imports/your-import-declarations"
 
   "GET /" should {
-    "return 200" in signedInScenario { user =>
+    "return 200" in signedInScenario { _ =>
       val result = controller.yourDeclarations(fakeRequest)
       status(result) mustBe Status.OK
     }
 
-    "return HTML" in {
+    "return HTML" in signedInScenario { _ =>
       val result = controller.yourDeclarations(fakeRequest)
       contentType(result) mustBe Some("text/html")
       charset(result) mustBe Some("utf-8")
     }
 
-    "show the button to the Single Page Declaration page" in {
+    "show the button to the Single Page Declaration page" in signedInScenario { _ =>
       val response = controller.yourDeclarations(fakeRequest)
       val html = contentAsString(response).asBodyFragment
       html should include element withName("a").withAttrValue("href", "/customs/imports/single-page-declaration")
         .withValue(messagesApi("declare.yourDeclarations.newDeclarationButton"))
     }
 
-    "display message 'no declarations' if no declarations available" in {
+    "display message 'no declarations' if no declarations available" in signedInScenario { _ =>
       featureSwitchRegistry.SinglePageDeclaration.suspend()
       val response = controller.yourDeclarations(fakeRequest)
       val html = contentAsString(response).asBodyFragment
