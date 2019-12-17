@@ -35,8 +35,6 @@ class YourImportDeclarationsControllerSpec extends CdsImportsSpec with Authentic
 
   private val controller = new YourImportDeclarationsController(helloWordTemplate)(mockAuthAction,mcc)
 
-  override val somePath = "/customs/imports/your-import-declarations"
-
   "GET /" should {
     "return 200" in signedInScenario { _ =>
       val result = controller.yourDeclarations(fakeRequest)
@@ -52,12 +50,13 @@ class YourImportDeclarationsControllerSpec extends CdsImportsSpec with Authentic
     "show the button to the Single Page Declaration page" in signedInScenario { _ =>
       val response = controller.yourDeclarations(fakeRequest)
       val html = contentAsString(response).asBodyFragment
-      html should include element withName("a").withAttrValue("href", "/customs/imports/single-page-declaration")
+      val singlePageDeclarationUrl = routes.DeclarationController.show().url
+
+      html should include element withName("a").withAttrValue("href", singlePageDeclarationUrl)
         .withValue(messagesApi("declare.yourDeclarations.newDeclarationButton"))
     }
 
     "display message 'no declarations' if no declarations available" in signedInScenario { _ =>
-      featureSwitchRegistry.SinglePageDeclaration.suspend()
       val response = controller.yourDeclarations(fakeRequest)
       val html = contentAsString(response).asBodyFragment
       html should include element(withName("p")
