@@ -26,10 +26,10 @@
 
 @()(implicit request: Request[_], messages: Messages)
 
-@mainTemplate(pageTitle = Some(messages("declare.yourDeclarations.title"))) {
-    <h1 class="govuk-heading-l">@messages("declare.yourDeclarations.title")</h1>
+@mainTemplate(pageTitle = Some(messages("yourDeclarations.title"))) {
+    <h1 class="govuk-heading-l">@messages("yourDeclarations.title")</h1>
 
-    <p class="govuk-hint">@messages("declare.yourDeclarations.noDeclarations")</p>
+    <p class="govuk-hint">@messages("yourDeclarations.noDeclarations")</p>
 
-    @govukButton(Button(element = Some("a"), href = Some(routes.DeclarationController.show().url), content = Text(messages("declare.yourDeclarations.newDeclarationButton"))))
+    @govukButton(Button(element = Some("a"), href = Some(routes.DeclarationController.show().url), content = Text(messages("yourDeclarations.newDeclarationButton"))))
 }

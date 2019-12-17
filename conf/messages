@@ -183,6 +183,6 @@ service.name=Make an import declaration
 action.submit=Submit
 
 # Your Import Declarations Page
-declare.yourDeclarations.title=Your Import Declarations
-declare.yourDeclarations.noDeclarations=No declarations to display.
-declare.yourDeclarations.newDeclarationButton=Make a Declaration
+yourDeclarations.title=Your Import Declarations
+yourDeclarations.noDeclarations=No declarations to display.
+yourDeclarations.newDeclarationButton=Make a Declaration

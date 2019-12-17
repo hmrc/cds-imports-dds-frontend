@@ -17,23 +17,21 @@
 package uk.gov.hmrc.cdsimportsddsfrontend.controllers
 
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.{charset, contentAsString, contentType, status}
 import play.mvc.Http.Status
 import uk.gov.hmrc.cdsimportsddsfrontend.test.{AuthenticationBehaviours, CdsImportsSpec}
 import uk.gov.hmrc.cdsimportsddsfrontend.views.html.your_import_declarations
 import uk.gov.hmrc.govukfrontend.views.html.components.GovukButton
-import uk.gov.hmrc.play.bootstrap.tools.Stubs.stubMessagesControllerComponents
 
 class YourImportDeclarationsControllerSpec extends CdsImportsSpec with AuthenticationBehaviours
   with GuiceOneAppPerSuite {
 
-  val helloWordTemplate = new your_import_declarations(mainTemplate, new GovukButton())
+  val pageTemplate = new your_import_declarations(mainTemplate, new GovukButton())
 
-  implicit val foo: MessagesControllerComponents = stubMessagesControllerComponents()
+  implicit val myMcc = mcc
   implicit val defaultLang = langs.availables.head
 
-  private val controller = new YourImportDeclarationsController(helloWordTemplate)(mockAuthAction,mcc)
+  private val controller = new YourImportDeclarationsController(pageTemplate)(mockAuthAction,mcc)
 
   "GET /" should {
     "return 200" in signedInScenario { _ =>
@@ -53,14 +51,14 @@ class YourImportDeclarationsControllerSpec extends CdsImportsSpec with Authentic
       val singlePageDeclarationUrl = routes.DeclarationController.show().url
 
       html should include element withName("a").withAttrValue("href", singlePageDeclarationUrl)
-        .withValue(messagesApi("declare.yourDeclarations.newDeclarationButton"))
+        .withValue(messagesApi("yourDeclarations.newDeclarationButton"))
     }
 
     "display message 'no declarations' if no declarations available" in signedInScenario { _ =>
       val response = controller.yourDeclarations(fakeRequest)
       val html = contentAsString(response).asBodyFragment
       html should include element(withName("p")
-        .withValue(messagesApi("declare.yourDeclarations.noDeclarations")))
+        .withValue(messagesApi("yourDeclarations.noDeclarations")))
     }
   }
 }
