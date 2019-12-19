@@ -76,3 +76,8 @@ Declarations are accepted by DMS in this environment.
 ```
  https://test-www.tax.service.gov.uk/auth-login-stub/gg-sign-in
 ```
+
+## Enable the feature switch to turn the form on
+```
+./enable_all_the_things.sh
+```
